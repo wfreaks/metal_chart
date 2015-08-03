@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA13D0581B6F3927009D8AF3 /* LineEngine.metal */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA13D0581B6F3927009D8AF3 /* LineEngine.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngine.metal; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		AAB585141B6F0E6000480AAE /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				AA13D0581B6F3927009D8AF3 /* LineEngine.metal */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
+				AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +515,7 @@
 				AAB585051B6F0D8C00480AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAB585061B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +524,7 @@
 				AAB585081B6F0D8C00480AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAB585091B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +533,7 @@
 				AAB5850B1B6F0D8C00480AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
