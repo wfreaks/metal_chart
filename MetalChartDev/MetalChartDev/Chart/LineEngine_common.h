@@ -22,6 +22,11 @@ struct uniform_line_attr {
 	vector_float4 color;
 };
 
+struct uniform_series_info_buffer {
+    uint16_t capacity;
+    uint16_t offset;
+};
+
 struct vertex_buffer {
 	vector_float2 position;
 };
@@ -29,5 +34,6 @@ struct vertex_buffer {
 struct index_buffer {
 	uint32_t index;
 };
+
 
 #endif /* LineEngine_common_h */

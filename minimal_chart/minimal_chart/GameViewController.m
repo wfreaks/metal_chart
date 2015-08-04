@@ -60,6 +60,7 @@ static const size_t kMaxBytesPerFrame = 1024*1024;
 - (void)_setupView
 {
     _view = (MTKView *)self.view;
+    _view.sampleCount = 4;
     _view.delegate = self;
     
     // Setup the render target, choose values based on your app

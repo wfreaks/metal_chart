@@ -15,13 +15,16 @@ class ViewController: UIViewController {
 	@IBOutlet var metalView: MTKView!
 	
 	var vd : ViewDelegate = ViewDelegate()
-	
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        metalView.sampleCount = 2
+        metalView.clearColor = MTLClearColorMake(0.5,0.5,0.5,1)
+        metalView.clearDepth = 0
+        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float
 		metalView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
-		metalView.sampleCount = 2
-		metalView.enableSetNeedsDisplay = true
-		metalView.paused = true
+		metalView.enableSetNeedsDisplay = false
+		metalView.paused = false
 		metalView.delegate = vd
 	}
 
@@ -34,20 +37,30 @@ class ViewController: UIViewController {
 
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
-	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource(), bufferCapacity: 1024)
+	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource(), bufferCapacity: 4)
+    var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
 	
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
 	}
 	
 	@objc func drawInView(view: MTKView) {
+        
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+        
 		guard let pass : MTLRenderPassDescriptor = view.currentRenderPassDescriptor else { return }
-		guard let drawable : MTLDrawable = view.currentDrawable else { return }
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
 		engine.encodeTo(buffer, pass:pass, sampleCount:UInt( view.sampleCount ), format:view.colorPixelFormat)
-		
+        
+        buffer.addCompletedHandler { (buffer) -> Void in
+            dispatch_semaphore_signal(semaphore)
+        }
+        
+        guard let drawable : MTLDrawable = view.currentDrawable else { return }
 		buffer.presentDrawable(drawable)
+        
+        buffer.commit()
 	}
 	
 }
