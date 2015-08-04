@@ -44,7 +44,9 @@
 	return self;
 }
 
-+ (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource sampleCount:(NSUInteger)count
++ (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource
+											sampleCount:(NSUInteger)count
+											pixelFormat:(MTLPixelFormat)format
 {
 	NSString *label = [NSString stringWithFormat:@"LineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
@@ -54,6 +56,8 @@
 		desc.vertexFunction = [resource.library newFunctionWithName:@"LineEngineVertexIndexed"];
 		desc.fragmentFunction = [resource.library newFunctionWithName:@"LineEngineFragment"];
 		desc.colorAttachments[0].pixelFormat = MTLPixelFormatRGBA8Unorm;
+		desc.sampleCount = count;
+		desc.colorAttachments[0].pixelFormat = format;
 
 		NSError *err = nil;
 		state = [resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
@@ -73,8 +77,9 @@
 - (void)encodeTo:(id<MTLCommandBuffer>)command
 			pass:(MTLRenderPassDescriptor *)pass
 	 sampleCount:(NSUInteger)count
+		  format:(MTLPixelFormat)format
 {
-	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count];
+	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count pixelFormat:format];
 	id<MTLDepthStencilState> depthState = _depthState;
 	id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
 	[encoder setRenderPipelineState:renderState];

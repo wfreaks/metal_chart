@@ -45,7 +45,7 @@ class ViewController: UIViewController {
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
-		engine.encodeTo(buffer, pass: pass)
+		engine.encodeTo(buffer, pass:pass, sampleCount:UInt( view.sampleCount ), format:view.colorPixelFormat)
 		
 		buffer.presentDrawable(drawable)
 	}

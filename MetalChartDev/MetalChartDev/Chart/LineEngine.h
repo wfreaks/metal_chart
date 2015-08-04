@@ -20,6 +20,8 @@
 
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command
-			pass:(MTLRenderPassDescriptor *)pass;
+			pass:(MTLRenderPassDescriptor *)pass
+	 sampleCount:(NSUInteger)count
+		  format:(MTLPixelFormat)format;
 
 @end
