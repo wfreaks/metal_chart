@@ -3,3 +3,4 @@
 //
 
 #import "Utilities/DeviceResource.h"
+#import "Chart/LineEngine.h"

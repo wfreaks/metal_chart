@@ -21,6 +21,7 @@
 @property (strong, nonatomic) id<MTLBuffer> attributesBuffer;
 
 @property (strong, nonatomic) id<MTLRenderPipelineState> renderState;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState;
 
 @end
 
@@ -38,14 +39,14 @@
 		self.projectionBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		self.attributesBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		
-		self.renderState = [self.class pipelineStateWithResource:resource];
+		self.depthState = [self.class depthStencilStateWithResource:resource];
 	}
 	return self;
 }
 
-+ (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource
++ (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource sampleCount:(NSUInteger)count
 {
-	NSString *label = @"RenderState_LineEngine";
+	NSString *label = [NSString stringWithFormat:@"LineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
@@ -53,7 +54,7 @@
 		desc.vertexFunction = [resource.library newFunctionWithName:@"LineEngineVertexIndexed"];
 		desc.fragmentFunction = [resource.library newFunctionWithName:@"LineEngineFragment"];
 		desc.colorAttachments[0].pixelFormat = MTLPixelFormatRGBA8Unorm;
-		
+
 		NSError *err = nil;
 		state = [resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
 		[resource addRenderPipelineState:state];
@@ -61,11 +62,34 @@
 	return state;
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-	  depthState:(id<MTLDepthStencilState>)depthState
-			pass:(MTLRenderPassDescriptor *)pass
++ (id<MTLDepthStencilState>)depthStencilStateWithResource:(DeviceResource *)resource
 {
+	MTLDepthStencilDescriptor *desc = [[MTLDepthStencilDescriptor alloc] init];
+	desc.depthCompareFunction = MTLCompareFunctionGreater;
+	desc.depthWriteEnabled = YES;
+	return [resource.device newDepthStencilStateWithDescriptor:desc];
+}
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+			pass:(MTLRenderPassDescriptor *)pass
+	 sampleCount:(NSUInteger)count
+{
+	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count];
+	id<MTLDepthStencilState> depthState = _depthState;
+	id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
+	[encoder setRenderPipelineState:renderState];
+	[encoder setDepthStencilState:depthState];
 	
+	[encoder setVertexBuffer:_vertexBuffer offset:0 atIndex:0];
+	[encoder setVertexBuffer:_indexBuffer offset:0 atIndex:1];
+	[encoder setVertexBuffer:_projectionBuffer offset:0 atIndex:2];
+	[encoder setVertexBuffer:_attributesBuffer offset:0 atIndex:3];
+	
+	[encoder setFragmentBuffer:_attributesBuffer offset:0 atIndex:0];
+	
+	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:_capacity];
+	
+	[encoder endEncoding];
 }
 
 @end

@@ -20,7 +20,6 @@
 
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command
-	  depthState:(id<MTLDepthStencilState>)depthState
 			pass:(MTLRenderPassDescriptor *)pass;
 
 @end
