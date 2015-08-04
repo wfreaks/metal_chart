@@ -9,10 +9,25 @@
 #ifndef LineEngine_common_h
 #define LineEngine_common_h
 
-#import <Metal/Metal.h>
+#include <simd/simd.h>
 
-struct {
-	
+struct uniform_projection {
+	vector_float2 view_size;
+	vector_float2 range_lb;
+	vector_float2 range_rt;
+};
+
+struct uniform_line_attr {
+	float width;
+	vector_float4 color;
+};
+
+struct vertex_buffer {
+	vector_float2 position;
+};
+
+struct index_buffer {
+	uint32_t index;
 };
 
 #endif /* LineEngine_common_h */

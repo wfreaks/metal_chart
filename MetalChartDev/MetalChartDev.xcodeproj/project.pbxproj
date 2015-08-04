@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA13D0581B6F3927009D8AF3 /* LineEngine.metal */; };
-		AA13D05E1B6F9966009D8AF3 /* LineEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13D05D1B6F9966009D8AF3 /* LineEngine.m */; };
+		AA13D05E1B6F9966009D8AF3 /* LineEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -39,7 +39,7 @@
 /* Begin PBXFileReference section */
 		AA13D0581B6F3927009D8AF3 /* LineEngine.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngine.metal; sourceTree = "<group>"; };
 		AA13D05C1B6F9966009D8AF3 /* LineEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngine.h; sourceTree = "<group>"; };
-		AA13D05D1B6F9966009D8AF3 /* LineEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineEngine.m; sourceTree = "<group>"; };
+		AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineEngine.mm; sourceTree = "<group>"; };
 		AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngine_common.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 			children = (
 				AA13D0581B6F3927009D8AF3 /* LineEngine.metal */,
 				AA13D05C1B6F9966009D8AF3 /* LineEngine.h */,
-				AA13D05D1B6F9966009D8AF3 /* LineEngine.m */,
+				AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */,
 				AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */,
 			);
 			path = Chart;
@@ -291,7 +291,7 @@
 			files = (
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
-				AA13D05E1B6F9966009D8AF3 /* LineEngine.m in Sources */,
+				AA13D05E1B6F9966009D8AF3 /* LineEngine.mm in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 				AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */,
 			);

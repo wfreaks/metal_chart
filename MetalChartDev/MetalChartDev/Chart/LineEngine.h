@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Metal/Metal.h>
 #import "DeviceResource.h"
 
 @interface LineEngine : NSObject
@@ -16,5 +17,10 @@
 
 - (id)initWithResource:(DeviceResource *)resource
 		bufferCapacity:(NSUInteger)capacity;
+
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+	  depthState:(id<MTLDepthStencilState>)depthState
+			pass:(MTLRenderPassDescriptor *)pass;
 
 @end
