@@ -50,12 +50,12 @@
 											pixelFormat:(MTLPixelFormat)format
                                              writeDepth:(BOOL)writeDepth
 {
-	NSString *label = [NSString stringWithFormat:@"LineEngineIndexed_%lu", (unsigned long)count];
+	NSString *label = [NSString stringWithFormat:@"PolyLineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
-		desc.vertexFunction = [resource.library newFunctionWithName:@"LineEngineVertexIndexed"];
+		desc.vertexFunction = [resource.library newFunctionWithName:@"PolyLineEngineVertexIndexed"];
         desc.fragmentFunction = [resource.library newFunctionWithName:[NSString stringWithFormat:@"LineEngineFragment_%@", (writeDepth ? @"WriteDepth" : @"NoDepth")]];
 		desc.sampleCount = count;
         MTLRenderPipelineColorAttachmentDescriptor *cd = desc.colorAttachments[0];
