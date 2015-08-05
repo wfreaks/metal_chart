@@ -19,9 +19,12 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
         metalView.sampleCount = 2
-        metalView.clearColor = MTLClearColorMake(0.5,0.5,0.5,1)
+        let v : Double = 0.5;
+        let alpha : Double = 1;
+        metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
         metalView.clearDepth = 0
 		metalView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
+        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.delegate = vd
@@ -38,7 +41,7 @@ class ViewController: UIViewController {
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    var line : IndexedLine = IndexedLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 3);
+    var line : IndexedLine = IndexedLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 4);
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {

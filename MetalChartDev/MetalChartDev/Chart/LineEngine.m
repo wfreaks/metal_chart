@@ -15,7 +15,8 @@
 
 @property (strong, nonatomic) DeviceResource *resource;
 
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_writeDepth;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_noDepth;
 
 @end
 
@@ -38,7 +39,8 @@
 	self = [super init];
 	if(self) {
 		self.resource = [DeviceResource defaultResource];
-        self.depthState = [self.class depthStencilStateWithResource:resource];
+        self.depthState_writeDepth = [self.class depthStencilStateWithResource:resource writeDepth:YES];
+        self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO];
 	}
 	return self;
 }
@@ -46,6 +48,7 @@
 + (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource
 											sampleCount:(NSUInteger)count
 											pixelFormat:(MTLPixelFormat)format
+                                             writeDepth:(BOOL)writeDepth
 {
 	NSString *label = [NSString stringWithFormat:@"LineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
@@ -53,7 +56,7 @@
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
 		desc.vertexFunction = [resource.library newFunctionWithName:@"LineEngineVertexIndexed"];
-		desc.fragmentFunction = [resource.library newFunctionWithName:@"LineEngineFragment"];
+        desc.fragmentFunction = [resource.library newFunctionWithName:[NSString stringWithFormat:@"LineEngineFragment_%@", (writeDepth ? @"WriteDepth" : @"NoDepth")]];
 		desc.sampleCount = count;
         MTLRenderPipelineColorAttachmentDescriptor *cd = desc.colorAttachments[0];
 		cd.pixelFormat = format;
@@ -64,6 +67,9 @@
         cd.sourceAlphaBlendFactor = MTLBlendFactorOne;
         cd.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
         cd.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
+        
+        desc.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+        desc.stencilAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
         
 		NSError *err = nil;
 		state = [resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
@@ -76,10 +82,11 @@
 }
 
 + (id<MTLDepthStencilState>)depthStencilStateWithResource:(DeviceResource *)resource
+                                               writeDepth:(BOOL)writeDepth
 {
 	MTLDepthStencilDescriptor *desc = [[MTLDepthStencilDescriptor alloc] init];
-	desc.depthCompareFunction = MTLCompareFunctionAlways;
-	desc.depthWriteEnabled = YES;
+    desc.depthCompareFunction = (writeDepth) ? MTLCompareFunctionGreater : MTLCompareFunctionAlways;
+	desc.depthWriteEnabled = writeDepth;
 	
 	return [resource.device newDepthStencilStateWithDescriptor:desc];
 }
@@ -94,8 +101,9 @@
 {
     const NSUInteger sampleCount = projection.sampleCount;
     const MTLPixelFormat colorFormat = projection.colorPixelFormat;
-    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat];
-    id<MTLDepthStencilState> depthState = _depthState;
+    const BOOL writeDepth = ! attributes.enableOverlay;
+    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth];
+    id<MTLDepthStencilState> depthState = (writeDepth ? _depthState_writeDepth : _depthState_noDepth);
     id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
     [encoder setLabel:@"DrawLineEncoder"];
     [encoder pushDebugGroup:@"DrawLine"];
@@ -166,13 +174,15 @@
     }
     for(int i = 0; i < iCount; ++i) {
         index_buffer *idx = [_indices bufferAtIndex:i];
-        idx->index = i;
+        idx->index = i % vCount;
     }
     _info.offset = 0;
     _info.count = iCount;
     
     [_attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
-    [_attributes setWidth:10];
+    [_attributes setWidth:3];
+    [_attributes setModifyAlphaOnEdge:NO];
+    _attributes.enableOverlay = NO;
 }
 
 @end

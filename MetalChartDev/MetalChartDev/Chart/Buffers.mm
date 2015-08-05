@@ -172,6 +172,11 @@
     [self attributes]->color = vector4(red, green, blue, alpha);
 }
 
+- (void)setModifyAlphaOnEdge:(BOOL)modify
+{
+    [self attributes]->modify_alpha_on_edge = (modify ? 1 : 0);
+}
+
 @end
 
 

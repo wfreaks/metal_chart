@@ -86,6 +86,7 @@
 @interface UniformLineAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (assign, nonatomic) BOOL enableOverlay;
 
 - (id)initWithResource:(DeviceResource *)resource;
 
@@ -93,6 +94,7 @@
 
 - (void)setWidth:(CGFloat)width;
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setModifyAlphaOnEdge:(BOOL)modify;
 
 @end
 

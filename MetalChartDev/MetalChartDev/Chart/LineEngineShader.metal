@@ -17,6 +17,11 @@ struct out_vertex {
 	float  coef;
 };
 
+struct out_fragment {
+    float4 color [[ color(0) ]];
+    float  depth [[ depth(greater) ]];
+};
+
 struct vertex_coord {
 	float2 position;
 };
@@ -36,6 +41,7 @@ struct uniform_projection {
 struct uniform_line_attr {
 	float width;
 	float4 color;
+    uchar modify_alpha_on_edge;
 };
 
 struct uniform_series_info {
@@ -82,10 +88,10 @@ vertex out_vertex LineEngineVertexIndexed(
     return out;
 }
 
-fragment float4 LineEngineFragment(
-								   out_vertex input [[stage_in]],
-								   constant uniform_projection& proj [[ buffer(0) ]],
-								   constant uniform_line_attr& attr [[ buffer(1) ]]
+fragment out_fragment LineEngineFragment_WriteDepth(
+                                                       out_vertex input [[ stage_in ]],
+                                                       constant uniform_projection& proj [[ buffer(0) ]],
+                                                       constant uniform_line_attr& attr [[ buffer(1) ]]
 )
 {
 	const float2 pos = input.pos;
@@ -96,10 +102,40 @@ fragment float4 LineEngineFragment(
 	const float w = attr.width / 2;
 	const float distance_from_circle_in_px = ((length(diff) - w) * proj.screen_scale) + 0.5; // ピクセル中心にposがあるので、alpha値が変動するのは距離(px)が[-0.5,+0.5]の間になる.
 	const bool is_same_dir = (dot(diff, dir) >= 0);
-	float4 color = attr.color;
+    out_fragment out;
+	out.color = attr.color;
     
-	if(is_same_dir) color.a *= max(0.0, min(1.0, 1.0-distance_from_circle_in_px));
+    const float ratio = max(0.0, min(1.0, 1.0 - distance_from_circle_in_px));
+    if(is_same_dir && (distance_from_circle_in_px>0)) {
+        out.color.a *= (attr.modify_alpha_on_edge > 0) ? ratio : 0;
+    }
+    out.depth = (out.color.a > 0) ? 0.5 : 0.5 * ratio;
     
-	return color;
+	return out;
 }
+
+fragment float4 LineEngineFragment_NoDepth(
+                                            out_vertex input [[ stage_in ]],
+                                            constant uniform_projection& proj [[ buffer(0) ]],
+                                            constant uniform_line_attr& attr [[ buffer(1) ]]
+)
+{
+    const float2 pos = input.pos;
+    const float2 size = proj.physical_size / 2;
+    const float2 base = input.mid_pos + (input.coef >= 0 ? +input.vec_dir : -input.vec_dir);
+    const float2 dir = (base - input.mid_pos) * size;
+    const float2 diff = (pos - base) * size;
+    const float w = attr.width / 2;
+    const float distance_from_circle_in_px = ((length(diff) - w) * proj.screen_scale) + 0.5;
+    const bool is_same_dir = (dot(diff, dir) >= 0);
+    float4 color = attr.color;
+    
+    const float ratio = max(0.0, min(1.0, 1.0 - distance_from_circle_in_px));
+    if(is_same_dir && (distance_from_circle_in_px>0)) {
+        color.a *= (attr.modify_alpha_on_edge > 0) ? ratio : 0;
+    }
+    
+    return color;
+}
+
 

@@ -24,6 +24,7 @@ typedef struct uniform_projection {
 typedef struct uniform_line_attr {
     float width;
     vector_float4 color;
+    uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 
 typedef struct uniform_series_info {
@@ -53,6 +54,7 @@ struct uniform_projection {
 struct uniform_line_attr {
 	float width;
 	vector_float4 color;
+    uint8_t modify_alpha_on_edge;
 };
 
 struct uniform_series_info {
