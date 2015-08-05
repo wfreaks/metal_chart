@@ -21,7 +21,6 @@ class ViewController: UIViewController {
         metalView.sampleCount = 2
         metalView.clearColor = MTLClearColorMake(0.5,0.5,0.5,1)
         metalView.clearDepth = 0
-        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float
 		metalView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
@@ -37,7 +36,7 @@ class ViewController: UIViewController {
 
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
-	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource(), bufferCapacity: 4)
+	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource(), bufferCapacity: 5)
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
 	
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
@@ -51,7 +50,7 @@ class ViewController: UIViewController {
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
-		engine.encodeTo(buffer, pass:pass, sampleCount:UInt( view.sampleCount ), format:view.colorPixelFormat)
+		engine.encodeTo(buffer, pass:pass, sampleCount:UInt( view.sampleCount ), format:view.colorPixelFormat, size:view.bounds.size)
         
         buffer.addCompletedHandler { (buffer) -> Void in
             dispatch_semaphore_signal(semaphore)

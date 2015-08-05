@@ -26,9 +26,8 @@ struct vertex_index {
 };
 
 struct uniform_projection {
-	float2 view_size;
-	float2 range_lb;
-	float2 range_rt;
+	float2 physical_size;
+	float  scale;
 };
 
 struct uniform_line_attr {
@@ -59,12 +58,16 @@ vertex out_vertex LineEngineVertexIndexed(
 	const float2 p_current = coords[index_current].position;
 	const float2 p_next = coords[index_next].position;
 	const float2 vec_diff = (p_next - p_current) / 2;
-	const float2 diff_along = along * attr.width * normalize(vec_diff);
-	const float2 diff_perp = float2( - perp * diff_along.y, perp * diff_along.x );
+	const float2 size = proj.physical_size / 2;
+	const float w = attr.width / 2;
+	const float2 diff_along_physical = along * w * normalize(vec_diff*size) ;
+	const float2 diff_perp_physical = float2( - perp * diff_along_physical.y, perp * diff_along_physical.x );
+	const float2 diff_along = diff_along_physical / size;
+	const float2 diff_perp = diff_perp_physical / size;
 	const float2 pos = (along == 1) ? p_next : p_current;
 
 	out_vertex out;
-    out.pos = pos + diff_along + diff_perp;
+    out.pos = pos + (diff_along + diff_perp);
     out.position.xy = out.pos;
     out.position.z = 0.5;
     out.position.w = 1;
@@ -80,16 +83,21 @@ vertex out_vertex LineEngineVertexIndexed(
 
 fragment float4 LineEngineFragment(
 								   out_vertex input [[stage_in]],
-								   constant uniform_line_attr& attr [[ buffer(0)]]
+								   constant uniform_projection& proj [[ buffer(0) ]],
+								   constant uniform_line_attr& attr [[ buffer(1) ]]
 )
 {
 	const float2 pos = input.pos;
+	const float2 size = proj.physical_size / 2;
 	const float2 base = input.mid_pos + (input.coef >= 0 ? +input.vec_dir : -input.vec_dir);
-	const float2 dir = base - input.mid_pos;
-	const float2 diff = pos - base;
-	const bool is_same_dir = (dot(diff, dir) > 0);
-	const bool is_not_in_circle = (length(diff) >= attr.width);
-	return (is_same_dir && is_not_in_circle) ? float4(0) : attr.color;
+	const float2 dir = (base - input.mid_pos) * size;
+	const float2 diff = (pos - base) * size;
+	const float w = attr.width / 2;
+	const float distance_from_circle_in_px = (length(diff) - w) * proj.scale + (1); // 正確な理由はわからないが、若干円の判定ラインが大きめに出る。この量はwidthには依存しない。おそらくはピクセルのオフセットと関係があるのではないかと思われる。
+	const bool is_same_dir = (dot(diff, dir) >= 0);
+	float4 color = attr.color;
+	if(is_same_dir) color.a *= max(0.0, min(1.0, 1.0-distance_from_circle_in_px));
 //    return float4 (1, 1, 0, 1);
+	return color;
 }
 

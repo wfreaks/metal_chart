@@ -9,6 +9,7 @@
 #import "LineEngine.h"
 #import <Metal/Metal.h>
 #import "LineEngine_common.h"
+#import <UIKit/UIKit.h>
 
 @interface LineEngine()
 
@@ -48,12 +49,13 @@
         for(int i = 0; i < _capacity; ++i) {
             indices[i].index = i;
             vertex_buffer& v = vertices[i];
-            v.position.x = ((2 * ((i  ) % 2)) - 1.0) * 0.5;
-            v.position.y = ((2 * ((i/2) % 2)) - 1.0) * 0.5;
+			const int idx = i;
+            v.position.x = ((2 * ((idx  ) % 2)) - 1.0) * 0.5;
+            v.position.y = ((2 * ((idx/2) % 2)) - 1.0) * 0.5;
         }
         uniform_line_attr* attr = (uniform_line_attr *)([self.attributesBuffer contents]);
         attr->color = vector4(1.0f, 1.0f, 0.0f, 1.0f);
-        attr->width = 0.03;
+        attr->width = 10;
         uniform_series_info_buffer* info = (uniform_series_info_buffer *)([self.infoBuffer contents]);
         info->capacity = self.capacity;
         info->offset = 0;
@@ -78,13 +80,11 @@
         cd.blendingEnabled = YES;
         cd.rgbBlendOperation = MTLBlendOperationAdd;
         cd.alphaBlendOperation = MTLBlendOperationAdd;
-        cd.sourceRGBBlendFactor = MTLBlendFactorOne;
+        cd.sourceRGBBlendFactor = MTLBlendFactorSourceAlpha;
         cd.sourceAlphaBlendFactor = MTLBlendFactorOne;
         cd.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
         cd.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
         
-        desc.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float;
-
 		NSError *err = nil;
 		state = [resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
         if(err) {
@@ -100,6 +100,7 @@
 	MTLDepthStencilDescriptor *desc = [[MTLDepthStencilDescriptor alloc] init];
 	desc.depthCompareFunction = MTLCompareFunctionAlways;
 	desc.depthWriteEnabled = YES;
+	
 	return [resource.device newDepthStencilStateWithDescriptor:desc];
 }
 
@@ -107,7 +108,11 @@
 			pass:(MTLRenderPassDescriptor *)pass
 	 sampleCount:(NSUInteger)count
 		  format:(MTLPixelFormat)format
+			size:(CGSize)size
 {
+	uniform_projection *proj = (uniform_projection *)([_projectionBuffer contents]);
+	proj->physical_size = vector2((float)(size.width), (float)(size.height));
+	proj->scale = [UIScreen mainScreen].scale;
 	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count pixelFormat:format];
 	id<MTLDepthStencilState> depthState = _depthState;
 	id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
@@ -123,7 +128,8 @@
 	[encoder setVertexBuffer:_attributesBuffer offset:0 atIndex:3];
     [encoder setVertexBuffer:_infoBuffer offset:0 atIndex:4];
 	
-	[encoder setFragmentBuffer:_attributesBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:_projectionBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:_attributesBuffer offset:0 atIndex:1];
 	
     const NSUInteger vertexCount = 6 * (_capacity - 1);
 	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertexCount instanceCount:1];

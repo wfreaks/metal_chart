@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 @interface LineEngine : NSObject
 
@@ -22,6 +23,7 @@
 - (void)encodeTo:(id<MTLCommandBuffer>)command
 			pass:(MTLRenderPassDescriptor *)pass
 	 sampleCount:(NSUInteger)count
-		  format:(MTLPixelFormat)format;
+		  format:(MTLPixelFormat)format
+			size:(CGSize)size;
 
 @end
