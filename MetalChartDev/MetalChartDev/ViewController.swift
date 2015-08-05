@@ -35,13 +35,22 @@ class ViewController: UIViewController {
 
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
-	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource(), bufferCapacity: 5)
+	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
-	
+    
+    var line : IndexedLine = IndexedLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 3);
+    var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
+    
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
 	}
 	
 	@objc func drawInView(view: MTKView) {
+        
+        line.setSampleData()
+        
+        projection.setPhysicalSize(view.bounds.size)
+        projection.sampleCount = UInt(view.sampleCount)
+        projection.colorPixelFormat = view.colorPixelFormat
         
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
         
@@ -49,7 +58,7 @@ class ViewController: UIViewController {
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
-		engine.encodeTo(buffer, pass:pass, sampleCount:UInt( view.sampleCount ), format:view.colorPixelFormat, size:view.bounds.size)
+        engine.encodeTo(buffer, pass: pass, indexedLine: line, projection: projection)
         
         buffer.addCompletedHandler { (buffer) -> Void in
             dispatch_semaphore_signal(semaphore)

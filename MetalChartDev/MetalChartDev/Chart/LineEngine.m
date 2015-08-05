@@ -14,51 +14,31 @@
 @interface LineEngine()
 
 @property (strong, nonatomic) DeviceResource *resource;
-@property (assign, nonatomic) NSUInteger capacity;
 
-@property (strong, nonatomic) id<MTLBuffer> vertexBuffer;
-@property (strong, nonatomic) id<MTLBuffer> indexBuffer;
-@property (strong, nonatomic) id<MTLBuffer> projectionBuffer;
-@property (strong, nonatomic) id<MTLBuffer> attributesBuffer;
-@property (strong, nonatomic) id<MTLBuffer> infoBuffer;
-
-@property (strong, nonatomic) id<MTLRenderPipelineState> renderState;
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState;
 
 @end
 
+
+
+@interface IndexedLine()
+
+@property (strong, nonatomic) VertexBuffer *vertices;
+@property (strong, nonatomic) IndexBuffer *indices;
+@property (strong, nonatomic) UniformSeriesInfo *info;
+
+@end
+
+
+
 @implementation LineEngine
 
 - (id)initWithResource:(DeviceResource *)resource
-		bufferCapacity:(NSUInteger)capacity
 {
 	self = [super init];
 	if(self) {
 		self.resource = [DeviceResource defaultResource];
-		self.capacity = capacity;
-		self.vertexBuffer = [self.resource.device newBufferWithLength:sizeof(vertex_buffer)*capacity options:MTLResourceOptionCPUCacheModeWriteCombined];
-		self.indexBuffer = [self.resource.device newBufferWithLength:sizeof(index_buffer)*capacity options:MTLResourceOptionCPUCacheModeWriteCombined];
-		self.projectionBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
-		self.attributesBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        self.infoBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_series_info) options:MTLResourceOptionCPUCacheModeWriteCombined];
-		
-		self.depthState = [self.class depthStencilStateWithResource:resource];
-        
-        index_buffer *indices = (index_buffer *)([self.indexBuffer contents]);
-        vertex_buffer *vertices = (vertex_buffer *)([self.vertexBuffer contents]);
-        for(int i = 0; i < _capacity; ++i) {
-            indices[i].index = i;
-            vertex_buffer& v = vertices[i];
-			const int idx = i;
-            v.position.x = ((2 * ((idx  ) % 2)) - 1.0) * 0.5;
-            v.position.y = ((2 * ((idx/2) % 2)) - 1.0) * 0.5;
-        }
-        uniform_line_attr* attr = (uniform_line_attr *)([self.attributesBuffer contents]);
-        attr->color = vector4(1.0f, 1.0f, 0.0f, 0.5f);
-        attr->width = 10;
-        uniform_series_info* info = (uniform_series_info *)([self.infoBuffer contents]);
-        info->capacity = self.capacity;
-        info->offset = 0;
+        self.depthState = [self.class depthStencilStateWithResource:resource];
 	}
 	return self;
 }
@@ -105,40 +85,6 @@
 }
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command
-			pass:(MTLRenderPassDescriptor *)pass
-	 sampleCount:(NSUInteger)count
-		  format:(MTLPixelFormat)format
-			size:(CGSize)size
-{
-	uniform_projection *proj = (uniform_projection *)([_projectionBuffer contents]);
-	proj->physical_size = vector2((float)(size.width), (float)(size.height));
-	proj->screen_scale = [UIScreen mainScreen].scale;
-	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count pixelFormat:format];
-	id<MTLDepthStencilState> depthState = _depthState;
-	id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
-    [encoder setLabel:@"DrawLineEncoder"];
-    [encoder pushDebugGroup:@"DrawLine"];
-	[encoder setRenderPipelineState:renderState];
-	[encoder setDepthStencilState:depthState];
-	
-	[encoder setVertexBuffer:_vertexBuffer offset:0 atIndex:0];
-	[encoder setVertexBuffer:_indexBuffer offset:0 atIndex:1];
-	[encoder setVertexBuffer:_projectionBuffer offset:0 atIndex:2];
-	[encoder setVertexBuffer:_attributesBuffer offset:0 atIndex:3];
-    [encoder setVertexBuffer:_infoBuffer offset:0 atIndex:4];
-	
-	[encoder setFragmentBuffer:_projectionBuffer offset:0 atIndex:0];
-	[encoder setFragmentBuffer:_attributesBuffer offset:0 atIndex:1];
-	
-    const NSUInteger vertexCount = 6 * (_capacity - 1);
-	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertexCount instanceCount:1];
-    
-    [encoder popDebugGroup];
-	
-	[encoder endEncoding];
-}
-
-- (void)encodeTo:(id<MTLCommandBuffer>)command
             pass:(MTLRenderPassDescriptor *)pass
           vertex:(VertexBuffer *)vertex
            index:(IndexBuffer *)index
@@ -164,6 +110,73 @@
     
     [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
     [encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
+    
+    const NSUInteger count = 6 * (info.count - 1);
+    if(count > 0) {
+        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:info.offset vertexCount:count instanceCount:1];
+    }
+    [encoder endEncoding];
+}
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+            pass:(MTLRenderPassDescriptor *)pass
+     indexedLine:(IndexedLine *)line
+      projection:(UniformProjection *)projection
+{
+    [self encodeTo:command
+              pass:pass
+            vertex:line.vertices
+             index:line.indices
+        projection:projection
+        attributes:line.attributes
+        seriesInfo:line.info];
 }
 
 @end
+
+
+@implementation IndexedLine
+
+- (id)initWithResource:(DeviceResource *)resource
+        VertexCapacity:(NSUInteger)vertCapacity
+         indexCapacity:(NSUInteger)idxCapacity
+{
+    self = [super init];
+    if(self) {
+        _vertices = [[VertexBuffer alloc] initWithResource:resource capacity:vertCapacity];
+        _indices = [[IndexBuffer alloc] initWithResource:resource capacity:idxCapacity];
+        _info = [[UniformSeriesInfo alloc] initWithResource:resource];
+        _attributes = [[UniformLineAttributes alloc] initWithResource:resource];
+        
+        [_info info]->vertex_capacity = vertCapacity;
+        [_info info]->index_capacity = idxCapacity;
+    }
+    return self;
+}
+
+- (void)setSampleData
+{
+    const NSUInteger vCount = _vertices.capacity;
+    const NSUInteger iCount = _indices.capacity;
+    for(int i = 0; i < vCount; ++i) {
+        vertex_buffer *v = [_vertices bufferAtIndex:i];
+        const float range = 0.5;
+        v->position.x = ((2 * ((i  ) % 2)) - 1) * range;
+        v->position.y = ((2 * ((i/2) % 2)) - 1) * range;
+    }
+    for(int i = 0; i < iCount; ++i) {
+        index_buffer *idx = [_indices bufferAtIndex:i];
+        idx->index = i;
+    }
+    _info.offset = 0;
+    _info.count = iCount;
+    
+    [_attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
+    [_attributes setWidth:10];
+}
+
+@end
+
+
+
+

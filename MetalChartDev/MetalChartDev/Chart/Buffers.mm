@@ -6,6 +6,7 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "Buffers.h"
 
 #pragma mark - Private Interfaces
@@ -73,6 +74,11 @@
     return ptr + index;
 }
 
+- (NSUInteger)capacity
+{
+    return _container->capacity();
+}
+
 - (void)dealloc
 {
     _container = nullptr;
@@ -100,6 +106,11 @@
     return ptr + index;
 }
 
+- (NSUInteger)capacity
+{
+    return _container->capacity();
+}
+
 - (void)dealloc
 {
     _container = nullptr;
@@ -116,6 +127,7 @@
     self = [super init];
     if(self) {
         _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        [self projection]->screen_scale = [UIScreen mainScreen].scale;
     }
     return self;
 }
@@ -150,11 +162,23 @@
     return (uniform_line_attr *)([self.buffer contents]);
 }
 
+- (void)setWidth:(CGFloat)width
+{
+    [self attributes]->width = (float)width;
+}
+
+- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+{
+    [self attributes]->color = vector4(red, green, blue, alpha);
+}
+
 @end
 
 
 
 @implementation UniformSeriesInfo
+
+@dynamic offset;
 
 - (id)initWithResource:(DeviceResource *)resource
 {
@@ -168,6 +192,16 @@
 - (uniform_series_info *)info
 {
     return (uniform_series_info *)([self.buffer contents]);
+}
+
+- (uint16_t)offset
+{
+    return [self info]->offset;
+}
+
+- (void)setOffset:(uint16_t)offset
+{
+    [self info]->offset = offset;
 }
 
 @end

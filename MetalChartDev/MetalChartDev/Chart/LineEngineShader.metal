@@ -39,7 +39,8 @@ struct uniform_line_attr {
 };
 
 struct uniform_series_info {
-    ushort capacity;
+    ushort vertex_capacity;
+    ushort index_capacity;
     ushort offset;
 };
 

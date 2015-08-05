@@ -12,20 +12,14 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "Buffers.h"
 
+@class IndexedLine;
+
 @interface LineEngine : NSObject
 
 @property (readonly, nonatomic) DeviceResource *resource;
-@property (readonly, nonatomic) NSUInteger capacity;
 
 - (id)initWithResource:(DeviceResource *)resource
-		bufferCapacity:(NSUInteger)capacity;
-
-
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-			pass:(MTLRenderPassDescriptor *)pass
-	 sampleCount:(NSUInteger)count
-		  format:(MTLPixelFormat)format
-			size:(CGSize)size;
+;
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command
             pass:(MTLRenderPassDescriptor *)pass
@@ -35,5 +29,27 @@
       attributes:(UniformLineAttributes *)attributes
       seriesInfo:(UniformSeriesInfo *)info
 ;
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+            pass:(MTLRenderPassDescriptor *)pass
+     indexedLine:(IndexedLine *)line
+      projection:(UniformProjection *)projection;
+;
+
+@end
+
+@interface IndexedLine : NSObject
+
+@property (readonly, nonatomic) VertexBuffer *vertices;
+@property (readonly, nonatomic) IndexBuffer *indices;
+@property (readonly, nonatomic) UniformSeriesInfo *info;
+@property (strong  , nonatomic) UniformLineAttributes *attributes;
+
+- (id)initWithResource:(DeviceResource *)resource
+        VertexCapacity:(NSUInteger)vertCapacity
+         indexCapacity:(NSUInteger)idxCapacity
+;
+
+- (void)setSampleData;
 
 @end

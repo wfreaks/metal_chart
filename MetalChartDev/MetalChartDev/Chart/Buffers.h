@@ -70,6 +70,8 @@
 @property (assign, nonatomic) NSUInteger sampleCount;
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
 
+- (id)initWithResource:(DeviceResource *)resource;
+
 - (uniform_projection *)projection;
 
 - (void)setPhysicalSize:(CGSize)size;
@@ -85,7 +87,12 @@
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
 
+- (id)initWithResource:(DeviceResource *)resource;
+
 - (uniform_line_attr *)attributes;
+
+- (void)setWidth:(CGFloat)width;
+- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 
 @end
 
@@ -97,6 +104,10 @@
 @interface UniformSeriesInfo : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (assign, nonatomic) NSUInteger count;
+@property (assign, nonatomic) uint16_t offset;
+
+- (id)initWithResource:(DeviceResource *)resource;
 
 - (uniform_series_info *)info;
 
