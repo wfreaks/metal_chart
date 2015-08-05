@@ -10,6 +10,7 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 #import <CoreGraphics/CoreGraphics.h>
+#import "Buffers.h"
 
 @interface LineEngine : NSObject
 
@@ -25,5 +26,14 @@
 	 sampleCount:(NSUInteger)count
 		  format:(MTLPixelFormat)format
 			size:(CGSize)size;
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+            pass:(MTLRenderPassDescriptor *)pass
+          vertex:(VertexBuffer *)vertex
+           index:(IndexBuffer *)index
+      projection:(UniformProjection *)projection
+      attributes:(UniformLineAttributes *)attributes
+      seriesInfo:(UniformSeriesInfo *)info
+;
 
 @end

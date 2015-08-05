@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA0216611B70C66900E809F0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD430E1B708D1300A83B69 /* MetalKit.framework */; };
-		AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA13D0581B6F3927009D8AF3 /* LineEngine.metal */; };
+		AA0216641B71D65A00E809F0 /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA0216631B71D65A00E809F0 /* Buffers.mm */; };
+		AA13D0591B6F3927009D8AF3 /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA13D0581B6F3927009D8AF3 /* LineEngineShader.metal */; };
 		AA13D05E1B6F9966009D8AF3 /* LineEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
@@ -40,7 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA13D0581B6F3927009D8AF3 /* LineEngine.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngine.metal; sourceTree = "<group>"; };
+		AA0216621B71D65A00E809F0 /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
+		AA0216631B71D65A00E809F0 /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
+		AA13D0581B6F3927009D8AF3 /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
 		AA13D05C1B6F9966009D8AF3 /* LineEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngine.h; sourceTree = "<group>"; };
 		AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineEngine.mm; sourceTree = "<group>"; };
 		AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngine_common.h; sourceTree = "<group>"; };
@@ -162,10 +165,12 @@
 		AAB585141B6F0E6000480AAE /* Chart */ = {
 			isa = PBXGroup;
 			children = (
-				AA13D0581B6F3927009D8AF3 /* LineEngine.metal */,
+				AA13D0581B6F3927009D8AF3 /* LineEngineShader.metal */,
 				AA13D05C1B6F9966009D8AF3 /* LineEngine.h */,
 				AA13D05D1B6F9966009D8AF3 /* LineEngine.mm */,
 				AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */,
+				AA0216621B71D65A00E809F0 /* Buffers.h */,
+				AA0216631B71D65A00E809F0 /* Buffers.mm */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -305,7 +310,8 @@
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA13D05E1B6F9966009D8AF3 /* LineEngine.mm in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
-				AA13D0591B6F3927009D8AF3 /* LineEngine.metal in Sources */,
+				AA13D0591B6F3927009D8AF3 /* LineEngineShader.metal in Sources */,
+				AA0216641B71D65A00E809F0 /* Buffers.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

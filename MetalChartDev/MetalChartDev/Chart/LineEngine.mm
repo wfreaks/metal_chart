@@ -40,7 +40,7 @@
 		self.indexBuffer = [self.resource.device newBufferWithLength:sizeof(index_buffer)*capacity options:MTLResourceOptionCPUCacheModeWriteCombined];
 		self.projectionBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		self.attributesBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        self.infoBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_series_info_buffer) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        self.infoBuffer = [self.resource.device newBufferWithLength:sizeof(uniform_series_info) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		
 		self.depthState = [self.class depthStencilStateWithResource:resource];
         
@@ -56,7 +56,7 @@
         uniform_line_attr* attr = (uniform_line_attr *)([self.attributesBuffer contents]);
         attr->color = vector4(1.0f, 1.0f, 0.0f, 0.5f);
         attr->width = 10;
-        uniform_series_info_buffer* info = (uniform_series_info_buffer *)([self.infoBuffer contents]);
+        uniform_series_info* info = (uniform_series_info *)([self.infoBuffer contents]);
         info->capacity = self.capacity;
         info->offset = 0;
 	}
@@ -112,7 +112,7 @@
 {
 	uniform_projection *proj = (uniform_projection *)([_projectionBuffer contents]);
 	proj->physical_size = vector2((float)(size.width), (float)(size.height));
-	proj->scale = [UIScreen mainScreen].scale;
+	proj->screen_scale = [UIScreen mainScreen].scale;
 	id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:count pixelFormat:format];
 	id<MTLDepthStencilState> depthState = _depthState;
 	id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
@@ -120,7 +120,6 @@
     [encoder pushDebugGroup:@"DrawLine"];
 	[encoder setRenderPipelineState:renderState];
 	[encoder setDepthStencilState:depthState];
-    [encoder setCullMode:MTLCullModeNone];
 	
 	[encoder setVertexBuffer:_vertexBuffer offset:0 atIndex:0];
 	[encoder setVertexBuffer:_indexBuffer offset:0 atIndex:1];
@@ -137,6 +136,34 @@
     [encoder popDebugGroup];
 	
 	[encoder endEncoding];
+}
+
+- (void)encodeTo:(id<MTLCommandBuffer>)command
+            pass:(MTLRenderPassDescriptor *)pass
+          vertex:(VertexBuffer *)vertex
+           index:(IndexBuffer *)index
+      projection:(UniformProjection *)projection
+      attributes:(UniformLineAttributes *)attributes
+      seriesInfo:(UniformSeriesInfo *)info
+{
+    const NSUInteger sampleCount = projection.sampleCount;
+    const MTLPixelFormat colorFormat = projection.colorPixelFormat;
+    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat];
+    id<MTLDepthStencilState> depthState = _depthState;
+    id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
+    [encoder setLabel:@"DrawLineEncoder"];
+    [encoder pushDebugGroup:@"DrawLine"];
+    [encoder setRenderPipelineState:renderState];
+    [encoder setDepthStencilState:depthState];
+    
+    [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:index.buffer offset:0 atIndex:1];
+    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+    [encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
+    [encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
+    
+    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
+    [encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
 }
 
 @end

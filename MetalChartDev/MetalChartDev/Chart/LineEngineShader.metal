@@ -27,7 +27,10 @@ struct vertex_index {
 
 struct uniform_projection {
 	float2 physical_size;
-	float  scale;
+	float  screen_scale;
+    
+    float2 origin;
+    float2 value_scale;
 };
 
 struct uniform_line_attr {
@@ -75,9 +78,6 @@ vertex out_vertex LineEngineVertexIndexed(
 	out.vec_dir = vec_diff;
 	out.coef = (float)along;
     
-//    out.position.x = ( (2 * ((v_id  ) % 2)) - 1.0 ) * 0.5;
-//    out.position.y = ( (2 * ((v_id/2) % 2)) - 1.0 ) * 0.5;
-    
     return out;
 }
 
@@ -93,11 +93,12 @@ fragment float4 LineEngineFragment(
 	const float2 dir = (base - input.mid_pos) * size;
 	const float2 diff = (pos - base) * size;
 	const float w = attr.width / 2;
-	const float distance_from_circle_in_px = ((length(diff) - w) * proj.scale) + 0.5; // ピクセル中心にposがあるので、alpha値が変動するのは距離(px)が[-0.5,+0.5]の間になる.
+	const float distance_from_circle_in_px = ((length(diff) - w) * proj.screen_scale) + 0.5; // ピクセル中心にposがあるので、alpha値が変動するのは距離(px)が[-0.5,+0.5]の間になる.
 	const bool is_same_dir = (dot(diff, dir) >= 0);
 	float4 color = attr.color;
+    
 	if(is_same_dir) color.a *= max(0.0, min(1.0, 1.0-distance_from_circle_in_px));
-//    return float4 (1, 1, 0, 1);
+    
 	return color;
 }
 
