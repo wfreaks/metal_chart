@@ -93,7 +93,7 @@ fragment float4 LineEngineFragment(
 	const float2 dir = (base - input.mid_pos) * size;
 	const float2 diff = (pos - base) * size;
 	const float w = attr.width / 2;
-	const float distance_from_circle_in_px = (length(diff) - w) * proj.scale + (1); // 正確な理由はわからないが、若干円の判定ラインが大きめに出る。この量はwidthには依存しない。おそらくはピクセルのオフセットと関係があるのではないかと思われる。
+	const float distance_from_circle_in_px = ((length(diff) - w) * proj.scale) + 0.5; // ピクセル中心にposがあるので、alpha値が変動するのは距離(px)が[-0.5,+0.5]の間になる.
 	const bool is_same_dir = (dot(diff, dir) >= 0);
 	float4 color = attr.color;
 	if(is_same_dir) color.a *= max(0.0, min(1.0, 1.0-distance_from_circle_in_px));

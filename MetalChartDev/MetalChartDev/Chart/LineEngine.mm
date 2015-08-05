@@ -54,7 +54,7 @@
             v.position.y = ((2 * ((idx/2) % 2)) - 1.0) * 0.5;
         }
         uniform_line_attr* attr = (uniform_line_attr *)([self.attributesBuffer contents]);
-        attr->color = vector4(1.0f, 1.0f, 0.0f, 1.0f);
+        attr->color = vector4(1.0f, 1.0f, 0.0f, 0.5f);
         attr->width = 10;
         uniform_series_info_buffer* info = (uniform_series_info_buffer *)([self.infoBuffer contents]);
         info->capacity = self.capacity;
