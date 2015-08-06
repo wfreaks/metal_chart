@@ -75,11 +75,27 @@
     }
     self.info.offset = 0;
     
+    [self setSampleAttributes];
+}
+
+- (void)setSampleAttributes
+{
     UniformLineAttributes *attributes = self.attributes;
     [attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
     [attributes setWidth:3];
-    [attributes setModifyAlphaOnEdge:NO];
-    attributes.enableOverlay = NO;
+    [attributes setModifyAlphaOnEdge:YES];
+    attributes.enableOverlay = YES;
+}
+
+- (void)appendSampleData:(NSUInteger)count
+{
+    const NSUInteger capacity = self.vertices.capacity;
+    const NSUInteger idx_start = self.info.offset + self.info.count;
+    for(NSUInteger i = 0; i < count; ++i) {
+        vertex_buffer *v = [self.vertices bufferAtIndex:(idx_start+i)%capacity];
+        v->position.x = idx_start + i;
+        v->position.y = ( rand() / (float)RAND_MAX ) - 0.5;
+    }
 }
 
 @end
@@ -94,33 +110,9 @@
 	if(self) {
 		_indices = [[IndexBuffer alloc] initWithResource:resource capacity:idxCapacity];
 		
-		[self.info info]->index_capacity = idxCapacity;
+		[self.info info]->index_capacity = (uint32_t)idxCapacity;
 	}
 	return self;
-}
-
-- (void)setSampleData
-{
-	const NSUInteger vCount = self.vertices.capacity;
-	const NSUInteger iCount = self.indices.capacity;
-	for(int i = 0; i < vCount; ++i) {
-		vertex_buffer *v = [self.vertices bufferAtIndex:i];
-		const float range = 0.5;
-		v->position.x = ((2 * ((i  ) % 2)) - 1) * range;
-		v->position.y = ((2 * ((i/2) % 2)) - 1) * range;
-	}
-	for(int i = 0; i < iCount; ++i) {
-		index_buffer *idx = [self.indices bufferAtIndex:i];
-		idx->index = i % vCount;
-	}
-	self.info.offset = 0;
-	self.info.count = iCount;
-	
-    UniformLineAttributes *attributes = self.attributes;
-	[attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
-	[attributes setWidth:3];
-	[attributes setModifyAlphaOnEdge:NO];
-	attributes.enableOverlay = NO;
 }
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command

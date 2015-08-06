@@ -21,8 +21,12 @@
 @interface VertexBuffer : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
+
 @property (readonly, nonatomic) NSUInteger capacity;
+
+// このoriginはMetalの座標系NDC([-1,1]x[-1,1])の中での点を指定する.この点にInputの(0, 0)が描画される.
 @property (assign, nonatomic) CGPoint origin;
+
 @property (assign, nonatomic) CGSize scale;
 
 - (id)initWithResource:(DeviceResource *)resource capacity:(NSUInteger)capacity;
@@ -75,6 +79,12 @@
 - (uniform_projection *)projection;
 
 - (void)setPhysicalSize:(CGSize)size;
+
+- (void)setValueScale:(CGSize)scale;
+
+- (void)setOrigin:(CGPoint)origin;
+
+- (void)setValueOffset:(CGSize)offset;
 
 @end
 

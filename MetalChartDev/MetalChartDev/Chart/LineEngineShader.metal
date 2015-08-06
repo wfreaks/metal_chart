@@ -36,6 +36,7 @@ struct uniform_projection {
     
     float2 origin;
     float2 value_scale;
+    float2 value_offset;
 };
 
 struct uniform_line_attr {
@@ -48,6 +49,11 @@ struct uniform_series_info {
     uint vertex_capacity;
     uint index_capacity;
 };
+
+inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
+{
+    return ((value + proj.value_offset) / proj.value_scale) + proj.origin;
+}
 
 vertex out_vertex PolyLineEngineVertexIndexed(
                                               device vertex_coord* coords [[ buffer(0) ]],
@@ -64,8 +70,8 @@ vertex out_vertex PolyLineEngineVertexIndexed(
 	const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
 	const ushort index_current = indices[vid].index;
 	const ushort index_next = indices[vid+1].index;
-	const float2 p_current = coords[index_current].position;
-	const float2 p_next = coords[index_next].position;
+	const float2 p_current = adjustPoint( coords[index_current].position, proj );
+	const float2 p_next = adjustPoint( coords[index_next].position, proj );
 	const float2 vec_diff = (p_next - p_current) / 2;
 	const float2 size = proj.physical_size / 2;
 	const float w = attr.width / 2;
@@ -101,8 +107,8 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
     const ushort index_current = vid % info.vertex_capacity;
     const ushort index_next = (vid + 1) % info.vertex_capacity;
-    const float2 p_current = coords[index_current].position;
-    const float2 p_next = coords[index_next].position;
+    const float2 p_current = adjustPoint( coords[index_current].position, proj );
+    const float2 p_next = adjustPoint( coords[index_next].position, proj );
     const float2 vec_diff = (p_next - p_current) / 2;
     const float2 size = proj.physical_size / 2;
     const float w = attr.width / 2;

@@ -11,14 +11,13 @@
 
 #include <simd/simd.h>
 
-#ifndef __cplusplus
-
 typedef struct uniform_projection {
     vector_float2 physical_size;
     float screen_scale;
     
     vector_float2 origin;
     vector_float2 value_scale;
+    vector_float2 value_offset;
 } uniform_projection;
 
 typedef struct uniform_line_attr {
@@ -40,34 +39,7 @@ typedef struct index_buffer {
     uint32_t index;
 } index_buffer;
 
-#else
-
-struct uniform_projection {
-	vector_float2 physical_size;
-    float screen_scale;
-    
-    vector_float2 origin;
-    vector_float2 value_scale;
-};
-
-struct uniform_line_attr {
-	float width;
-	vector_float4 color;
-    uint8_t modify_alpha_on_edge;
-};
-
-struct uniform_series_info {
-    uint32_t vertex_capacity;
-    uint32_t index_capacity;
-};
-
-struct vertex_buffer {
-	vector_float2 position;
-};
-
-struct index_buffer {
-	uint32_t index;
-};
+#ifdef __cplusplus
 
 class vertex_container {
     

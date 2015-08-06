@@ -143,6 +143,24 @@
     ptr->physical_size = vector2((float)size.width, (float)size.height);
 }
 
+- (void)setValueScale:(CGSize)scale
+{
+    uniform_projection *ptr = [self projection];
+    ptr->value_scale = vector2((float)scale.width, (float)scale.height);
+}
+
+- (void)setOrigin:(CGPoint)origin
+{
+    uniform_projection *ptr = [self projection];
+    ptr->origin = vector2((float)origin.x, (float)origin.y);
+}
+
+- (void)setValueOffset:(CGSize)offset
+{
+    uniform_projection *ptr = [self projection];
+    ptr->value_offset = vector2((float)offset.width, (float)offset.height);
+}
+
 @end
 
 

@@ -28,6 +28,7 @@ class ViewController: UIViewController {
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.delegate = vd
+        metalView.preferredFramesPerSecond = 30
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -41,7 +42,7 @@ class ViewController: UIViewController {
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    var line : OrderedPolyLine = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:4);
+    var line : OrderedPolyLine = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:16 * 1024);
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
@@ -49,11 +50,24 @@ class ViewController: UIViewController {
 	
 	@objc func drawInView(view: MTKView) {
         
-        line.setSampleData()
-        line.info.offset = 9;
-        line.info.count = 4;
+        let countAdd : UInt = 4 * 8
+        let countDraw : UInt = 1024 * 8
         
-        projection.setPhysicalSize(view.bounds.size)
+        line.setSampleAttributes()
+        line.appendSampleData(countAdd)
+        
+        if( line.info.count >= countDraw ) {
+            line.info.offset += countAdd;
+        } else {
+            line.info.count += countAdd
+        }
+        
+        let size : CGSize = view.bounds.size
+        projection.setPhysicalSize(size)
+        projection.setValueScale(CGSizeMake(CGFloat(countDraw/2), size.height/size.width * 5))
+        let count = max(0, Int(line.info.offset + line.info.count) - Int(countDraw/4))
+        let ox = Float(count)
+        projection.setOrigin(CGPointMake(-2 * CGFloat(ox/Float(countDraw)), 0))
         projection.sampleCount = UInt(view.sampleCount)
         projection.colorPixelFormat = view.colorPixelFormat
         

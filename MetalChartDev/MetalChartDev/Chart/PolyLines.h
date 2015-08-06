@@ -29,7 +29,11 @@
 
 @interface OrderedPolyLine : Line
 
+- (void)setSampleAttributes;
+
 - (void)setSampleData;
+
+- (void)appendSampleData:(NSUInteger)count;
 
 @end
 
@@ -41,8 +45,5 @@
 		VertexCapacity:(NSUInteger)vertCapacity
 		 indexCapacity:(NSUInteger)idxCapacity
 ;
-
-- (void)setSampleData;
-
 
 @end
