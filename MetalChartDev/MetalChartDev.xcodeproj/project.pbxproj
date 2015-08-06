@@ -12,6 +12,7 @@
 		AA0216641B71D65A00E809F0 /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA0216631B71D65A00E809F0 /* Buffers.mm */; };
 		AA13D0591B6F3927009D8AF3 /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA13D0581B6F3927009D8AF3 /* LineEngineShader.metal */; };
 		AA13D05E1B6F9966009D8AF3 /* LineEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA13D05D1B6F9966009D8AF3 /* LineEngine.m */; };
+		AA586C0A1B72D6E800CCB72B /* PolyLines.m in Sources */ = {isa = PBXBuildFile; fileRef = AA586C091B72D6E800CCB72B /* PolyLines.m */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -47,6 +48,8 @@
 		AA13D05C1B6F9966009D8AF3 /* LineEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngine.h; sourceTree = "<group>"; };
 		AA13D05D1B6F9966009D8AF3 /* LineEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineEngine.m; sourceTree = "<group>"; };
 		AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngine_common.h; sourceTree = "<group>"; };
+		AA586C081B72D6E800CCB72B /* PolyLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyLines.h; sourceTree = "<group>"; };
+		AA586C091B72D6E800CCB72B /* PolyLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyLines.m; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +174,8 @@
 				AA13D05F1B6F9D17009D8AF3 /* LineEngine_common.h */,
 				AA0216621B71D65A00E809F0 /* Buffers.h */,
 				AA0216631B71D65A00E809F0 /* Buffers.mm */,
+				AA586C081B72D6E800CCB72B /* PolyLines.h */,
+				AA586C091B72D6E800CCB72B /* PolyLines.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 				AA13D0591B6F3927009D8AF3 /* LineEngineShader.metal in Sources */,
 				AA0216641B71D65A00E809F0 /* Buffers.mm in Sources */,
+				AA586C0A1B72D6E800CCB72B /* PolyLines.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

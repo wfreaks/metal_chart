@@ -12,7 +12,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "Buffers.h"
 
-@class IndexedLine;
+@class IndexedPolyLine;
 
 @interface LineEngine : NSObject
 
@@ -32,24 +32,9 @@
 
 - (void)encodeTo:(id<MTLCommandBuffer>)command
             pass:(MTLRenderPassDescriptor *)pass
-     indexedLine:(IndexedLine *)line
+     indexedLine:(IndexedPolyLine *)line
       projection:(UniformProjection *)projection;
 ;
 
 @end
 
-@interface IndexedLine : NSObject
-
-@property (readonly, nonatomic) VertexBuffer *vertices;
-@property (readonly, nonatomic) IndexBuffer *indices;
-@property (readonly, nonatomic) UniformSeriesInfo *info;
-@property (strong  , nonatomic) UniformLineAttributes *attributes;
-
-- (id)initWithResource:(DeviceResource *)resource
-        VertexCapacity:(NSUInteger)vertCapacity
-         indexCapacity:(NSUInteger)idxCapacity
-;
-
-- (void)setSampleData;
-
-@end

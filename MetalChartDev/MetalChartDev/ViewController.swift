@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    var line : IndexedLine = IndexedLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 4);
+    var line : IndexedPolyLine = IndexedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 4);
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
