@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.delegate = vd
-        metalView.preferredFramesPerSecond = 30
+        metalView.preferredFramesPerSecond = 60
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
-    var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
+    var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(2)
     
     var line : OrderedPolyLine = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:16 * 1024);
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
@@ -50,8 +50,8 @@ class ViewController: UIViewController {
 	
 	@objc func drawInView(view: MTKView) {
         
-        let countAdd : UInt = 4 * 8
-        let countDraw : UInt = 1024 * 8
+        let countDraw : UInt = 1 << 12
+        let countAdd : UInt = countDraw / UInt(1<<7)
         
         line.setSampleAttributes()
         line.appendSampleData(countAdd)

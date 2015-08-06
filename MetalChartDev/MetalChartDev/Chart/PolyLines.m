@@ -33,7 +33,7 @@
         _info = [[UniformSeriesInfo alloc] initWithResource:resource];
         _attributes = [[UniformLineAttributes alloc] initWithResource:resource];
         
-        [_info info]->vertex_capacity = vertCapacity;
+        [_info info]->vertex_capacity = (uint32_t)vertCapacity;
     }
     return self;
 }
@@ -87,6 +87,14 @@
     attributes.enableOverlay = YES;
 }
 
+static double gaussian() {
+    const double u1 = (double)arc4random() / UINT32_MAX;
+    const double u2 = (double)arc4random() / UINT32_MAX;
+    const double f1 = sqrt(-2 * log(u1));
+    const double f2 = 2 * M_PI * u2;
+    return f1 * sin(f2);
+}
+
 - (void)appendSampleData:(NSUInteger)count
 {
     const NSUInteger capacity = self.vertices.capacity;
@@ -94,7 +102,7 @@
     for(NSUInteger i = 0; i < count; ++i) {
         vertex_buffer *v = [self.vertices bufferAtIndex:(idx_start+i)%capacity];
         v->position.x = idx_start + i;
-        v->position.y = ( rand() / (float)RAND_MAX ) - 0.5;
+        v->position.y = gaussian() * 0.5;
     }
 }
 
