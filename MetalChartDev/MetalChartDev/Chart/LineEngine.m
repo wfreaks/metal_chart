@@ -6,8 +6,6 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "LineEngine.h"
-#import <Metal/Metal.h>
 #import "LineEngine_common.h"
 #import "PolyLines.h"
 #import <UIKit/UIKit.h>
@@ -38,14 +36,17 @@
 											sampleCount:(NSUInteger)count
 											pixelFormat:(MTLPixelFormat)format
                                              writeDepth:(BOOL)writeDepth
+                                                indexed:(BOOL)indexed
 {
 	NSString *label = [NSString stringWithFormat:@"PolyLineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
-		desc.vertexFunction = [resource.library newFunctionWithName:@"PolyLineEngineVertexIndexed"];
-        desc.fragmentFunction = [resource.library newFunctionWithName:[NSString stringWithFormat:@"LineEngineFragment_%@", (writeDepth ? @"WriteDepth" : @"NoDepth")]];
+        NSString *vertFuncName = (indexed) ? @"PolyLineEngineVertexIndexed" : @"PolyLineEngineVertexOrdered";
+        NSString *fragFuncName = (writeDepth) ? @"LineEngineFragment_WriteDepth" : @"LineEngineFragment_NoDepth";
+		desc.vertexFunction = [resource.library newFunctionWithName:vertFuncName];
+        desc.fragmentFunction = [resource.library newFunctionWithName:fragFuncName];
 		desc.sampleCount = count;
         MTLRenderPipelineColorAttachmentDescriptor *cd = desc.colorAttachments[0];
 		cd.pixelFormat = format;
@@ -91,7 +92,8 @@
     const NSUInteger sampleCount = projection.sampleCount;
     const MTLPixelFormat colorFormat = projection.colorPixelFormat;
     const BOOL writeDepth = ! attributes.enableOverlay;
-    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth];
+    const BOOL indexed = (index != nil);
+    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth indexed:indexed];
     id<MTLDepthStencilState> depthState = (writeDepth ? _depthState_writeDepth : _depthState_noDepth);
     id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
     [encoder setLabel:@"DrawLineEncoder"];
@@ -99,34 +101,24 @@
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
     
-    [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:index.buffer offset:0 atIndex:1];
-    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
-    [encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
-    [encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
+    NSUInteger idx = 0;
+    [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:idx++];
+    if( indexed ) {
+        [encoder setVertexBuffer:index.buffer offset:0 atIndex:idx++];
+    }
+    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:idx++];
+    [encoder setVertexBuffer:attributes.buffer offset:0 atIndex:idx++];
+    [encoder setVertexBuffer:info.buffer offset:0 atIndex:idx++];
     
     [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
     [encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
     
-    const NSUInteger count = 6 * (info.count - 1);
+    const NSUInteger count = 6 * MAX(0, ((NSInteger)info.count) - 1);
     if(count > 0) {
-        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:info.offset vertexCount:count instanceCount:1];
+        const NSUInteger offset = 6 * (info.offset);
+        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
     }
     [encoder endEncoding];
-}
-
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-            pass:(MTLRenderPassDescriptor *)pass
-     indexedLine:(IndexedPolyLine *)line
-      projection:(UniformProjection *)projection
-{
-    [self encodeTo:command
-              pass:pass
-            vertex:line.vertices
-             index:line.indices
-        projection:projection
-        attributes:line.attributes
-        seriesInfo:line.info];
 }
 
 @end

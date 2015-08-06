@@ -107,7 +107,7 @@
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
 @property (assign, nonatomic) NSUInteger count;
-@property (assign, nonatomic) uint16_t offset;
+@property (assign, nonatomic) NSUInteger offset;
 
 - (id)initWithResource:(DeviceResource *)resource;
 

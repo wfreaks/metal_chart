@@ -183,8 +183,6 @@
 
 @implementation UniformSeriesInfo
 
-@dynamic offset;
-
 - (id)initWithResource:(DeviceResource *)resource
 {
     self = [super init];
@@ -197,16 +195,6 @@
 - (uniform_series_info *)info
 {
     return (uniform_series_info *)([self.buffer contents]);
-}
-
-- (uint16_t)offset
-{
-    return [self info]->offset;
-}
-
-- (void)setOffset:(uint16_t)offset
-{
-    [self info]->offset = offset;
 }
 
 @end

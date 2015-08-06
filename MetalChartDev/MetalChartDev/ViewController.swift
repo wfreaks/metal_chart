@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(1)
     
-    var line : IndexedPolyLine = IndexedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:4, indexCapacity: 4);
+    var line : OrderedPolyLine = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:4);
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
@@ -50,6 +50,8 @@ class ViewController: UIViewController {
 	@objc func drawInView(view: MTKView) {
         
         line.setSampleData()
+        line.info.offset = 9;
+        line.info.count = 4;
         
         projection.setPhysicalSize(view.bounds.size)
         projection.sampleCount = UInt(view.sampleCount)
@@ -61,7 +63,7 @@ class ViewController: UIViewController {
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
-        engine.encodeTo(buffer, pass: pass, indexedLine: line, projection: projection)
+        line.encodeTo(buffer, renderPass: pass, projection: projection, engine: engine)
         
         buffer.addCompletedHandler { (buffer) -> Void in
             dispatch_semaphore_signal(semaphore)

@@ -12,8 +12,6 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import "Buffers.h"
 
-@class IndexedPolyLine;
-
 @interface LineEngine : NSObject
 
 @property (readonly, nonatomic) DeviceResource *resource;
@@ -28,12 +26,6 @@
       projection:(UniformProjection *)projection
       attributes:(UniformLineAttributes *)attributes
       seriesInfo:(UniformSeriesInfo *)info
-;
-
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-            pass:(MTLRenderPassDescriptor *)pass
-     indexedLine:(IndexedPolyLine *)line
-      projection:(UniformProjection *)projection;
 ;
 
 @end

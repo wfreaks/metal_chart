@@ -45,9 +45,8 @@ struct uniform_line_attr {
 };
 
 struct uniform_series_info {
-    ushort vertex_capacity;
-    ushort index_capacity;
-    ushort offset;
+    uint vertex_capacity;
+    uint index_capacity;
 };
 
 vertex out_vertex PolyLineEngineVertexIndexed(
@@ -101,7 +100,7 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const char along = (2 * (spec % 2)) - 1; // 偶数で-1, 奇数で1にする.
     const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
     const ushort index_current = vid % info.vertex_capacity;
-    const ushort index_next = (index_current + 1) % info.vertex_capacity;
+    const ushort index_next = (vid + 1) % info.vertex_capacity;
     const float2 p_current = coords[index_current].position;
     const float2 p_next = coords[index_next].position;
     const float2 vec_diff = (p_next - p_current) / 2;

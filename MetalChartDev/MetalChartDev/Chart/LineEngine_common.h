@@ -28,9 +28,8 @@ typedef struct uniform_line_attr {
 } uniform_line_attr;
 
 typedef struct uniform_series_info {
-    uint16_t vertex_capacity;
-    uint16_t index_capacity;
-    uint16_t offset;
+    uint32_t vertex_capacity;
+    uint32_t index_capacity;
 } uniform_series_info;
 
 typedef struct vertex_buffer {
@@ -58,9 +57,8 @@ struct uniform_line_attr {
 };
 
 struct uniform_series_info {
-    uint16_t vertex_capacity;
-    uint16_t index_capacity;
-    uint16_t offset;
+    uint32_t vertex_capacity;
+    uint32_t index_capacity;
 };
 
 struct vertex_buffer {
