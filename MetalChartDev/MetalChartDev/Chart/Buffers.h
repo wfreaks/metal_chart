@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreGraphics/CoreGraphics.h>
+#import <CoreGraphics/CGGeometry.h>
 #import <Metal/Metal.h>
 #import "LineEngine_common.h"
 #import "DeviceResource.h"

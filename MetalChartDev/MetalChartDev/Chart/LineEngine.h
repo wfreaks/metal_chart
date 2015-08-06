@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
-#import <CoreGraphics/CoreGraphics.h>
 #import "Buffers.h"
 
 @interface LineEngine : NSObject
@@ -26,6 +25,7 @@
       projection:(UniformProjection *)projection
       attributes:(UniformLineAttributes *)attributes
       seriesInfo:(UniformSeriesInfo *)info
+	   separated:(BOOL)separated
 ;
 
 @end

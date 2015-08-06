@@ -25,15 +25,22 @@
           engine:(LineEngine *)engine
 ;
 
-@end
-
-@interface OrderedPolyLine : Line
-
 - (void)setSampleAttributes;
 
 - (void)setSampleData;
 
 - (void)appendSampleData:(NSUInteger)count;
+
+
+@end
+
+
+@interface OrderedSeparatedLine : Line
+
+@end
+
+
+@interface OrderedPolyLine : Line
 
 @end
 

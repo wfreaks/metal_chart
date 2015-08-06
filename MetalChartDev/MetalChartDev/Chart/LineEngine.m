@@ -7,7 +7,7 @@
 //
 
 #import "LineEngine_common.h"
-#import "PolyLines.h"
+#import "Lines.h"
 #import <UIKit/UIKit.h>
 
 @interface LineEngine()
@@ -37,13 +37,16 @@
 											pixelFormat:(MTLPixelFormat)format
                                              writeDepth:(BOOL)writeDepth
                                                 indexed:(BOOL)indexed
+											  separated:(BOOL)separated
 {
 	NSString *label = [NSString stringWithFormat:@"PolyLineEngineIndexed_%lu", (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
-        NSString *vertFuncName = (indexed) ? @"PolyLineEngineVertexIndexed" : @"PolyLineEngineVertexOrdered";
+        NSString *vertFuncName = nil;
+		if (! separated) vertFuncName = (indexed) ? @"PolyLineEngineVertexIndexed" : @"PolyLineEngineVertexOrdered";
+		else			 vertFuncName = (indexed) ? @"SeparatedLineEngineVertexIndexed" : @"SeparatedLineEngineVertexOrdered";
         NSString *fragFuncName = (writeDepth) ? @"LineEngineFragment_WriteDepth" : @"LineEngineFragment_NoDepth";
 		desc.vertexFunction = [resource.library newFunctionWithName:vertFuncName];
         desc.fragmentFunction = [resource.library newFunctionWithName:fragFuncName];
@@ -88,12 +91,13 @@
       projection:(UniformProjection *)projection
       attributes:(UniformLineAttributes *)attributes
       seriesInfo:(UniformSeriesInfo *)info
+	   separated:(BOOL)separated
 {
     const NSUInteger sampleCount = projection.sampleCount;
     const MTLPixelFormat colorFormat = projection.colorPixelFormat;
     const BOOL writeDepth = ! attributes.enableOverlay;
     const BOOL indexed = (index != nil);
-    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth indexed:indexed];
+    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth indexed:indexed separated:separated];
     id<MTLDepthStencilState> depthState = (writeDepth ? _depthState_writeDepth : _depthState_noDepth);
     id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
     [encoder setLabel:@"DrawLineEncoder"];
@@ -113,13 +117,14 @@
     [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
     [encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
     
-    const NSUInteger count = 6 * MAX(0, ((NSInteger)info.count) - 1);
+    const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
     if(count > 0) {
-        const NSUInteger offset = 6 * (info.offset);
+        const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
         [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
     }
     [encoder endEncoding];
 }
+
 
 @end
 

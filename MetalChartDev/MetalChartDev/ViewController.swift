@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.delegate = vd
-        metalView.preferredFramesPerSecond = 60
+        metalView.preferredFramesPerSecond = 30
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -39,37 +39,56 @@ class ViewController: UIViewController {
 
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
+	var isLineInitialized = false
+	
 	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
     var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(2)
     
-    var line : OrderedPolyLine = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:16 * 1024);
+    var line : Line = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:(1<<13) );
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
 	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
 	}
 	
 	@objc func drawInView(view: MTKView) {
+		
+		let size : CGSize = view.bounds.size
+		projection.setPhysicalSize(size)
+		projection.sampleCount = UInt(view.sampleCount)
+		projection.colorPixelFormat = view.colorPixelFormat
+		
+		var asChart = true
+		
+		if( asChart ) {
         
-        let countDraw : UInt = 1 << 12
-        let countAdd : UInt = countDraw / UInt(1<<7)
-        
-        line.setSampleAttributes()
-        line.appendSampleData(countAdd)
-        
-        if( line.info.count >= countDraw ) {
-            line.info.offset += countAdd;
-        } else {
-            line.info.count += countAdd
-        }
-        
-        let size : CGSize = view.bounds.size
-        projection.setPhysicalSize(size)
-        projection.setValueScale(CGSizeMake(CGFloat(countDraw/2), size.height/size.width * 5))
-        let count = max(0, Int(line.info.offset + line.info.count) - Int(countDraw/4))
-        let ox = Float(count)
-        projection.setOrigin(CGPointMake(-2 * CGFloat(ox/Float(countDraw)), 0))
-        projection.sampleCount = UInt(view.sampleCount)
-        projection.colorPixelFormat = view.colorPixelFormat
+			let exp : UInt = 6
+			let countDraw : UInt = 1 << exp
+			let countAdd : UInt = 1 << (0)
+			
+			line.setSampleAttributes()
+			line.appendSampleData(countAdd)
+			
+			if( line.info.count >= line.vertices.capacity ) {
+				line.info.offset += countAdd;
+			} else {
+				line.info.count += countAdd
+			}
+			
+			projection.setValueScale(CGSizeMake(CGFloat(countDraw/2), size.height/size.width * 5))
+			let count = max(0, Int(line.info.offset + line.info.count) - Int(countDraw/4))
+			let ox = Float(count)
+			projection.setOrigin(CGPointMake(-2 * CGFloat(ox/Float(countDraw)), 0))
+			
+		} else {
+			if(!isLineInitialized) {
+				projection.setValueScale(CGSizeMake(1, size.height/size.width))
+				line.setSampleData()
+				isLineInitialized = true
+				line.info.count = 5
+				line.info.offset = 0
+			}
+			
+		}
         
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
         

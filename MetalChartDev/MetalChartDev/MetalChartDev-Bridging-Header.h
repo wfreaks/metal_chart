@@ -4,4 +4,4 @@
 
 #import "Utilities/DeviceResource.h"
 #import "Chart/LineEngine.h"
-#import "Chart/PolyLines.h"
+#import "Chart/Lines.h"

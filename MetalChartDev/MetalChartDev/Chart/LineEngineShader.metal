@@ -48,6 +48,7 @@ struct uniform_line_attr {
 struct uniform_series_info {
     uint vertex_capacity;
     uint index_capacity;
+	uint offset;
 };
 
 inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
@@ -113,6 +114,26 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const uchar spec = v_id % 6;
     return LineEngineVertexCore(p_current, p_next, spec, attr.width, proj.physical_size);
 }
+
+vertex out_vertex SeparatedLineEngineVertexOrdered(
+											  device vertex_coord* coords [[ buffer(0) ]],
+											  constant uniform_projection& proj [[ buffer(1) ]],
+											  constant uniform_line_attr& attr [[ buffer(2) ]],
+											  constant uniform_series_info& info [[ buffer(3) ]],
+											  uint v_id [[ vertex_id ]]
+											  ) {
+	const uint idx_offset = info.offset % 2;
+	const uint vid = (2 * ((v_id / 6) - idx_offset)) + idx_offset; // 質の悪い事に頂点IDだけでは奇数点から+1へ線を引くのか偶数からなのか判断ができない.
+	const ushort index_current = vid % info.vertex_capacity;
+	const ushort index_next = (vid + 1) % info.vertex_capacity;
+	const float2 p_current = adjustPoint( coords[index_current].position, proj );
+	const float2 p_next = adjustPoint( coords[index_next].position, proj );
+	
+	const uchar spec = v_id % 6;
+	return LineEngineVertexCore(p_current, p_next, spec, attr.width, proj.physical_size);
+}
+
+
 
 struct out_frag_core {
     bool is_same_dir;

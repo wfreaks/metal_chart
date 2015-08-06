@@ -6,7 +6,8 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <UIKit/UIColor.h>
+#import <UIKit/UIScreen.h>
 #import "Buffers.h"
 
 #pragma mark - Private Interfaces
@@ -213,6 +214,12 @@
 - (uniform_series_info *)info
 {
     return (uniform_series_info *)([self.buffer contents]);
+}
+
+- (void)setOffset:(NSUInteger)offset
+{
+	_offset = offset;
+	[self info]->offset = (uint32_t)offset;
 }
 
 @end
