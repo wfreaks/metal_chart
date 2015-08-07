@@ -80,6 +80,8 @@
 
 - (void)setPhysicalSize:(CGSize)size;
 
+- (void)setPixelSize:(CGSize)size;
+
 - (void)setValueScale:(CGSize)scale;
 
 - (void)setOrigin:(CGPoint)origin;

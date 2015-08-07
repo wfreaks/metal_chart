@@ -144,6 +144,13 @@
     ptr->physical_size = vector2((float)size.width, (float)size.height);
 }
 
+- (void)setPixelSize:(CGSize)size
+{
+    const CGFloat scale = [UIScreen mainScreen].scale;
+    uniform_projection *ptr = [self projection];
+    ptr->physical_size = vector2((float)(size.width/scale), (float)(size.height/scale));
+}
+
 - (void)setValueScale:(CGSize)scale
 {
     uniform_projection *ptr = [self projection];

@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 		metalView.paused = false
         vd.setMTLViewProperties(metalView)
 		metalView.delegate = vd
-        metalView.preferredFramesPerSecond = 30
+        metalView.preferredFramesPerSecond = 60
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -57,13 +57,16 @@ class ViewController: UIViewController {
     }
     
     func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {
-        projection.setPhysicalSize(size)
+//        projection.setPhysicalSize(size) // ios 9 beta 5 でシグニチャが変更され、このサイズもピクセルベースになった。
+        projection.setPixelSize(size)
+        projection.setValueScale(CGSizeMake(1, size.height/size.width))
     }
 	
 	@objc func drawInMTKView(view: MTKView) {
 		
         let size : CGSize = view.bounds.size
 		let asChart = true
+        
 		
 		if( asChart ) {
         
@@ -87,7 +90,6 @@ class ViewController: UIViewController {
 			
 		} else {
 			if(!isLineInitialized) {
-				projection.setValueScale(CGSizeMake(1, size.height/size.width))
 				line.setSampleData()
 				isLineInitialized = true
 				line.info.count = 5
