@@ -64,7 +64,7 @@
 {
 	UniformLineAttributes *attributes = self.attributes;
 	[attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
-	[attributes setWidth:3];
+	[attributes setWidth:5];
 	[attributes setModifyAlphaOnEdge:YES];
 	attributes.enableOverlay = YES;
 }

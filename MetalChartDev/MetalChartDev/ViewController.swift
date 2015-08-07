@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
+        metalView.device = DeviceResource.defaultResource().device
         metalView.sampleCount = 2
         let v : Double = 0.5;
         let alpha : Double = 1;
@@ -27,6 +28,7 @@ class ViewController: UIViewController {
         metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
+        vd.setMTLViewProperties(metalView)
 		metalView.delegate = vd
         metalView.preferredFramesPerSecond = 30
 	}
@@ -47,21 +49,25 @@ class ViewController: UIViewController {
     var line : Line = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:(1<<13) );
     var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
     
-	@objc func view(view: MTKView, willLayoutWithSize size: CGSize) {
-	}
+    func setMTLViewProperties(view: MTKView) {
+        let size : CGSize = view.bounds.size
+        projection.setPhysicalSize(size)
+        projection.sampleCount = UInt(view.sampleCount)
+        projection.colorPixelFormat = view.colorPixelFormat
+    }
+    
+    func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {
+        projection.setPhysicalSize(size)
+    }
 	
-	@objc func drawInView(view: MTKView) {
+	@objc func drawInMTKView(view: MTKView) {
 		
-		let size : CGSize = view.bounds.size
-		projection.setPhysicalSize(size)
-		projection.sampleCount = UInt(view.sampleCount)
-		projection.colorPixelFormat = view.colorPixelFormat
-		
-		var asChart = true
+        let size : CGSize = view.bounds.size
+		let asChart = true
 		
 		if( asChart ) {
         
-			let exp : UInt = 6
+			let exp : UInt = 8
 			let countDraw : UInt = 1 << exp
 			let countAdd : UInt = 1 << (0)
 			
