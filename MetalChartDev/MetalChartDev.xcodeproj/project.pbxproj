@@ -49,6 +49,7 @@
 		AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
 		AA88E5311B74C9D40004AA4E /* Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines.h; sourceTree = "<group>"; };
 		AA88E5321B74C9D40004AA4E /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
+		AA88E5381B74E59A0004AA4E /* chart_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +113,14 @@
 			path = Engine;
 			sourceTree = "<group>";
 		};
+		AA88E5371B74E5420004AA4E /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				AA88E5381B74E59A0004AA4E /* chart_common.h */,
+			);
+			path = Chart;
+			sourceTree = "<group>";
+		};
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +147,7 @@
 		AAB584DD1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXGroup;
 			children = (
+				AA88E5371B74E5420004AA4E /* Chart */,
 				AA88E52A1B74C9D40004AA4E /* Engine */,
 				AAB585101B6F0E1F00480AAE /* Utilities */,
 				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
