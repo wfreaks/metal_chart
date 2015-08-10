@@ -7,37 +7,52 @@
 //
 
 #import "MCProjectionUpdater.h"
+#import "MCRestrictions.h"
 
 @interface MCProjectionUpdater()
 
-@property (readonly, nonatomic) CGFloat initialMin;
-@property (readonly, nonatomic) CGFloat initialMax;
+@property (assign, nonatomic) CGFloat srcMinValue;
+@property (assign, nonatomic) CGFloat srcMaxValue;
 
 @end
 
 @implementation MCProjectionUpdater
 
-- (instancetype)initWithInitialSourceMin:(CGFloat)min max:(CGFloat)max
+- (instancetype)initWithTarget:(MCDimensionalProjection * _Nullable)target
 {
 	self = [super self];
 	if(self) {
-		_initialMin = min;
-		_initialMax = max;
-		_sourceMinValue = min;
-		_sourceMaxValue = max;
+		_srcMinValue = CGFLOAT_MAX;
+		_srcMaxValue = CGFLOAT_MIN;
 		_restrictions = [NSArray array];
+		_target = target;
 	}
 	return self;
 }
 
+- (const CGFloat *)sourceMinValue { return (_srcMinValue != CGFLOAT_MAX) ? &_srcMinValue : nil; }
+- (const CGFloat *)sourceMaxValue { return (_srcMaxValue != CGFLOAT_MIN) ? &_srcMaxValue : nil; }
+
 - (void)addSourceValue:(CGFloat)value update:(BOOL)update
 {
+	BOOL needsUpdate = NO;
+	if(_srcMinValue > value) {
+		_srcMinValue = value;
+		needsUpdate |= update;
+	}
+	if(_srcMaxValue < value) {
+		_srcMaxValue = value;
+		needsUpdate |= update;
+	}
+	if(needsUpdate) {
+		[self updateTarget];
+	}
 }
 
 - (void)clearSourceValues:(BOOL)update
 {
-	_sourceMinValue = _initialMin;
-	_sourceMaxValue = _initialMax;
+	_srcMinValue = CGFLOAT_MAX;
+	_srcMaxValue = CGFLOAT_MIN;
 }
 
 - (void)addRestriction:(id<MCRestriction>)object
@@ -62,15 +77,15 @@
 
 - (void)updateTarget
 {
-	NSArray<id<MCRestriction>> *restrictions = _restrictions;
-	CGFloat min = CGFLOAT_MAX;
-	CGFloat max = CGFLOAT_MIN;
-	for(id<MCRestriction> restriction in restrictions) {
-		[restriction updater:self minValue:&min maxValue:&max];
-	}
-	
 	MCDimensionalProjection *projection = _target;
 	if(projection) {
+		NSArray<id<MCRestriction>> *restrictions = _restrictions;
+		CGFloat min = CGFLOAT_MAX;
+		CGFloat max = CGFLOAT_MIN;
+		for(id<MCRestriction> restriction in restrictions.reverseObjectEnumerator) {
+			[restriction updater:self minValue:&min maxValue:&max];
+		}
+		
 		projection.min = min;
 		projection.max = max;
 	}

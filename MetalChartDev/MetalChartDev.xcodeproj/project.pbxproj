@@ -11,6 +11,7 @@
 		AA0216611B70C66900E809F0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD430E1B708D1300A83B69 /* MetalKit.framework */; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
+		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
 		AA88E5331B74C9D40004AA4E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52C1B74C9D40004AA4E /* Buffers.mm */; };
 		AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52E1B74C9D40004AA4E /* LineEngine.m */; };
 		AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */; };
@@ -47,6 +48,8 @@
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
 		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
 		AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectionUpdater.m; sourceTree = "<group>"; };
+		AA67A8431B78DAEB005EEA8D /* MCRestrictions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRestrictions.h; sourceTree = "<group>"; };
+		AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRestrictions.m; sourceTree = "<group>"; };
 		AA88E52B1B74C9D40004AA4E /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
 		AA88E52C1B74C9D40004AA4E /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
 		AA88E52D1B74C9D40004AA4E /* LineEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngine.h; sourceTree = "<group>"; };
@@ -126,6 +129,8 @@
 				AA67A83E1B774196005EEA8D /* MetalChart.m */,
 				AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */,
 				AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */,
+				AA67A8431B78DAEB005EEA8D /* MCRestrictions.h */,
+				AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
 				AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */,
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
+				AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */,
