@@ -55,6 +55,9 @@
 
 @interface MetalChart : NSObject<MTKViewDelegate>
 
+@property (copy, nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
+@property (copy, nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
+
 - (_Null_unspecified instancetype)init;
 
 - (void)addSeries:(id<MCRenderable> _Nonnull)series

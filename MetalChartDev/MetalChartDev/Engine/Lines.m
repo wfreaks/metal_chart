@@ -100,15 +100,26 @@ static double gaussian() {
 }
 
 - (void)appendSampleData:(NSUInteger)count
+		  maxVertexCount:(NSUInteger)maxCount
+			  onGenerate:(void (^ _Nullable)(float, float))block
 {
 	VertexBuffer *vertices = self.series.vertices;
 	const NSUInteger capacity = vertices.capacity;
 	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
+	const NSUInteger idx_end = idx_start + count;
 	for(NSUInteger i = 0; i < count; ++i) {
 		vertex_buffer *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
-		v->position.x = idx_start + i;
-		v->position.y = gaussian() * 0.5;
+		const float x = idx_start + i;
+		const float y = gaussian() * 0.5;
+		v->position.x = x;
+		v->position.y = y;
+		if(block) {
+			block(x, y);
+		}
 	}
+	const NSUInteger vCount = MIN(capacity, MIN(maxCount, idx_end));
+	self.series.info.count = vCount;
+	self.series.info.offset = idx_end - vCount;
 }
 
 

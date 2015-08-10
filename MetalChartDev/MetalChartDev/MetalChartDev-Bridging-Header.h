@@ -6,3 +6,9 @@
 #import "Engine/LineEngine.h"
 #import "Engine/Series.h"
 #import "Engine/Lines.h"
+
+#import "Chart/MetalChart.h"
+#import "Chart/MCProjectionUpdater.h"
+#import "Chart/MCRestrictions.h"
+#import "Chart/MCRenderables.h"
+

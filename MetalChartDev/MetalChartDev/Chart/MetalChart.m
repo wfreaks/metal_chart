@@ -109,6 +109,7 @@
 {
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setSampleCount:view.sampleCount];
+	[_projection setColorPixelFormat:view.colorPixelFormat];
 }
 
 @end
@@ -135,6 +136,10 @@
 
 - (void)drawInMTKView:(MTKView *)view
 {
+	
+	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
+	if(willDraw != nil) willDraw(self);
+	
 	NSArray<id<MCRenderable>> *seriesArray = nil;
 	NSArray<MCSpatialProjection *> *projectionArray = nil;
 	@synchronized(self) {
@@ -175,6 +180,9 @@
 	} else {
 		dispatch_semaphore_signal(_semaphore);
 	}
+	
+	void (^didDraw)(MetalChart * _Nonnull) = _didDraw;
+	if(didDraw != nil) didDraw(self);
 }
 
 - (void)addSeries:(id<MCRenderable>)series projection:(MCSpatialProjection *)projection

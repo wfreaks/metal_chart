@@ -25,13 +25,17 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
 // つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=1ならば中央値を固定してmin,maxを動かす.
+// offsetはlengthによらない移動を提供する.
 @interface MCLengthRestriction : NSObject<MCRestriction>
 
 @property (readonly, nonatomic) CGFloat length;
 @property (readonly, nonatomic) CGFloat anchor;
+@property (readonly, nonatomic) CGFloat offset;
 
 - (_Null_unspecified instancetype)initWithLength:(CGFloat)length
-										  anchor:(CGFloat)anchor;
+										  anchor:(CGFloat)anchor
+										  offset:(CGFloat)offset
+;
 
 @end
 
@@ -63,13 +67,16 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 @property (readonly, nonatomic) CGFloat paddingLow;
 @property (readonly, nonatomic) CGFloat paddingHigh;
-@property (readonly, nonatomic) BOOL    allowShrink;
+@property (readonly, nonatomic) BOOL    shrinkMin;
+@property (readonly, nonatomic) BOOL    shrinkMax;
 @property (readonly, nonatomic) BOOL    applyToCurrentMinMax;
 
 - (_Null_unspecified instancetype)initWithPaddingLow:(CGFloat)low
 												high:(CGFloat)high
+										   shrinkMin:(BOOL)shrinkLow
+										   shrinkMax:(BOOL)shrinkHigh
 									  applyToCurrent:(BOOL)apply
-											  shrink:(BOOL)shrink;
+;
 
 @end
 

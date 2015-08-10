@@ -26,7 +26,10 @@
 
 - (void)setSampleData;
 
-- (void)appendSampleData:(NSUInteger)count;
+- (void)appendSampleData:(NSUInteger)count
+		  maxVertexCount:(NSUInteger)maxCount
+			  onGenerate:(void (^_Nullable)(float x, float y))block
+;
 
 @end
 

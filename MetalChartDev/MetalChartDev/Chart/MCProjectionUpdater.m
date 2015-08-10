@@ -22,16 +22,16 @@
 {
 	self = [super self];
 	if(self) {
-		_srcMinValue = CGFLOAT_MAX;
-		_srcMaxValue = CGFLOAT_MIN;
+		_srcMinValue = +CGFLOAT_MAX;
+		_srcMaxValue = -CGFLOAT_MAX;
 		_restrictions = [NSArray array];
 		_target = target;
 	}
 	return self;
 }
 
-- (const CGFloat *)sourceMinValue { return (_srcMinValue != CGFLOAT_MAX) ? &_srcMinValue : nil; }
-- (const CGFloat *)sourceMaxValue { return (_srcMaxValue != CGFLOAT_MIN) ? &_srcMaxValue : nil; }
+- (const CGFloat *)sourceMinValue { return (_srcMinValue != +CGFLOAT_MAX) ? &_srcMinValue : nil; }
+- (const CGFloat *)sourceMaxValue { return (_srcMaxValue != -CGFLOAT_MAX) ? &_srcMaxValue : nil; }
 
 - (void)addSourceValue:(CGFloat)value update:(BOOL)update
 {
@@ -51,8 +51,8 @@
 
 - (void)clearSourceValues:(BOOL)update
 {
-	_srcMinValue = CGFLOAT_MAX;
-	_srcMaxValue = CGFLOAT_MIN;
+	_srcMinValue = +CGFLOAT_MAX;
+	_srcMaxValue = -CGFLOAT_MAX;
 }
 
 - (void)addRestriction:(id<MCRestriction>)object
@@ -80,8 +80,8 @@
 	MCDimensionalProjection *projection = _target;
 	if(projection) {
 		NSArray<id<MCRestriction>> *restrictions = _restrictions;
-		CGFloat min = CGFLOAT_MAX;
-		CGFloat max = CGFLOAT_MIN;
+		CGFloat min = +CGFLOAT_MAX;
+		CGFloat max = -CGFLOAT_MAX;
 		for(id<MCRestriction> restriction in restrictions.reverseObjectEnumerator) {
 			[restriction updater:self minValue:&min maxValue:&max];
 		}
