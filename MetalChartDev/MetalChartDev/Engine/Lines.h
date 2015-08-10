@@ -13,17 +13,13 @@
 
 @interface Line : NSObject
 
-@property (readonly, nonatomic) VertexBuffer *vertices;
-@property (strong  , nonatomic) UniformLineAttributes *attributes;
-@property (readonly, nonatomic) UniformSeriesInfo *info;
+@property (readonly, nonatomic) id<Series> _Nonnull series;
+@property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) LineEngine * _Nonnull engine;
 
-- (id)initWithResource:(DeviceResource *)resource
-        vertexCapacity:(NSUInteger)vertCapacity;
-
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-      renderPass:(MTLRenderPassDescriptor *)pass
-      projection:(UniformProjection *)projection
-          engine:(LineEngine *)engine
+- (void)encodeTo:(id<MTLCommandBuffer> _Nonnull)command
+      renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
+      projection:(UniformProjection * _Nonnull)projection
 ;
 
 - (void)setSampleAttributes;
@@ -39,6 +35,11 @@
 
 @interface OrderedSeparatedLine : Line
 
+- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+									 orderedSeries:(OrderedSeries * _Nonnull)series
+											engine:(LineEngine * _Nonnull)engine
+;
+
 @end
 
 
@@ -47,6 +48,11 @@
 
 @interface OrderedPolyLine : Line
 
+- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+									 orderedSeries:(OrderedSeries * _Nonnull)series
+											engine:(LineEngine * _Nonnull)engine
+;
+
 @end
 
 
@@ -54,11 +60,10 @@
 
 @interface IndexedPolyLine : Line
 
-@property (readonly, nonatomic) IndexBuffer *indices;
-
-- (id)initWithResource:(DeviceResource *)resource
-		VertexCapacity:(NSUInteger)vertCapacity
-		 indexCapacity:(NSUInteger)idxCapacity
+- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+									 indexedSeries:(IndexedSeries * _Nonnull)series
+											engine:(LineEngine * _Nonnull)engine
 ;
+
 
 @end

@@ -30,7 +30,7 @@ class ViewController: UIViewController {
 		metalView.paused = false
         vd.setMTLViewProperties(metalView)
 		metalView.delegate = vd
-        metalView.preferredFramesPerSecond = 60
+        metalView.preferredFramesPerSecond = 30
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -41,13 +41,29 @@ class ViewController: UIViewController {
 
 @objc class ViewDelegate : NSObject, MTKViewDelegate {
 	
-	var isLineInitialized = false
+	let asChart : Bool
 	
-	var engine : LineEngine = LineEngine(resource: DeviceResource.defaultResource())
-    var semaphore : dispatch_semaphore_t = dispatch_semaphore_create(2)
+	var engine : LineEngine
+    var semaphore : dispatch_semaphore_t
     
-    var line : Line = OrderedPolyLine(resource: DeviceResource.defaultResource(), vertexCapacity:(1<<13) );
-    var projection : UniformProjection = UniformProjection(resource: DeviceResource.defaultResource())
+	var series : OrderedSeries
+    var line : Line
+    var projection : UniformProjection
+	
+	override init() {
+		asChart = true
+		let res = DeviceResource.defaultResource()
+		engine = LineEngine(resource:res)
+		semaphore = dispatch_semaphore_create(2)
+		series = OrderedSeries(resource:res, vertexCapacity:(1<<13))
+		line = OrderedPolyLine(resource:res, orderedSeries:series, engine:engine)
+		projection = UniformProjection(resource:res)
+		if(asChart) {
+			line.setSampleData()
+			series.info.count = 5
+			series.info.offset = 0
+		}
+	}
     
     func setMTLViewProperties(view: MTKView) {
         let size : CGSize = view.bounds.size
@@ -77,24 +93,16 @@ class ViewController: UIViewController {
 			line.setSampleAttributes()
 			line.appendSampleData(countAdd)
 			
-			if( line.info.count >= line.vertices.capacity ) {
-				line.info.offset += countAdd;
+			if( series.info.count >= series.vertices.capacity ) {
+				series.info.offset += countAdd;
 			} else {
-				line.info.count += countAdd
+				series.info.count += countAdd
 			}
 			
 			projection.setValueScale(CGSizeMake(CGFloat(countDraw/2), size.height/size.width * 5))
-			let count = max(0, Int(line.info.offset + line.info.count) - Int(countDraw/4))
+			let count = max(0, Int(series.info.offset + series.info.count) - Int(countDraw/4))
 			let ox = Float(count)
 			projection.setOrigin(CGPointMake(-2 * CGFloat(ox/Float(countDraw)), 0))
-			
-		} else {
-			if(!isLineInitialized) {
-				line.setSampleData()
-				isLineInitialized = true
-				line.info.count = 5
-				line.info.offset = 0
-			}
 			
 		}
         
@@ -104,7 +112,7 @@ class ViewController: UIViewController {
 		let queue = DeviceResource.defaultResource().queue
 		let buffer = queue.commandBuffer()
 		
-        line.encodeTo(buffer, renderPass: pass, projection: projection, engine: engine)
+        line.encodeTo(buffer, renderPass: pass, projection: projection)
         
         buffer.addCompletedHandler { (buffer) -> Void in
             dispatch_semaphore_signal(semaphore)

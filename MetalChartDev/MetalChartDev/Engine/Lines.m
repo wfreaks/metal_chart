@@ -10,29 +10,51 @@
 
 @interface Line()
 
-@property (strong, nonatomic) VertexBuffer *vertices;
-@property (strong, nonatomic) UniformSeriesInfo *info;
+- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+											series:(id<Series> _Nonnull)series
+											engine:(LineEngine * _Nonnull)engine
+;
 
 @end
+
+
+
+@interface OrderedSeparatedLine()
+
+@property (strong, nonatomic) OrderedSeries * _Nonnull orderedSeries;
+
+@end
+
+
+
+@interface OrderedPolyLine()
+
+@property (strong, nonatomic) OrderedSeries * _Nonnull orderedSeries;
+
+@end
+
+
 
 @interface IndexedPolyLine()
 
-@property (strong, nonatomic) IndexBuffer *indices;
+@property (strong, nonatomic) IndexedSeries * _Nonnull indexedSeries;
 
 @end
 
+
+
+
 @implementation Line
 
-- (id)initWithResource:(DeviceResource *)resource
-        vertexCapacity:(NSUInteger)vertCapacity
+- (instancetype)initWithResource:(DeviceResource *)resource
+				series:(id<Series> _Nonnull)series
+				engine:(LineEngine * _Nonnull)engine
 {
     self = [super init];
     if(self) {
-        _vertices = [[VertexBuffer alloc] initWithResource:resource capacity:vertCapacity];
-        _info = [[UniformSeriesInfo alloc] initWithResource:resource];
-        _attributes = [[UniformLineAttributes alloc] initWithResource:resource];
-        
-        [_info info]->vertex_capacity = (uint32_t)vertCapacity;
+		_series = series;
+		_engine = engine;
+		_attributes = [[UniformLineAttributes alloc] initWithResource:resource];
     }
     return self;
 }
@@ -40,7 +62,6 @@
 - (void)encodeTo:(id<MTLCommandBuffer>)command
       renderPass:(MTLRenderPassDescriptor *)pass
       projection:(UniformProjection *)projection
-          engine:(LineEngine *)engine
 {
     
 }
@@ -48,14 +69,15 @@
 
 - (void)setSampleData
 {
-	const NSUInteger vCount = self.vertices.capacity;
+	VertexBuffer *vertices = self.series.vertices;
+	const NSUInteger vCount = vertices.capacity;
 	for(int i = 0; i < vCount; ++i) {
-		vertex_buffer *v = [self.vertices bufferAtIndex:i];
+		vertex_buffer *v = [vertices bufferAtIndex:i];
 		const float range = 0.5;
 		v->position.x = ((2 * ((i  ) % 2)) - 1) * range;
 		v->position.y = ((2 * ((i/2) % 2)) - 1) * range;
 	}
-	self.info.offset = 0;
+	self.series.info.offset = 0;
 	
 	[self setSampleAttributes];
 }
@@ -79,10 +101,11 @@ static double gaussian() {
 
 - (void)appendSampleData:(NSUInteger)count
 {
-	const NSUInteger capacity = self.vertices.capacity;
-	const NSUInteger idx_start = self.info.offset + self.info.count;
+	VertexBuffer *vertices = self.series.vertices;
+	const NSUInteger capacity = vertices.capacity;
+	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
 	for(NSUInteger i = 0; i < count; ++i) {
-		vertex_buffer *v = [self.vertices bufferAtIndex:(idx_start+i)%capacity];
+		vertex_buffer *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
 		v->position.x = idx_start + i;
 		v->position.y = gaussian() * 0.5;
 	}
@@ -94,18 +117,28 @@ static double gaussian() {
 
 @implementation OrderedSeparatedLine
 
+- (instancetype)initWithResource:(DeviceResource *)resource
+				   orderedSeries:(OrderedSeries * _Nonnull)series
+						  engine:(LineEngine * _Nonnull)engine
+{
+	self = [super initWithResource:resource series:series engine:engine];
+	if(self) {
+		_orderedSeries = series;
+	}
+	return self;
+}
+
 - (void)encodeTo:(id<MTLCommandBuffer>)command
 	  renderPass:(MTLRenderPassDescriptor *)pass
 	  projection:(UniformProjection *)projection
-		  engine:(LineEngine *)engine
 {
-	[engine encodeTo:command
+	[self.engine encodeTo:command
 				pass:pass
-			  vertex:self.vertices
+			  vertex:self.series.vertices
 			   index:nil
 		  projection:projection
 		  attributes:self.attributes
-		  seriesInfo:self.info
+		  seriesInfo:self.series.info
 		   separated:YES];
 }
 
@@ -113,18 +146,28 @@ static double gaussian() {
 
 @implementation OrderedPolyLine
 
+- (instancetype)initWithResource:(DeviceResource *)resource
+				   orderedSeries:(OrderedSeries * _Nonnull)series
+						  engine:(LineEngine * _Nonnull)engine
+{
+	self = [super initWithResource:resource series:series engine:engine];
+	if(self) {
+		_orderedSeries = series;
+	}
+	return self;
+}
+
 - (void)encodeTo:(id<MTLCommandBuffer>)command
       renderPass:(MTLRenderPassDescriptor *)pass
       projection:(UniformProjection *)projection
-          engine:(LineEngine *)engine
 {
-    [engine encodeTo:command
+    [self.engine encodeTo:command
                 pass:pass
-              vertex:self.vertices
+              vertex:self.series.vertices
                index:nil
           projection:projection
           attributes:self.attributes
-          seriesInfo:self.info
+          seriesInfo:self.series.info
 		   separated:NO];
 }
 
@@ -132,15 +175,13 @@ static double gaussian() {
 
 @implementation IndexedPolyLine
 
-- (id)initWithResource:(DeviceResource *)resource
-		VertexCapacity:(NSUInteger)vertCapacity
-		 indexCapacity:(NSUInteger)idxCapacity
+- (instancetype)initWithResource:(DeviceResource *)resource
+				   indexedSeries:(IndexedSeries * _Nonnull)series
+						  engine:(LineEngine * _Nonnull)engine
 {
-	self = [super initWithResource:resource vertexCapacity:vertCapacity];
+	self = [super initWithResource:resource series:series engine:engine];
 	if(self) {
-		_indices = [[IndexBuffer alloc] initWithResource:resource capacity:idxCapacity];
-		
-		[self.info info]->index_capacity = (uint32_t)idxCapacity;
+		_indexedSeries = series;
 	}
 	return self;
 }
@@ -152,11 +193,11 @@ static double gaussian() {
 {
     [engine encodeTo:command
                 pass:pass
-              vertex:self.vertices
-               index:self.indices
+              vertex:self.series.vertices
+               index:self.indexedSeries.indices
           projection:projection
           attributes:self.attributes
-          seriesInfo:self.info
+          seriesInfo:self.series.info
 		   separated:NO];
 }
 
