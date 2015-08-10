@@ -57,7 +57,7 @@ class ViewController: UIViewController {
     }
     
     func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {
-//        projection.setPhysicalSize(size) // ios 9 beta 5 でシグニチャが変更され、このサイズもピクセルベースになった。
+//        projection.setPhysicalSize(size) // ios 9 beta 5 でシグニチャが変更され、sizeもbounds.sizeからピクセル単位になった。
         projection.setPixelSize(size)
         projection.setValueScale(CGSizeMake(1, size.height/size.width))
     }
