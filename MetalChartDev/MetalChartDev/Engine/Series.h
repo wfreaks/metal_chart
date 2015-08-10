@@ -9,7 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "Buffers.h"
 
-@interface OrderedSeries : NSObject
+@protocol Series<NSObject>
+
+- (VertexBuffer * _Nonnull)vertices;
+- (UniformSeriesInfo * _Nonnull)info;
+
+@end
+
+@interface OrderedSeries : NSObject<Series>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
@@ -19,7 +26,7 @@
 
 @end
 
-@interface IndexedSeries : NSObject
+@interface IndexedSeries : NSObject<Series>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) IndexBuffer * _Nonnull indices;
