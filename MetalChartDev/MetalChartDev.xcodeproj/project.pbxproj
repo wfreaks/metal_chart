@@ -10,6 +10,7 @@
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA0216611B70C66900E809F0 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD430E1B708D1300A83B69 /* MetalKit.framework */; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
+		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA88E5331B74C9D40004AA4E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52C1B74C9D40004AA4E /* Buffers.mm */; };
 		AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52E1B74C9D40004AA4E /* LineEngine.m */; };
 		AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */; };
@@ -44,6 +45,8 @@
 /* Begin PBXFileReference section */
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
+		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
+		AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectionUpdater.m; sourceTree = "<group>"; };
 		AA88E52B1B74C9D40004AA4E /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
 		AA88E52C1B74C9D40004AA4E /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
 		AA88E52D1B74C9D40004AA4E /* LineEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngine.h; sourceTree = "<group>"; };
@@ -69,7 +72,6 @@
 		AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MetalChartDev-Bridging-Header.h"; sourceTree = "<group>"; };
 		AAB585111B6F0E1F00480AAE /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceResource.h; sourceTree = "<group>"; };
 		AAB585121B6F0E1F00480AAE /* DeviceResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceResource.m; sourceTree = "<group>"; };
-		AAB585151B712A4B00480AAE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AACD430E1B708D1300A83B69 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -122,6 +124,8 @@
 				AA88E5381B74E59A0004AA4E /* chart_common.h */,
 				AA67A83D1B774196005EEA8D /* MetalChart.h */,
 				AA67A83E1B774196005EEA8D /* MetalChart.m */,
+				AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */,
+				AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -129,7 +133,6 @@
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
-				AAB585151B712A4B00480AAE /* CoreGraphics.framework */,
 				AACD43101B708EB300A83B69 /* Metal.framework */,
 				AACD430E1B708D1300A83B69 /* MetalKit.framework */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
@@ -324,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
 				AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */,
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
