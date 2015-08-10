@@ -21,7 +21,7 @@
 @end
 
 
-@interface MCDimProjection : NSObject
+@interface MCDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
 @property (assign  , nonatomic) CGFloat     min;
@@ -38,11 +38,11 @@
 @end
 
 
-@interface MCSpaceProjection : NSObject
+@interface MCSpatialProjection : NSObject
 
-@property (readonly, nonatomic) NSArray<MCDimProjection *> * _Nonnull dimensions;
+@property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
 
-- (_Null_unspecified instancetype)initWithDimensions:(NSArray<MCDimProjection *> * _Nonnull)dimensions;
+- (_Null_unspecified instancetype)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
 
 - (NSUInteger)rank;
 
@@ -58,13 +58,13 @@
 - (_Null_unspecified instancetype)init;
 
 - (void)addSeries:(id<MCRenderable> _Nonnull)series
-	   projection:(MCSpaceProjection * _Nonnull)projection
+	   projection:(MCSpatialProjection * _Nonnull)projection
 ;
 
 - (void)removeSeries:(id<MCRenderable> _Nonnull)series;
 
 - (NSArray<id<MCRenderable>> * _Nonnull)series;
 
-- (NSArray<MCSpaceProjection *> * _Nonnull)projections;
+- (NSArray<MCSpatialProjection *> * _Nonnull)projections;
 
 @end

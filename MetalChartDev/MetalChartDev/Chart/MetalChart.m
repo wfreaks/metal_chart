@@ -9,15 +9,15 @@
 #import "MetalChart.h"
 #import "Buffers.h"
 
-@interface MCDimProjection()
+@interface MCDimensionalProjection()
 
 
 @end
 
 
-@interface MCSpaceProjection()
+@interface MCSpatialProjection()
 
-@property (strong, nonatomic) NSArray<MCDimProjection *> * _Nonnull dimensions;
+@property (strong, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
 @property (strong, nonatomic) UniformProjection * _Nonnull projection;
 
 @end
@@ -26,14 +26,14 @@
 @interface MetalChart()
 
 @property (strong, nonatomic) NSArray<id<MCRenderable>> *series;
-@property (strong, nonatomic) NSArray<MCSpaceProjection *> *projections;
-@property (strong, nonatomic) NSSet<MCSpaceProjection *> *projectionSet;
+@property (strong, nonatomic) NSArray<MCSpatialProjection *> *projections;
+@property (strong, nonatomic) NSSet<MCSpatialProjection *> *projectionSet;
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
 @end
 
 
-@implementation MCDimProjection
+@implementation MCDimensionalProjection
 
 - (instancetype)initWithDimensionId:(NSInteger)dimId minValue:(CGFloat)min maxValue:(CGFloat)max
 {
@@ -77,9 +77,9 @@
 @end
 
 
-@implementation MCSpaceProjection
+@implementation MCSpatialProjection
 
-- (instancetype)initWithDimensions:(NSArray<MCDimProjection *> *)dimensions
+- (instancetype)initWithDimensions:(NSArray<MCDimensionalProjection *> *)dimensions
 {
 	self = [super init];
 	if(self) {
@@ -96,8 +96,8 @@
 
 - (void)writeToBuffer
 {
-	MCDimProjection *xDim = _dimensions[0];
-	MCDimProjection *yDim = _dimensions[1];
+	MCDimensionalProjection *xDim = _dimensions[0];
+	MCDimensionalProjection *yDim = _dimensions[1];
 	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
 	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
@@ -133,11 +133,11 @@
 - (void)drawInMTKView:(MTKView *)view
 {
 	NSArray<id<MCRenderable>> *seriesArray = nil;
-	NSArray<MCSpaceProjection *> *projectionArray = nil;
+	NSArray<MCSpatialProjection *> *projectionArray = nil;
 	@synchronized(self) {
 		seriesArray = _series;
 		projectionArray = _projections;
-		for(MCSpaceProjection *projection in _projectionSet) {
+		for(MCSpatialProjection *projection in _projectionSet) {
 			[projection configure:view];
 			[projection writeToBuffer];
 		}
@@ -156,7 +156,7 @@
 			const NSUInteger count = seriesArray.count;
 			for(NSUInteger i = 0; i < count; ++i) {
 				id<MCRenderable> series = seriesArray[i];
-				MCSpaceProjection *projection = projectionArray[i];
+				MCSpatialProjection *projection = projectionArray[i];
 				[series renderWithCommandBuffer:buffer renderPass:pass projection:projection.projection];
 			}
 		}
@@ -174,7 +174,7 @@
 	}
 }
 
-- (void)addSeries:(id<MCRenderable>)series projection:(MCSpaceProjection *)projection
+- (void)addSeries:(id<MCRenderable>)series projection:(MCSpatialProjection *)projection
 {
 	@synchronized(self) {
 		if(![_series containsObject:series]) {
@@ -192,7 +192,7 @@
 	@synchronized(self) {
 		const NSUInteger idx = [_series indexOfObject:series];
 		if(idx != NSNotFound) {
-			MCSpaceProjection *proj = _projections[idx];
+			MCSpatialProjection *proj = _projections[idx];
 			NSMutableArray *newSeries = [_series mutableCopy];
 			NSMutableArray *newProjections = [_projectionSet mutableCopy];
 			
