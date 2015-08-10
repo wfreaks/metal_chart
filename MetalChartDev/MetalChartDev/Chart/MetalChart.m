@@ -30,6 +30,9 @@
 @property (strong, nonatomic) NSSet<MCSpatialProjection *> *projectionSet;
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
+- (void)handlePanning:(UIPanGestureRecognizer * _Nonnull)recognizer;
+- (void)handlePinching:(UIPinchGestureRecognizer * _Nonnull)recognizer;
+
 @end
 
 
@@ -211,4 +214,42 @@
 	}
 }
 
+- (void)addToPanRecognizer:(UIPanGestureRecognizer *)recognizer
+{
+	[recognizer addTarget:self action:@selector(handlePanning:)];
+}
+
+- (void)removeFromPanRecognizer:(UIPanGestureRecognizer *)recognizer
+{
+	[recognizer removeTarget:self action:@selector(handlePanning:)];
+}
+
+- (void)handlePanning:(UIPanGestureRecognizer *)recognizer
+{
+	
+}
+
+- (void)addToPinchRecognizer:(UIPinchGestureRecognizer *)recognizer
+{
+	[recognizer addTarget:self action:@selector(handlePinching:)];
+}
+
+- (void)removeFromPinchRecognizer:(UIPinchGestureRecognizer *)recognizer
+{
+	[recognizer removeTarget:self action:@selector(handlePinching:)];
+}
+
+- (void)handlePinching:(UIPinchGestureRecognizer *)recognizer
+{
+	
+}
+
 @end
+
+
+
+
+
+
+
+

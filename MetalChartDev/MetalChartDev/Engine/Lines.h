@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LineEngine.h"
 #import "Buffers.h"
+#import "Series.h"
 
 @interface Line : NSObject
 
@@ -31,8 +32,9 @@
 
 - (void)appendSampleData:(NSUInteger)count;
 
-
 @end
+
+
 
 
 @interface OrderedSeparatedLine : Line
@@ -40,9 +42,15 @@
 @end
 
 
+
+
+
 @interface OrderedPolyLine : Line
 
 @end
+
+
+
 
 @interface IndexedPolyLine : Line
 

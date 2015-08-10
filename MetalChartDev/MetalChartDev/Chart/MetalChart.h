@@ -67,4 +67,10 @@
 
 - (NSArray<MCSpatialProjection *> * _Nonnull)projections;
 
+- (void)addToPanRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
+- (void)removeFromPanRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
+
+- (void)addToPinchRecognizer:(UIPinchGestureRecognizer * _Nonnull)recognizer;
+- (void)removeFromPinchRecognizer:(UIPinchGestureRecognizer * _Nonnull)recognizer;
+
 @end
