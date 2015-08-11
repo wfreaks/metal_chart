@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = false
+	let asChart = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -56,7 +56,6 @@ class ViewController: UIViewController {
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
 			line.setSampleAttributes()
-			line.attributes.enableOverlay = false;
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
@@ -83,10 +82,7 @@ class ViewController: UIViewController {
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
 			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
 			line.setSampleData()
-			line.attributes.enableOverlay = false;
-			line.attributes.setWidth(10)
-			series.info.count = 3
-			series.info.offset = 1
+			series.info.count = 5
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
