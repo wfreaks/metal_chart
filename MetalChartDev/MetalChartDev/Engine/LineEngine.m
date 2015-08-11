@@ -39,7 +39,7 @@
                                                 indexed:(BOOL)indexed
 											  separated:(BOOL)separated
 {
-	NSString *label = [NSString stringWithFormat:@"PolyLineEngineIndexed_%lu", (unsigned long)count];
+	NSString *label = [NSString stringWithFormat:@"%@LineEngine%@%@_%lu", (separated ? @"Separated" : @"Poly"), (indexed ? @"Indexed" : @"Ordered"), (writeDepth ? @"WriteDepth" : @"NoDepth"), (unsigned long)count];
 	id<MTLRenderPipelineState> state = resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
@@ -104,6 +104,12 @@
     [encoder pushDebugGroup:@"DrawLine"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
+	
+	const CGSize ps = projection.physicalSize;
+	const RectPadding pr = projection.padding;
+	const CGFloat scale = projection.screenScale;
+	MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
+	[encoder setScissorRect:rect];
     
     NSUInteger idx = 0;
     [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:idx++];

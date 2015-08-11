@@ -16,6 +16,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
+	let asChart = false
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,7 +30,7 @@ class ViewController: UIViewController {
         metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
-		metalView.preferredFramesPerSecond = 30
+		metalView.preferredFramesPerSecond = 60
 		
 		setupChart()
 		metalView.delegate = chart
@@ -42,30 +43,54 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		
-		let yRange : CGFloat = CGFloat(5)
-		let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
-		let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -yRange, maxValue: yRange)
-		let space = MCSpatialProjection(dimensions: [dimX, dimY])
-		
-		let engine = LineEngine(resource: resource)
-		let series = OrderedSeries(resource: resource, vertexCapacity: 1<<12)
-		let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
-		line.setSampleAttributes()
-		
-		let lineSeries = MCLineSeries(line: line)
-		
-		let xUpdater = MCProjectionUpdater(target: dimX)
-		xUpdater.addRestriction(MCLengthRestriction(length: 256, anchor: 1, offset:32))
-		xUpdater.addRestriction(MCAlternativeSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
-		
-		chart.willDraw = { (mc : MetalChart) -> Void in
-			line.appendSampleData(1, maxVertexCount:512) { (Float x, Float y) in
-				xUpdater.addSourceValue(CGFloat(x), update: false)
+		if (asChart) {
+			let yRange : CGFloat = CGFloat(5)
+			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
+			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -yRange, maxValue: yRange)
+			let space = MCSpatialProjection(dimensions: [dimX, dimY])
+			
+			let vertCapacity : UInt = 1<<9
+			let vertLength = 1 << 8
+			let vertOffset = 1 << 4
+			let engine = LineEngine(resource: resource)
+			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
+			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
+			line.setSampleAttributes()
+			line.attributes.enableOverlay = false;
+			
+			let xUpdater = MCProjectionUpdater(target: dimX)
+			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
+			xUpdater.addRestriction(MCAlternativeSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+			
+			chart.padding = RectPadding(left: 30, top: 0, right: 0, bottom: 30);
+			
+			chart.willDraw = { (mc : MetalChart) -> Void in
+				line.appendSampleData((1<<0), maxVertexCount:vertCapacity) { (Float x, Float y) in
+					xUpdater.addSourceValue(CGFloat(x), update: false)
+				}
+				xUpdater.updateTarget()
 			}
-			xUpdater.updateTarget()
+			
+			let lineSeries = MCLineSeries(line: line)
+			chart.addSeries(lineSeries, projection: space)
+			
+		} else {
+			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
+			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -1, maxValue: 1)
+			let space = MCSpatialProjection(dimensions: [dimX, dimY])
+			
+			let engine = LineEngine(resource: resource)
+			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
+			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
+			line.setSampleData()
+			line.attributes.enableOverlay = false;
+			line.attributes.setWidth(10)
+			series.info.count = 3
+			series.info.offset = 1
+			
+			let lineSeries = MCLineSeries(line: line)
+			chart.addSeries(lineSeries, projection: space)
 		}
-		
-		chart.addSeries(lineSeries, projection: space)
 	}
 }
 

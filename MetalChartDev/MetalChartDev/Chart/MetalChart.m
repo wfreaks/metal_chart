@@ -105,11 +105,12 @@
 	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
 
-- (void)configure:(MTKView *)view
+- (void)configure:(MTKView *)view padding:(RectPadding)padding
 {
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setSampleCount:view.sampleCount];
 	[_projection setColorPixelFormat:view.colorPixelFormat];
+	[_projection setPadding:padding];
 }
 
 @end
@@ -146,7 +147,7 @@
 		seriesArray = _series;
 		projectionArray = _projections;
 		for(MCSpatialProjection *projection in _projectionSet) {
-			[projection configure:view];
+			[projection configure:view padding:_padding];
 			[projection writeToBuffer];
 		}
 	}

@@ -87,7 +87,6 @@
 	UniformLineAttributes *attributes = self.attributes;
 	[attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
 	[attributes setWidth:3];
-	[attributes setModifyAlphaOnEdge:YES];
 	attributes.enableOverlay = YES;
 }
 
@@ -144,13 +143,13 @@ static double gaussian() {
 	  projection:(UniformProjection *)projection
 {
 	[self.engine encodeTo:command
-				pass:pass
-			  vertex:self.series.vertices
-			   index:nil
-		  projection:projection
-		  attributes:self.attributes
-		  seriesInfo:self.series.info
-		   separated:YES];
+					 pass:pass
+				   vertex:self.series.vertices
+					index:nil
+			   projection:projection
+			   attributes:self.attributes
+			   seriesInfo:self.series.info
+				separated:YES];
 }
 
 @end
@@ -173,13 +172,13 @@ static double gaussian() {
       projection:(UniformProjection *)projection
 {
     [self.engine encodeTo:command
-                pass:pass
-              vertex:self.series.vertices
-               index:nil
-          projection:projection
-          attributes:self.attributes
-          seriesInfo:self.series.info
-		   separated:NO];
+					 pass:pass
+				   vertex:self.series.vertices
+					index:nil
+			   projection:projection
+			   attributes:self.attributes
+			   seriesInfo:self.series.info
+				separated:NO];
 }
 
 @end

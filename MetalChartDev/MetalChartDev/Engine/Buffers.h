@@ -1,4 +1,4 @@
-//
+ //
 //  VertexBuffer.h
 //  MetalChartDev
 //
@@ -67,18 +67,21 @@
 
 
 
+// このクラスだけScissorRectやらscreenScaleやらを考慮した上でvalueOffsetとかsizeとvalueScaleを
+// 設定しなければいけないので煩雑になる。
 
 @interface UniformProjection : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) CGFloat screenScale;
 @property (assign, nonatomic) NSUInteger sampleCount;
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
+@property (assign, nonatomic) CGSize physicalSize;
+@property (assign, nonatomic) RectPadding padding;
 
 - (id)initWithResource:(DeviceResource *)resource;
 
 - (uniform_projection *)projection;
-
-- (void)setPhysicalSize:(CGSize)size;
 
 - (void)setPixelSize:(CGSize)size;
 
@@ -106,7 +109,6 @@
 
 - (void)setWidth:(CGFloat)width;
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setModifyAlphaOnEdge:(BOOL)modify;
 
 @end
 

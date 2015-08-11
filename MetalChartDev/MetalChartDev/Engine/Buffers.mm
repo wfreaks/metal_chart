@@ -128,7 +128,8 @@
     self = [super init];
     if(self) {
         _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        [self projection]->screen_scale = [UIScreen mainScreen].scale;
+		_screenScale = [UIScreen mainScreen].scale;
+        [self projection]->screen_scale = _screenScale;
     }
     return self;
 }
@@ -140,6 +141,7 @@
 
 - (void)setPhysicalSize:(CGSize)size
 {
+	_physicalSize = size;
     uniform_projection *ptr = [self projection];
     ptr->physical_size = vector2((float)size.width, (float)size.height);
 }
@@ -148,7 +150,11 @@
 {
     const CGFloat scale = [UIScreen mainScreen].scale;
     uniform_projection *ptr = [self projection];
-    ptr->physical_size = vector2((float)(size.width/scale), (float)(size.height/scale));
+	const CGFloat w = (size.width/scale);
+	const CGFloat h = (size.height/scale);
+	_physicalSize.width = w;
+	_physicalSize.height = h;
+    ptr->physical_size = vector2((float)w, (float)h);
 }
 
 - (void)setValueScale:(CGSize)scale
@@ -167,6 +173,13 @@
 {
     uniform_projection *ptr = [self projection];
     ptr->value_offset = vector2((float)offset.width, (float)offset.height);
+}
+
+- (void)setPadding:(RectPadding)padding
+{
+	_padding = padding;
+	uniform_projection *ptr = [self projection];
+	ptr->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
 }
 
 @end
@@ -201,6 +214,12 @@
 - (void)setModifyAlphaOnEdge:(BOOL)modify
 {
     [self attributes]->modify_alpha_on_edge = (modify ? 1 : 0);
+}
+
+- (void)setEnableOverlay:(BOOL)enableOverlay
+{
+	_enableOverlay = enableOverlay;
+	[self setModifyAlphaOnEdge:enableOverlay];
 }
 
 @end

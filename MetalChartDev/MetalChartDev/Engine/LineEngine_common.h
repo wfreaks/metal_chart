@@ -10,10 +10,19 @@
 #define LineEngine_common_h
 
 #include <simd/simd.h>
+#include <CoreGraphics/CGGeometry.h>
+
+typedef struct RectPadding {
+	CGFloat left;
+	CGFloat top;
+	CGFloat right;
+	CGFloat bottom;
+} RectPadding;
 
 typedef struct uniform_projection {
     vector_float2 physical_size;
     float screen_scale;
+	vector_float4 rect_padding;
     
     vector_float2 origin;
     vector_float2 value_scale;

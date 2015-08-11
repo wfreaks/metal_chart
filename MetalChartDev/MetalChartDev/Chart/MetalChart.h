@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MetalKit/MetalKit.h>
+#import "LineEngine_common.h"
 
 @class UniformProjection;
 
@@ -48,15 +49,16 @@
 
 - (void)writeToBuffer;
 
-- (void)configure:(MTKView * _Nonnull)view;
+- (void)configure:(MTKView * _Nonnull)view padding:(RectPadding)padding;
 
 @end
 
 
 @interface MetalChart : NSObject<MTKViewDelegate>
 
-@property (copy, nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
-@property (copy, nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
+@property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
+@property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
+@property (assign , nonatomic) RectPadding padding;
 
 - (_Null_unspecified instancetype)init;
 
