@@ -10,9 +10,8 @@
 
 @interface Line()
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
-											series:(id<Series> _Nonnull)series
-											engine:(LineEngine * _Nonnull)engine
+- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+										  series:(id<Series> _Nonnull)series
 ;
 
 @end
@@ -46,12 +45,12 @@
 
 @implementation Line
 
-- (instancetype)initWithResource:(DeviceResource *)resource
-				series:(id<Series> _Nonnull)series
-				engine:(LineEngine * _Nonnull)engine
+- (instancetype)initWithEngine:(LineEngine *)engine
+						series:(id<Series> _Nonnull)series
 {
     self = [super init];
     if(self) {
+		DeviceResource *resource = engine.resource;
 		_series = series;
 		_engine = engine;
 		_attributes = [[UniformLineAttributes alloc] initWithResource:resource];
@@ -127,11 +126,10 @@ static double gaussian() {
 
 @implementation OrderedSeparatedLine
 
-- (instancetype)initWithResource:(DeviceResource *)resource
-				   orderedSeries:(OrderedSeries * _Nonnull)series
-						  engine:(LineEngine * _Nonnull)engine
+- (instancetype)initWithEngine:(LineEngine *)engine
+				orderedSeries:(OrderedSeries * _Nonnull)series
 {
-	self = [super initWithResource:resource series:series engine:engine];
+	self = [super initWithEngine:engine series:series];
 	if(self) {
 		_orderedSeries = series;
 	}
@@ -156,11 +154,10 @@ static double gaussian() {
 
 @implementation OrderedPolyLine
 
-- (instancetype)initWithResource:(DeviceResource *)resource
-				   orderedSeries:(OrderedSeries * _Nonnull)series
-						  engine:(LineEngine * _Nonnull)engine
+- (instancetype)initWithEngine:(LineEngine *)engine
+				 orderedSeries:(OrderedSeries * _Nonnull)series
 {
-	self = [super initWithResource:resource series:series engine:engine];
+	self = [super initWithEngine:engine series:series];
 	if(self) {
 		_orderedSeries = series;
 	}
@@ -185,11 +182,10 @@ static double gaussian() {
 
 @implementation IndexedPolyLine
 
-- (instancetype)initWithResource:(DeviceResource *)resource
-				   indexedSeries:(IndexedSeries * _Nonnull)series
-						  engine:(LineEngine * _Nonnull)engine
+- (instancetype)initWithEngine:(LineEngine *)engine
+				 indexedSeries:(IndexedSeries * _Nonnull)series
 {
-	self = [super initWithResource:resource series:series engine:engine];
+	self = [super initWithEngine:engine series:series];
 	if(self) {
 		_indexedSeries = series;
 	}

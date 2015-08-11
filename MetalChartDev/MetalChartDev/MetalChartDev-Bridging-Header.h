@@ -11,4 +11,5 @@
 #import "Chart/MCProjectionUpdater.h"
 #import "Chart/MCRestrictions.h"
 #import "Chart/MCRenderables.h"
+#import "Chart/MCAxis.h"
 

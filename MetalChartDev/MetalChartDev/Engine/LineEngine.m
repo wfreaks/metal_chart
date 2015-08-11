@@ -60,7 +60,7 @@
         cd.sourceAlphaBlendFactor = MTLBlendFactorOne;
         cd.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
         cd.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
-        
+		
         desc.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
         desc.stencilAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
         
@@ -93,6 +93,7 @@
       seriesInfo:(UniformSeriesInfo *)info
 	   separated:(BOOL)separated
 {
+	NSLog(@"starting line...");
     const NSUInteger sampleCount = projection.sampleCount;
     const MTLPixelFormat colorFormat = projection.colorPixelFormat;
     const BOOL writeDepth = ! attributes.enableOverlay;
@@ -128,6 +129,8 @@
         const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
         [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
     }
+	
+	[encoder popDebugGroup];
     [encoder endEncoding];
 }
 

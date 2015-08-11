@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
-		metalView.preferredFramesPerSecond = 60
+		metalView.preferredFramesPerSecond = 1
 		
 		setupChart()
 		metalView.delegate = chart
@@ -54,8 +54,16 @@ class ViewController: UIViewController {
 			let vertOffset = 1 << 4
 			let engine = LineEngine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
-			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
+			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleAttributes()
+			
+			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1);
+			xAxis.anchorPoint = 0;
+			xAxis.anchorToProjection = false;
+			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2);
+			yAxis.anchorPoint = 0;
+			yAxis.anchorToProjection = false;
+			
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
@@ -71,7 +79,9 @@ class ViewController: UIViewController {
 			}
 			
 			let lineSeries = MCLineSeries(line: line)
-			chart.addSeries(lineSeries, projection: space)
+//			chart.addSeries(lineSeries, projection: space)
+			chart.addPreRenderable(yAxis)
+			chart.addPreRenderable(xAxis)
 			
 		} else {
 			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
@@ -80,7 +90,7 @@ class ViewController: UIViewController {
 			
 			let engine = LineEngine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
-			let line = OrderedPolyLine(resource: resource, orderedSeries: series, engine: engine)
+			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleData()
 			series.info.count = 5
 			

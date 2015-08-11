@@ -11,6 +11,7 @@
 #import "LineEngine_common.h"
 
 @class UniformProjection;
+@class MetalChart;
 
 @protocol MCRenderable <NSObject>
 
@@ -20,6 +21,31 @@
 ;
 
 @end
+
+
+
+@protocol MCPreRenderable <NSObject>
+
+- (void)willEncodeTo:(id<MTLCommandBuffer> _Nonnull)buffer
+		  renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
+			   chart:(MetalChart * _Nonnull)chart
+				view:(MTKView * _Nonnull)view
+;
+
+@end
+
+
+
+@protocol MCPostRenderable <NSObject>
+
+- (void)didEncodeTo:(id<MTLCommandBuffer> _Nonnull)buffer
+		  renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
+			   chart:(MetalChart * _Nonnull)chart
+				view:(MTKView * _Nonnull)view
+;
+
+@end
+
 
 
 @interface MCDimensionalProjection : NSObject
@@ -51,6 +77,8 @@
 
 - (void)configure:(MTKView * _Nonnull)view padding:(RectPadding)padding;
 
+- (MCDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
+
 @end
 
 
@@ -67,6 +95,12 @@
 ;
 
 - (void)removeSeries:(id<MCRenderable> _Nonnull)series;
+
+- (void)addPreRenderable:(id<MCPreRenderable> _Nonnull)object;
+- (void)removePreRenderable:(id<MCPreRenderable> _Nonnull)object;
+
+- (void)addPostRenderable:(id<MCPostRenderable> _Nonnull)object;
+- (void)removePostRenderable:(id<MCPostRenderable> _Nonnull)object;
 
 - (NSArray<id<MCRenderable>> * _Nonnull)series;
 

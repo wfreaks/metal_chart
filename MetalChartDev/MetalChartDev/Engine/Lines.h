@@ -38,9 +38,8 @@
 
 @interface OrderedSeparatedLine : Line
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
-									 orderedSeries:(OrderedSeries * _Nonnull)series
-											engine:(LineEngine * _Nonnull)engine
+- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+								   orderedSeries:(OrderedSeries * _Nonnull)series
 ;
 
 @end
@@ -51,9 +50,8 @@
 
 @interface OrderedPolyLine : Line
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
-									 orderedSeries:(OrderedSeries * _Nonnull)series
-											engine:(LineEngine * _Nonnull)engine
+- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+								   orderedSeries:(OrderedSeries * _Nonnull)series
 ;
 
 @end
@@ -63,9 +61,8 @@
 
 @interface IndexedPolyLine : Line
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
-									 indexedSeries:(IndexedSeries * _Nonnull)series
-											engine:(LineEngine * _Nonnull)engine
+- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+								   indexedSeries:(IndexedSeries * _Nonnull)series
 ;
 
 
