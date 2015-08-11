@@ -128,6 +128,7 @@
 	if(self) {
 		_dimensions = [NSArray arrayWithArray:dimensions];
 		_projection = [[UniformProjection alloc] initWithResource:[DeviceResource defaultResource]];
+		_projection.enableScissor = YES;
 	}
 	return self;
 }

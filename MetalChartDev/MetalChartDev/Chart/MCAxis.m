@@ -16,9 +16,6 @@
 @property (strong, nonatomic) OrderedSeries *series;
 @property (strong, nonatomic) OrderedPolyLine *line;
 @property (strong, nonatomic) UniformProjection *projectionBuffer;
-
-@property (assign, nonatomic) MetalChart *currentChart;
-@property (assign, nonatomic) MTKView *currentView;
 @property (assign, nonatomic) NSUInteger dimOrder;
 
 @end
@@ -64,14 +61,10 @@
 - (void)configureWithChart:(MetalChart *)chart
 					  view:(MTKView *)view
 {
-//	if(_currentChart != chart || _currentView != view) {
-		_currentChart = chart;
-		_currentView = view;
-		_projectionBuffer.sampleCount = view.sampleCount;
-		_projectionBuffer.physicalSize = view.bounds.size;
-		_projectionBuffer.colorPixelFormat = view.colorPixelFormat;
-		_projectionBuffer.padding = chart.padding;
-//	}
+	_projectionBuffer.sampleCount = view.sampleCount;
+	_projectionBuffer.physicalSize = view.bounds.size;
+	_projectionBuffer.colorPixelFormat = view.colorPixelFormat;
+	_projectionBuffer.padding = chart.padding;
 }
 
 - (void)configureVertex

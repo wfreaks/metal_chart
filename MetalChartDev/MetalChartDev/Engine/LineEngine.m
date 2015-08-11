@@ -105,8 +105,13 @@
 	const CGSize ps = projection.physicalSize;
 	const RectPadding pr = projection.padding;
 	const CGFloat scale = projection.screenScale;
-	MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-	[encoder setScissorRect:rect];
+	if(projection.enableScissor) {
+		MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
+		[encoder setScissorRect:rect];
+	} else {
+		MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
+		[encoder setScissorRect:rect];
+	}
     
     NSUInteger idx = 0;
     [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:idx++];
