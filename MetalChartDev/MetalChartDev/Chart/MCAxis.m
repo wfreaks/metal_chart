@@ -42,7 +42,7 @@
 		_projectionBuffer = [[UniformProjection alloc] initWithResource:resource];
 		
 		_series.info.count = 2;
-		[_attributes setWidth:3];
+		[_attributes setWidth:1];
 		[_attributes setColorWithRed:0 green:0 blue:0 alpha:1.0];
 		
 		MCDimensionalProjection *dimension = [projection dimensionWithId:dimensionId];
@@ -52,14 +52,13 @@
 	return self;
 }
 
-- (void)willEncodeTo:(id<MTLCommandBuffer>)buffer
-		  renderPass:(MTLRenderPassDescriptor *)pass
-			   chart:(MetalChart *)chart
-				view:(MTKView *)view
+- (void)willEncodeWith:(id<MTLRenderCommandEncoder>)encoder
+				 chart:(MetalChart *)chart
+				  view:(MTKView *)view
 {
 	[self configureWithChart:chart view:view];
 	[self configureVertex];
-	[_line encodeTo:buffer renderPass:pass projection:_projectionBuffer];
+	[_line encodeWith:encoder projection:_projectionBuffer];
 }
 
 - (void)configureWithChart:(MetalChart *)chart

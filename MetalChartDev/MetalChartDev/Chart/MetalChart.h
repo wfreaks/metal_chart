@@ -15,9 +15,8 @@
 
 @protocol MCRenderable <NSObject>
 
-- (void)renderWithCommandBuffer:(id<MTLCommandBuffer> _Nonnull)buffer
-					 renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
-					 projection:(UniformProjection * _Nonnull)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+		projection:(UniformProjection * _Nonnull)projection
 ;
 
 @end
@@ -26,10 +25,9 @@
 
 @protocol MCPreRenderable <NSObject>
 
-- (void)willEncodeTo:(id<MTLCommandBuffer> _Nonnull)buffer
-		  renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
-			   chart:(MetalChart * _Nonnull)chart
-				view:(MTKView * _Nonnull)view
+- (void)willEncodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+				 chart:(MetalChart * _Nonnull)chart
+				  view:(MTKView * _Nonnull)view
 ;
 
 @end
@@ -38,10 +36,9 @@
 
 @protocol MCPostRenderable <NSObject>
 
-- (void)didEncodeTo:(id<MTLCommandBuffer> _Nonnull)buffer
-		  renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
-			   chart:(MetalChart * _Nonnull)chart
-				view:(MTKView * _Nonnull)view
+- (void)didEncodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+				chart:(MetalChart * _Nonnull)chart
+				 view:(MTKView * _Nonnull)view
 ;
 
 @end

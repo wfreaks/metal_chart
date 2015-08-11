@@ -223,21 +223,24 @@
 		drawable = view.currentDrawable;
 		if(drawable) {
 			buffer = [[DeviceResource defaultResource].queue commandBuffer];
+			id<MTLRenderCommandEncoder> encoder = [buffer renderCommandEncoderWithDescriptor:pass];
 			
 			for(id<MCPreRenderable> renderable in preRenderables) {
-				[renderable willEncodeTo:buffer renderPass:pass chart:self view:view];
+				[renderable willEncodeWith:encoder chart:self view:view];
 			}
 			
 			const NSUInteger count = seriesArray.count;
 			for(NSUInteger i = 0; i < count; ++i) {
 				id<MCRenderable> series = seriesArray[i];
 				MCSpatialProjection *projection = projectionArray[i];
-				[series renderWithCommandBuffer:buffer renderPass:pass projection:projection.projection];
+				[series encodeWith:encoder projection:projection.projection];
 			}
 			
 			for(id<MCPostRenderable> renderable in postRenderables) {
-				[renderable didEncodeTo:buffer renderPass:pass chart:self view:view];
+				[renderable didEncodeWith:encoder chart:self view:view];
 			}
+			
+			[encoder endEncoding];
 		}
 	}
 	

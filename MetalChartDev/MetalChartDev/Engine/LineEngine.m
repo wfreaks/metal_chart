@@ -84,24 +84,20 @@
 	return [resource.device newDepthStencilStateWithDescriptor:desc];
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-            pass:(MTLRenderPassDescriptor *)pass
-          vertex:(VertexBuffer *)vertex
-           index:(IndexBuffer *)index
-      projection:(UniformProjection *)projection
-      attributes:(UniformLineAttributes *)attributes
-      seriesInfo:(UniformSeriesInfo *)info
-	   separated:(BOOL)separated
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+			vertex:(VertexBuffer *)vertex
+			 index:(IndexBuffer *)index
+		projection:(UniformProjection *)projection
+		attributes:(UniformLineAttributes *)attributes
+		seriesInfo:(UniformSeriesInfo *)info
+		 separated:(BOOL)separated
 {
-	NSLog(@"starting line...");
     const NSUInteger sampleCount = projection.sampleCount;
     const MTLPixelFormat colorFormat = projection.colorPixelFormat;
     const BOOL writeDepth = ! attributes.enableOverlay;
     const BOOL indexed = (index != nil);
     id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth indexed:indexed separated:separated];
     id<MTLDepthStencilState> depthState = (writeDepth ? _depthState_writeDepth : _depthState_noDepth);
-    id<MTLRenderCommandEncoder> encoder = [command renderCommandEncoderWithDescriptor:pass];
-    [encoder setLabel:@"DrawLineEncoder"];
     [encoder pushDebugGroup:@"DrawLine"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
@@ -131,7 +127,6 @@
     }
 	
 	[encoder popDebugGroup];
-    [encoder endEncoding];
 }
 
 

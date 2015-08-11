@@ -20,11 +20,10 @@
 	return self;
 }
 
-- (void)renderWithCommandBuffer:(id<MTLCommandBuffer>)buffer
-					 renderPass:(MTLRenderPassDescriptor *)pass
-					 projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
 {
-	[_line encodeTo:buffer renderPass:pass projection:projection];
+	[_line encodeWith:encoder projection:projection];
 }
 
 @end

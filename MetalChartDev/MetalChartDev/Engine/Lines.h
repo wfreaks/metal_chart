@@ -17,9 +17,8 @@
 @property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) LineEngine * _Nonnull engine;
 
-- (void)encodeTo:(id<MTLCommandBuffer> _Nonnull)command
-      renderPass:(MTLRenderPassDescriptor * _Nonnull)pass
-      projection:(UniformProjection * _Nonnull)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+		projection:(UniformProjection * _Nonnull)projection
 ;
 
 - (void)setSampleAttributes;

@@ -18,14 +18,13 @@
 - (id)initWithResource:(DeviceResource *)resource
 ;
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-            pass:(MTLRenderPassDescriptor *)pass
-          vertex:(VertexBuffer *)vertex
-           index:(IndexBuffer *)index
-      projection:(UniformProjection *)projection
-      attributes:(UniformLineAttributes *)attributes
-      seriesInfo:(UniformSeriesInfo *)info
-	   separated:(BOOL)separated
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+			vertex:(VertexBuffer *)vertex
+			 index:(IndexBuffer *)index
+		projection:(UniformProjection *)projection
+		attributes:(UniformLineAttributes *)attributes
+		seriesInfo:(UniformSeriesInfo *)info
+		 separated:(BOOL)separated
 ;
 
 @end

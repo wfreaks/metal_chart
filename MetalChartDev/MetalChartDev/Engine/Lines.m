@@ -58,9 +58,8 @@
     return self;
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-      renderPass:(MTLRenderPassDescriptor *)pass
-      projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
 {
     
 }
@@ -136,18 +135,16 @@ static double gaussian() {
 	return self;
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-	  renderPass:(MTLRenderPassDescriptor *)pass
-	  projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
 {
-	[self.engine encodeTo:command
-					 pass:pass
-				   vertex:self.series.vertices
-					index:nil
-			   projection:projection
-			   attributes:self.attributes
-			   seriesInfo:self.series.info
-				separated:YES];
+	[self.engine encodeWith:encoder
+					 vertex:self.series.vertices
+					  index:nil
+				 projection:projection
+				 attributes:self.attributes
+				 seriesInfo:self.series.info
+				  separated:YES];
 }
 
 @end
@@ -164,18 +161,16 @@ static double gaussian() {
 	return self;
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-      renderPass:(MTLRenderPassDescriptor *)pass
-      projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
 {
-    [self.engine encodeTo:command
-					 pass:pass
-				   vertex:self.series.vertices
-					index:nil
-			   projection:projection
-			   attributes:self.attributes
-			   seriesInfo:self.series.info
-				separated:NO];
+    [self.engine encodeWith:encoder
+					 vertex:self.series.vertices
+					  index:nil
+				 projection:projection
+				 attributes:self.attributes
+				 seriesInfo:self.series.info
+				  separated:NO];
 }
 
 @end
@@ -192,19 +187,16 @@ static double gaussian() {
 	return self;
 }
 
-- (void)encodeTo:(id<MTLCommandBuffer>)command
-      renderPass:(MTLRenderPassDescriptor *)pass
-      projection:(UniformProjection *)projection
-          engine:(LineEngine *)engine
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
 {
-    [engine encodeTo:command
-                pass:pass
-              vertex:self.series.vertices
-               index:self.indexedSeries.indices
-          projection:projection
-          attributes:self.attributes
-          seriesInfo:self.series.info
-		   separated:NO];
+    [self.engine encodeWith:encoder
+					 vertex:self.series.vertices
+					  index:self.indexedSeries.indices
+				 projection:projection
+				 attributes:self.attributes
+				 seriesInfo:self.series.info
+				  separated:NO];
 }
 
 @end

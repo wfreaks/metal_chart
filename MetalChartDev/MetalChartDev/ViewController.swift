@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
-		metalView.preferredFramesPerSecond = 1
+		metalView.preferredFramesPerSecond = 60
 		
 		setupChart()
 		metalView.delegate = chart
@@ -58,10 +58,10 @@ class ViewController: UIViewController {
 			line.setSampleAttributes()
 			
 			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1);
-			xAxis.anchorPoint = 0;
+			xAxis.anchorPoint = -0;
 			xAxis.anchorToProjection = false;
 			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2);
-			yAxis.anchorPoint = 0;
+			yAxis.anchorPoint = -1;
 			yAxis.anchorToProjection = false;
 			
 			
@@ -79,7 +79,7 @@ class ViewController: UIViewController {
 			}
 			
 			let lineSeries = MCLineSeries(line: line)
-//			chart.addSeries(lineSeries, projection: space)
+			chart.addSeries(lineSeries, projection: space)
 			chart.addPreRenderable(yAxis)
 			chart.addPreRenderable(xAxis)
 			
