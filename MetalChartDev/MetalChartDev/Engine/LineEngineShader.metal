@@ -31,18 +31,19 @@ struct vertex_index {
 };
 
 struct uniform_projection {
-	float2 physical_size;
-	float  screen_scale;
-	float4 rect_padding;
-    
     float2 origin;
     float2 value_scale;
     float2 value_offset;
+	
+	float2 physical_size;
+	float4 rect_padding;
+	float  screen_scale;
 };
 
 struct uniform_line_attr {
-	float width;
 	float4 color;
+	float2 length_mod;
+	float width;
     uchar modify_alpha_on_edge;
 };
 
@@ -61,7 +62,9 @@ inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
     return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
-inline out_vertex LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size) {
+// ここの座業変換はlineWidthの値に応じて頂点を「物理座標」上でw/√2だけ動かす。scissorRectはNDCへ影響を与えない(物理座標とNDCの対応関係が変わらない)ので考慮する必要はない.
+inline out_vertex LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size)
+{
     const char along = (2 * (spec % 2)) - 1; // 偶数で-1, 奇数で1にする.
     const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
     const float2 vec_diff = (next - current) / 2;
@@ -83,6 +86,14 @@ inline out_vertex LineEngineVertexCore(const float2 current, const float2 next, 
     out.coef = (float)along;
     
     return out;
+}
+
+inline void modify_length(thread float2& start, thread float2& end, float2 modifier, float2 phy_size)
+{
+	const float2 mid = (start + end) / 2;
+	const float2 v = normalize(start-end) / phy_size;
+	start = mid + (modifier.x * v);
+	end = mid + (modifier.y * v);
 }
 
 vertex out_vertex PolyLineEngineVertexIndexed(
@@ -121,23 +132,40 @@ vertex out_vertex PolyLineEngineVertexOrdered(
 }
 
 vertex out_vertex SeparatedLineEngineVertexOrdered(
-											  device vertex_coord* coords [[ buffer(0) ]],
-											  constant uniform_projection& proj [[ buffer(1) ]],
-											  constant uniform_line_attr& attr [[ buffer(2) ]],
-											  constant uniform_series_info& info [[ buffer(3) ]],
-											  uint v_id [[ vertex_id ]]
-											  ) {
+												   device vertex_coord* coords [[ buffer(0) ]],
+												   constant uniform_projection& proj [[ buffer(1) ]],
+												   constant uniform_line_attr& attr [[ buffer(2) ]],
+												   constant uniform_series_info& info [[ buffer(3) ]],
+												   uint v_id [[ vertex_id ]]
+) {
 	const uint idx_offset = info.offset % 2;
 	const uint vid = (2 * ((v_id / 6) - idx_offset)) + idx_offset; // 質の悪い事に頂点IDだけでは奇数点から+1へ線を引くのか偶数からなのか判断ができない.
 	const ushort index_current = vid % info.vertex_capacity;
 	const ushort index_next = (vid + 1) % info.vertex_capacity;
-	const float2 p_current = adjustPoint( coords[index_current].position, proj );
-	const float2 p_next = adjustPoint( coords[index_next].position, proj );
+	
+	float2 p_current = adjustPoint( coords[index_current].position, proj );
+	float2 p_next = adjustPoint( coords[index_next].position, proj );
+	const float2 physical_size = proj.physical_size;
+	
+	const float2 length_mod = attr.length_mod;
+	if(length_squared(length_mod) > 0) {
+		modify_length(p_current, p_next, length_mod, physical_size);
+	}
 	
 	const uchar spec = v_id % 6;
-	return LineEngineVertexCore(p_current, p_next, spec, attr.width, proj.physical_size);
+	return LineEngineVertexCore(p_current, p_next, spec, attr.width, physical_size);
 }
 
+
+vertex out_vertex CyclicLineEngineVertex(
+										 device vertex_coord* coords [[ buffer(0) ]],
+										 constant uniform_projection& proj [[ buffer(1) ]],
+										 constant uniform_line_attr& attr [[ buffer(2) ]],
+										 constant uniform_series_info& info [[ buffer(3) ]],
+										 uint v_id [[ vertex_id ]]
+) {
+	
+}
 
 
 struct out_frag_core {

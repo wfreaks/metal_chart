@@ -20,18 +20,19 @@ typedef struct RectPadding {
 } RectPadding;
 
 typedef struct uniform_projection {
-    vector_float2 physical_size;
-    float screen_scale;
-	vector_float4 rect_padding;
-    
     vector_float2 origin;
     vector_float2 value_scale;
     vector_float2 value_offset;
+	
+	vector_float2 physical_size;
+	vector_float4 rect_padding;
+	float screen_scale;
 } uniform_projection;
 
 typedef struct uniform_line_attr {
-    float width;
     vector_float4 color;
+	vector_float2 length_mod;
+	float width;
     uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 

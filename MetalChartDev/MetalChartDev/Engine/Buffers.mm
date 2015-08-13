@@ -222,6 +222,11 @@
 	[self setModifyAlphaOnEdge:enableOverlay];
 }
 
+- (void)setLineLengthModifierStart:(float)start end:(float)end
+{
+	[self attributes]->length_mod = vector2(start, end);
+}
+
 @end
 
 

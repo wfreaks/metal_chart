@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = true
+	let asChart = false
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -93,6 +93,8 @@ class ViewController: UIViewController {
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleData()
 			series.info.count = 5
+			
+//			chart.padding = RectPadding(left: 240, top: 0, right: 0, bottom: 240);
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)

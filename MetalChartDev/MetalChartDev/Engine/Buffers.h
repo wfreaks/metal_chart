@@ -111,6 +111,8 @@
 - (void)setWidth:(CGFloat)width;
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 
+- (void)setLineLengthModifierStart:(float)start end:(float)end;
+
 @end
 
 

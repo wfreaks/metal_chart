@@ -11,12 +11,15 @@
 
 @class LineEngine;
 @class UniformLineAttributes;
+@class MCTick;
 
 @interface MCAxis : NSObject<MCPreRenderable>
 
 @property (readonly, nonatomic) MCSpatialProjection * _Nonnull		projection;
 @property (readonly, nonatomic) NSInteger							dimensionId;
 @property (readonly, nonatomic) UniformLineAttributes * _Nonnull	attributes;
+
+@property (strong  , nonatomic) MCTick * _Nullable					tick;
 
 @property (assign  , nonatomic) CGFloat								anchorPoint;
 
@@ -28,5 +31,11 @@
 							 Projection:(MCSpatialProjection * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
 ;
+
+@end
+
+@interface MCTick : NSObject
+
+
 
 @end

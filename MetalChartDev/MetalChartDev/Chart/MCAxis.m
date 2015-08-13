@@ -20,6 +20,10 @@
 
 @end
 
+@interface MCTick()<MCRenderable>
+
+@end
+
 @implementation MCAxis
 
 - (instancetype)initWithEngine:(LineEngine *)engine
@@ -43,7 +47,13 @@
 		[_attributes setColorWithRed:0 green:0 blue:0 alpha:1.0];
 		
 		MCDimensionalProjection *dimension = [projection dimensionWithId:dimensionId];
-		if(dimension == nil) abort();							// これはプログラマがちゃんと注意してdimensionIdを作ってればこうはならないはずなのでabortする.
+		
+		if(dimension == nil) {
+			// これはプログラマがちゃんと注意してdimensionIdを作ってればこうはならないはず.
+			// projection.dimensionsはreadonlyかつimmutableなので、基本的に不注意だとか動的に決めたりだとか
+			// （その場合はallocの前にチェックするべき）さえなければ、あとは単純なコーディングミスのみになる.
+			abort();
+		}
 		_dimOrder = [projection.dimensions indexOfObject:dimension];
 	}
 	return self;
@@ -56,6 +66,7 @@
 	[self configureWithChart:chart view:view];
 	[self configureVertex];
 	[_line encodeWith:encoder projection:_projectionBuffer];
+	if(_tick) [_tick encodeWith:encoder projection:_projectionBuffer];
 }
 
 - (void)configureWithChart:(MetalChart *)chart
@@ -67,25 +78,38 @@
 	_projectionBuffer.padding = chart.padding;
 }
 
+// 頂点位置とprojectionの設定.
+// 基本的に頂点位置は固定とし、すべてprojectionのvalueScale/valueOffsetで吸収する.
+// 軸方向は常にplotエリア全体に伸ばす.
+// 方針としてはTickに渡すprojectionが大部分を吸収できるようにすること、である.
 - (void)configureVertex
 {
 	vertex_buffer *ptr = [_series.vertices bufferAtIndex:0];
 	const BOOL isHorizontal = (_dimOrder == 0);
 	MCDimensionalProjection *orthDim = (isHorizontal ? _projection.dimensions[1] : _projection.dimensions[0]);
-	const float valueScale = (_anchorToProjection) ? (orthDim.max - orthDim.min) / 2 : 1;
-	const float mid = (orthDim.min + orthDim.max) / 2;
-	const float valueOffset = (_anchorToProjection) ? -mid : 0;
+	const float orthScale = (_anchorToProjection) ? (orthDim.max - orthDim.min) / 2 : 1;
+	const float valueOffset = _anchorPoint;
 	if(isHorizontal) {
-		[_projectionBuffer setValueScale:CGSizeMake(1, valueScale)];
+		[_projectionBuffer setValueScale:CGSizeMake(1, orthScale)];
 		[_projectionBuffer setValueOffset:CGSizeMake(0, valueOffset)];
-		ptr[0].position = vector2((float)-1, (float)_anchorPoint);
-		ptr[1].position = vector2((float)+1, (float)_anchorPoint);
+		ptr[0].position = vector2((float)-1, 0.0f);
+		ptr[1].position = vector2((float)+1, 0.0f);
 	} else {
-		[_projectionBuffer setValueScale:CGSizeMake(valueScale, 1)];
+		[_projectionBuffer setValueScale:CGSizeMake(orthScale, 1)];
 		[_projectionBuffer setValueOffset:CGSizeMake(valueOffset, 0)];
-		ptr[0].position = vector2((float)_anchorPoint, (float)-1);
-		ptr[1].position = vector2((float)_anchorPoint, (float)+1);
+		ptr[0].position = vector2(0.0f, (float)-1);
+		ptr[1].position = vector2(0.0f, (float)+1);
 	}
+}
+
+@end
+
+@implementation MCTick
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(UniformProjection *)projection
+{
+	
 }
 
 @end
