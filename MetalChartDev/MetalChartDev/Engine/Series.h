@@ -11,7 +11,7 @@
 
 @protocol Series<NSObject>
 
-- (VertexBuffer * _Nonnull)vertices;
+- (id<MTLBuffer> _Nonnull)vertexBuffer;
 - (UniformSeriesInfo * _Nonnull)info;
 
 @end
@@ -37,5 +37,14 @@
 									 indexCapacity:(NSUInteger)idxCapacity
 ;
 
+
+@end
+
+@interface CyclicSeries : NSObject<Series>
+
+@property (readonly, nonatomic) UniformCyclicInfo * _Nonnull cyclic;
+@property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
+
+- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource;
 
 @end

@@ -21,7 +21,7 @@
 
 @implementation LineEngine
 
-- (id)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(DeviceResource *)resource
 {
 	self = [super init];
 	if(self) {
@@ -32,27 +32,22 @@
 	return self;
 }
 
-+ (id<MTLRenderPipelineState>)pipelineStateWithResource:(DeviceResource *)resource
-											sampleCount:(NSUInteger)count
-											pixelFormat:(MTLPixelFormat)format
-                                             writeDepth:(BOOL)writeDepth
-                                                indexed:(BOOL)indexed
-											  separated:(BOOL)separated
+- (id<MTLRenderPipelineState>)pipelineStateWithProjection:(UniformProjection *)projection
+												 vertFunc:(NSString *)vertFuncName
+												 fragFunc:(NSString *)fragFuncName
 {
-	NSString *label = [NSString stringWithFormat:@"%@LineEngine%@%@_%lu", (separated ? @"Separated" : @"Poly"), (indexed ? @"Indexed" : @"Ordered"), (writeDepth ? @"WriteDepth" : @"NoDepth"), (unsigned long)count];
-	id<MTLRenderPipelineState> state = resource.renderStates[label];
+	const NSUInteger sampleCount = projection.sampleCount;
+	const MTLPixelFormat pixelFormat = projection.colorPixelFormat;
+	NSString *label = [NSString stringWithFormat:@"%@_%@(%lu,%d)", vertFuncName, fragFuncName, (unsigned long)sampleCount, (int)pixelFormat];
+	id<MTLRenderPipelineState> state = _resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
-        NSString *vertFuncName = nil;
-		if (! separated) vertFuncName = (indexed) ? @"PolyLineEngineVertexIndexed" : @"PolyLineEngineVertexOrdered";
-		else			 vertFuncName = (indexed) ? @"SeparatedLineEngineVertexIndexed" : @"SeparatedLineEngineVertexOrdered";
-        NSString *fragFuncName = (writeDepth) ? @"LineEngineFragment_WriteDepth" : @"LineEngineFragment_NoDepth";
-		desc.vertexFunction = [resource.library newFunctionWithName:vertFuncName];
-        desc.fragmentFunction = [resource.library newFunctionWithName:fragFuncName];
-		desc.sampleCount = count;
+		desc.vertexFunction = [_resource.library newFunctionWithName:vertFuncName];
+        desc.fragmentFunction = [_resource.library newFunctionWithName:fragFuncName];
+		desc.sampleCount = sampleCount;
         MTLRenderPipelineColorAttachmentDescriptor *cd = desc.colorAttachments[0];
-		cd.pixelFormat = format;
+		cd.pixelFormat = pixelFormat;
         cd.blendingEnabled = YES;
         cd.rgbBlendOperation = MTLBlendOperationAdd;
         cd.alphaBlendOperation = MTLBlendOperationAdd;
@@ -65,11 +60,11 @@
         desc.stencilAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
         
 		NSError *err = nil;
-		state = [resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
+		state = [_resource.device newRenderPipelineStateWithDescriptor:desc error:&err];
         if(err) {
             NSLog(@"error : %@", err);
         }
-		[resource addRenderPipelineState:state];
+		[_resource addRenderPipelineState:state];
 	}
 	return state;
 }
@@ -83,57 +78,6 @@
 	
 	return [resource.device newDepthStencilStateWithDescriptor:desc];
 }
-
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			vertex:(VertexBuffer *)vertex
-			 index:(IndexBuffer *)index
-		projection:(UniformProjection *)projection
-		attributes:(UniformLineAttributes *)attributes
-		seriesInfo:(UniformSeriesInfo *)info
-		 separated:(BOOL)separated
-{
-    const NSUInteger sampleCount = projection.sampleCount;
-    const MTLPixelFormat colorFormat = projection.colorPixelFormat;
-    const BOOL writeDepth = ! attributes.enableOverlay;
-    const BOOL indexed = (index != nil);
-    id<MTLRenderPipelineState> renderState = [self.class pipelineStateWithResource:_resource sampleCount:sampleCount pixelFormat:colorFormat writeDepth:writeDepth indexed:indexed separated:separated];
-    id<MTLDepthStencilState> depthState = (writeDepth ? _depthState_writeDepth : _depthState_noDepth);
-    [encoder pushDebugGroup:@"DrawLine"];
-    [encoder setRenderPipelineState:renderState];
-    [encoder setDepthStencilState:depthState];
-	
-	const CGSize ps = projection.physicalSize;
-	const RectPadding pr = projection.padding;
-	const CGFloat scale = projection.screenScale;
-	if(projection.enableScissor) {
-		MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-		[encoder setScissorRect:rect];
-	} else {
-		MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-		[encoder setScissorRect:rect];
-	}
-    
-    NSUInteger idx = 0;
-    [encoder setVertexBuffer:vertex.buffer offset:0 atIndex:idx++];
-    if( indexed ) {
-        [encoder setVertexBuffer:index.buffer offset:0 atIndex:idx++];
-    }
-    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:idx++];
-    [encoder setVertexBuffer:attributes.buffer offset:0 atIndex:idx++];
-    [encoder setVertexBuffer:info.buffer offset:0 atIndex:idx++];
-    
-    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
-    [encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
-    
-    const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
-    if(count > 0) {
-        const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
-        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
-    }
-	
-	[encoder popDebugGroup];
-}
-
 
 @end
 

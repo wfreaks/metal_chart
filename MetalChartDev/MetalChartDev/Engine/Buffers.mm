@@ -256,4 +256,41 @@
 @end
 
 
+@implementation UniformCyclicInfo
+
+- (id)initWithResource:(DeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_cyclic_line) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	}
+	return self;
+}
+
+- (uniform_cyclic_line *)cyclicLine
+{
+	return (uniform_cyclic_line *)([self.buffer contents]);
+}
+
+- (void)setAnchorPosition:(vector_float2)anchor
+{
+	[self cyclicLine]->anchor_position = anchor;
+}
+
+- (void)setLineVector:(vector_float2)vec
+{
+	[self cyclicLine]->line_vec = vec;
+}
+
+- (void)setIterationVector:(vector_float2)vec
+{
+	[self cyclicLine]->iter_vec = vec;
+}
+
+- (void)setIterationStartIndex:(uint32_t)idx
+{
+	[self cyclicLine]->iter_start = idx;
+}
+
+@end
 

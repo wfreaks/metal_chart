@@ -43,8 +43,8 @@
 		_projectionBuffer = [[UniformProjection alloc] initWithResource:resource];
 		
 		_series.info.count = 2;
-		[_attributes setWidth:1];
-		[_attributes setColorWithRed:0 green:0 blue:0 alpha:1.0];
+		[_attributes setWidth:2];
+		[_attributes setColorWithRed:0.4 green:0.4 blue:0.4 alpha:0.4];
 		
 		MCDimensionalProjection *dimension = [projection dimensionWithId:dimensionId];
 		

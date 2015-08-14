@@ -23,13 +23,6 @@
 
 - (void)setSampleAttributes;
 
-- (void)setSampleData;
-
-- (void)appendSampleData:(NSUInteger)count
-		  maxVertexCount:(NSUInteger)maxCount
-			  onGenerate:(void (^_Nullable)(float x, float y))block
-;
-
 @end
 
 
@@ -44,25 +37,29 @@
 @end
 
 
+@interface PolyLine : Line
+@end
 
-
-
-@interface OrderedPolyLine : Line
+@interface OrderedPolyLine : PolyLine
 
 - (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nonnull)series
 ;
 
+- (void)setSampleData;
+
+- (void)appendSampleData:(NSUInteger)count
+		  maxVertexCount:(NSUInteger)maxCount
+			  onGenerate:(void (^_Nullable)(float x, float y))block
+;
+
 @end
 
 
-
-
-@interface IndexedPolyLine : Line
+@interface IndexedPolyLine : PolyLine
 
 - (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
 								   indexedSeries:(IndexedSeries * _Nonnull)series
 ;
-
 
 @end

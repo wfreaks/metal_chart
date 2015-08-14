@@ -27,6 +27,7 @@
 	return self;
 }
 
+- (id<MTLBuffer>)vertexBuffer { return _vertices.buffer; }
 
 @end
 
@@ -49,5 +50,22 @@
 	return self;
 }
 
+- (id<MTLBuffer>)vertexBuffer { return _vertices.buffer; }
+
+@end
+
+@implementation CyclicSeries
+
+- (instancetype)initWithResource:(DeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_cyclic = [[UniformCyclicInfo alloc] initWithResource:resource];
+		_info = [[UniformSeriesInfo alloc] initWithResource:resource];
+	}
+	return self;
+}
+
+- (id<MTLBuffer>)vertexBuffer { return _cyclic.buffer; }
 
 @end

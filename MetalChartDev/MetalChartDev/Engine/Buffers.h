@@ -133,7 +133,23 @@
 @end
 
 
+@interface UniformCyclicInfo : NSObject
 
+@property (readonly, nonatomic) id<MTLBuffer> buffer;
+
+- (id)initWithResource:(DeviceResource *)resource;
+
+- (uniform_cyclic_line *)cyclicLine;
+
+- (void)setAnchorPosition:(vector_float2)anchor;
+
+- (void)setLineVector:(vector_float2)vec;
+
+- (void)setIterationVector:(vector_float2)vec;
+
+- (void)setIterationStartIndex:(uint32_t)idx;
+
+@end
 
 
 

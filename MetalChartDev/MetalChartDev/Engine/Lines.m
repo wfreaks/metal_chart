@@ -14,6 +14,12 @@
 										  series:(id<Series> _Nonnull)series
 ;
 
+- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjection * _Nonnull)projection;
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count;
+- (id<MTLBuffer> _Nullable)indexBuffer;
+- (NSString *)vertexFunctionName;
+- (NSString *)fragmentFunctionName;
+
 @end
 
 
@@ -40,9 +46,6 @@
 
 @end
 
-
-
-
 @implementation Line
 
 - (instancetype)initWithEngine:(LineEngine *)engine
@@ -58,16 +61,135 @@
     return self;
 }
 
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+{
+	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName]];
+}
+
+- (id<MTLDepthStencilState>)depthState
+{
+	return _attributes.enableOverlay ? _engine.depthState_noDepth : _engine.depthState_writeDepth;
+}
+
+- (NSString *)vertexFunctionName
+{
+	abort();
+}
+
+- (NSString *)fragmentFunctionName
+{
+	return _attributes.enableOverlay ? @"LineEngineFragment_NoDepth" : @"LineEngineFragment_WriteDepth";
+}
+
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count
+{
+	return 0;
+}
+
+- (id<MTLBuffer>)indexBuffer { return nil; }
+
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(UniformProjection *)projection
 {
-    
+	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+	id<MTLDepthStencilState> depthState = [self depthState];
+	[encoder pushDebugGroup:@"DrawLine"];
+	[encoder setRenderPipelineState:renderState];
+	[encoder setDepthStencilState:depthState];
+	
+	const CGSize ps = projection.physicalSize;
+	const RectPadding pr = projection.padding;
+	const CGFloat scale = projection.screenScale;
+	if(projection.enableScissor) {
+		MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
+		[encoder setScissorRect:rect];
+	} else {
+		MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
+		[encoder setScissorRect:rect];
+	}
+	
+	NSUInteger idx = 0;
+	id<MTLBuffer> vertexBuffer = [_series vertexBuffer];
+	id<MTLBuffer> indexBuffer = [self indexBuffer];
+	UniformLineAttributes *attributes = _attributes;
+	UniformSeriesInfo *info = _series.info;
+
+	[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:idx++];
+	if( indexBuffer ) {
+		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:idx++];
+	}
+	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:idx++];
+	[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:idx++];
+	[encoder setVertexBuffer:info.buffer offset:0 atIndex:idx++];
+	
+	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
+	
+//	const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
+	NSUInteger count = [self vertexCountWithCount:info.count];
+	if(count > 0) {
+		const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
+		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
+	}
+	
+	[encoder popDebugGroup];
 }
 
+- (void)setSampleAttributes
+{
+	UniformLineAttributes *attributes = self.attributes;
+	[attributes setColorWithRed:0.3 green:0.6 blue:0.8 alpha:0.5];
+	[attributes setWidth:3];
+	attributes.enableOverlay = NO;
+}
+
+@end
+
+@implementation OrderedSeparatedLine
+
+- (instancetype)initWithEngine:(LineEngine *)engine
+				orderedSeries:(OrderedSeries * _Nonnull)series
+{
+	self = [super initWithEngine:engine series:series];
+	if(self) {
+		_orderedSeries = series;
+	}
+	return self;
+}
+
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count
+{
+	return 6 * MAX(0, ((NSInteger)(count/2)));
+}
+
+- (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
+
+@end
+
+@implementation PolyLine
+
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count
+{
+	return 6 * MAX(0, ((NSInteger)(count-1)));
+}
+
+@end
+
+@implementation OrderedPolyLine
+
+- (instancetype)initWithEngine:(LineEngine *)engine
+				 orderedSeries:(OrderedSeries * _Nonnull)series
+{
+	self = [super initWithEngine:engine series:series];
+	if(self) {
+		_orderedSeries = series;
+	}
+	return self;
+}
 
 - (void)setSampleData
 {
-	VertexBuffer *vertices = self.series.vertices;
+	VertexBuffer *vertices = _orderedSeries.vertices;
 	const NSUInteger vCount = vertices.capacity;
 	for(int i = 0; i < vCount; ++i) {
 		vertex_buffer *v = [vertices bufferAtIndex:i];
@@ -78,14 +200,6 @@
 	self.series.info.offset = 0;
 	
 	[self setSampleAttributes];
-}
-
-- (void)setSampleAttributes
-{
-	UniformLineAttributes *attributes = self.attributes;
-	[attributes setColorWithRed:1 green:1 blue:0 alpha:0.5];
-	[attributes setWidth:3];
-	attributes.enableOverlay = YES;
 }
 
 static double gaussian() {
@@ -100,7 +214,7 @@ static double gaussian() {
 		  maxVertexCount:(NSUInteger)maxCount
 			  onGenerate:(void (^ _Nullable)(float, float))block
 {
-	VertexBuffer *vertices = self.series.vertices;
+	VertexBuffer *vertices = _orderedSeries.vertices;
 	const NSUInteger capacity = vertices.capacity;
 	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
 	const NSUInteger idx_end = idx_start + count;
@@ -119,59 +233,7 @@ static double gaussian() {
 	self.series.info.offset = idx_end - vCount;
 }
 
-
-
-@end
-
-@implementation OrderedSeparatedLine
-
-- (instancetype)initWithEngine:(LineEngine *)engine
-				orderedSeries:(OrderedSeries * _Nonnull)series
-{
-	self = [super initWithEngine:engine series:series];
-	if(self) {
-		_orderedSeries = series;
-	}
-	return self;
-}
-
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-		projection:(UniformProjection *)projection
-{
-	[self.engine encodeWith:encoder
-					 vertex:self.series.vertices
-					  index:nil
-				 projection:projection
-				 attributes:self.attributes
-				 seriesInfo:self.series.info
-				  separated:YES];
-}
-
-@end
-
-@implementation OrderedPolyLine
-
-- (instancetype)initWithEngine:(LineEngine *)engine
-				 orderedSeries:(OrderedSeries * _Nonnull)series
-{
-	self = [super initWithEngine:engine series:series];
-	if(self) {
-		_orderedSeries = series;
-	}
-	return self;
-}
-
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-		projection:(UniformProjection *)projection
-{
-    [self.engine encodeWith:encoder
-					 vertex:self.series.vertices
-					  index:nil
-				 projection:projection
-				 attributes:self.attributes
-				 seriesInfo:self.series.info
-				  separated:NO];
-}
+- (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrdered"; }
 
 @end
 
@@ -187,17 +249,12 @@ static double gaussian() {
 	return self;
 }
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-		projection:(UniformProjection *)projection
+- (id<MTLBuffer>)indexBuffer
 {
-    [self.engine encodeWith:encoder
-					 vertex:self.series.vertices
-					  index:self.indexedSeries.indices
-				 projection:projection
-				 attributes:self.attributes
-				 seriesInfo:self.series.info
-				  separated:NO];
+	return _indexedSeries.indices.buffer;
 }
+
+- (NSString *)vertexFunctionName { return @"PolyLineEngineVertexIndexed"; }
 
 @end
 

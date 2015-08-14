@@ -13,19 +13,18 @@
 
 @interface LineEngine : NSObject
 
-@property (readonly, nonatomic) DeviceResource *resource;
+@property (readonly, nonatomic) DeviceResource * _Nonnull resource;
+@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_writeDepth;
+@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
 
-- (id)initWithResource:(DeviceResource *)resource
+- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull) resource
 ;
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			vertex:(VertexBuffer *)vertex
-			 index:(IndexBuffer *)index
-		projection:(UniformProjection *)projection
-		attributes:(UniformLineAttributes *)attributes
-		seriesInfo:(UniformSeriesInfo *)info
-		 separated:(BOOL)separated
-;
+- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjection * _Nonnull)projection
+												 vertFunc:(NSString * _Nonnull)vertFuncName
+												 fragFunc:(NSString * _Nonnull)fragFuncName;
+											
+
 
 @end
 

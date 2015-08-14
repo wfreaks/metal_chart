@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
         metalView.device = resource.device
         metalView.sampleCount = 2
-        let v : Double = 0.5;
+        let v : Double = 0.9;
         let alpha : Double = 1;
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
         metalView.clearDepth = 0
@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
-		metalView.preferredFramesPerSecond = 60
+		metalView.preferredFramesPerSecond = 30
 		
 		setupChart()
 		metalView.delegate = chart
@@ -93,6 +93,7 @@ class ViewController: UIViewController {
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleData()
 			series.info.count = 5
+			line.attributes.setWidth(10)
 			
 //			chart.padding = RectPadding(left: 240, top: 0, right: 0, bottom: 240);
 			
