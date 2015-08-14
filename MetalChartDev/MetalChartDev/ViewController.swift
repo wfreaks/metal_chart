@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = false
+	let asChart = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()

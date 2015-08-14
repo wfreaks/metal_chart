@@ -53,6 +53,13 @@ struct uniform_series_info {
 	uint offset;
 };
 
+struct uniform_cyclic_line {
+	float2 anchor_position;
+	float2 line_vec;
+	float2 iter_vec;
+	uint   iter_start;
+};
+
 inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
 {
 	const float2 ps = proj.physical_size;
@@ -156,15 +163,27 @@ vertex out_vertex SeparatedLineEngineVertexOrdered(
 	return LineEngineVertexCore(p_current, p_next, spec, attr.width, physical_size);
 }
 
-
 vertex out_vertex CyclicLineEngineVertex(
-										 device vertex_coord* coords [[ buffer(0) ]],
+										 constant uniform_cyclic_line& cyclic [[ buffer(0) ]],
 										 constant uniform_projection& proj [[ buffer(1) ]],
 										 constant uniform_line_attr& attr [[ buffer(2) ]],
 										 constant uniform_series_info& info [[ buffer(3) ]],
 										 uint v_id [[ vertex_id ]]
 ) {
+	const uint vid = v_id / 6; // この場合はline_idxとでもいうもの.
+	const float2 mid = cyclic.anchor_position + ( (cyclic.iter_start + vid) * cyclic.iter_vec);
+	float2 start = mid - (cyclic.line_vec);
+	float2 end = mid + (cyclic.line_vec);
 	
+	const float2 physical_size = proj.physical_size;
+	const float2 length_mod = attr.length_mod;
+	
+	if(length_squared(length_mod) > 0) {
+		modify_length(start, end, length_mod, physical_size);
+	}
+	
+	const uchar spec = v_id % 6;
+	return LineEngineVertexCore(start, end, spec, attr.width, physical_size);
 }
 
 
