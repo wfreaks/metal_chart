@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
+		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
+		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
 		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
@@ -120,7 +123,9 @@
 				AA88E52D1B74C9D40004AA4E /* LineEngine.h */,
 				AA88E52E1B74C9D40004AA4E /* LineEngine.m */,
 				AA88E52F1B74C9D40004AA4E /* LineEngine_common.h */,
+				AA1544501B822A8600F0193E /* LineEngineShader.h */,
 				AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */,
+				AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */,
 				AA88E5311B74C9D40004AA4E /* Lines.h */,
 				AA88E5321B74C9D40004AA4E /* Lines.m */,
 				AA67A8461B7904E1005EEA8D /* Series.h */,
@@ -350,6 +355,7 @@
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
 				AA67A8481B7904E1005EEA8D /* Series.m in Sources */,
 				AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */,
+				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */,
