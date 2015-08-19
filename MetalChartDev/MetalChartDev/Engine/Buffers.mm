@@ -261,44 +261,6 @@
 @end
 
 
-@implementation UniformCyclicInfo
-
-- (id)initWithResource:(DeviceResource *)resource
-{
-	self = [super init];
-	if(self) {
-		_buffer = [resource.device newBufferWithLength:sizeof(uniform_cyclic_line) options:MTLResourceOptionCPUCacheModeWriteCombined];
-	}
-	return self;
-}
-
-- (uniform_cyclic_line *)cyclicLine
-{
-	return (uniform_cyclic_line *)([self.buffer contents]);
-}
-
-- (void)setAnchorPosition:(vector_float2)anchor
-{
-	[self cyclicLine]->anchor_position = anchor;
-}
-
-- (void)setLineVector:(vector_float2)vec
-{
-	[self cyclicLine]->line_vec = vec;
-}
-
-- (void)setIterationVector:(vector_float2)vec
-{
-	[self cyclicLine]->iter_vec = vec;
-}
-
-- (void)setIterationStartIndex:(uint32_t)idx
-{
-	[self cyclicLine]->iter_start = idx;
-}
-
-@end
-
 @implementation UniformAxisAttributes
 
 - (instancetype)initWithAttributes:(uniform_axis_attributes *)attr
@@ -306,6 +268,7 @@
     self = [super init];
     if(self) {
         _attributes = attr;
+		_attributes->length_mod = vector2((float)-1, (float)1);
     }
     return self;
 }
@@ -351,13 +314,34 @@
     return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
 }
 
-- (void)setAxisAnchorValue:(float)value { [self axis]->axis_anchor_value = value; }
+- (void)setAxisAnchorValue:(float)value
+{
+	if(_axisAnchorValue != value) {
+		_axisAnchorValue = value;
+		[self axis]->axis_anchor_value = value;
+	}
+}
 
-- (void)setTickAnchorValue:(float)value { [self axis]->tick_anchor_value = value; }
+- (void)setTickAnchorValue:(float)value
+{
+	if( _tickAnchorValue != value ) {
+		_tickAnchorValue = value;
+		[self axis]->tick_anchor_value = value;
+	}
+}
 
-- (void)setMajorTickInterval:(float)interval { [self axis]->tick_interval_major = interval; }
+- (void)setMajorTickInterval:(float)interval
+{
+	if( _majorTickInterval != interval ) {
+		_majorTickInterval = interval;
+		[self axis]->tick_interval_major = interval;
+	}
+}
 
-- (void)setDimensionIndex:(uint8_t)index { [self axis]->dimIndex = index; }
+- (void)setDimensionIndex:(uint8_t)index
+{
+	[self axis]->dimIndex = index;
+}
 
 - (void)setMinorTicksPerMajor:(uint8_t)count {
     _minorTicksPerMajor = count;

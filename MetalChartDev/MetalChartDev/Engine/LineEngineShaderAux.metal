@@ -41,7 +41,7 @@ inline float2 axis_mid_pos( constant uniform_axis& axis, constant uniform_projec
 {
 	const uchar idx = axis.dimIndex ^ 0x01;
 	float2 v = proj.value_offset;
-	v[idx] -= (proj.value_scale[idx] * 0.5);
+	v[idx] = axis.axis_anchor_value;
 	return v;
 }
 

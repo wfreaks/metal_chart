@@ -59,6 +59,8 @@
 
 - (void)setMin:(CGFloat)min max:(CGFloat)max;
 
+- (CGFloat)length;
+
 @end
 
 

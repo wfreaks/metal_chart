@@ -42,13 +42,6 @@ typedef struct uniform_series_info {
 	uint32_t offset;
 } uniform_series_info;
 
-typedef struct uniform_cyclic_line {
-	vector_float2 anchor_position;
-	vector_float2 line_vec;
-	vector_float2 iter_vec;
-	uint32_t      iter_start;
-} uniform_cyclic_line;
-
 typedef struct uniform_axis {
     float           axis_anchor_value;
     float           tick_anchor_value;

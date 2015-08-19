@@ -134,24 +134,6 @@
 @end
 
 
-@interface UniformCyclicInfo : NSObject
-
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
-
-- (id)initWithResource:(DeviceResource *)resource;
-
-- (uniform_cyclic_line *)cyclicLine;
-
-- (void)setAnchorPosition:(vector_float2)anchor;
-
-- (void)setLineVector:(vector_float2)vec;
-
-- (void)setIterationVector:(vector_float2)vec;
-
-- (void)setIterationStartIndex:(uint32_t)idx;
-
-@end
-
 @interface UniformAxisAttributes : NSObject
 
 @property (readonly, nonatomic) uniform_axis_attributes *attributes;
@@ -175,18 +157,16 @@
 @property (readonly, nonatomic) UniformAxisAttributes *majorTickAttributes;
 @property (readonly, nonatomic) UniformAxisAttributes *minorTickAttributes;
 
+@property (assign  , nonatomic) float axisAnchorValue;
+@property (assign  , nonatomic) float tickAnchorValue;
+@property (assign  , nonatomic) float majorTickInterval;
+
 @property (assign  , nonatomic) uint8_t maxMajorTicks;
 @property (assign  , nonatomic) uint8_t minorTicksPerMajor;
 
 - (instancetype)initWithResource:(DeviceResource *)resource;
 
 - (uniform_axis *)axis;
-
-- (void)setAxisAnchorValue:(float)value;
-
-- (void)setTickAnchorValue:(float)value;
-
-- (void)setMajorTickInterval:(float)interval;
 
 - (void)setDimensionIndex:(uint8_t)index;
 

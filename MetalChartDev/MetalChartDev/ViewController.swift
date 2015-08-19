@@ -57,13 +57,24 @@ class ViewController: UIViewController {
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleAttributes()
 			
-			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1);
-			xAxis.anchorPoint = -0;
-			xAxis.anchorToProjection = false;
-			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2);
-			yAxis.anchorPoint = -1;
-			yAxis.anchorToProjection = false;
+			let xAxisConf = MCBlockAxisConfigurator() { (uniform:UniformAxis, dimension:MCDimensionalProjection) -> Void in
+				let l = dimension.length()
+				uniform.majorTickInterval = CFloat(l / 4)
+				uniform.maxMajorTicks = 4
+				uniform.axisAnchorValue = 0
+				uniform.tickAnchorValue = 0
+			}
 			
+			let yAxisConf = MCBlockAxisConfigurator() { (uniform:UniformAxis, dimension:MCDimensionalProjection) -> Void in
+				let l = dimension.length()
+				uniform.majorTickInterval = CFloat(l / 4)
+				uniform.maxMajorTicks = 4
+				uniform.axisAnchorValue = CFloat(dimension.min)
+				uniform.tickAnchorValue = 0
+			}
+			
+			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
+			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf);
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))

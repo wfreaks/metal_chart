@@ -117,6 +117,8 @@
 	_max = max;
 }
 
+- (CGFloat)length { return _max - _min; }
+
 @end
 
 

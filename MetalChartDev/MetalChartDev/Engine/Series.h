@@ -39,12 +39,3 @@
 
 
 @end
-
-@interface CyclicSeries : NSObject<Series>
-
-@property (readonly, nonatomic) UniformCyclicInfo * _Nonnull cyclic;
-@property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
-
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource;
-
-@end
