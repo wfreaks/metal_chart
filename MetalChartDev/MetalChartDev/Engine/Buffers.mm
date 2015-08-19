@@ -297,7 +297,7 @@
     if(self) {
         id<MTLDevice> device = resource.device;
         _axisBuffer = [device newBufferWithLength:sizeof(uniform_axis) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _attributeBuffer = [device newBufferWithLength:(3 * sizeof(uniform_axis_attributes)) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _attributeBuffer = [device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
         _axisAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
         _majorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
         _minorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];

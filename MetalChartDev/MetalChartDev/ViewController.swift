@@ -57,19 +57,18 @@ class ViewController: UIViewController {
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleAttributes()
 			
-			let xAxisConf = MCBlockAxisConfigurator() { (uniform:UniformAxis, dimension:MCDimensionalProjection) -> Void in
-				let l = dimension.length()
-				uniform.majorTickInterval = CFloat(l / 4)
-				uniform.maxMajorTicks = 4
+			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
+				uniform.majorTickInterval = CFloat(1<<4)
+				uniform.maxMajorTicks = CUnsignedChar((1<<4) + 1)
 				uniform.axisAnchorValue = 0
 				uniform.tickAnchorValue = 0
 			}
 			
-			let yAxisConf = MCBlockAxisConfigurator() { (uniform:UniformAxis, dimension:MCDimensionalProjection) -> Void in
+			let yAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
 				uniform.maxMajorTicks = 4
-				uniform.axisAnchorValue = CFloat(dimension.min)
+				uniform.axisAnchorValue = CFloat(orthogonal.min)
 				uniform.tickAnchorValue = 0
 			}
 			
@@ -106,10 +105,22 @@ class ViewController: UIViewController {
 			series.info.count = 5
 			line.attributes.setWidth(10)
 			
-//			chart.padding = RectPadding(left: 240, top: 0, right: 0, bottom: 240);
+			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
+				let l = dimension.length()
+				uniform.majorTickInterval = CFloat(l / 4)
+				uniform.maxMajorTicks = 3
+				uniform.axisAnchorValue = -0.5
+				uniform.tickAnchorValue = 0.6
+			}
+			
+			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
+			
+			xAxis.setMinorTickCountPerMajor(2)
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
+			
+			chart.addPreRenderable(xAxis)
 		}
 	}
 }

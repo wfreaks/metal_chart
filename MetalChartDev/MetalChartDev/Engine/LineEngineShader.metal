@@ -11,13 +11,6 @@
 
 using namespace metal;
 
-struct uniform_cyclic_line {
-	float2 anchor_position;
-	float2 line_vec;
-	float2 iter_vec;
-	uint   iter_start;
-};
-
 vertex out_vertex PolyLineEngineVertexIndexed(
                                               device vertex_coord* coords [[ buffer(0) ]],
                                               device vertex_index* indices [[ buffer(1) ]],

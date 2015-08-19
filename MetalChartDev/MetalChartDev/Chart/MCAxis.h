@@ -14,12 +14,15 @@
 @class Axis;
 @class UniformAxis;
 
-typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis, MCDimensionalProjection *_Nonnull dimension);
+typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
+										MCDimensionalProjection *_Nonnull dimension,
+										MCDimensionalProjection *_Nonnull orthogonal);
 
 @protocol MCAxisConfigurator<NSObject>
 
 - (void)configureUniform:(UniformAxis * _Nonnull)uniform
 		   withDimension:(MCDimensionalProjection * _Nonnull)dimension
+			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
 ;
 
 @end

@@ -295,8 +295,8 @@ static double gaussian() {
     [encoder setVertexBuffer:_uniform.attributeBuffer offset:0 atIndex:1];
     [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
     
-    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
-    [encoder setFragmentBuffer:_uniform.attributeBuffer offset:0 atIndex:1];
+    [encoder setFragmentBuffer:_uniform.attributeBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
     
     const NSUInteger lineCount = (1 + ((1+_uniform.minorTicksPerMajor) * _uniform.maxMajorTicks));
     const NSUInteger vertCount = 6 * lineCount;
