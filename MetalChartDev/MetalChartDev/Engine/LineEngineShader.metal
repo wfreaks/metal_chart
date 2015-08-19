@@ -33,7 +33,7 @@ vertex out_vertex PolyLineEngineVertexIndexed(
     const float2 p_next = adjustPoint( coords[index_next].position, proj );
     
 	const uchar spec = v_id % 6;
-    return LineEngineVertexCore(p_current, p_next, spec, attr.width, proj.physical_size);
+    return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
 }
 
 vertex out_vertex PolyLineEngineVertexOrdered(
@@ -50,7 +50,7 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const float2 p_next = adjustPoint( coords[index_next].position, proj );
     
     const uchar spec = v_id % 6;
-    return LineEngineVertexCore(p_current, p_next, spec, attr.width, proj.physical_size);
+    return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
 }
 
 vertex out_vertex SeparatedLineEngineVertexOrdered(
@@ -75,7 +75,7 @@ vertex out_vertex SeparatedLineEngineVertexOrdered(
 	}
 	
 	const uchar spec = v_id % 6;
-	return LineEngineVertexCore(p_current, p_next, spec, attr.width, physical_size);
+	return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, physical_size);
 }
 
 vertex out_vertex CyclicLineEngineVertex(
@@ -98,11 +98,11 @@ vertex out_vertex CyclicLineEngineVertex(
 	}
 	
 	const uchar spec = v_id % 6;
-	return LineEngineVertexCore(start, end, spec, attr.width, physical_size);
+	return LineEngineVertexCore<out_vertex>(start, end, spec, attr.width, physical_size);
 }
 
 fragment out_fragment LineEngineFragment_WriteDepth(
-                                                    out_vertex input [[ stage_in ]],
+                                                    const out_vertex input [[ stage_in ]],
                                                     constant uniform_projection& proj [[ buffer(0) ]],
                                                     constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {
@@ -118,7 +118,7 @@ fragment out_fragment LineEngineFragment_WriteDepth(
 }
 
 fragment float4 LineEngineFragment_NoDepth(
-                                           out_vertex input [[ stage_in ]],
+                                           const out_vertex input [[ stage_in ]],
                                            constant uniform_projection& proj [[ buffer(0) ]],
                                            constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {

@@ -67,7 +67,8 @@ inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
 }
 
 // ここの座業変換はlineWidthの値に応じて頂点を「物理座標」上でw/√2だけ動かす。scissorRectはNDCへ影響を与えない(物理座標とNDCの対応関係が変わらない)ので考慮する必要はない.
-inline out_vertex LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size)
+template <typename OutputType>
+inline OutputType LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size)
 {
     const char along = (2 * (spec % 2)) - 1; // 偶数で-1, 奇数で1にする.
     const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
@@ -80,7 +81,7 @@ inline out_vertex LineEngineVertexCore(const float2 current, const float2 next, 
     const float2 diff_perp = diff_perp_physical / size;
     const float2 pos = (along == 1) ? next : current;
     
-    out_vertex out;
+    OutputType out;
     out.pos = pos + (diff_along + diff_perp);
     out.position.xy = out.pos;
     out.position.z = 0.5;
@@ -105,7 +106,8 @@ struct out_frag_core {
     float ratio;
 };
 
-inline out_frag_core LineEngineFragmentCore_ratio(const out_vertex input, constant uniform_projection& proj, const float width)
+template <typename InputType>
+inline out_frag_core LineEngineFragmentCore_ratio(thread const InputType& input, constant uniform_projection& proj, const float width)
 {
     const float2 pos = input.pos;
     const float2 size = proj.physical_size / 2;
