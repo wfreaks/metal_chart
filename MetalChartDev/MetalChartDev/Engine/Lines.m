@@ -129,7 +129,7 @@
 	NSUInteger count = [self vertexCountWithCount:info.count];
 	if(count > 0) {
 		const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
-		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count instanceCount:1];
+		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 	}
 	
 	[encoder popDebugGroup];
@@ -255,6 +255,55 @@ static double gaussian() {
 }
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexIndexed"; }
+
+@end
+
+@implementation Axis
+
+- (instancetype)initWithEngine:(LineEngine *)engine
+{
+    self = [super init];
+    if(self) {
+        _engine = engine;
+        _uniform = [[UniformAxis alloc] initWithResource:engine.resource];
+    }
+    return self;
+}
+
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+{
+    return [_engine pipelineStateWithProjection:projection
+                                       vertFunc:@"AxisVertex"
+                                       fragFunc:@"AxisFragment"];
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+        projection:(UniformProjection *)projection
+{
+    id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+    id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+    [encoder pushDebugGroup:@"DrawAxis"];
+    [encoder setRenderPipelineState:renderState];
+    [encoder setDepthStencilState:depthState];
+    
+    const CGSize ps = projection.physicalSize;
+    const CGFloat scale = projection.screenScale;
+    MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
+    [encoder setScissorRect:rect];
+    
+    [encoder setVertexBuffer:_uniform.axisBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:_uniform.attributeBuffer offset:0 atIndex:1];
+    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+    
+    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
+    [encoder setFragmentBuffer:_uniform.attributeBuffer offset:0 atIndex:1];
+    
+    const NSUInteger lineCount = (1 + ((1+_uniform.minorTicksPerMajor) * _uniform.maxMajorTicks));
+    const NSUInteger vertCount = 6 * lineCount;
+    [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
+    
+    [encoder popDebugGroup];
+}
 
 @end
 

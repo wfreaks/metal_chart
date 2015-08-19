@@ -49,6 +49,23 @@ typedef struct uniform_cyclic_line {
 	uint32_t      iter_start;
 } uniform_cyclic_line;
 
+typedef struct uniform_axis {
+    float           axis_anchor_value;
+    float           tick_anchor_value;
+    float           tick_interval_major;
+    
+    uint8_t         dimIndex;
+    uint8_t         minor_ticks_per_major;
+    uint8_t         max_major_ticks;
+} uniform_axis;
+
+typedef struct uniform_axis_attributes {
+    vector_float4   color;
+    vector_float2   length_mod;
+    float           line_length;
+    float           width;
+} uniform_axis_attributes;
+
 typedef struct vertex_buffer {
     vector_float2 position;
 } vertex_buffer;

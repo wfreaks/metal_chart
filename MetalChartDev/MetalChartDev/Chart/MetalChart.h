@@ -65,6 +65,7 @@
 @interface MCSpatialProjection : NSObject
 
 @property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
+@property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 
 - (_Null_unspecified instancetype)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
 

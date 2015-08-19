@@ -63,3 +63,19 @@
 ;
 
 @end
+
+
+@interface Axis : NSObject
+
+@property (readonly, nonatomic) UniformAxis * _Nonnull uniform;
+@property (readonly, nonatomic) LineEngine * _Nonnull engine;
+
+- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+;
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+        projection:(UniformProjection * _Nonnull)projection
+;
+
+@end
+

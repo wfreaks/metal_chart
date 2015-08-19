@@ -12,9 +12,6 @@
 using namespace metal;
 
 struct uniform_axis {
-    float2 axis_mid_pos;
-    float2 axis_dir_vec;
-    
     float  axis_anchor_value;
     float  tick_anchor_value;
 	float  tick_interval_major;
@@ -99,6 +96,7 @@ vertex out_vertex_axis AxisVertex(
 								  )
 {
 	const uint vid = v_id / 6;
+    
 	// 基本的には、modify_lengthまで行ければ勝ち. つまりprojection上での2点のpositionが出せれば、あとはなんとでもなる.
 	// その過程で、中点と伸展方向が必要になる。このうち伸展方向はdimIndexでどうとでもなる.
 	// ここで問題は、vid を axis / major / minor にどうマッピングするか、およびそのマッピングした時、中点・伸展方向・iteration indexをいかに統一的に扱うか、だ.
@@ -137,7 +135,7 @@ fragment float4 AxisFragment(
 	constant uniform_axis_attributes& attr = attr_ptr[input.index];
 	const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
 	float4 color = attr.color;
-	color.a *= saturate((!core.is_same_dir) + core.ratio ); // attr.modify_alpha_on_edge = 1 の場合に限り上の分岐の３行と等価.
+	color.a *= saturate((!core.is_same_dir) + core.ratio );
 	
 	return color;
 
