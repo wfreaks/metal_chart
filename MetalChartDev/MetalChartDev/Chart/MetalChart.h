@@ -34,6 +34,15 @@
 
 
 
+@protocol MCInteractive <NSObject>
+
+- (void)scaleChanged:(CGFloat)scaleDiff
+
+;
+
+@end
+
+
 
 @interface MCDimensionalProjection : NSObject
 
@@ -91,6 +100,9 @@
 
 - (void)addPostRenderable:(id<MCAttachment> _Nonnull)object;
 - (void)removePostRenderable:(id<MCAttachment> _Nonnull)object;
+
+- (void)addInteractive:(id<MCInteractive> _Nonnull)object;
+- (void)removeInteractive:(id<MCInteractive> _Nonnull)object;
 
 - (NSArray<id<MCRenderable>> * _Nonnull)series;
 

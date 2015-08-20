@@ -13,6 +13,8 @@ import MetalKit
 class ViewController: UIViewController {
 
 	@IBOutlet var metalView: MTKView!
+    @IBOutlet var panRecognizer: UIPanGestureRecognizer!
+    @IBOutlet var pinchRecognizer: UIPinchGestureRecognizer!
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
@@ -127,6 +129,7 @@ class ViewController: UIViewController {
 			
 			chart.addPostRenderable(xAxis)
 		}
+        chart.addToPanRecognizer(panRecognizer)
+        chart.addToPinchRecognizer(pinchRecognizer)
 	}
 }
-

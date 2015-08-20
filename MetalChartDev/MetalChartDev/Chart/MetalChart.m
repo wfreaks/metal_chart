@@ -39,6 +39,7 @@
 
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *postRenderables;
+@property (strong, nonatomic) NSArray<id<MCInteractive>> *interactives;
 
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
@@ -178,6 +179,7 @@
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
+        _interactives = [NSArray array];
 		_semaphore = dispatch_semaphore_create(2);
 	}
 	return self;
@@ -274,8 +276,8 @@
 	}
 }
 
-// immutableなcollectionを使ってるので非常にまどろっこしいが、描画サイクルの度に防御的コピーを強制されるならこちらの方がよほど
-// パフォーマンス的にはまともだと思われたため.
+// immutableなcollectionを使ってるので非常にまどろっこしいが、描画サイクルの度に
+// 防御的コピーを強制されるならこちらの方がよほどパフォーマンス的にはまともだと思われる
 - (void)removeSeries:(id<MCRenderable>)series
 {
 	@synchronized(self) {
@@ -332,9 +334,26 @@
 	[recognizer removeTarget:self action:@selector(handlePanning:)];
 }
 
+- (void)addInteractive:(id<MCInteractive>)object
+{
+    @synchronized(self) {
+        _interactives = [_interactives arrayByAddingObjectIfNotExists:object];
+    }
+}
+
+- (void)removeInteractive:(id<MCInteractive>)object
+{
+    @synchronized(self) {
+        _interactives = [_interactives arrayByRemovingObject:object];
+    }
+}
+
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
-	
+    if(recognizer.state == UIGestureRecognizerStateChanged && recognizer.numberOfTouches == 1) {
+        const CGPoint trans = [recognizer translationInView:recognizer.view];
+        NSLog(@"panning - translation(%f, %f)", trans.x, trans.y);
+    }
 }
 
 - (void)addToPinchRecognizer:(UIPinchGestureRecognizer *)recognizer
@@ -349,7 +368,7 @@
 
 - (void)handlePinching:(UIPinchGestureRecognizer *)recognizer
 {
-	
+    
 }
 
 @end

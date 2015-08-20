@@ -23,6 +23,10 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ygm-Ew-ej8" secondAttribute="height" multiplier="1:1" id="C4u-gH-gO8"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="TAB-pm-xdG" appends="YES" id="2Vw-Do-pa6"/>
+                                    <outletCollection property="gestureRecognizers" destination="c54-rs-69b" appends="YES" id="yKI-9q-Gx0"/>
+                                </connections>
                             </view>
                         </subviews>
                         <animations/>
@@ -35,9 +39,13 @@
                     </view>
                     <connections>
                         <outlet property="metalView" destination="ygm-Ew-ej8" id="4sl-Kd-39H"/>
+                        <outlet property="panRecognizer" destination="TAB-pm-xdG" id="bIr-nd-zFf"/>
+                        <outlet property="pinchRecognizer" destination="c54-rs-69b" id="o5M-Ko-EUg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="1" id="TAB-pm-xdG"/>
+                <pinchGestureRecognizer id="c54-rs-69b"/>
             </objects>
             <point key="canvasLocation" x="220" y="462"/>
         </scene>
