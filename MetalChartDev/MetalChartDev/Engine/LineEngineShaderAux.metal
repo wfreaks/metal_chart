@@ -37,6 +37,7 @@ struct out_vertex_axis {
     float2 pos;
     float  coef;
     uchar  index    [[ flat ]];
+    bool   dropped  [[ flat ]];
 };
 
 inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis& axis, constant uniform_projection& proj )
@@ -45,11 +46,11 @@ inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis& axis, con
 	const uchar idx_orth = idx ^ 0x01;
 	float2 v = - proj.value_offset;
 	// tick_value = tick_anchor_value + (n * tick_interval_major) >= minとなる最小の整数nを求める.
-	const float min = (v - proj.value_scale)[idx];
+	const float v_min = (v - proj.value_scale)[idx];
 	const float interval = axis.tick_interval_major;
 	const float tick_anchor = axis.tick_anchor_value;
 	
-	const float n = ceil((min - tick_anchor) / interval);
+	const float n = ceil((v_min - tick_anchor) / interval);
 	const float tick_value = tick_anchor + (n * interval);
 	v[idx] = ((is_axis) * v[idx]) + ((!is_axis) * tick_value);
 	v[idx_orth] = axis.axis_anchor_value;
@@ -86,16 +87,19 @@ inline uint get_iter_idx(const uint vid, const uchar max_major_ticks) {
 	return idx;
 }
 
-inline float get_iter_coef(const uchar type, const uint iter_idx, const float2 mid_pos, constant uniform_axis& axis, constant uniform_projection& proj)
+inline float get_iter_coef(const uchar type, const uint iter_idx, const uchar minor_ticks_per_major)
 {
-	const uchar dimIndex = axis.dimIndex;
 	// ここで問題となるのは、axis_valueと対照tickとの距離、をfreqで割った値、となる.
-	const uchar denom = (1 + ((type == 2) * (axis.minor_ticks_per_major - 1)));
-	const float2 min = - (proj.value_scale - proj.value_offset);
-	const float diff = (mid_pos - min)[dimIndex];
-	const float coef_multiplied = (iter_idx) - (diff * denom / axis.tick_interval_major);
-	const float coef_step = ceil(coef_multiplied) / (float)(denom);
-	return coef_step;
+	const float denom = (1 + ((type == 2) * (minor_ticks_per_major - 1)));
+	const float coef_step = iter_idx / denom;
+    return coef_step;
+}
+
+inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_projection& proj)
+{
+    const float a = (mid - (-proj.value_scale - proj.value_offset))[dimIndex]; // mid - min
+    const float b = ((+proj.value_scale - proj.value_offset) - mid)[dimIndex]; // max - mid
+    return !((a >= -0.0f) && (b >= -0.0f));
 }
 
 vertex out_vertex_axis AxisVertex(
@@ -109,14 +113,15 @@ vertex out_vertex_axis AxisVertex(
 	const uchar spec = v_id % 6;
     
 	const uchar max_major_ticks = axis.max_major_ticks;
+    const uchar dimIndex = axis.dimIndex;
 	const uchar type = get_type(vid, max_major_ticks);
 	const uint  iter_idx = get_iter_idx(vid, max_major_ticks);
 	constant uniform_axis_attributes& attr = attr_ptr[type];
 	
 	const bool is_axis = (type == 0);
 	const float2 axis_mid = axis_mid_pos(is_axis, axis, proj);
-	const float2 mid = axis_mid + (get_iter_coef(type, iter_idx, axis_mid, axis, proj) * tick_iter_vec(axis, is_axis));
-	const float2 dir = axis_dir_vec(axis.dimIndex, is_axis);
+	const float2 mid = axis_mid + (get_iter_coef(type, iter_idx, axis.minor_ticks_per_major) * tick_iter_vec(axis, is_axis));
+	const float2 dir = axis_dir_vec(dimIndex, is_axis);
 	const float2 modifier = attr.line_length * attr.length_mod;
 	float2 start = adjustPoint(mid - dir, proj);
 	float2 end = adjustPoint(mid + dir, proj);
@@ -126,6 +131,7 @@ vertex out_vertex_axis AxisVertex(
 	
 	out_vertex_axis out = LineEngineVertexCore<out_vertex_axis>(start, end, spec, attr.width, physical_size);
 	out.index = type;
+    out.dropped = is_dropped(mid, dimIndex, proj);
 	
 	return out;
 }
@@ -138,7 +144,7 @@ fragment float4 AxisFragment(
 {
 	constant uniform_axis_attributes& attr = attr_ptr[input.index];
 	const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
-	float4 color = attr.color;
+	float4 color = (!input.dropped) * attr.color;
 	color.a *= saturate((!core.is_same_dir) + core.ratio );
 	
 	return color;
