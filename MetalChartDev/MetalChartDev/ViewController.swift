@@ -94,7 +94,8 @@ class ViewController: UIViewController {
 			chart.addPreRenderable(xAxis)
 			
 		} else {
-			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
+			let offxetX = CGFloat(0)
+			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offxetX, maxValue: 1 + offxetX)
 			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -1, maxValue: 1)
 			let space = MCSpatialProjection(dimensions: [dimX, dimY])
 			

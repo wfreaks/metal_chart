@@ -43,7 +43,7 @@ inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis& axis, con
 {
 	const uchar idx = axis.dimIndex;
 	const uchar idx_orth = idx ^ 0x01;
-	float2 v = proj.value_offset;
+	float2 v = - proj.value_offset;
 	// tick_value = tick_anchor_value + (n * tick_interval_major) >= minとなる最小の整数nを求める.
 	const float min = (v - proj.value_scale)[idx];
 	const float interval = axis.tick_interval_major;
@@ -91,7 +91,8 @@ inline float get_iter_coef(const uchar type, const uint iter_idx, const float2 m
 	const uchar dimIndex = axis.dimIndex;
 	// ここで問題となるのは、axis_valueと対照tickとの距離、をfreqで割った値、となる.
 	const uchar denom = (1 + ((type == 2) * (axis.minor_ticks_per_major - 1)));
-	const float diff = (mid_pos - (proj.value_offset - proj.value_scale))[dimIndex];
+	const float2 min = - (proj.value_scale - proj.value_offset);
+	const float diff = (mid_pos - min)[dimIndex];
 	const float coef_multiplied = (iter_idx) - (diff * denom / axis.tick_interval_major);
 	const float coef_step = ceil(coef_multiplied) / (float)(denom);
 	return coef_step;
