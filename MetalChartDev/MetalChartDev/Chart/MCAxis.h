@@ -29,7 +29,7 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
 
 
 
-@interface MCAxis : NSObject<MCPreRenderable>
+@interface MCAxis : NSObject<MCAttachment>
 
 @property (readonly, nonatomic) MCSpatialProjection *		_Nonnull  projection;
 @property (readonly, nonatomic) MCDimensionalProjection *	_Nonnull  dimension;

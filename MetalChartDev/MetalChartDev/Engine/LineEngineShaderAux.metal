@@ -92,7 +92,7 @@ inline float get_iter_coef(const uchar type, const uint iter_idx, const uchar mi
 	// ここで問題となるのは、axis_valueと対照tickとの距離、をfreqで割った値、となる.
 	const float denom = (1 + ((type == 2) * (minor_ticks_per_major - 1)));
 	const float coef_step = iter_idx / denom;
-    return coef_step;
+    return coef_step - ((denom-1)/denom); // minorTickのみ係数が負(基準点よりも小さい座標)となる事がありえる。
 }
 
 inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_projection& proj)
@@ -122,11 +122,13 @@ vertex out_vertex_axis AxisVertex(
 	const float2 axis_mid = axis_mid_pos(is_axis, axis, proj);
 	const float2 mid = axis_mid + (get_iter_coef(type, iter_idx, axis.minor_ticks_per_major) * tick_iter_vec(axis, is_axis));
 	const float2 dir = axis_dir_vec(dimIndex, is_axis);
-	const float2 modifier = attr.line_length * attr.length_mod;
+    const float2 physical_size = proj.physical_size;
+    const float4 padding = proj.rect_padding;
+    const float2 plot_size = physical_size - (padding.xy + padding.zw);
+	const float2 modifier = (attr.line_length * max(1.0f, (type == 0) * plot_size[dimIndex])) * attr.length_mod;
 	float2 start = adjustPoint(mid - dir, proj);
 	float2 end = adjustPoint(mid + dir, proj);
 	
-	const float2 physical_size = proj.physical_size;
 	modify_length(start, end, modifier, physical_size);
 	
 	out_vertex_axis out = LineEngineVertexCore<out_vertex_axis>(start, end, spec, attr.width, physical_size);

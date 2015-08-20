@@ -16,7 +16,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = false
+	let asChart = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -58,8 +58,8 @@ class ViewController: UIViewController {
 			line.setSampleAttributes()
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
-				uniform.majorTickInterval = CFloat(1<<4)
-				uniform.maxMajorTicks = CUnsignedChar((1<<4) + 1)
+				uniform.majorTickInterval = CFloat(1<<6)
+				uniform.maxMajorTicks = CUnsignedChar((1<<2) + 1)
 				uniform.axisAnchorValue = 0
 				uniform.tickAnchorValue = 0
 			}
@@ -74,12 +74,14 @@ class ViewController: UIViewController {
 			
 			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
 			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf);
+            
+            xAxis.setMinorTickCountPerMajor(4)
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
 			xUpdater.addRestriction(MCAlternativeSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
 			
-			chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30);
+			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60);
 			
 			chart.willDraw = { (mc : MetalChart) -> Void in
 				line.appendSampleData((1<<0), maxVertexCount:vertCapacity) { (Float x, Float y) in
@@ -90,14 +92,14 @@ class ViewController: UIViewController {
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
-			chart.addPreRenderable(yAxis)
-			chart.addPreRenderable(xAxis)
+			chart.addPostRenderable(yAxis)
+			chart.addPostRenderable(xAxis)
 			
 		} else {
             chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30);
 
-			let offxetX = CGFloat(0)
-			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offxetX, maxValue: 1 + offxetX)
+			let offsetX = CGFloat(0)
+			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offsetX, maxValue: 1 + offsetX)
 			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -1, maxValue: 1)
 			let space = MCSpatialProjection(dimensions: [dimX, dimY])
 			
@@ -113,7 +115,7 @@ class ViewController: UIViewController {
 				uniform.majorTickInterval = CFloat(l / 4)
 				uniform.maxMajorTicks = 5
 				uniform.axisAnchorValue = -0.5
-				uniform.tickAnchorValue = +0.1
+				uniform.tickAnchorValue = +0.0
 			}
 			
 			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
@@ -123,7 +125,7 @@ class ViewController: UIViewController {
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
 			
-			chart.addPreRenderable(xAxis)
+			chart.addPostRenderable(xAxis)
 		}
 	}
 }

@@ -56,9 +56,9 @@
 	return self;
 }
 
-- (void)willEncodeWith:(id<MTLRenderCommandEncoder>)encoder
-				 chart:(MetalChart *)chart
-				  view:(MTKView *)view
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+             chart:(MetalChart *)chart
+              view:(MTKView *)view
 {
 	[_conf configureUniform:_axis.uniform withDimension:_dimension orthogonal:_orthogonal];
     [_axis encodeWith:encoder projection:_projection.projection];
@@ -75,18 +75,19 @@
 	UniformAxisAttributes *major = _axis.uniform.majorTickAttributes;
 	UniformAxisAttributes *minor = _axis.uniform.minorTickAttributes;
 	
-	[axis setColorWithRed:0 green:0 blue:0 alpha:0.5];
+    const float v = 0.6;
+	[axis setColorWithRed:v green:v blue:v alpha:1.0];
 	[axis setWidth:3];
-	[axis setLineLength:160];
+	[axis setLineLength:1];
 	
-	[major setColorWithRed:0 green:0 blue:0 alpha:0.3];
+	[major setColorWithRed:v green:v blue:v alpha:0.8];
 	[major setWidth:2];
 	[major setLineLength:10];
 	[major setLengthModifierStart:-1 end:0];
 	
-	[minor setColorWithRed:0 green:0 blue:0 alpha:0.3];
-	[minor setWidth:1];
-	[minor setLineLength:6];
+	[minor setColorWithRed:v green:v blue:v alpha:0.8];
+	[minor setWidth:2];
+	[minor setLineLength:8];
 	[minor setLengthModifierStart:0 end:1];
 }
 

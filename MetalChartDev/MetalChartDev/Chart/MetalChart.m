@@ -37,8 +37,8 @@
 @property (strong, nonatomic) NSArray<MCSpatialProjection *> *projections;
 @property (strong, nonatomic) NSSet<MCSpatialProjection *> *projectionSet;
 
-@property (strong, nonatomic) NSArray<id<MCPreRenderable>> *preRenderables;
-@property (strong, nonatomic) NSArray<id<MCPostRenderable>> *postRenderables;
+@property (strong, nonatomic) NSArray<id<MCAttachment>> *preRenderables;
+@property (strong, nonatomic) NSArray<id<MCAttachment>> *postRenderables;
 
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
@@ -201,8 +201,8 @@
 	
 	NSArray<id<MCRenderable>> *seriesArray = nil;
 	NSArray<MCSpatialProjection *> *projectionArray = nil;
-	NSArray<id<MCPreRenderable>> *preRenderables = nil;
-	NSArray<id<MCPostRenderable>> *postRenderables = nil;
+	NSArray<id<MCAttachment>> *preRenderables = nil;
+	NSArray<id<MCAttachment>> *postRenderables = nil;
 	
 	@synchronized(self) {
 		seriesArray = _series;
@@ -228,8 +228,8 @@
 			buffer = [[DeviceResource defaultResource].queue commandBuffer];
 			id<MTLRenderCommandEncoder> encoder = [buffer renderCommandEncoderWithDescriptor:pass];
 			
-			for(id<MCPreRenderable> renderable in preRenderables) {
-				[renderable willEncodeWith:encoder chart:self view:view];
+			for(id<MCAttachment> renderable in preRenderables) {
+				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
 			const NSUInteger count = seriesArray.count;
@@ -239,8 +239,8 @@
 				[series encodeWith:encoder projection:projection.projection];
 			}
 			
-			for(id<MCPostRenderable> renderable in postRenderables) {
-				[renderable didEncodeWith:encoder chart:self view:view];
+			for(id<MCAttachment> renderable in postRenderables) {
+				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
 			[encoder endEncoding];
@@ -294,28 +294,28 @@
 	}
 }
 
-- (void)addPreRenderable:(id<MCPreRenderable>)object
+- (void)addPreRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
 		_preRenderables = [_preRenderables arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removePreRenderable:(id<MCPreRenderable>)object
+- (void)removePreRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
 		_preRenderables = [_preRenderables arrayByRemovingObject:object];
 	}
 }
 
-- (void)addPostRenderable:(id<MCPostRenderable>)object
+- (void)addPostRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
 		_postRenderables = [_postRenderables arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removePostRenderable:(id<MCPostRenderable>)object
+- (void)removePostRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
 		_postRenderables = [_postRenderables arrayByRemovingObject:object];
