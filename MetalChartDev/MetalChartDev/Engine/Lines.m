@@ -10,7 +10,7 @@
 
 @interface Line()
 
-- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
 										  series:(id<Series> _Nonnull)series
 ;
 

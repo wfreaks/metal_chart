@@ -17,7 +17,7 @@
 
 @property (strong, nonatomic) MCDimensionalProjection * _Nullable target;
 
-- (_Null_unspecified instancetype)initWithTarget:(MCDimensionalProjection * _Nullable)target
+- (instancetype _Null_unspecified)initWithTarget:(MCDimensionalProjection * _Nullable)target
 ;
 
 - (const CGFloat * _Nullable)sourceMinValue;

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MCProjectionUpdater.h"
+#import "MCInteractive.h"
 
 typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
 
@@ -32,7 +33,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 @property (readonly, nonatomic) CGFloat anchor;
 @property (readonly, nonatomic) CGFloat offset;
 
-- (_Null_unspecified instancetype)initWithLength:(CGFloat)length
+- (instancetype _Null_unspecified)initWithLength:(CGFloat)length
 										  anchor:(CGFloat)anchor
 										  offset:(CGFloat)offset
 ;
@@ -51,7 +52,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 @property (readonly, nonatomic) BOOL    expandMin;
 @property (readonly, nonatomic) BOOL    expandMax;
 
-- (_Null_unspecified instancetype)initWithMinValue:(CGFloat)min
+- (instancetype _Null_unspecified)initWithMinValue:(CGFloat)min
 										  maxValue:(CGFloat)max
 										 expandMin:(BOOL)expandMin
 										 expandMax:(BOOL)expandMax
@@ -71,7 +72,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 @property (readonly, nonatomic) BOOL    shrinkMax;
 @property (readonly, nonatomic) BOOL    applyToCurrentMinMax;
 
-- (_Null_unspecified instancetype)initWithPaddingLow:(CGFloat)low
+- (instancetype _Null_unspecified)initWithPaddingLow:(CGFloat)low
 												high:(CGFloat)high
 										   shrinkMin:(BOOL)shrinkLow
 										   shrinkMax:(BOOL)shrinkHigh
@@ -80,8 +81,22 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 @end
 
+
+
 @interface MCBlockRestriction : NSObject<MCRestriction>
 
-- (_Null_unspecified instancetype)initWithBlock:(RestrictionBlock _Nonnull)block;
+- (instancetype _Null_unspecified)initWithBlock:(RestrictionBlock _Nonnull)block;
 
 @end
+
+
+
+@interface MCUserInteractiveRestriction : NSObject<MCRestriction, MCInteractive>
+
+
+@end
+
+
+
+
+

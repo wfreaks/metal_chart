@@ -145,3 +145,27 @@
 
 @end
 
+
+
+@implementation MCUserInteractiveRestriction
+
+- (void)updater:(MCProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
+{
+	
+}
+
+- (void)translationChanged:(CGFloat)translationDiff orientation:(CGFloat)orientation
+{
+	
+}
+
+- (void)scaleChanged:(CGFloat)scaleDiff orientation:(CGFloat)orientation
+{
+	
+}
+
+@end
+
+
+
+

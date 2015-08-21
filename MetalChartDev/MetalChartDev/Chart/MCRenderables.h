@@ -15,6 +15,6 @@
 
 @property (readonly, nonatomic) Line * _Nonnull line;
 
-- (_Null_unspecified instancetype)initWithLine:(Line * _Nonnull)line;
+- (instancetype _Null_unspecified)initWithLine:(Line * _Nonnull)line;
 
 @end

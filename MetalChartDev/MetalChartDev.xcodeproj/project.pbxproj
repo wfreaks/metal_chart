@@ -18,6 +18,8 @@
 		AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52E1B74C9D40004AA4E /* LineEngine.m */; };
 		AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */; };
 		AA88E5361B74C9D40004AA4E /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5321B74C9D40004AA4E /* Lines.m */; };
+		AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909C9D1B8798BF0056FE14 /* MCInteractive.m */; };
+		AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */; };
 		AAA537131B7A42400099017D /* MCAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA537121B7A42400099017D /* MCAxis.m */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
@@ -68,6 +70,10 @@
 		AA88E5311B74C9D40004AA4E /* Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines.h; sourceTree = "<group>"; };
 		AA88E5321B74C9D40004AA4E /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
 		AA88E5381B74E59A0004AA4E /* chart_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
+		AA909C9C1B8798BF0056FE14 /* MCInteractive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCInteractive.h; sourceTree = "<group>"; };
+		AA909C9D1B8798BF0056FE14 /* MCInteractive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCInteractive.m; sourceTree = "<group>"; };
+		AA909C9F1B879BDE0056FE14 /* NSArray+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utility.h"; sourceTree = "<group>"; };
+		AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AAA537111B7A42400099017D /* MCAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxis.h; sourceTree = "<group>"; };
 		AAA537121B7A42400099017D /* MCAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxis.m; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +154,8 @@
 				AA67A84A1B7925B2005EEA8D /* MCRenderables.m */,
 				AAA537111B7A42400099017D /* MCAxis.h */,
 				AAA537121B7A42400099017D /* MCAxis.m */,
+				AA909C9C1B8798BF0056FE14 /* MCInteractive.h */,
+				AA909C9D1B8798BF0056FE14 /* MCInteractive.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -213,6 +221,8 @@
 			children = (
 				AAB585111B6F0E1F00480AAE /* DeviceResource.h */,
 				AAB585121B6F0E1F00480AAE /* DeviceResource.m */,
+				AA909C9F1B879BDE0056FE14 /* NSArray+Utility.h */,
+				AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -348,6 +358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */,
 				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
 				AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
@@ -358,6 +369,7 @@
 				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
+				AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* LineEngine.m in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 				AAA537131B7A42400099017D /* MCAxis.m in Sources */,

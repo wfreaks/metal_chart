@@ -34,16 +34,6 @@
 
 
 
-@protocol MCInteractive <NSObject>
-
-- (void)scaleChanged:(CGFloat)scaleDiff
-
-;
-
-@end
-
-
-
 @interface MCDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
@@ -51,7 +41,7 @@
 @property (assign  , nonatomic) CGFloat     max;
 @property (copy    , nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
-- (_Null_unspecified instancetype)initWithDimensionId:(NSInteger)dimId
+- (instancetype _Null_unspecified)initWithDimensionId:(NSInteger)dimId
 											 minValue:(CGFloat)min
 											 maxValue:(CGFloat)max
 ;
@@ -68,7 +58,7 @@
 @property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 
-- (_Null_unspecified instancetype)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
+- (instancetype _Null_unspecified)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
 
 - (NSUInteger)rank;
 
@@ -87,7 +77,7 @@
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
 @property (assign , nonatomic) RectPadding padding;
 
-- (_Null_unspecified instancetype)init;
+- (instancetype _Null_unspecified)init;
 
 - (void)addSeries:(id<MCRenderable> _Nonnull)series
 	   projection:(MCSpatialProjection * _Nonnull)projection
@@ -101,17 +91,8 @@
 - (void)addPostRenderable:(id<MCAttachment> _Nonnull)object;
 - (void)removePostRenderable:(id<MCAttachment> _Nonnull)object;
 
-- (void)addInteractive:(id<MCInteractive> _Nonnull)object;
-- (void)removeInteractive:(id<MCInteractive> _Nonnull)object;
-
 - (NSArray<id<MCRenderable>> * _Nonnull)series;
 
 - (NSArray<MCSpatialProjection *> * _Nonnull)projections;
-
-- (void)addToPanRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
-- (void)removeFromPanRecognizer:(UIPanGestureRecognizer * _Nonnull)recognizer;
-
-- (void)addToPinchRecognizer:(UIPinchGestureRecognizer * _Nonnull)recognizer;
-- (void)removeFromPinchRecognizer:(UIPinchGestureRecognizer * _Nonnull)recognizer;
 
 @end

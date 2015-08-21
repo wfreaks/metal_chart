@@ -30,7 +30,7 @@
 
 @interface OrderedSeparatedLine : Line
 
-- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nonnull)series
 ;
 
@@ -42,7 +42,7 @@
 
 @interface OrderedPolyLine : PolyLine
 
-- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nonnull)series
 ;
 
@@ -58,7 +58,7 @@
 
 @interface IndexedPolyLine : PolyLine
 
-- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
 								   indexedSeries:(IndexedSeries * _Nonnull)series
 ;
 
@@ -70,7 +70,7 @@
 @property (readonly, nonatomic) UniformAxis * _Nonnull uniform;
 @property (readonly, nonatomic) LineEngine * _Nonnull engine;
 
-- (_Null_unspecified instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder

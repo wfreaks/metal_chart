@@ -8,14 +8,7 @@
 
 #import "MetalChart.h"
 #import "Buffers.h"
-
-@interface NSArray (Utility)
-
-- (_Nonnull instancetype)arrayByAddingObjectIfNotExists:(id _Nonnull)object;
-- (_Nonnull instancetype)arrayByRemovingObject:(id _Nonnull)object;
-- (_Nonnull instancetype)arrayByRemovingObjectAtIndex:(NSUInteger)index;
-
-@end
+#import "NSArray+Utility.h"
 
 @interface MCDimensionalProjection()
 
@@ -39,41 +32,8 @@
 
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *postRenderables;
-@property (strong, nonatomic) NSArray<id<MCInteractive>> *interactives;
 
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
-
-- (void)handlePanning:(UIPanGestureRecognizer * _Nonnull)recognizer;
-- (void)handlePinching:(UIPinchGestureRecognizer * _Nonnull)recognizer;
-
-@end
-
-@implementation NSArray (Utility)
-
-- (instancetype)arrayByAddingObjectIfNotExists:(id)object
-{
-	return ([self containsObject:object]) ? self : [self arrayByAddingObject:object];
-}
-
-- (instancetype)arrayByRemovingObject:(id)object
-{
-	if([self containsObject:object]) {
-		NSMutableArray *ar = [self mutableCopy];
-		[ar removeObject:object];
-		return [ar copy];
-	}
-	return self;
-}
-
-- (instancetype)arrayByRemovingObjectAtIndex:(NSUInteger)index
-{
-	if(self.count > index) {
-		NSMutableArray *ar = [self mutableCopy];
-		[ar removeObjectAtIndex:index];
-		return [ar copy];
-	}
-	return self;
-}
 
 @end
 
@@ -179,7 +139,6 @@
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
-        _interactives = [NSArray array];
 		_semaphore = dispatch_semaphore_create(2);
 	}
 	return self;
@@ -322,53 +281,6 @@
 	@synchronized(self) {
 		_postRenderables = [_postRenderables arrayByRemovingObject:object];
 	}
-}
-
-- (void)addToPanRecognizer:(UIPanGestureRecognizer *)recognizer
-{
-	[recognizer addTarget:self action:@selector(handlePanning:)];
-}
-
-- (void)removeFromPanRecognizer:(UIPanGestureRecognizer *)recognizer
-{
-	[recognizer removeTarget:self action:@selector(handlePanning:)];
-}
-
-- (void)addInteractive:(id<MCInteractive>)object
-{
-    @synchronized(self) {
-        _interactives = [_interactives arrayByAddingObjectIfNotExists:object];
-    }
-}
-
-- (void)removeInteractive:(id<MCInteractive>)object
-{
-    @synchronized(self) {
-        _interactives = [_interactives arrayByRemovingObject:object];
-    }
-}
-
-- (void)handlePanning:(UIPanGestureRecognizer *)recognizer
-{
-    if(recognizer.state == UIGestureRecognizerStateChanged && recognizer.numberOfTouches == 1) {
-        const CGPoint trans = [recognizer translationInView:recognizer.view];
-        NSLog(@"panning - translation(%f, %f)", trans.x, trans.y);
-    }
-}
-
-- (void)addToPinchRecognizer:(UIPinchGestureRecognizer *)recognizer
-{
-	[recognizer addTarget:self action:@selector(handlePinching:)];
-}
-
-- (void)removeFromPinchRecognizer:(UIPinchGestureRecognizer *)recognizer
-{
-	[recognizer removeTarget:self action:@selector(handlePinching:)];
-}
-
-- (void)handlePinching:(UIPinchGestureRecognizer *)recognizer
-{
-    
 }
 
 @end

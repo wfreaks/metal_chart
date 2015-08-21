@@ -21,7 +21,7 @@
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource
 									vertexCapacity:(NSUInteger)vertCapacity;
 
 @end
@@ -32,7 +32,7 @@
 @property (readonly, nonatomic) IndexBuffer * _Nonnull indices;
 @property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
 
-- (_Null_unspecified instancetype)initWithResource:(DeviceResource * _Nonnull)resource
+- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource
 									vertexCapacity:(NSUInteger)vertCapacity
 									 indexCapacity:(NSUInteger)idxCapacity
 ;
