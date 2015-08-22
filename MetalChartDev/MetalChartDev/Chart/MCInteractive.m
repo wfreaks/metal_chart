@@ -11,9 +11,6 @@
 
 @interface MCGestureInterpreter()
 
-@property (assign, nonatomic) CGPoint currentTranslation;
-@property (assign, nonatomic) CGFloat currentScale;
-
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
@@ -31,6 +28,7 @@
 
 - (instancetype)initWithPanRecognizer:(UIPanGestureRecognizer *)pan
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
+						  restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
 {
 	self = [self init];
 	if(self) {
@@ -41,6 +39,7 @@
 		_translationCumulative = CGPointZero;
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
+		_restriction = restriction;
 	}
 	return self;
 }
@@ -62,16 +61,26 @@
 		if(dist > 0 && !isnan(dist)) {
 			const CGFloat or_rad = atan2(diff.x, diff.y);
 			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
-			_translationCumulative.x += cos(or_rad);
-			_translationCumulative.y += sin(or_rad);
+			const CGPoint oldT = _translationCumulative;
+			const CGFloat x = oldT.x + (dist * cos(stepped));
+			const CGFloat y = oldT.y + (dist * sin(stepped));
+			self.translationCumulative = CGPointMake(x, y);
+			const CGPoint newT = self.translationCumulative;
 			
-			NSArray<id<MCDifferenceInteraction>> *differences = _differences;
-			NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
-			for(id<MCDifferenceInteraction> object in differences) {
-				[object translationChanged:dist orientation:stepped];
-			}
-			for(id<MCCumulativeInteraction> object in cumulatives) {
-				[object translationChanged:_translationCumulative];
+			if(!CGPointEqualToPoint(oldT, newT)) {
+			
+				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
+				for(id<MCCumulativeInteraction> object in cumulatives) {
+					[object didTranslationChange:self];
+				}
+				
+				NSArray<id<MCDifferenceInteraction>> *differences = _differences;
+				if(differences) {
+					const CGPoint cumDiff = CGPointMake(newT.x-oldT.x, newT.y-oldT.y);
+					for(id<MCDifferenceInteraction> object in differences) {
+						[object interpreter:self didTranslationChanged:cumDiff];
+					}
+				}
 			}
 		}
 	}
@@ -95,20 +104,42 @@
 			if(dist > 0 && !isnan(dist)) {
 				const CGFloat or_rad = atan2(diff.x, diff.y);
 				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
-				_scaleCumulative.width += cos(or_rad);
-				_scaleCumulative.height += sin(or_rad);
+				const CGSize oldScale = _scaleCumulative;
+				const CGFloat width = oldScale.width + (scaleDiff * cos(stepped));
+				const CGFloat height = oldScale.height + (scaleDiff * sin(stepped));
+				self.scaleCumulative = CGSizeMake(width, height);
+				const CGSize newScale = _scaleCumulative;
 				
-				NSArray<id<MCDifferenceInteraction>> *differences = _differences;
-				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
-				for(id<MCDifferenceInteraction> object in differences) {
-					[object scaleChanged:scaleDiff orientation:stepped];
-				}
-				for(id<MCCumulativeInteraction> object in cumulatives) {
-					[object scaleChanged:_scaleCumulative];
+				if(CGSizeEqualToSize(oldScale, newScale)) {
+				
+					NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
+					for(id<MCCumulativeInteraction> object in cumulatives) {
+						[object didScaleChange:self];
+					}
+
+					NSArray<id<MCDifferenceInteraction>> *differences = _differences;
+					if(_differences.count > 0) {
+						const CGSize cumDiff = CGSizeMake(newScale.width-oldScale.width, newScale.height-oldScale.height);
+						for(id<MCDifferenceInteraction> object in differences) {
+							[object interpreter:self didScaleChanged:cumDiff];
+						}
+					}
 				}
 			}
 		}
 	}
+}
+
+- (void)setTranslationCumulative:(CGPoint)translationCumulative
+{
+	[_restriction interpreter:self willTranslationChange:&translationCumulative];
+	_translationCumulative = translationCumulative;
+}
+
+- (void)setScaleCumulative:(CGSize)scaleCumulative
+{
+	[_restriction interpreter:self willScaleChange:&scaleCumulative];
+	_scaleCumulative = scaleCumulative;
 }
 
 - (void)dealloc
