@@ -11,10 +11,12 @@
 
 @interface MCGestureInterpreter()
 
+@property (readonly, nonatomic) CGPoint currentTranslation;
+@property (readonly, nonatomic) CGFloat currentScale;
+
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
-@property (readonly, nonatomic) NSArray<id<MCDifferenceInteraction>> *differences;
 @property (readonly, nonatomic) NSArray<id<MCCumulativeInteraction>> *cumulatives;
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
@@ -32,7 +34,6 @@
 {
 	self = [self init];
 	if(self) {
-		_differences = [NSArray array];
 		_cumulatives = [NSArray array];
 		_orientationStep = M_PI_4; // 45 degree.
 		_scaleCumulative = CGSizeMake(1, 1);
@@ -62,24 +63,15 @@
 			const CGFloat or_rad = atan2(diff.x, diff.y);
 			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 			const CGPoint oldT = _translationCumulative;
-			const CGFloat x = oldT.x + (dist * cos(stepped));
-			const CGFloat y = oldT.y + (dist * sin(stepped));
+			const CGFloat x = oldT.x + (dist * cos(stepped) / _scaleCumulative.width);
+			const CGFloat y = oldT.y + (dist * sin(stepped) / _scaleCumulative.height);
 			self.translationCumulative = CGPointMake(x, y);
 			const CGPoint newT = self.translationCumulative;
 			
 			if(!CGPointEqualToPoint(oldT, newT)) {
-			
 				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 				for(id<MCCumulativeInteraction> object in cumulatives) {
 					[object didTranslationChange:self];
-				}
-				
-				NSArray<id<MCDifferenceInteraction>> *differences = _differences;
-				if(differences) {
-					const CGPoint cumDiff = CGPointMake(newT.x-oldT.x, newT.y-oldT.y);
-					for(id<MCDifferenceInteraction> object in differences) {
-						[object interpreter:self didTranslationChanged:cumDiff];
-					}
 				}
 			}
 		}
@@ -93,7 +85,7 @@
 		_currentScale = reconginer.scale;
 	} else if (state == UIGestureRecognizerStateChanged) {
 		const CGFloat scale = reconginer.scale;
-		const CGFloat scaleDiff = scale - _currentScale;
+		const CGFloat scaleDiff = (scale / _currentScale) - 1; // -1よりは大きい.
 		_currentScale = scale;
 		if(reconginer.numberOfTouches == 2) {
 			UIView *v = reconginer.view;
@@ -105,24 +97,15 @@
 				const CGFloat or_rad = atan2(diff.x, diff.y);
 				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 				const CGSize oldScale = _scaleCumulative;
-				const CGFloat width = oldScale.width + (scaleDiff * cos(stepped));
-				const CGFloat height = oldScale.height + (scaleDiff * sin(stepped));
+				const CGFloat width = oldScale.width * (1 + (scaleDiff * cos(stepped)));
+				const CGFloat height = oldScale.height * (1 + (scaleDiff * sin(stepped)));
 				self.scaleCumulative = CGSizeMake(width, height);
 				const CGSize newScale = _scaleCumulative;
 				
 				if(CGSizeEqualToSize(oldScale, newScale)) {
-				
 					NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 					for(id<MCCumulativeInteraction> object in cumulatives) {
 						[object didScaleChange:self];
-					}
-
-					NSArray<id<MCDifferenceInteraction>> *differences = _differences;
-					if(_differences.count > 0) {
-						const CGSize cumDiff = CGSizeMake(newScale.width-oldScale.width, newScale.height-oldScale.height);
-						for(id<MCDifferenceInteraction> object in differences) {
-							[object interpreter:self didScaleChanged:cumDiff];
-						}
 					}
 				}
 			}
@@ -148,28 +131,14 @@
 	self.pinchRecognizer = nil;
 }
 
-- (void)addDifference:(id<MCDifferenceInteraction>)object
-{
-	@synchronized(self) {
-		_differences = [_differences arrayByAddingObjectIfNotExists:object];
-	}
-}
-
-- (void)removeDifference:(id<MCDifferenceInteraction>)object
-{
-	@synchronized(self) {
-		_differences = [_differences arrayByRemovingObject:object];
-	}
-}
-
-- (void)addCumulative:(id<MCDifferenceInteraction>)object
+- (void)addCumulative:(id<MCCumulativeInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removeCumulative:(id<MCDifferenceInteraction>)object
+- (void)removeCumulative:(id<MCCumulativeInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByRemovingObject:object];
@@ -212,4 +181,38 @@
 }
 
 @end
+
+
+@implementation MCDefaultInterpreterRestriction
+
+- (instancetype)initWithScaleMin:(CGSize)minScale
+							 max:(CGSize)maxScale
+				  translationMin:(CGPoint)minTrans
+							 max:(CGPoint)maxTrans
+{
+	self = [super init];
+	if(self) {
+		_minScale = minScale;
+		_maxScale = maxScale;
+		_minTranslation = minTrans;
+		_maxTranslation = maxTrans;
+	}
+	return self;
+}
+
+- (void)interpreter:(MCGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
+{
+	size->width = MIN(_maxScale.width, MAX(_minScale.width, size->width));
+	size->height = MIN(_maxScale.height, MAX(_minScale.height, size->height));
+}
+
+- (void)interpreter:(MCGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
+{
+	translation->x = MIN(_maxTranslation.x, MAX(_minTranslation.x, translation->x));
+	translation->y = MIN(_maxTranslation.y, MAX(_minTranslation.y, translation->y));
+}
+
+@end
+
+
 
