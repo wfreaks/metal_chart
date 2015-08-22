@@ -45,7 +45,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 // それ以外の場合にはsourceの値でmin/maxを更新する. このクラスはmin/maxの現在地を「完全に」無視する.
 // sourceの値が代替値に達していなくてもsourceの値を使いたい場合はexpand{Min,Max}をNOにする.
 // 優先度的に低い方に来るのが普通の使い方だろう.
-@interface MCAlternativeSourceRestriction : NSObject<MCRestriction>
+@interface MCSourceRestriction : NSObject<MCRestriction>
 
 @property (readonly, nonatomic) CGFloat min;
 @property (readonly, nonatomic) CGFloat max;
@@ -64,7 +64,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 // allowShrinkはsourceから計算した新しい値が範囲を狭める場合にその値を使うか否か,
 // applyToCurrentMinMaxはpaddingを現在値に加えるかどうか. 例えばAlternativeSourceの次に使う場合は
 // 現在のmin/maxが補正されてsourceMin/Maxのように働くため.
-@interface MCSourcePaddingRestriction : NSObject<MCRestriction>
+@interface MCPaddingRestriction : NSObject<MCRestriction>
 
 @property (readonly, nonatomic) CGFloat paddingLow;
 @property (readonly, nonatomic) CGFloat paddingHigh;
@@ -89,10 +89,17 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 @end
 
+// このクラスだけが他の具体的な実装を持つRestrictionsとは異なり、statefullである。
+// （実際はstateを持っているのはinterpreterだがそれを反映する）.
 
+@interface MCUserInteractiveRestriction : NSObject<MCRestriction>
 
-@interface MCUserInteractiveRestriction : NSObject<MCRestriction, MCInteractive>
+@property (readonly, nonatomic) CGFloat orientationRad;
+@property (readonly, nonatomic) MCGestureInterpreter * _Nonnull interpreter;
 
+- (instancetype _Null_unspecified)initWithGestureInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
+												 orientation:(CGFloat)radian
+;
 
 @end
 

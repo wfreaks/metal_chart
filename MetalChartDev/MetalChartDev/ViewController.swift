@@ -81,7 +81,7 @@ class ViewController: UIViewController {
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
-			xUpdater.addRestriction(MCAlternativeSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+			xUpdater.addRestriction(MCSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
 			
 			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60);
 			
@@ -129,7 +129,5 @@ class ViewController: UIViewController {
 			
 			chart.addPostRenderable(xAxis)
 		}
-        chart.addToPanRecognizer(panRecognizer)
-        chart.addToPinchRecognizer(pinchRecognizer)
 	}
 }

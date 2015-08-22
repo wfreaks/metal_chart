@@ -36,7 +36,7 @@
 
 @end
 
-@implementation MCAlternativeSourceRestriction
+@implementation MCSourceRestriction
 
 - (instancetype)initWithMinValue:(CGFloat)min
 						maxValue:(CGFloat)max
@@ -67,7 +67,7 @@
 
 @end
 
-@implementation MCSourcePaddingRestriction
+@implementation MCPaddingRestriction
 
 - (instancetype)initWithPaddingLow:(CGFloat)low
 							  high:(CGFloat)high
@@ -145,21 +145,20 @@
 
 @end
 
-
-
 @implementation MCUserInteractiveRestriction
 
+- (instancetype)initWithGestureInterpreter:(MCGestureInterpreter *)interpreter
+							   orientation:(CGFloat)radian
+{
+	self = [super init];
+	if(self) {
+		_interpreter = interpreter;
+		_orientationRad = radian;
+	}
+	return self;
+}
+
 - (void)updater:(MCProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
-{
-	
-}
-
-- (void)translationChanged:(CGFloat)translationDiff orientation:(CGFloat)orientation
-{
-	
-}
-
-- (void)scaleChanged:(CGFloat)scaleDiff orientation:(CGFloat)orientation
 {
 	
 }

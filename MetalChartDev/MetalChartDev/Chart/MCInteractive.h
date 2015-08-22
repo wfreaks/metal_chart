@@ -8,13 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol MCInteractive <NSObject>
+@protocol MCDifferenceInteraction <NSObject>
 
+// arg orientation represents radian between vector (1,0) and translation/scale vector.
 - (void)scaleChanged:(CGFloat)scaleDiff orientation:(CGFloat)orientation;
 - (void)translationChanged:(CGFloat)translationDiff orientation:(CGFloat)orientation;
 
 @end
 
+@protocol MCCumulativeInteraction <NSObject>
+
+- (void)scaleChanged:(CGSize)scale;
+- (void)translationChanged:(CGPoint)translation;
+
+@end
 
 
 @interface MCGestureInterpreter : NSObject
@@ -22,17 +29,14 @@
 @property (strong, nonatomic) UIPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
 
-@property (readonly, nonatomic) NSArray<id<MCInteractive>> * _Nonnull interactives;
-
 @property (assign, nonatomic) CGFloat orientationStep;
+@property (assign, nonatomic) CGFloat orientationStepDegree;
 
 - (instancetype _Null_unspecified)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
 										pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
 ;
 
-- (void)addInteractive:(id<MCInteractive> _Nonnull)object;
-
-- (void)removeInteractive:(id<MCInteractive> _Nonnull)object;
+- (void)resetCumulativeStates;
 
 @end
 

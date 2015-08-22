@@ -14,6 +14,12 @@
 @property (assign, nonatomic) CGPoint currentTranslation;
 @property (assign, nonatomic) CGFloat currentScale;
 
+@property (assign, nonatomic) CGPoint translationCumulative;
+@property (assign, nonatomic) CGSize  scaleCumulative;
+
+@property (readonly, nonatomic) NSArray<id<MCDifferenceInteraction>> *differences;
+@property (readonly, nonatomic) NSArray<id<MCCumulativeInteraction>> *cumulatives;
+
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer;
 
@@ -21,18 +27,26 @@
 
 @implementation MCGestureInterpreter
 
+@dynamic orientationStepDegree;
+
 - (instancetype)initWithPanRecognizer:(UIPanGestureRecognizer *)pan
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
 {
 	self = [self init];
 	if(self) {
-		_interactives = [NSArray array];
-		_orientationStep = 45;
+		_differences = [NSArray array];
+		_cumulatives = [NSArray array];
+		_orientationStep = M_PI_4; // 45 degree.
+		_scaleCumulative = CGSizeMake(1, 1);
+		_translationCumulative = CGPointZero;
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
 	}
 	return self;
 }
+
+- (CGFloat)orientationStepDegree { return _orientationStep * 180 / M_PI; }
+- (void)setOrientationStepDegree:(CGFloat)degree { _orientationStep = degree * M_PI / 180; }
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
@@ -46,12 +60,18 @@
 		
 		const CGFloat dist = sqrt((diff.x*diff.x) + (diff.y*diff.y));
 		if(dist > 0 && !isnan(dist)) {
-			const CGFloat orientation = atan2(diff.x, diff.y) * 180 / M_PI;
-			const CGFloat stepped = (_orientationStep > 0) ? round(orientation/_orientationStep) * _orientationStep : orientation;
+			const CGFloat or_rad = atan2(diff.x, diff.y);
+			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
+			_translationCumulative.x += cos(or_rad);
+			_translationCumulative.y += sin(or_rad);
 			
-			NSArray<id<MCInteractive>> *ar = _interactives;
-			for(id<MCInteractive> object in ar) {
+			NSArray<id<MCDifferenceInteraction>> *differences = _differences;
+			NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
+			for(id<MCDifferenceInteraction> object in differences) {
 				[object translationChanged:dist orientation:stepped];
+			}
+			for(id<MCCumulativeInteraction> object in cumulatives) {
+				[object translationChanged:_translationCumulative];
 			}
 		}
 	}
@@ -73,12 +93,18 @@
 			const CGPoint diff = {b.x-a.x, b.y-a.y};
 			const CGFloat dist = (diff.x*diff.x) + (diff.y*diff.y);
 			if(dist > 0 && !isnan(dist)) {
-				const CGFloat orientation = atan2(diff.x, diff.y) * 180 / M_PI;
-				const CGFloat stepped = (_orientationStep > 0) ? round(orientation/_orientationStep) * _orientationStep : orientation;
+				const CGFloat or_rad = atan2(diff.x, diff.y);
+				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
+				_scaleCumulative.width += cos(or_rad);
+				_scaleCumulative.height += sin(or_rad);
 				
-				NSArray<id<MCInteractive>> *ar = _interactives;
-				for(id<MCInteractive> object in ar) {
+				NSArray<id<MCDifferenceInteraction>> *differences = _differences;
+				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
+				for(id<MCDifferenceInteraction> object in differences) {
 					[object scaleChanged:scaleDiff orientation:stepped];
+				}
+				for(id<MCCumulativeInteraction> object in cumulatives) {
+					[object scaleChanged:_scaleCumulative];
 				}
 			}
 		}
@@ -91,19 +117,34 @@
 	self.pinchRecognizer = nil;
 }
 
-- (void)addInteractive:(id<MCInteractive>)object
+- (void)addDifference:(id<MCDifferenceInteraction>)object
 {
 	@synchronized(self) {
-		_interactives = [_interactives arrayByAddingObjectIfNotExists:object];
+		_differences = [_differences arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removeInteractive:(id<MCInteractive>)object
+- (void)removeDifference:(id<MCDifferenceInteraction>)object
 {
 	@synchronized(self) {
-		_interactives = [_interactives arrayByRemovingObject:object];
+		_differences = [_differences arrayByRemovingObject:object];
 	}
 }
+
+- (void)addCumulative:(id<MCDifferenceInteraction>)object
+{
+	@synchronized(self) {
+		_cumulatives = [_cumulatives arrayByAddingObjectIfNotExists:object];
+	}
+}
+
+- (void)removeCumulative:(id<MCDifferenceInteraction>)object
+{
+	@synchronized(self) {
+		_cumulatives = [_cumulatives arrayByRemovingObject:object];
+	}
+}
+
 
 - (void)setPanRecognizer:(UIPanGestureRecognizer *)panRecognizer
 {
@@ -133,6 +174,11 @@
 	}
 }
 
+- (void)resetCumulativeStates
+{
+	_translationCumulative = CGPointZero;
+	_scaleCumulative = CGSizeMake(1, 1);
+}
 
 @end
 
