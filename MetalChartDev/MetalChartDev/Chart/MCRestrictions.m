@@ -7,7 +7,7 @@
 //
 
 #import "MCRestrictions.h"
-
+#import "MCProjectionUpdater.h"
 
 @implementation MCLengthRestriction
 

@@ -19,7 +19,6 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
 	let asChart = false
-	var gestureInterpreter : MCGestureInterpreter? = nil
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -50,7 +49,7 @@ class ViewController: UIViewController {
 		
 		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -0.5,y: -0.5), max: CGPoint(x: 0.5,y: 0.5))
 		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
-		gestureInterpreter = interpreter
+		interpreter.orientationStepDegree = 1
 		
 		if (asChart) {
 			let yRange : CGFloat = CGFloat(5)
