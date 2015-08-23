@@ -24,6 +24,12 @@
 
 @end
 
+@interface MCSimpleBlockInteraction()
+
+@property (copy, nonatomic) SimpleInterfactionBlock _Nonnull block;
+
+@end
+
 @implementation MCGestureInterpreter
 
 @dynamic orientationStepDegree;
@@ -51,24 +57,28 @@
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
 	const UIGestureRecognizerState state = recognizer.state;
+	UIView *view = recognizer.view;
 	if(state == UIGestureRecognizerStateBegan) {
 		_currentTranslation = [recognizer translationInView:recognizer.view];
 	} else if (state == UIGestureRecognizerStateChanged) {
+		const CGSize size = view.bounds.size;
 		const CGPoint t = [recognizer translationInView:recognizer.view];
-		const CGPoint diff = {t.x - _currentTranslation.x, t.y - _currentTranslation.y};
+		// window座標とグラフの座標ではy軸の向きが違う。この時点でyの値を反転させておく.
+		const CGPoint diff = {(t.x - _currentTranslation.x)/size.width, -(t.y - _currentTranslation.y)/size.height};
 		_currentTranslation = t;
 		
 		const CGFloat dist = sqrt((diff.x*diff.x) + (diff.y*diff.y));
 		if(dist > 0 && !isnan(dist)) {
-			const CGFloat or_rad = atan2(diff.x, diff.y);
+			const CGFloat or_rad = atan2(diff.y, diff.x);
 			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 			const CGPoint oldT = _translationCumulative;
-			const CGFloat x = oldT.x + (dist * cos(stepped) / _scaleCumulative.width);
-			const CGFloat y = oldT.y + (dist * sin(stepped) / _scaleCumulative.height);
+			const CGFloat x = oldT.x + (dist * cos(stepped) / (_scaleCumulative.width));
+			const CGFloat y = oldT.y + (dist * sin(stepped) / (_scaleCumulative.height));
 			self.translationCumulative = CGPointMake(x, y);
 			const CGPoint newT = self.translationCumulative;
 			
 			if(!CGPointEqualToPoint(oldT, newT)) {
+				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
 				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 				for(id<MCCumulativeInteraction> object in cumulatives) {
 					[object didTranslationChange:self];
@@ -87,6 +97,7 @@
 		const CGFloat scale = reconginer.scale;
 		const CGFloat scaleDiff = (scale / _currentScale) - 1; // -1よりは大きい.
 		_currentScale = scale;
+		NSLog(@"scale : %.2f", reconginer.scale);
 		if(reconginer.numberOfTouches == 2) {
 			UIView *v = reconginer.view;
 			const CGPoint a = [reconginer locationOfTouch:0 inView:v];
@@ -94,7 +105,7 @@
 			const CGPoint diff = {b.x-a.x, b.y-a.y};
 			const CGFloat dist = (diff.x*diff.x) + (diff.y*diff.y);
 			if(dist > 0 && !isnan(dist)) {
-				const CGFloat or_rad = atan2(diff.x, diff.y);
+				const CGFloat or_rad = atan(diff.y / diff.x); // 点A・Bと指の対応関係は実行時によって変わる。atan2を使うと結果が対応関係に依存するのでatanを使う.
 				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 				const CGSize oldScale = _scaleCumulative;
 				const CGFloat width = oldScale.width * (1 + (scaleDiff * cos(stepped)));
@@ -102,7 +113,8 @@
 				self.scaleCumulative = CGSizeMake(width, height);
 				const CGSize newScale = _scaleCumulative;
 				
-				if(CGSizeEqualToSize(oldScale, newScale)) {
+				if(!CGSizeEqualToSize(oldScale, newScale)) {
+					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
 					NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 					for(id<MCCumulativeInteraction> object in cumulatives) {
 						[object didScaleChange:self];
@@ -156,6 +168,7 @@
 			if(panRecognizer) {
 				[panRecognizer addTarget:self action:@selector(handlePanning:)];
 			}
+			_panRecognizer = panRecognizer;
 		}
 	}
 }
@@ -170,6 +183,7 @@
 			if(pinchRecognizer) {
 				[pinchRecognizer addTarget:self action:@selector(handlePinching:)];
 			}
+			_pinchRecognizer = pinchRecognizer;
 		}
 	}
 }
@@ -213,6 +227,24 @@
 }
 
 @end
+
+@implementation MCSimpleBlockInteraction
+
+- (instancetype)initWithBlock:(SimpleInterfactionBlock)block
+{
+	self = [super init];
+	if(self) {
+		self.block = block;
+	}
+	return self;
+}
+
+- (void)didScaleChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
+
+- (void)didTranslationChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
+
+@end
+
 
 
 

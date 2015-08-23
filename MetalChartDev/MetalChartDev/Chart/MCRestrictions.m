@@ -174,9 +174,10 @@
 	const CGFloat py = (sin(rad) / scale.height);
 	const CGFloat dirScale = sqrt((px*px)+(py*py));
 	const CGFloat dirOffset = (cos(rad) * translation.x) + (sin(rad) * translation.y);
+	const CGFloat base = (mid - (len * dirOffset * 2)); // 実際のrangeの長さはlen*2なので.
 	
-	*min = (mid + dirOffset) - (len * dirScale);
-	*max = (mid + dirOffset) + (len * dirScale);
+	*min = base - (len * dirScale);
+	*max = base + (len * dirScale);
 }
 
 @end

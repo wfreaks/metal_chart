@@ -68,3 +68,10 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @end
 
+typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
+
+@interface MCSimpleBlockInteraction : NSObject<MCCumulativeInteraction>
+
+- (instancetype _Null_unspecified)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
+
+@end

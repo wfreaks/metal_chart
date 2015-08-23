@@ -86,8 +86,7 @@
 			[restriction updater:self minValue:&min maxValue:&max];
 		}
 		
-		projection.min = min;
-		projection.max = max;
+		[projection setMin:min max:max];
 	}
 }
 

@@ -18,7 +18,8 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = true
+	let asChart = false
+	var gestureInterpreter : MCGestureInterpreter? = nil
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -33,6 +34,8 @@ class ViewController: UIViewController {
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.preferredFramesPerSecond = 60
+		metalView.addGestureRecognizer(panRecognizer)
+		metalView.addGestureRecognizer(pinchRecognizer)
 		
 		setupChart()
 		metalView.delegate = chart
@@ -44,6 +47,10 @@ class ViewController: UIViewController {
 	}
 	
 	func setupChart() {
+		
+		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -0.5,y: -0.5), max: CGPoint(x: 0.5,y: 0.5))
+		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
+		gestureInterpreter = interpreter
 		
 		if (asChart) {
 			let yRange : CGFloat = CGFloat(5)
@@ -99,11 +106,25 @@ class ViewController: UIViewController {
 			
 		} else {
             chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30);
-
+			
 			let offsetX = CGFloat(0)
 			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offsetX, maxValue: 1 + offsetX)
 			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -1, maxValue: 1)
 			let space = MCSpatialProjection(dimensions: [dimX, dimY])
+			
+			let xUpdater = MCProjectionUpdater(target: dimX)
+			xUpdater.addRestriction(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(0)))
+			xUpdater.addRestriction(MCLengthRestriction(length: 2, anchor: 0, offset: offsetX))
+			
+			let yUpdater = MCProjectionUpdater(target: dimY)
+			yUpdater.addRestriction(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(M_PI_2)))
+			yUpdater.addRestriction(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
+			
+			let interaction = MCSimpleBlockInteraction() { (interpreter) -> Void in
+				xUpdater.updateTarget()
+				yUpdater.updateTarget()
+			}
+			interpreter.addCumulative(interaction)
 			
 			let engine = LineEngine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
