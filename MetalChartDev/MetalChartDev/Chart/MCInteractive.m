@@ -102,10 +102,11 @@
 			UIView *v = reconginer.view;
 			const CGPoint a = [reconginer locationOfTouch:0 inView:v];
 			const CGPoint b = [reconginer locationOfTouch:1 inView:v];
-			const CGPoint diff = {b.x-a.x, b.y-a.y};
+			// a,bと指の対応関係は実行時に変わるが、すでにscaleが取れている以上、右側の指が上だろうが下だろうが結果は変わらない.
+			const CGPoint diff = {fabs(b.x-a.x), fabs(b.y-a.y)};
 			const CGFloat dist = (diff.x*diff.x) + (diff.y*diff.y);
 			if(dist > 0 && !isnan(dist)) {
-				const CGFloat or_rad = atan(diff.y / diff.x); // 点A・Bと指の対応関係は実行時によって変わる。atan2を使うと結果が対応関係に依存するのでatanを使う.
+				const CGFloat or_rad = atan2(diff.y, diff.x);
 				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 				const CGSize oldScale = _scaleCumulative;
 				const CGFloat width = oldScale.width * (1 + (scaleDiff * cos(stepped)));

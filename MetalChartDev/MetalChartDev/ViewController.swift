@@ -137,7 +137,7 @@ class ViewController: UIViewController {
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
 				uniform.maxMajorTicks = 5
-				uniform.axisAnchorValue = -0.5
+				uniform.axisAnchorValue = CFloat(max(orthogonal.min, min(orthogonal.max, -0.5)))
 				uniform.tickAnchorValue = +0.0
 			}
 			
