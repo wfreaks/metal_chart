@@ -26,13 +26,17 @@
 
 /*
  * Renderable/AttachmentがDepthTestを必要とする場合、このプロトコルを実装する. 
- * 複数のドローコールが発行される関係上、
- * どの範囲をどれが使用するかを把握していないと描画上の不整合を起こすため. もちろん強制力は無い.
+ * 複数のドローコールが発行される関係上、Depthバッファの値の取りうる範囲（領域ではない）のうち、
+ * どの範囲をどれが使用するかを把握していないと描画上の不整合を起こすため. 強制力は無い.
  * clientが使用可能な値は, 戻り値 R を用いて (minDepth <= v < minDepth + R) を満たすvである.
  * 負値は0として解釈される. このメソッドは描画オブジェクト配列に変更が加えられた時にコールされる.
  *
- * MetalChartの
+ * MetalChartの想定は、MTKView の clearDepthの値が0となっている事, depthが浮動小数点である事である.
  * また, 少なくともデフォルト実装では depthTestはMTLCompareFunctionGreaterを使う.
+ *
+ * また、当然ではあるがハンドリングされるのは
+ * [MetalChart (add/remove)(Series/PreRenderable/PostRenderable):]
+ * の引数に渡されたオブジェクトだけである.
  */
 @protocol MCDepthClient <NSObject>
 
