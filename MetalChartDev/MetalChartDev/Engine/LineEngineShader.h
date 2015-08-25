@@ -9,9 +9,7 @@
 #ifndef LineEngineShader_h
 #define LineEngineShader_h
 
-#include <metal_stdlib>
-
-using namespace metal;
+#include "Shader_common.h"
 
 struct out_vertex {
     float4 position [[ position ]];
@@ -25,24 +23,6 @@ struct out_vertex {
 struct out_fragment {
     float4 color [[ color(0) ]];
     float  depth [[ depth(greater) ]];
-};
-
-struct vertex_coord {
-    float2 position;
-};
-
-struct vertex_index {
-    uint index;
-};
-
-struct uniform_projection {
-    float2 origin;
-    float2 value_scale;
-    float2 value_offset;
-    
-    float2 physical_size;
-    float4 rect_padding;
-    float  screen_scale;
 };
 
 struct uniform_line_attr {

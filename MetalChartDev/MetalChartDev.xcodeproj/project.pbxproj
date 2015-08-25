@@ -10,6 +10,7 @@
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
 		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */; settings = {ASSET_TAGS = (); }; };
+		AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
@@ -55,6 +56,8 @@
 		AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
 		AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
 		AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineBuffers.mm; sourceTree = "<group>"; };
+		AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
+		AA2A9B711B8CBCDD00C79D32 /* Shader_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
 		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
@@ -135,6 +138,7 @@
 				AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */,
 				AA67A8461B7904E1005EEA8D /* Series.h */,
 				AA67A8471B7904E1005EEA8D /* Series.m */,
+				AA2A9B711B8CBCDD00C79D32 /* Shader_common.h */,
 				AA88E52F1B74C9D40004AA4E /* Lines_common.h */,
 				AA1544501B822A8600F0193E /* LineEngineShader.h */,
 				AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */,
@@ -143,6 +147,7 @@
 				AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */,
 				AA88E5311B74C9D40004AA4E /* Lines.h */,
 				AA88E5321B74C9D40004AA4E /* Lines.m */,
+				AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* Engine.m in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
+				AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */,
 				AAA537131B7A42400099017D /* MCAxis.m in Sources */,
 				AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.mm in Sources */,
 				AA88E5331B74C9D40004AA4E /* Buffers.mm in Sources */,
