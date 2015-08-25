@@ -6,10 +6,7 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#include <metal_stdlib>
 #include "LineEngineShader.h"
-
-using namespace metal;
 
 vertex out_vertex PolyLineEngineVertexIndexed(
                                               device vertex_coord* coords [[ buffer(0) ]],

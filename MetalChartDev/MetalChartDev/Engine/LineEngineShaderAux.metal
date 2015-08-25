@@ -8,10 +8,7 @@
 
 // ちなみに、このファイル内のshaderではbranch命令が0である(stdlibに含まれてなければ)
 
-#include <metal_stdlib>
 #include "LineEngineShader.h"
-
-using namespace metal;
 
 struct uniform_axis {
     float  axis_anchor_value;
