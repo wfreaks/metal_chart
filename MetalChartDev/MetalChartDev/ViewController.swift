@@ -60,7 +60,7 @@ class ViewController: UIViewController {
 			let vertCapacity : UInt = 1<<9
 			let vertLength = 1 << 8
 			let vertOffset = 1 << 4
-			let engine = LineEngine(resource: resource)
+			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleAttributes()
@@ -137,7 +137,7 @@ class ViewController: UIViewController {
 			}
 			interpreter.addCumulative(interaction)
 			
-			let engine = LineEngine(resource: resource)
+			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleData()

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MetalKit/MetalKit.h>
-#import "LineEngine_common.h"
+#import "Lines_common.h"
 
 /*
  * このヘッダファイル内で宣言されたクラスは代替の利かないコアなコンポーネントの「全て」である.

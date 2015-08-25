@@ -1,64 +1,36 @@
 //
-//  LineEngine_common.h
+//  Engine_common.h
 //  MetalChartDev
 //
-//  Created by Keisuke Mori on 2015/08/03.
+//  Created by Keisuke Mori on 2015/08/25.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#ifndef LineEngine_common_h
-#define LineEngine_common_h
-
-#include <simd/simd.h>
-#include <CoreGraphics/CGGeometry.h>
+#ifndef Engine_common_h
+#define Engine_common_h
 
 typedef struct RectPadding {
-	CGFloat left;
-	CGFloat top;
-	CGFloat right;
-	CGFloat bottom;
+    CGFloat left;
+    CGFloat top;
+    CGFloat right;
+    CGFloat bottom;
 } RectPadding;
 
 typedef struct uniform_projection {
     vector_float2 origin;
     vector_float2 value_scale;
     vector_float2 value_offset;
-	
-	vector_float2 physical_size;
-	vector_float4 rect_padding;
-	float screen_scale;
+    
+    vector_float2 physical_size;
+    vector_float4 rect_padding;
+    float screen_scale;
 } uniform_projection;
-
-typedef struct uniform_line_attr {
-    vector_float4 color;
-	vector_float2 length_mod;
-	float width;
-    float depth;
-    uint8_t modify_alpha_on_edge;
-} uniform_line_attr;
 
 typedef struct uniform_series_info {
     uint32_t vertex_capacity;
     uint32_t index_capacity;
-	uint32_t offset;
+    uint32_t offset;
 } uniform_series_info;
-
-typedef struct uniform_axis {
-    float           axis_anchor_value;
-    float           tick_anchor_value;
-    float           tick_interval_major;
-    
-    uint8_t         dimIndex;
-    uint8_t         minor_ticks_per_major;
-    uint8_t         max_major_ticks;
-} uniform_axis;
-
-typedef struct uniform_axis_attributes {
-    vector_float4   color;
-    vector_float2   length_mod;
-    float           line_length;
-    float           width;
-} uniform_axis_attributes;
 
 typedef struct vertex_buffer {
     vector_float2 position;
@@ -75,7 +47,7 @@ class vertex_container {
     vertex_buffer *_buffer;
     const std::size_t _capacity;
     
-public :
+    public :
     
     vertex_container(void *ptr, std::size_t capacity) :
     _buffer(static_cast<vertex_buffer *>(ptr)),
@@ -93,7 +65,7 @@ class index_container {
     index_buffer *_buffer;
     const std::size_t _capacity;
     
-public :
+    public :
     
     index_container(void *ptr, std::size_t capacity) :
     _buffer(static_cast<index_buffer *>(ptr)),
@@ -108,4 +80,5 @@ public :
 
 #endif
 
-#endif /* LineEngine_common_h */
+
+#endif /* Engine_common_h */

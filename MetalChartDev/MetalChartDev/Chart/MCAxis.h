@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@class LineEngine;
+@class Engine;
 @class UniformLineAttributes;
 @class Axis;
 @class UniformAxis;
@@ -37,7 +37,7 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
 @property (readonly, nonatomic) Axis *						_Nonnull  axis;
 @property (readonly, nonatomic) id<MCAxisConfigurator>		_Nonnull  conf;
 
-- (_Nonnull instancetype)initWithEngine:(LineEngine * _Nonnull)engine
+- (_Nonnull instancetype)initWithEngine:(Engine * _Nonnull)engine
 							 Projection:(MCSpatialProjection * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
 						  configuration:(id<MCAxisConfigurator> _Nonnull)conf

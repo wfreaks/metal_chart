@@ -30,7 +30,7 @@
 
 @implementation MCAxis
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 					Projection:(MCSpatialProjection *)projection
 					 dimension:(NSInteger)dimensionId
 				 configuration:(id<MCAxisConfigurator>)conf

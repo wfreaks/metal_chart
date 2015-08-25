@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
-#import "DeviceResource.h"
-#import "Buffers.h"
 
-@interface LineEngine : NSObject
+@class DeviceResource;
+@class UniformProjection;
+
+@interface Engine : NSObject
 
 @property (readonly, nonatomic) DeviceResource * _Nonnull resource;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_writeDepth;

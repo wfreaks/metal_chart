@@ -6,11 +6,12 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "LineEngine_common.h"
+#import "Engine.h"
+#import "Lines_common.h"
 #import "Lines.h"
 #import <UIKit/UIKit.h>
 
-@interface LineEngine()
+@interface Engine()
 
 @property (strong, nonatomic) DeviceResource *resource;
 
@@ -19,7 +20,7 @@
 
 @end
 
-@implementation LineEngine
+@implementation Engine
 
 - (instancetype)initWithResource:(DeviceResource *)resource
 {

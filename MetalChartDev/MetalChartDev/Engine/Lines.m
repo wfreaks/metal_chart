@@ -10,7 +10,7 @@
 
 @interface Line()
 
-- (instancetype _Null_unspecified)initWithEngine:(LineEngine * _Nonnull)engine
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
 										  series:(id<Series> _Nonnull)series
 ;
 
@@ -48,7 +48,7 @@
 
 @implementation Line
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 						series:(id<Series> _Nonnull)series
 {
     self = [super init];
@@ -147,7 +147,7 @@
 
 @implementation OrderedSeparatedLine
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 				orderedSeries:(OrderedSeries * _Nonnull)series
 {
 	self = [super initWithEngine:engine series:series];
@@ -177,7 +177,7 @@
 
 @implementation OrderedPolyLine
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 				 orderedSeries:(OrderedSeries * _Nonnull)series
 {
 	self = [super initWithEngine:engine series:series];
@@ -241,7 +241,7 @@ static double gaussian(double mean, double variance) {
 
 @implementation IndexedPolyLine
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 				 indexedSeries:(IndexedSeries * _Nonnull)series
 {
 	self = [super initWithEngine:engine series:series];
@@ -262,7 +262,7 @@ static double gaussian(double mean, double variance) {
 
 @implementation Axis
 
-- (instancetype)initWithEngine:(LineEngine *)engine
+- (instancetype)initWithEngine:(Engine *)engine
 {
     self = [super init];
     if(self) {
