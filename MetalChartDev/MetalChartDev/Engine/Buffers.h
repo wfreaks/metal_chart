@@ -114,6 +114,8 @@
 
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
 
+- (void)setDepthValue:(float)depth;
+
 @end
 
 

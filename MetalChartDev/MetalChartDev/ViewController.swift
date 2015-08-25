@@ -18,18 +18,18 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = false
+	let asChart = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
         metalView.device = resource.device
         metalView.sampleCount = 2
-        let v : Double = 0.9;
-        let alpha : Double = 1;
+        let v : Double = 0.9
+        let alpha : Double = 1
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
         metalView.clearDepth = 0
 		metalView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
-        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8;
+        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8
 		metalView.enableSetNeedsDisplay = false
 		metalView.paused = false
 		metalView.preferredFramesPerSecond = 60
@@ -64,6 +64,12 @@ class ViewController: UIViewController {
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLine(engine: engine, orderedSeries: series)
 			line.setSampleAttributes()
+            
+            let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
+            let overlayLine = OrderedPolyLine(engine: engine, orderedSeries: overlaySeries)
+            overlayLine.setSampleAttributes()
+            overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
+            overlayLine.attributes.setWidth(3)
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				uniform.majorTickInterval = CFloat(1<<6)
@@ -80,8 +86,8 @@ class ViewController: UIViewController {
 				uniform.tickAnchorValue = 0
 			}
 			
-			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
-			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf);
+			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
+			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf)
             
             xAxis.setMinorTickCountPerMajor(4)
 			
@@ -89,22 +95,28 @@ class ViewController: UIViewController {
 			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
 			xUpdater.addRestriction(MCSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
 			
-			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60);
+			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60)
 			
 			chart.willDraw = { (mc : MetalChart) -> Void in
-				line.appendSampleData((1<<0), maxVertexCount:vertCapacity) { (Float x, Float y) in
+                line.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
+                overlayLine.appendSampleData((1<<0), maxVertexCount: vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
+                    xUpdater.addSourceValue(CGFloat(x), update: false)
+                }
 				xUpdater.updateTarget()
 			}
 			
 			let lineSeries = MCLineSeries(line: line)
+            let overlayLineSeries = MCLineSeries(line: overlayLine)
+            
 			chart.addSeries(lineSeries, projection: space)
+            chart.addSeries(overlayLineSeries, projection: space)
 			chart.addPostRenderable(yAxis)
 			chart.addPostRenderable(xAxis)
 			
 		} else {
-            chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30);
+            chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 			
 			let offsetX = CGFloat(0)
 			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offsetX, maxValue: 1 + offsetX)
@@ -140,7 +152,7 @@ class ViewController: UIViewController {
 				uniform.tickAnchorValue = +0.0
 			}
 			
-			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf);
+			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			

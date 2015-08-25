@@ -26,7 +26,9 @@ vertex out_vertex PolyLineEngineVertexIndexed(
     const float2 p_next = adjustPoint( coords[index_next].position, proj );
     
 	const uchar spec = v_id % 6;
-    return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
+    out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
+    out.depth = attr.depth;
+    return out;
 }
 
 vertex out_vertex PolyLineEngineVertexOrdered(
@@ -43,7 +45,9 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const float2 p_next = adjustPoint( coords[index_next].position, proj );
     
     const uchar spec = v_id % 6;
-    return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
+    out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
+    out.depth = attr.depth;
+    return out;
 }
 
 vertex out_vertex SeparatedLineEngineVertexOrdered(
@@ -82,7 +86,7 @@ fragment out_fragment LineEngineFragment_WriteDepth(
     if( core.is_same_dir ) {
         out.color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : round(core.ratio);
     }
-    out.depth = (out.color.a > 0) ? 0.5 : 0;
+    out.depth = (out.color.a > 0) ? input.depth : 0;
     
 	return out;
 }

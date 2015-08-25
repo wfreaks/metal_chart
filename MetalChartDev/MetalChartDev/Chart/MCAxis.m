@@ -75,7 +75,7 @@
 	UniformAxisAttributes *major = _axis.uniform.majorTickAttributes;
 	UniformAxisAttributes *minor = _axis.uniform.minorTickAttributes;
 	
-    const float v = 0.6;
+    const float v = 0.4;
 	[axis setColorWithRed:v green:v blue:v alpha:1.0];
 	[axis setWidth:3];
 	[axis setLineLength:1];

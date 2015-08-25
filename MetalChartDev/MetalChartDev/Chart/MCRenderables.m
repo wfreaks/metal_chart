@@ -26,4 +26,10 @@
 	[_line encodeWith:encoder projection:projection];
 }
 
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min
+{
+    [_line.attributes setDepthValue:min];
+    return 0.1;
+}
+
 @end

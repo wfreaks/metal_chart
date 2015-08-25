@@ -232,6 +232,11 @@
 	[self attributes]->length_mod = vector2(start, end);
 }
 
+- (void)setDepthValue:(float)depth
+{
+    [self attributes]->depth = depth;
+}
+
 @end
 
 

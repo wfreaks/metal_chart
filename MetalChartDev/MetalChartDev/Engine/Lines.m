@@ -139,7 +139,7 @@
 {
 	UniformLineAttributes *attributes = self.attributes;
 	[attributes setColorWithRed:0.3 green:0.6 blue:0.8 alpha:0.5];
-	[attributes setWidth:3];
+	[attributes setWidth:2];
 	attributes.enableOverlay = NO;
 }
 
@@ -202,16 +202,18 @@
 	[self setSampleAttributes];
 }
 
-static double gaussian() {
+static double gaussian(double mean, double variance) {
 	const double u1 = (double)arc4random() / UINT32_MAX;
 	const double u2 = (double)arc4random() / UINT32_MAX;
 	const double f1 = sqrt(-2 * log(u1));
 	const double f2 = 2 * M_PI * u2;
-	return f1 * sin(f2);
+	return (variance * f1 * sin(f2)) + mean;
 }
 
 - (void)appendSampleData:(NSUInteger)count
 		  maxVertexCount:(NSUInteger)maxCount
+                    mean:(CGFloat)mean
+                variance:(CGFloat)variant
 			  onGenerate:(void (^ _Nullable)(float, float))block
 {
 	VertexBuffer *vertices = _orderedSeries.vertices;
@@ -221,7 +223,7 @@ static double gaussian() {
 	for(NSUInteger i = 0; i < count; ++i) {
 		vertex_buffer *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
 		const float x = idx_start + i;
-		const float y = gaussian() * 0.5;
+		const float y = gaussian(mean, variant);
 		v->position.x = x;
 		v->position.y = y;
 		if(block) {

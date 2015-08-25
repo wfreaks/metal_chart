@@ -19,6 +19,7 @@ struct out_vertex {
     float2 vec_dir [[ flat ]];
     float2 pos;
     float  coef;
+    float  depth [[ flat ]];
 };
 
 struct out_fragment {
@@ -48,6 +49,7 @@ struct uniform_line_attr {
     float4 color;
     float2 length_mod;
     float width;
+    float depth;
     uchar modify_alpha_on_edge;
 };
 

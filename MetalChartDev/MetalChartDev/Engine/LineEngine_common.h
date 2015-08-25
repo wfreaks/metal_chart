@@ -33,6 +33,7 @@ typedef struct uniform_line_attr {
     vector_float4 color;
 	vector_float2 length_mod;
 	float width;
+    float depth;
     uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 

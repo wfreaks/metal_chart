@@ -33,6 +33,8 @@
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<MCAttachment>> *postRenderables;
 
+@property (strong, nonatomic) NSArray<id<MCDepthClient>> *depthClients;
+
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
 @end
@@ -139,6 +141,7 @@
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
+        _depthClients = [NSArray array];
 		_semaphore = dispatch_semaphore_create(2);
 	}
 	return self;
@@ -231,6 +234,9 @@
 			_projectionSet = [_projectionSet setByAddingObject:projection];
 			_projections = [_projections arrayByAddingObject:projection];
 			_series = [_series arrayByAddingObject:series];
+            if([series conformsToProtocol:@protocol(MCDepthClient)]) {
+                [self reconstructDepthClients];
+            }
 		}
 	}
 }
@@ -251,6 +257,9 @@
 				[newProjSet removeObject:proj];
 				_projectionSet = [newProjSet copy];
 			}
+            if([series conformsToProtocol:@protocol(MCDepthClient)]) {
+                [self reconstructDepthClients];
+            }
 		}
 	}
 }
@@ -258,29 +267,71 @@
 - (void)addPreRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
+        NSArray <id<MCAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByAddingObjectIfNotExists:object];
+        if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+            [self reconstructDepthClients];
+        }
 	}
 }
 
 - (void)removePreRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
+        NSArray <id<MCAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByRemovingObject:object];
+        if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+            [self reconstructDepthClients];
+        }
 	}
 }
 
 - (void)addPostRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
+        NSArray <id<MCAttachment>> *old = _postRenderables;
 		_postRenderables = [_postRenderables arrayByAddingObjectIfNotExists:object];
+        if(old != _postRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+            [self reconstructDepthClients];
+        }
 	}
 }
 
 - (void)removePostRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
+        NSArray <id<MCAttachment>> *old = _postRenderables;
 		_postRenderables = [_postRenderables arrayByRemovingObject:object];
+        if(old != _postRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+            [self reconstructDepthClients];
+        }
 	}
+}
+
+// このメソッドはprivateメソッドなので、synchronizedブロックを使っていない. 呼び出す側で管理する事.
+- (void)reconstructDepthClients
+{
+    // 複数のarrayから描画順にMCDepthClientを実装するオブジェクトを並べる必要があるので、
+    // 単純なadd/removeでは管理できない。
+    NSMutableArray<id<MCDepthClient>> *newClients = [NSMutableArray array];
+    [self.class addDepthClientsIn:_preRenderables to:newClients];
+    [self.class addDepthClientsIn:_series to:newClients];
+    [self.class addDepthClientsIn:_postRenderables to:newClients];
+    _depthClients = [newClients copy];
+    
+    CGFloat currentBase = 0.01; // 0だとclearValueと重なる可能性が高い.
+    for(id<MCDepthClient> client in _depthClients) {
+        currentBase += MAX(0, [client requestDepthRangeFrom:currentBase]);
+    }
+}
+
++ (void)addDepthClientsIn:(NSArray *)from to:(NSMutableArray<id<MCDepthClient>> *)to
+{
+    for(id object in from) {
+        if([object conformsToProtocol:@protocol(MCDepthClient)]) {
+            [to addObject:object];
+        }
+    }
 }
 
 @end

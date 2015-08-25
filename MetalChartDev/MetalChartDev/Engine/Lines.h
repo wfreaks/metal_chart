@@ -50,6 +50,8 @@
 
 - (void)appendSampleData:(NSUInteger)count
 		  maxVertexCount:(NSUInteger)maxCount
+                    mean:(CGFloat)mean
+                variance:(CGFloat)variant
 			  onGenerate:(void (^_Nullable)(float x, float y))block
 ;
 

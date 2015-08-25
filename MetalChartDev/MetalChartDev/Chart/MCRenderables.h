@@ -11,7 +11,7 @@
 
 @class Line;
 
-@interface MCLineSeries : NSObject<MCRenderable>
+@interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 
 @property (readonly, nonatomic) Line * _Nonnull line;
 
