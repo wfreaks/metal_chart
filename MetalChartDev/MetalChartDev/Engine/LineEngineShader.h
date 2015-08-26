@@ -39,21 +39,12 @@ struct uniform_series_info {
     uint offset;
 };
 
-inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
-{
-    const float2 ps = proj.physical_size;
-    const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
-    const float2 fixed_vs = proj.value_scale * ps / (ps - float2(pd.x+pd.z, pd.y+pd.w));
-    const float2 fixed_or = proj.origin + (float2((pd.x-pd.z), (pd.w-pd.y)) / ps); // ここでwindowのT->Bのy軸からB->TのNDCのy軸になっている事に注意. またfloat2各成分(l-rなど)が1/2されてないのは1/psが吸収しているため.
-    return ((value + proj.value_offset) / fixed_vs) + fixed_or;
-}
-
 // ここの座業変換はlineWidthの値に応じて頂点を「物理座標」上でw/√2だけ動かす。scissorRectはNDCへ影響を与えない(物理座標とNDCの対応関係が変わらない)ので考慮する必要はない.
 template <typename OutputType>
 inline OutputType LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size)
 {
     const char along = (2 * (spec % 2)) - 1; // 偶数で-1, 奇数で1にする.
-    const char perp = (2 * min(1, spec % 5)) - 1; // 0か1の時に-1, 1~4の時は1にする.
+    const char perp = (2 * min(1, spec % 5)) - 1; // 0か5の時に-1, 1~4の時は1にする.
     const float2 vec_diff = (next - current) / 2;
     const float2 size = phy_size / 2;
     const float w = line_width / 2;

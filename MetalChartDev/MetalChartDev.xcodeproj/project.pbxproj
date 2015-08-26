@@ -22,6 +22,8 @@
 		AA88E5361B74C9D40004AA4E /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5321B74C9D40004AA4E /* Lines.m */; };
 		AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909C9D1B8798BF0056FE14 /* MCInteractive.m */; };
 		AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */; };
+		AA909CA51B8CDE510056FE14 /* RectBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA41B8CDE510056FE14 /* RectBuffers.mm */; };
+		AA909CA81B8CDE980056FE14 /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA71B8CDE980056FE14 /* Rects.m */; };
 		AAA537131B7A42400099017D /* MCAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA537121B7A42400099017D /* MCAxis.m */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
@@ -81,6 +83,11 @@
 		AA909C9D1B8798BF0056FE14 /* MCInteractive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCInteractive.m; sourceTree = "<group>"; };
 		AA909C9F1B879BDE0056FE14 /* NSArray+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utility.h"; sourceTree = "<group>"; };
 		AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
+		AA909CA21B8CDE350056FE14 /* Rect_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rect_common.h; sourceTree = "<group>"; };
+		AA909CA31B8CDE510056FE14 /* RectBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectBuffers.h; sourceTree = "<group>"; };
+		AA909CA41B8CDE510056FE14 /* RectBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RectBuffers.mm; sourceTree = "<group>"; };
+		AA909CA61B8CDE980056FE14 /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
+		AA909CA71B8CDE980056FE14 /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
 		AAA537111B7A42400099017D /* MCAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxis.h; sourceTree = "<group>"; };
 		AAA537121B7A42400099017D /* MCAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxis.m; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +155,11 @@
 				AA88E5311B74C9D40004AA4E /* Lines.h */,
 				AA88E5321B74C9D40004AA4E /* Lines.m */,
 				AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */,
+				AA909CA21B8CDE350056FE14 /* Rect_common.h */,
+				AA909CA31B8CDE510056FE14 /* RectBuffers.h */,
+				AA909CA41B8CDE510056FE14 /* RectBuffers.mm */,
+				AA909CA61B8CDE980056FE14 /* Rects.h */,
+				AA909CA71B8CDE980056FE14 /* Rects.m */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -374,8 +386,10 @@
 				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
 				AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
+				AA909CA51B8CDE510056FE14 /* RectBuffers.mm in Sources */,
 				AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */,
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
+				AA909CA81B8CDE980056FE14 /* Rects.m in Sources */,
 				AA67A8481B7904E1005EEA8D /* Series.m in Sources */,
 				AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */,
 				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,

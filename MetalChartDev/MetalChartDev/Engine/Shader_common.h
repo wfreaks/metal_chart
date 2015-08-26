@@ -31,4 +31,13 @@ struct uniform_projection {
     float  screen_scale;
 };
 
+inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
+{
+	const float2 ps = proj.physical_size;
+	const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
+	const float2 fixed_vs = proj.value_scale * ps / (ps - float2(pd.x+pd.z, pd.y+pd.w));
+	const float2 fixed_or = proj.origin + (float2((pd.x-pd.z), (pd.w-pd.y)) / ps); // ここでwindowのT->Bのy軸からB->TのNDCのy軸になっている事に注意. またfloat2各成分(l-rなど)が1/2されてないのは1/psが吸収しているため.
+	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
+}
+
 #endif /* Shader_common_h */
