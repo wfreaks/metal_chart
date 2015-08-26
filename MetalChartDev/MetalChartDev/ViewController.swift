@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = true
+	let asChart = false
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -158,8 +158,14 @@ class ViewController: UIViewController {
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
+            
+            let rect = PlotRect(engine: engine)
+            rect.rect.setColor(1, green: 1, blue: 1, alpha: 1)
+            rect.rect.setCornerRadius(5, rt: 5, lb: 0, rb: 5)
+            let plotArea = MCPlotArea(rect: rect)
 			
 			chart.addPostRenderable(xAxis)
+            chart.addPreRenderable(plotArea)
 		}
 	}
 }

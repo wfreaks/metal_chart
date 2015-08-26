@@ -5,7 +5,11 @@
 #import "Utilities/DeviceResource.h"
 #import "Engine/Engine.h"
 #import "Engine/Series.h"
+#import "Engine/Buffers.h"
 #import "Engine/Lines.h"
+#import "Engine/LineBuffers.h"
+#import "Engine/Rects.h"
+#import "Engine/RectBuffers.h"
 
 #import "Chart/MetalChart.h"
 #import "Chart/MCProjectionUpdater.h"

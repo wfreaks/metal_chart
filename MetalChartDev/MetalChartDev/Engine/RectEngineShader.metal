@@ -10,6 +10,7 @@
 
 struct out_vertex {
     float4 position [[ position ]];
+    float2 pos;
     float2 coef;
 };
 
@@ -35,6 +36,7 @@ vertex out_vertex PlotRect_Vertex(
 	const float2 pos = adjustPoint(value, proj);
     out_vertex out;
 	out.position = float4(pos.x, pos.y, 0, 1.0);
+    out.pos = pos;
     out.coef = value;
     return out;
 }
@@ -48,15 +50,15 @@ fragment out_fragment PlotRect_Fragment(
 	const float2 size = proj.physical_size / 2;
 	const float4 padding = proj.rect_padding;
     const float2 signs = sign(in.coef);
-    const uchar idx_corner = (signs.x > 0) + (2 * (signs.y > 0));
-	const float r = rect.corner_radius[idx_corner];
-	const float2 pos = in.position.xy * size; // position in view, origin at center, dpi scale.
+    const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));
+    const float r = rect.corner_radius[idx_corner];
+	const float2 pos = in.pos * size; // position in view, origin at center, dpi scale.
 	
 	// 以降の xMin ~ top まではベクトル演算した方が効率いいかもしれない. 微々たる差だとは思うが.
 	const float xMin = (-size.x) + (padding.x + r);
 	const float xMax = (+size.x) - (padding.z + r);
-	const float yMin = (-size.y) + (padding.y + r);
-	const float yMax = (+size.y) - (padding.w + r);
+	const float yMin = (-size.y) + (padding.w + r);
+	const float yMax = (+size.y) - (padding.y + r);
 	
 	const float left   = pos.x - xMin;
 	const float right  = pos.x - xMax;
@@ -68,9 +70,10 @@ fragment out_fragment PlotRect_Fragment(
 	
 	const float2 mapped_pos = float2(x, y);
 	const float dist_from_circle_in_px = ( (length(mapped_pos) - r) * proj.screen_scale ) + 0.5;
-	const float ratio = saturate(1 - dist_from_circle_in_px);
+	const float ratio = saturate(saturate(1 - dist_from_circle_in_px) + (r <= 0)); // r<=0の時には常にalpha値に変更なしにする.
 	
-    out_fragment out{rect.color};
+    out_fragment out;
+    out.color = rect.color;
 	out.color.a *= ratio;
 	
     return out;

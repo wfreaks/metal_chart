@@ -33,9 +33,14 @@
     self.rect->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setCornerRadius:(float)lt rt:(float)rt bl:(float)bl br:(float)br
+- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
 {
-    self.rect->corner_radius = vector4(lt, rt, bl, br);
+    self.rect->corner_radius = vector4(lt, rt, lb, rb);
+}
+
+- (void)setCornerRadius:(float)radius
+{
+    self.rect->corner_radius = vector4(radius, radius, radius, radius);
 }
 
 @end

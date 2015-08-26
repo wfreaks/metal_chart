@@ -20,6 +20,7 @@
 - (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setCornerRadius:(float)lt rt:(float)rt bl:(float)bl br:(float)br;
+- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
+- (void)setCornerRadius:(float)radius;
 
 @end

@@ -78,7 +78,7 @@
 			const CGPoint newT = self.translationCumulative;
 			
 			if(!CGPointEqualToPoint(oldT, newT)) {
-				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
+//				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
 				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 				for(id<MCCumulativeInteraction> object in cumulatives) {
 					[object didTranslationChange:self];
@@ -97,7 +97,6 @@
 		const CGFloat scale = reconginer.scale;
 		const CGFloat scaleDiff = (scale / _currentScale) - 1; // -1よりは大きい.
 		_currentScale = scale;
-		NSLog(@"scale : %.2f", reconginer.scale);
 		if(reconginer.numberOfTouches == 2) {
 			UIView *v = reconginer.view;
 			const CGPoint a = [reconginer locationOfTouch:0 inView:v];
@@ -115,7 +114,7 @@
 				const CGSize newScale = _scaleCumulative;
 				
 				if(!CGSizeEqualToSize(oldScale, newScale)) {
-					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
+//					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
 					NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
 					for(id<MCCumulativeInteraction> object in cumulatives) {
 						[object didScaleChange:self];

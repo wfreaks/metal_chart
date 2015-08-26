@@ -122,6 +122,7 @@
         _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		_screenScale = [UIScreen mainScreen].scale;
         [self projection]->screen_scale = _screenScale;
+        [self projection]->value_scale = vector2(1.0f, 1.0f);
     }
     return self;
 }
