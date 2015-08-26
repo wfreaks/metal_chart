@@ -29,9 +29,9 @@ vertex out_vertex PlotRect_Vertex(
                                   uint v_id [[ vertex_id ]]
                                   )
 {
-	const uint spec = v_id % 6;
+	const uint spec = v_id % 4;
 	const bool is_right = ((spec % 2) == 1);
-	const bool is_top = ((spec == 2) | (spec == 4) | (spec == 5)); // あんま綺麗じゃないけどパフォーマンス的問題はない...まぁコンパイラが勝手にbranch発行してドツボにはまってなければの話だけど.
+	const bool is_top = ((spec / 2) == 0);
 	const float2 value = float2( (2*(is_right))-1, (2*(is_top))-1 ); // (±1, ±1)へマッピング.
 	const float2 pos = adjustPoint(value, proj);
     out_vertex out;

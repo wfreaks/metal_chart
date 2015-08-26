@@ -51,7 +51,7 @@
     [encoder setFragmentBuffer:rectBuffer offset:0 atIndex:0];
     [encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];
     
-    [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:6];
+    [encoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
     
     [encoder popDebugGroup];
 }
