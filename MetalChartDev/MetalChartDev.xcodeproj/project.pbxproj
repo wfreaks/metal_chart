@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
-		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */; settings = {ASSET_TAGS = (); }; };
+		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; settings = {ASSET_TAGS = (); }; };
 		AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
@@ -22,7 +22,7 @@
 		AA88E5361B74C9D40004AA4E /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5321B74C9D40004AA4E /* Lines.m */; };
 		AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909C9D1B8798BF0056FE14 /* MCInteractive.m */; };
 		AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */; };
-		AA909CA51B8CDE510056FE14 /* RectBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA41B8CDE510056FE14 /* RectBuffers.mm */; };
+		AA909CA51B8CDE510056FE14 /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA41B8CDE510056FE14 /* RectBuffers.m */; };
 		AA909CA81B8CDE980056FE14 /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA71B8CDE980056FE14 /* Rects.m */; };
 		AAA537131B7A42400099017D /* MCAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA537121B7A42400099017D /* MCAxis.m */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
@@ -57,7 +57,7 @@
 		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
 		AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
 		AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
-		AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineBuffers.mm; sourceTree = "<group>"; };
+		AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
 		AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
 		AA2A9B711B8CBCDD00C79D32 /* Shader_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 		AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AA909CA21B8CDE350056FE14 /* Rect_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Rect_common.h; sourceTree = "<group>"; };
 		AA909CA31B8CDE510056FE14 /* RectBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectBuffers.h; sourceTree = "<group>"; };
-		AA909CA41B8CDE510056FE14 /* RectBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RectBuffers.mm; sourceTree = "<group>"; };
+		AA909CA41B8CDE510056FE14 /* RectBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectBuffers.m; sourceTree = "<group>"; };
 		AA909CA61B8CDE980056FE14 /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
 		AA909CA71B8CDE980056FE14 /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
 		AAA537111B7A42400099017D /* MCAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxis.h; sourceTree = "<group>"; };
@@ -135,7 +135,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA88E52A1B74C9D40004AA4E /* Engine */ = {
+		AA2A9B721B8D881600C79D32 /* Line */ = {
+			isa = PBXGroup;
+			children = (
+				AA88E52F1B74C9D40004AA4E /* Lines_common.h */,
+				AA1544501B822A8600F0193E /* LineEngineShader.h */,
+				AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */,
+				AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */,
+				AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */,
+				AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */,
+				AA88E5311B74C9D40004AA4E /* Lines.h */,
+				AA88E5321B74C9D40004AA4E /* Lines.m */,
+			);
+			name = Line;
+			sourceTree = "<group>";
+		};
+		AA2A9B731B8D882600C79D32 /* Rect */ = {
+			isa = PBXGroup;
+			children = (
+				AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */,
+				AA909CA21B8CDE350056FE14 /* Rect_common.h */,
+				AA909CA31B8CDE510056FE14 /* RectBuffers.h */,
+				AA909CA41B8CDE510056FE14 /* RectBuffers.m */,
+				AA909CA61B8CDE980056FE14 /* Rects.h */,
+				AA909CA71B8CDE980056FE14 /* Rects.m */,
+			);
+			name = Rect;
+			sourceTree = "<group>";
+		};
+		AA2A9B741B8D885200C79D32 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				AA88E52B1B74C9D40004AA4E /* Buffers.h */,
@@ -146,20 +174,16 @@
 				AA67A8461B7904E1005EEA8D /* Series.h */,
 				AA67A8471B7904E1005EEA8D /* Series.m */,
 				AA2A9B711B8CBCDD00C79D32 /* Shader_common.h */,
-				AA88E52F1B74C9D40004AA4E /* Lines_common.h */,
-				AA1544501B822A8600F0193E /* LineEngineShader.h */,
-				AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */,
-				AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */,
-				AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */,
-				AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.mm */,
-				AA88E5311B74C9D40004AA4E /* Lines.h */,
-				AA88E5321B74C9D40004AA4E /* Lines.m */,
-				AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */,
-				AA909CA21B8CDE350056FE14 /* Rect_common.h */,
-				AA909CA31B8CDE510056FE14 /* RectBuffers.h */,
-				AA909CA41B8CDE510056FE14 /* RectBuffers.mm */,
-				AA909CA61B8CDE980056FE14 /* Rects.h */,
-				AA909CA71B8CDE980056FE14 /* Rects.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		AA88E52A1B74C9D40004AA4E /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				AA2A9B741B8D885200C79D32 /* Base */,
+				AA2A9B721B8D881600C79D32 /* Line */,
+				AA2A9B731B8D882600C79D32 /* Rect */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -386,7 +410,7 @@
 				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
 				AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
-				AA909CA51B8CDE510056FE14 /* RectBuffers.mm in Sources */,
+				AA909CA51B8CDE510056FE14 /* RectBuffers.m in Sources */,
 				AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */,
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
 				AA909CA81B8CDE980056FE14 /* Rects.m in Sources */,
@@ -400,7 +424,7 @@
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 				AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */,
 				AAA537131B7A42400099017D /* MCAxis.m in Sources */,
-				AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.mm in Sources */,
+				AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */,
 				AA88E5331B74C9D40004AA4E /* Buffers.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

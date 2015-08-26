@@ -18,3 +18,14 @@
 - (instancetype _Null_unspecified)initWithLine:(Line * _Nonnull)line;
 
 @end
+
+@class PlotRect;
+
+@interface MCPlotArea : NSObject<MCAttachment>
+
+@property (readonly, nonatomic) UniformProjection * _Nonnull projection;
+@property (readonly, nonatomic) PlotRect * _Nonnull rect;
+
+- (instancetype _Null_unspecified)initWithRect:(PlotRect * _Nonnull)rect;
+
+@end

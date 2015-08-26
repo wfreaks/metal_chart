@@ -7,7 +7,9 @@
 //
 
 #import "MCRenderables.h"
+#import "DeviceResource.h"
 #import "Lines.h"
+#import "Rects.h"
 
 @implementation MCLineSeries
 
@@ -30,6 +32,34 @@
 {
     [_line.attributes setDepthValue:min];
     return 0.1;
+}
+
+@end
+
+
+@implementation MCPlotArea
+
+- (instancetype)initWithRect:(PlotRect *)rect
+{
+    self = [super init];
+    if(self) {
+        DeviceResource *res = rect.engine.resource.device;
+        _projection = [[UniformProjection alloc] initWithResource:res];
+        _rect = rect;
+    }
+    return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+             chart:(MetalChart *)chart
+              view:(MTKView *)view
+{
+    [_projection setPhysicalSize:view.bounds.size];
+    [_projection setSampleCount:view.sampleCount];
+    [_projection setColorPixelFormat:view.colorPixelFormat];
+    [_projection setPadding:chart.padding];
+    
+    [_rect encodeWith:encoder projection:_projection];
 }
 
 @end

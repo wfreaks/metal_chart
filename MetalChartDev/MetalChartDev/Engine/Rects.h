@@ -8,6 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Rects : NSObject
+@class Engine;
+@class UniformProjection;
+@class UniformPlotRect;;
+
+@protocol MTLRenderCommandEncoder;
+
+@interface PlotRect : NSObject
+
+@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) UniformPlotRect * _Nonnull rect;
+
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine;
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+        projection:(UniformProjection * _Nonnull)projection
+;
 
 @end

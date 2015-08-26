@@ -10,6 +10,7 @@
 
 struct out_vertex {
     float4 position [[ position ]];
+    float2 coef;
 };
 
 struct out_fragment {
@@ -18,7 +19,7 @@ struct out_fragment {
 
 struct uniform_plot_rect {
     float4 color;
-    float  corner_radius;
+    float4 corner_radius; // 解釈は(x, y, z, w) = (lt, rt, lb, rb);
 };
 
 vertex out_vertex PlotRect_Vertex(
@@ -34,6 +35,7 @@ vertex out_vertex PlotRect_Vertex(
 	const float2 pos = adjustPoint(value, proj);
     out_vertex out;
 	out.position = float4(pos.x, pos.y, 0, 1.0);
+    out.coef = value;
     return out;
 }
 
@@ -45,7 +47,9 @@ fragment out_fragment PlotRect_Fragment(
 {
 	const float2 size = proj.physical_size / 2;
 	const float4 padding = proj.rect_padding;
-	const float r = rect.corner_radius;
+    const float2 signs = sign(in.coef);
+    const uchar idx_corner = (signs.x > 0) + (2 * (signs.y > 0));
+	const float r = rect.corner_radius[idx_corner];
 	const float2 pos = in.position.xy * size; // position in view, origin at center, dpi scale.
 	
 	// 以降の xMin ~ top まではベクトル演算した方が効率いいかもしれない. 微々たる差だとは思うが.
