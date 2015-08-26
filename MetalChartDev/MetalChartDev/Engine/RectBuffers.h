@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreGraphics/CGGeometry.h>
 #import "Rect_common.h"
 
 @protocol MTLBuffer;
@@ -22,5 +23,22 @@
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 - (void)setCornerRadius:(float)radius;
+
+@end
+
+
+@interface UniformBar : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_bar * _Nonnull bar;
+
+- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource;
+
+- (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
+- (void)setCornerRadius:(float)radius;
+- (void)setBarWidth:(float)width;
+- (void)setAnchorPoint:(CGPoint)point;
+- (void)setBarDirection:(CGPoint)dir;
 
 @end

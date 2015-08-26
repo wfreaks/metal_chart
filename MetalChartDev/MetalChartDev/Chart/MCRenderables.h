@@ -10,6 +10,7 @@
 #import "MetalChart.h"
 
 @class Line;
+@class Bar;
 
 @interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 
@@ -18,6 +19,16 @@
 - (instancetype _Null_unspecified)initWithLine:(Line * _Nonnull)line;
 
 @end
+
+
+@interface MCBarSeries : NSObject<MCRenderable>
+
+@property (readonly, nonatomic) Bar * _Nonnull bar;
+
+- (instancetype _Null_unspecified)initWithBar:(Bar * _Nonnull)bar;
+
+@end
+
 
 @class PlotRect;
 

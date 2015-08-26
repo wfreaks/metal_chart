@@ -31,6 +31,7 @@ struct uniform_projection {
     float  screen_scale;
 };
 
+// 命名をミスった感があるが、やる事は data空間上の座標 -> NDC上の座標
 inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
 {
 	const float2 ps = proj.physical_size;

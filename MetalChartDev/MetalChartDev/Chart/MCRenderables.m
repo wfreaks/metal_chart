@@ -37,6 +37,27 @@
 @end
 
 
+
+@implementation MCBarSeries
+
+- (instancetype)initWithBar:(Bar *)bar
+{
+    self = [super init];
+    if(self) {
+        _bar = bar;
+    }
+    return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
+{
+    [_bar encodeWith:encoder projection:projection];
+}
+
+@end
+
+
+
 @implementation MCPlotArea
 
 - (instancetype)initWithRect:(PlotRect *)rect

@@ -55,6 +55,7 @@
 /* Begin PBXFileReference section */
 		AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
 		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
+		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
 		AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
 		AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
@@ -232,11 +233,12 @@
 		AAB584DD1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXGroup;
 			children = (
+				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
+				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
 				AA88E5371B74E5420004AA4E /* Chart */,
 				AA88E52A1B74C9D40004AA4E /* Engine */,
 				AAB585101B6F0E1F00480AAE /* Utilities */,
 				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
-				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
 				AAB584E21B6F0D8C00480AAE /* Main.storyboard */,
 				AAB584E51B6F0D8C00480AAE /* Assets.xcassets */,
 				AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */,
