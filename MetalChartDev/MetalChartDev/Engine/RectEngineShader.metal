@@ -117,11 +117,11 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
                                         )
 {
     const uint vid = v_id / 4;
-    const uchar spec = vid % 4;
+    const uchar spec = v_id % 4;
     const bool is_right = ((spec % 2) == 1); // spec = [0,2] -> true
     const bool is_top = ((spec / 2) == 0); // spec = [0,1] -> true
     // dirが(0,0)の場合は考えない. そんなやつの事は知らん. ちなみに面倒な事に、dirはview空間、anchorはデータ空間となる（rangeによって方向変わるとか許されない）
-    const float2 size = proj.physical_size;
+    const float2 size = proj.physical_size / 2;
     const float  w = bar.width / 2;
     const float2 dir_view = normalize(bar.dir);
     const float2 perp_view(dir_view.y, -dir_view.x);
@@ -135,9 +135,10 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
     const float2 coef = float2( (2*(is_right))-1, (2*(is_top))-1 );
     // dir_viewが上を向く状態で上だの右だのを考える.
     const float2 fixed_pos_view = mid_view + (coef.x * vec_perp_view) + (coef.y * vec_along_view);
+	const float2 fixed_pos_ndc = fixed_pos_view / size;
     
     out_vertex_bar out;
-    out.position = float4(fixed_pos_view / size, 0, 1.0);
+    out.position = float4(fixed_pos_ndc.x, fixed_pos_ndc.y, 0, 1.0);
     out.pos = fixed_pos_view;
     out.dir = dir_view;
     out.w   = w;
@@ -160,9 +161,9 @@ fragment out_fragment GeneralBar_Fragment(
     // この様に分解したのち、9patchでマッピングする必要があるが、これには形状に関する情報が必要となる. これは in.w / in.l が担当するが、以下の仮定を置いている.
     // lはdir方向の長さ成分、wは垂直方向の成分、どちらもcenterから矩形の境界までの距離に相当する、つまり長さ/2, 太さ/2である.
     // また、dirを上に向ける形で処理を進める. この仮定はcorner_radiusがどう適用されるかに影響される事に注意.
-    const float2 p = in.center - in.pos;
+    const float2 p = in.pos - in.center;
     const float2 perp(+in.dir.y, -in.dir.x);
-    const float2 pos(dot(p, in.dir), dot(p, perp));
+    const float2 pos(dot(p, perp), dot(p, in.dir));
     const float4 rectangle(-in.w, +in.w, -in.l, +in.l);
     const float2 signs = sign(in.coef);
     const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));

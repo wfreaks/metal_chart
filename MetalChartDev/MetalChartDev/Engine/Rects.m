@@ -92,7 +92,7 @@
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
     id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
-    [encoder pushDebugGroup:@"DrawPlotRect"];
+    [encoder pushDebugGroup:@"DrawBar"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
     

@@ -144,6 +144,15 @@ class ViewController: UIViewController {
 			series.info.count = 5
 			line.attributes.setWidth(10)
 			
+			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
+			series2.addPoint(CGPointMake(0.5, 0.5))
+			let bar = OrderedBar(engine: engine, series: series2)
+			bar.bar.setBarWidth(20)
+			bar.bar.setBarDirection(CGPointMake(0, 1))
+			bar.bar.setAnchorPoint(CGPointMake(0, 0))
+			bar.bar.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+			let barSeries = MCBarSeries(bar: bar)
+			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
@@ -158,6 +167,7 @@ class ViewController: UIViewController {
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
+			chart.addSeries(barSeries, projection: space)
             
             let rect = PlotRect(engine: engine)
             rect.rect.setColor(1, green: 1, blue: 1, alpha: 1)

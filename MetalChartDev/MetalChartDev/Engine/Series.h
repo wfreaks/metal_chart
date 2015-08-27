@@ -22,7 +22,11 @@
 @property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource
-									vertexCapacity:(NSUInteger)vertCapacity;
+									vertexCapacity:(NSUInteger)vertCapacity
+;
+
+- (void)addPoint:(CGPoint)point; // increment count.
+- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
 
 @end
 
