@@ -152,11 +152,11 @@
 	// 描画前にバッファへ書き込むのでここは無視する.
 }
 
-// かなり長く見えるが、同期を短くしたり分岐を分岐を整理するためだけの行が多い. 大雑把に言って、
-// semaphore_wait 前は 各配列を破綻しないようキャプチャ / projectionの更新
-// semaphore_wait 内では preRenderable / series / postRenderable 
-// semaphore_signale 後は レンダリングバッファをプッシュしてコミット
-// という流れになる.
+// かなり長く見えるが、同期を短くしたり分岐を整理するためだけの行が多い. 大雑把に言って、
+// ・semaphore_wait 前は 各配列を破綻しないようキャプチャ / projectionの更新
+// ・semaphore_wait 内では preRenderable / series / postRenderable を描画
+// ・semaphore_signale 後は レンダリング結果をキューに入れてコミット
+// という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
 - (void)drawInMTKView:(MTKView *)view
 {
 	
@@ -167,12 +167,14 @@
 	NSArray<MCSpatialProjection *> *projectionArray = nil;
 	NSArray<id<MCAttachment>> *preRenderables = nil;
 	NSArray<id<MCAttachment>> *postRenderables = nil;
+    id<MCCommandBufferHook> hook = nil;
 	
 	@synchronized(self) {
 		seriesArray = _series;
 		projectionArray = _projections;
 		preRenderables = _preRenderables;
 		postRenderables = _postRenderables;
+        hook = _bufferHook;
 	}
 	
 	for(MCSpatialProjection *projection in _projectionSet) {
@@ -190,6 +192,9 @@
 		drawable = view.currentDrawable;
 		if(drawable) {
 			buffer = [[DeviceResource defaultResource].queue commandBuffer];
+            
+            [hook chart:self willStartEncodingToBuffer:buffer];
+            
 			id<MTLRenderCommandEncoder> encoder = [buffer renderCommandEncoderWithDescriptor:pass];
 			
 			for(id<MCAttachment> renderable in preRenderables) {
@@ -208,6 +213,8 @@
 			}
 			
 			[encoder endEncoding];
+            
+            [hook chart:self willCommitBuffer:buffer];
 		}
 	}
 	

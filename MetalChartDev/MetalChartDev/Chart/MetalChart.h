@@ -66,6 +66,13 @@
 @end
 
 
+@protocol MCCommandBufferHook <NSObject>
+
+- (void)chart:(MetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
+- (void)chart:(MetalChart * _Nonnull)chart willCommitBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
+
+@end
+
 
 @interface MCDimensionalProjection : NSObject
 
@@ -108,6 +115,7 @@
 
 @property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
+@property (strong , nonatomic) id<MCCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
 
 - (instancetype _Null_unspecified)init;

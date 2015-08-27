@@ -33,6 +33,7 @@
 		AAB584F41B6F0D8C00480AAE /* MetalChartDevTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */; };
 		AAB584FF1B6F0D8C00480AAE /* MetalChartDevUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */; };
 		AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB585121B6F0E1F00480AAE /* DeviceResource.m */; };
+		AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AADC1AC21B8F2002002F455D /* MetalKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		AAB585111B6F0E1F00480AAE /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceResource.h; sourceTree = "<group>"; };
 		AAB585121B6F0E1F00480AAE /* DeviceResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceResource.m; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -212,7 +215,7 @@
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
-				AACD43101B708EB300A83B69 /* Metal.framework */,
+				AADC1AC41B8F20D8002F455D /* Frameworks */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
 				AAB584F21B6F0D8C00480AAE /* MetalChartDevTests */,
 				AAB584FD1B6F0D8C00480AAE /* MetalChartDevUITests */,
@@ -275,6 +278,15 @@
 				AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AADC1AC41B8F20D8002F455D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AADC1AC21B8F2002002F455D /* MetalKit.framework */,
+				AACD43101B708EB300A83B69 /* Metal.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
