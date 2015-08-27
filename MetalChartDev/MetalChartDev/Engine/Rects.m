@@ -21,7 +21,7 @@
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _rect = [[UniformPlotRect alloc] initWithResource:res];
+        _attributes = [[UniformPlotRect alloc] initWithResource:res];
     }
     return self;
 }
@@ -45,7 +45,7 @@
         [encoder setScissorRect:rect];
     }
     
-    id<MTLBuffer> const rectBuffer = _rect.buffer;
+    id<MTLBuffer> const rectBuffer = _attributes.buffer;
     id<MTLBuffer> const projBuffer = projection.buffer;
     [encoder setVertexBuffer:rectBuffer offset:0 atIndex:0];
     [encoder setVertexBuffer:projBuffer offset:0 atIndex:1];
@@ -81,7 +81,7 @@
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _bar = [[UniformBar alloc] initWithResource:res];
+        _attributes = [[UniformBar alloc] initWithResource:res];
     }
     return self;
 }
@@ -110,7 +110,7 @@
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const indexBuffer = [self indexBuffer];
-		id<MTLBuffer> const barBuffer = _bar.buffer;
+		id<MTLBuffer> const barBuffer = _attributes.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];

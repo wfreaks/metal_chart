@@ -47,7 +47,7 @@
 		}
         
 		const NSUInteger dimIndex = [projection.dimensions indexOfObject:_dimension];
-        [_axis.uniform setDimensionIndex:dimIndex];
+        [_axis.attributes setDimensionIndex:dimIndex];
 		
 		_orthogonal = projection.dimensions[(dimIndex == 0) ? 1 : 0];
 		
@@ -60,20 +60,20 @@
              chart:(MetalChart *)chart
               view:(MTKView *)view
 {
-	[_conf configureUniform:_axis.uniform withDimension:_dimension orthogonal:_orthogonal];
+	[_conf configureUniform:_axis.attributes withDimension:_dimension orthogonal:_orthogonal];
     [_axis encodeWith:encoder projection:_projection.projection];
 }
 
 - (void)setMinorTickCountPerMajor:(NSUInteger)count
 {
-    _axis.uniform.minorTicksPerMajor = (uint8_t)count;
+    _axis.attributes.minorTicksPerMajor = (uint8_t)count;
 }
 
 - (void)setupDefaultAttributes
 {
-	UniformAxisAttributes *axis = _axis.uniform.axisAttributes;
-	UniformAxisAttributes *major = _axis.uniform.majorTickAttributes;
-	UniformAxisAttributes *minor = _axis.uniform.minorTickAttributes;
+	UniformAxisAttributes *axis = _axis.attributes.axisAttributes;
+	UniformAxisAttributes *major = _axis.attributes.majorTickAttributes;
+	UniformAxisAttributes *minor = _axis.attributes.minorTickAttributes;
 	
     const float v = 0.4;
 	[axis setColorWithRed:v green:v blue:v alpha:1.0];

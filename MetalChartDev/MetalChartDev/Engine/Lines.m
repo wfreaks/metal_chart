@@ -271,7 +271,7 @@ static double gaussian(double mean, double variance) {
     self = [super init];
     if(self) {
         _engine = engine;
-        _uniform = [[UniformAxis alloc] initWithResource:engine.resource];
+        _attributes = [[UniformAxis alloc] initWithResource:engine.resource];
     }
     return self;
 }
@@ -296,15 +296,17 @@ static double gaussian(double mean, double variance) {
     const CGFloat scale = projection.screenScale;
     MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
     [encoder setScissorRect:rect];
+	
+	UniformAxis *const attributes = _attributes;
     
-    [encoder setVertexBuffer:_uniform.axisBuffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:_uniform.attributeBuffer offset:0 atIndex:1];
+    [encoder setVertexBuffer:attributes.axisBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:attributes.attributeBuffer offset:0 atIndex:1];
     [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
     
-    [encoder setFragmentBuffer:_uniform.attributeBuffer offset:0 atIndex:0];
+    [encoder setFragmentBuffer:attributes.attributeBuffer offset:0 atIndex:0];
 	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
     
-    const NSUInteger lineCount = (1 + ((1+_uniform.minorTicksPerMajor) * _uniform.maxMajorTicks));
+    const NSUInteger lineCount = (1 + ((1+attributes.minorTicksPerMajor) * attributes.maxMajorTicks));
     const NSUInteger vertCount = 6 * lineCount;
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
     

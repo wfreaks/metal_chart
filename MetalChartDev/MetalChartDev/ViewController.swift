@@ -148,10 +148,10 @@ class ViewController: UIViewController {
 			series2.addPoint(CGPointMake(0.5, 0.5))
             series2.addPoint(CGPointMake(0.5, 0))
 			let bar = OrderedBarPrimitive(engine: engine, series: series2)
-			bar.bar.setBarWidth(20)
-			bar.bar.setBarDirection(CGPointMake(0, 1))
-			bar.bar.setAnchorPoint(CGPointMake(0, 0))
-			bar.bar.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+			bar.attributes.setBarWidth(20)
+			bar.attributes.setBarDirection(CGPointMake(0, 1))
+			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
+			bar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
 //			let barSeries = MCBarSeries(bar: bar)
             
             let point = OrderedPointPrimitive(engine: engine, series: series2)
@@ -174,8 +174,8 @@ class ViewController: UIViewController {
             chart.addSeries(MCPointSeries(point: point), projection: space)
             
             let rect = PlotRect(engine: engine)
-            rect.rect.setColor(1, green: 1, blue: 1, alpha: 1)
-            rect.rect.setCornerRadius(5, rt: 5, lb: 0, rb: 5)
+            rect.attributes.setColor(1, green: 1, blue: 1, alpha: 1)
+            rect.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 5)
             let plotArea = MCPlotArea(rect: rect)
 			
 			chart.addPostRenderable(xAxis)

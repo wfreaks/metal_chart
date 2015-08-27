@@ -21,7 +21,7 @@
 @interface PlotRect : NSObject
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformPlotRect * _Nonnull rect;
+@property (readonly, nonatomic) UniformPlotRect * _Nonnull attributes;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine;
 
@@ -35,7 +35,7 @@
 @interface BarPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformBar * _Nonnull bar;
+@property (readonly, nonatomic) UniformBar * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
 

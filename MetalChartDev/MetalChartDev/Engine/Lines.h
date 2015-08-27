@@ -74,7 +74,7 @@
 
 @interface Axis : NSObject
 
-@property (readonly, nonatomic) UniformAxis * _Nonnull uniform;
+@property (readonly, nonatomic) UniformAxis * _Nonnull attributes;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
