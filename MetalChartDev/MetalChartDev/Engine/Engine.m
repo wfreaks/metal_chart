@@ -7,9 +7,8 @@
 //
 
 #import "Engine.h"
-#import "Lines_common.h"
-#import "Lines.h"
-#import <UIKit/UIKit.h>
+#import "DeviceResource.h"
+#import "Buffers.h"
 
 @interface Engine()
 

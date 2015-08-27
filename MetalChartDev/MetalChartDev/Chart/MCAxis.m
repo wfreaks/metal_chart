@@ -9,7 +9,7 @@
 #import "MCAxis.h"
 #import "Lines.h"
 #import "Series.h"
-
+#import "LineBuffers.h"
 
 @interface MCAxis()
 

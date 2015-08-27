@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Protocols.h"
 
 @class Engine;
 @class UniformProjection;
@@ -31,23 +32,20 @@
 @end
 
 
-@interface Bar : NSObject
+@interface BarPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 @property (readonly, nonatomic) UniformBar * _Nonnull bar;
-@property (readonly, nonatomic) id<Series> _Nonnull series;
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjection * _Nonnull)projection
-;
+- (id<Series> _Nullable)series;
 
 @end
 
-@interface OrderedBar : Bar
+@interface OrderedBarPrimitive : BarPrimitive
 
-@property (readonly, nonatomic) OrderedSeries * _Nonnull orderedSeries;
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nonnull)series;
+                                          series:(OrderedSeries * _Nullable)series;
 
 @end

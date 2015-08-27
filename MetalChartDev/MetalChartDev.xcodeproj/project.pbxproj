@@ -99,6 +99,7 @@
 		AA909CA41B8CDE510056FE14 /* RectBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectBuffers.m; sourceTree = "<group>"; };
 		AA909CA61B8CDE980056FE14 /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
 		AA909CA71B8CDE980056FE14 /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
+		AA909CA91B8F7FFD0056FE14 /* Protocols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
 		AAA537111B7A42400099017D /* MCAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxis.h; sourceTree = "<group>"; };
 		AAA537121B7A42400099017D /* MCAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxis.m; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +180,7 @@
 		AA2A9B741B8D885200C79D32 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AA909CA91B8F7FFD0056FE14 /* Protocols.h */,
 				AA88E52B1B74C9D40004AA4E /* Buffers.h */,
 				AA88E52C1B74C9D40004AA4E /* Buffers.mm */,
 				AA88E52D1B74C9D40004AA4E /* Engine.h */,

@@ -7,44 +7,48 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Engine.h"
-#import "Buffers.h"
-#import "LineBuffers.h"
-#import "Series.h"
+#import <CoreGraphics/CGGeometry.h>
+#import "Protocols.h"
 
-@interface Line : NSObject
+@class Engine;
+@class UniformProjection;
+@class UniformLineAttributes;
+@class UniformAxis;
+@class OrderedSeries;
+@class IndexedSeries;
 
-@property (readonly, nonatomic) id<Series> _Nonnull series;
+@protocol Series;
+
+@interface LinePrimitive : NSObject<Primitive>
+
 @property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-		projection:(UniformProjection * _Nonnull)projection
-;
-
 - (void)setSampleAttributes;
 
+- (id<Series> _Nullable)series;
+
 @end
 
 
 
 
-@interface OrderedSeparatedLine : Line
+@interface OrderedSeparatedLinePrimitive : LinePrimitive
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-								   orderedSeries:(OrderedSeries * _Nonnull)series
+								   orderedSeries:(OrderedSeries * _Nullable)series
 ;
 
 @end
 
 
-@interface PolyLine : Line
+@interface PolyLinePrimitive : LinePrimitive
 @end
 
-@interface OrderedPolyLine : PolyLine
+@interface OrderedPolyLinePrimitive : PolyLinePrimitive
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-								   orderedSeries:(OrderedSeries * _Nonnull)series
+								   orderedSeries:(OrderedSeries * _Nullable)series
 ;
 
 - (void)setSampleData;
@@ -59,10 +63,10 @@
 @end
 
 
-@interface IndexedPolyLine : PolyLine
+@interface IndexedPolyLinePrimitive : PolyLinePrimitive
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-								   indexedSeries:(IndexedSeries * _Nonnull)series
+								   indexedSeries:(IndexedSeries * _Nullable)series
 ;
 
 @end

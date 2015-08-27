@@ -7,11 +7,15 @@
 //
 
 #import "Lines.h"
+#import <Metal/Metal.h>
+#import "Buffers.h"
+#import "Engine.h"
+#import "Series.h"
+#import "LineBuffers.h"
 
-@interface Line()
+@interface LinePrimitive()
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-										  series:(id<Series> _Nonnull)series
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjection * _Nonnull)projection;
@@ -24,37 +28,35 @@
 
 
 
-@interface OrderedSeparatedLine()
+@interface OrderedSeparatedLinePrimitive()
 
-@property (strong, nonatomic) OrderedSeries * _Nonnull orderedSeries;
-
-@end
-
-
-
-@interface OrderedPolyLine()
-
-@property (strong, nonatomic) OrderedSeries * _Nonnull orderedSeries;
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 @end
 
 
 
-@interface IndexedPolyLine()
+@interface OrderedPolyLinePrimitive()
 
-@property (strong, nonatomic) IndexedSeries * _Nonnull indexedSeries;
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 @end
 
-@implementation Line
+
+
+@interface IndexedPolyLinePrimitive()
+
+@property (strong, nonatomic) IndexedSeries * _Nullable series;
+
+@end
+
+@implementation LinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
-						series:(id<Series> _Nonnull)series
 {
     self = [super init];
     if(self) {
 		DeviceResource *resource = engine.resource;
-		_series = series;
 		_engine = engine;
 		_attributes = [[UniformLineAttributes alloc] initWithResource:resource];
     }
@@ -91,45 +93,48 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(UniformProjection *)projection
 {
-	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
-	id<MTLDepthStencilState> depthState = [self depthState];
-	[encoder pushDebugGroup:@"DrawLine"];
-	[encoder setRenderPipelineState:renderState];
-	[encoder setDepthStencilState:depthState];
-	
-	const CGSize ps = projection.physicalSize;
-	const RectPadding pr = projection.padding;
-	const CGFloat scale = projection.screenScale;
-	if(projection.enableScissor) {
-		MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-		[encoder setScissorRect:rect];
-	} else {
-		MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-		[encoder setScissorRect:rect];
-	}
-	
-	id<MTLBuffer> vertexBuffer = [_series vertexBuffer];
-	id<MTLBuffer> indexBuffer = [self indexBuffer];
-	UniformLineAttributes *attributes = _attributes;
-	UniformSeriesInfo *info = _series.info;
+	id<Series> const series = [self series];
+	if(series) {
+		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLDepthStencilState> depthState = [self depthState];
+		[encoder pushDebugGroup:@"DrawLine"];
+		[encoder setRenderPipelineState:renderState];
+		[encoder setDepthStencilState:depthState];
+		
+		const CGSize ps = projection.physicalSize;
+		const RectPadding pr = projection.padding;
+		const CGFloat scale = projection.screenScale;
+		if(projection.enableScissor) {
+			MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
+			[encoder setScissorRect:rect];
+		} else {
+			MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
+			[encoder setScissorRect:rect];
+		}
+		
+		id<MTLBuffer> vertexBuffer = [series vertexBuffer];
+		id<MTLBuffer> indexBuffer = [self indexBuffer];
+		UniformLineAttributes *attributes = _attributes;
+		UniformSeriesInfo *info = series.info;
 
-	[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
-	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
-	[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
-	[encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
-	
-	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
-	[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
-	
-//	const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
-	NSUInteger count = [self vertexCountWithCount:info.count];
-	if(count > 0) {
-		const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
-		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
+		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
+		[encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
+		
+		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
+		[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
+		
+	//	const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
+		NSUInteger count = [self vertexCountWithCount:info.count];
+		if(count > 0) {
+			const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
+			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
+		}
+		
+		[encoder popDebugGroup];
 	}
-	
-	[encoder popDebugGroup];
 }
 
 - (void)setSampleAttributes
@@ -140,16 +145,18 @@
 	attributes.enableOverlay = NO;
 }
 
+- (id<Series>)series { return nil; }
+
 @end
 
-@implementation OrderedSeparatedLine
+@implementation OrderedSeparatedLinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
-				orderedSeries:(OrderedSeries * _Nonnull)series
+				orderedSeries:(OrderedSeries *)series
 {
-	self = [super initWithEngine:engine series:series];
+	self = [super initWithEngine:engine];
 	if(self) {
-		_orderedSeries = series;
+		_series = series;
 	}
 	return self;
 }
@@ -163,7 +170,7 @@
 
 @end
 
-@implementation PolyLine
+@implementation PolyLinePrimitive
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count
 {
@@ -172,21 +179,21 @@
 
 @end
 
-@implementation OrderedPolyLine
+@implementation OrderedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
-				 orderedSeries:(OrderedSeries * _Nonnull)series
+				 orderedSeries:(OrderedSeries *)series
 {
-	self = [super initWithEngine:engine series:series];
+	self = [super initWithEngine:engine];
 	if(self) {
-		_orderedSeries = series;
+		_series = series;
 	}
 	return self;
 }
 
 - (void)setSampleData
 {
-	VertexBuffer *vertices = _orderedSeries.vertices;
+	VertexBuffer *vertices = _series.vertices;
 	const NSUInteger vCount = vertices.capacity;
 	for(int i = 0; i < vCount; ++i) {
 		vertex_buffer *v = [vertices bufferAtIndex:i];
@@ -213,7 +220,7 @@ static double gaussian(double mean, double variance) {
                 variance:(CGFloat)variant
 			  onGenerate:(void (^ _Nullable)(float, float))block
 {
-	VertexBuffer *vertices = _orderedSeries.vertices;
+	VertexBuffer *vertices = _series.vertices;
 	const NSUInteger capacity = vertices.capacity;
 	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
 	const NSUInteger idx_end = idx_start + count;
@@ -236,21 +243,21 @@ static double gaussian(double mean, double variance) {
 
 @end
 
-@implementation IndexedPolyLine
+@implementation IndexedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
-				 indexedSeries:(IndexedSeries * _Nonnull)series
+				 indexedSeries:(IndexedSeries *)series
 {
-	self = [super initWithEngine:engine series:series];
+	self = [super initWithEngine:engine];
 	if(self) {
-		_indexedSeries = series;
+		_series = series;
 	}
 	return self;
 }
 
 - (id<MTLBuffer>)indexBuffer
 {
-	return _indexedSeries.indices.buffer;
+	return _series.indices.buffer;
 }
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexIndexed"; }

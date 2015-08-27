@@ -8,13 +8,16 @@
 
 #import "MCRenderables.h"
 #import "DeviceResource.h"
+#import "Engine.h"
+#import "Buffers.h"
 #import "Lines.h"
 #import "Rects.h"
 #import "Points.h"
+#import "LineBuffers.h"
 
 @implementation MCLineSeries
 
-- (instancetype)initWithLine:(Line *)line
+- (instancetype)initWithLine:(LinePrimitive *)line
 {
 	self = [super init];
 	if(self) {
@@ -41,7 +44,7 @@
 
 @implementation MCBarSeries
 
-- (instancetype)initWithBar:(Bar *)bar
+- (instancetype)initWithBar:(BarPrimitive *)bar
 {
     self = [super init];
     if(self) {

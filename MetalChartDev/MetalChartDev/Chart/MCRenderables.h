@@ -9,24 +9,24 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@class Line;
-@class Bar;
+@class LinePrimitive;
+@class BarPrimitive;
 @class PointPrimitive;
 
 @interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 
-@property (readonly, nonatomic) Line * _Nonnull line;
+@property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 
-- (instancetype _Null_unspecified)initWithLine:(Line * _Nonnull)line;
+- (instancetype _Null_unspecified)initWithLine:(LinePrimitive * _Nonnull)line;
 
 @end
 
 
 @interface MCBarSeries : NSObject<MCRenderable>
 
-@property (readonly, nonatomic) Bar * _Nonnull bar;
+@property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 
-- (instancetype _Null_unspecified)initWithBar:(Bar * _Nonnull)bar;
+- (instancetype _Null_unspecified)initWithBar:(BarPrimitive * _Nonnull)bar;
 
 @end
 

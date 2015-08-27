@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Protocols.h"
 
 @class Engine;
 @class UniformProjection;
@@ -17,24 +18,21 @@
 @protocol MTLRenderCommandEncoder;
 @protocol Series;
 
-@interface PointPrimitive : NSObject
+@interface PointPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformPoint * _Nonnull point;
-@property (readonly, nonatomic) id<Series> _Nonnull series;
+@property (readonly, nonatomic) UniformPoint * _Nonnull attributes;
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjection * _Nonnull)projection
-;
+- (id<Series> _Nullable)series;
 
 @end
 
-@interface OrderedPoint : PointPrimitive
+@interface OrderedPointPrimitive : PointPrimitive
 
-@property (readonly, nonatomic) OrderedSeries * _Nonnull orderedSeries;
+@property (readonly, nonatomic) OrderedSeries * _Nullable series;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nonnull)series;
+                                          series:(OrderedSeries * _Nullable)series;
 
 @end
 
