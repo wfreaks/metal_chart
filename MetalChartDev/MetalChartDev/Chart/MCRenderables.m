@@ -10,6 +10,7 @@
 #import "DeviceResource.h"
 #import "Lines.h"
 #import "Rects.h"
+#import "Points.h"
 
 @implementation MCLineSeries
 
@@ -55,6 +56,28 @@
 }
 
 @end
+
+
+
+
+@implementation MCPointSeries
+
+- (instancetype)initWithPoint:(PointPrimitive *)point
+{
+    self = [super init];
+    if(self) {
+        _point = point;
+    }
+    return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
+{
+    [_point encodeWith:encoder projection:projection];
+}
+
+@end
+
 
 
 

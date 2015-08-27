@@ -146,12 +146,15 @@ class ViewController: UIViewController {
 			
 			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
 			series2.addPoint(CGPointMake(0.5, 0.5))
+            series2.addPoint(CGPointMake(0.5, 0))
 			let bar = OrderedBar(engine: engine, series: series2)
 			bar.bar.setBarWidth(20)
 			bar.bar.setBarDirection(CGPointMake(0, 1))
 			bar.bar.setAnchorPoint(CGPointMake(0, 0))
 			bar.bar.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-			let barSeries = MCBarSeries(bar: bar)
+//			let barSeries = MCBarSeries(bar: bar)
+            
+            let point = OrderedPoint(engine: engine, series: series2)
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()
@@ -167,7 +170,8 @@ class ViewController: UIViewController {
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
-			chart.addSeries(barSeries, projection: space)
+//			chart.addSeries(barSeries, projection: space)
+            chart.addSeries(MCPointSeries(point: point), projection: space)
             
             let rect = PlotRect(engine: engine)
             rect.rect.setColor(1, green: 1, blue: 1, alpha: 1)

@@ -111,12 +111,13 @@ fragment out_fragment PlotRect_Fragment(
 
 vertex out_vertex_bar GeneralBar_VertexOrdered(
                                         device vertex_coord *vertices [[ buffer(0) ]],
-                                        constant uniform_bar& bar [[ buffer(1) ]],
-                                        constant uniform_projection& proj [[ buffer(2) ]],
+                                        constant uniform_bar& bar [[ buffer(2) ]],
+                                        constant uniform_projection& proj [[ buffer(3) ]],
+                                        constant uniform_series_info& info [[ buffer(4) ]],
                                         uint v_id [[ vertex_id ]]
                                         )
 {
-    const uint vid = v_id / 4;
+    const uint vid = (v_id / 4) % info.vertex_capacity;
     const uchar spec = v_id % 4;
     const bool is_right = ((spec % 2) == 1); // spec = [0,2] -> true
     const bool is_top = ((spec / 2) == 0); // spec = [0,1] -> true

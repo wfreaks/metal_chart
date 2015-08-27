@@ -111,13 +111,12 @@
     id<MTLBuffer> const indexBuffer = [self indexBuffer];
     id<MTLBuffer> const barBuffer = _bar.buffer;
     id<MTLBuffer> const projBuffer = projection.buffer;
-    NSUInteger idx = 0;
-    [encoder setVertexBuffer:vertexBuffer offset:0 atIndex:idx++];
-    if(indexBuffer) {
-        [encoder setVertexBuffer:indexBuffer offset:0 atIndex:idx++];
-    }
-    [encoder setVertexBuffer:barBuffer offset:0 atIndex:idx++];
-    [encoder setVertexBuffer:projBuffer offset:0 atIndex:idx++];
+    id<MTLBuffer> const infoBuffer = [_series info].buffer;
+    [encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
+    [encoder setVertexBuffer:barBuffer offset:0 atIndex:2];
+    [encoder setVertexBuffer:projBuffer offset:0 atIndex:3];
+    [encoder setVertexBuffer:infoBuffer offset:0 atIndex:4];
     
     [encoder setFragmentBuffer:barBuffer offset:0 atIndex:0];
     [encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];

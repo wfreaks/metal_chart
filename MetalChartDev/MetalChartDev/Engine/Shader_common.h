@@ -41,4 +41,10 @@ inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
 	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
+struct uniform_series_info {
+    uint vertex_capacity;
+    uint index_capacity;
+    uint offset;
+};
+
 #endif /* Shader_common_h */

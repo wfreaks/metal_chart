@@ -108,19 +108,16 @@
 		[encoder setScissorRect:rect];
 	}
 	
-	NSUInteger idx = 0;
 	id<MTLBuffer> vertexBuffer = [_series vertexBuffer];
 	id<MTLBuffer> indexBuffer = [self indexBuffer];
 	UniformLineAttributes *attributes = _attributes;
 	UniformSeriesInfo *info = _series.info;
 
-	[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:idx++];
-	if( indexBuffer ) {
-		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:idx++];
-	}
-	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:idx++];
-	[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:idx++];
-	[encoder setVertexBuffer:info.buffer offset:0 atIndex:idx++];
+	[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
+	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+	[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
+	[encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
 	
 	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
 	[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];

@@ -11,6 +11,7 @@
 
 @class Line;
 @class Bar;
+@class PointPrimitive;
 
 @interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 
@@ -26,6 +27,15 @@
 @property (readonly, nonatomic) Bar * _Nonnull bar;
 
 - (instancetype _Null_unspecified)initWithBar:(Bar * _Nonnull)bar;
+
+@end
+
+
+@interface MCPointSeries : NSObject<MCRenderable>
+
+@property (readonly, nonatomic) PointPrimitive * _Nonnull point;
+
+- (instancetype _Null_unspecified)initWithPoint:(PointPrimitive * _Nonnull)point;
 
 @end
 

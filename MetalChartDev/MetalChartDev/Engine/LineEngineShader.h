@@ -33,12 +33,6 @@ struct uniform_line_attr {
     uchar modify_alpha_on_edge;
 };
 
-struct uniform_series_info {
-    uint vertex_capacity;
-    uint index_capacity;
-    uint offset;
-};
-
 // ここの座業変換はlineWidthの値に応じて頂点を「物理座標」上でw/√2だけ動かす。scissorRectはNDCへ影響を与えない(物理座標とNDCの対応関係が変わらない)ので考慮する必要はない.
 template <typename OutputType>
 inline OutputType LineEngineVertexCore(const float2 current, const float2 next, const uchar spec, const float line_width, const float2 phy_size)

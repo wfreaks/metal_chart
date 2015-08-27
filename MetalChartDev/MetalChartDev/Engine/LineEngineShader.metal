@@ -30,9 +30,9 @@ vertex out_vertex PolyLineEngineVertexIndexed(
 
 vertex out_vertex PolyLineEngineVertexOrdered(
                                               device vertex_coord* coords [[ buffer(0) ]],
-                                              constant uniform_projection& proj [[ buffer(1) ]],
-                                              constant uniform_line_attr& attr [[ buffer(2) ]],
-                                              constant uniform_series_info& info [[ buffer(3) ]],
+                                              constant uniform_projection& proj [[ buffer(2) ]],
+                                              constant uniform_line_attr& attr [[ buffer(3) ]],
+                                              constant uniform_series_info& info [[ buffer(4) ]],
                                               uint v_id [[ vertex_id ]]
 ) {
     const uint vid = v_id / 6;

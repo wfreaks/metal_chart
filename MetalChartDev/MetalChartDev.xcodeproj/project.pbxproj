@@ -11,6 +11,9 @@
 		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
 		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; settings = {ASSET_TAGS = (); }; };
 		AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
+		AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
+		AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; settings = {ASSET_TAGS = (); }; };
+		AA4891821B8F514F00357D40 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; settings = {ASSET_TAGS = (); }; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
@@ -62,6 +65,12 @@
 		AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
 		AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
 		AA2A9B711B8CBCDD00C79D32 /* Shader_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
+		AA4891791B8F3EE800357D40 /* PointEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PointEngineShader.metal; sourceTree = "<group>"; };
+		AA48917C1B8F4F0A00357D40 /* Point_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Point_common.h; sourceTree = "<group>"; };
+		AA48917D1B8F4F4B00357D40 /* PointBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointBuffers.h; sourceTree = "<group>"; };
+		AA48917E1B8F4F4B00357D40 /* PointBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointBuffers.m; sourceTree = "<group>"; };
+		AA4891801B8F514F00357D40 /* Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Points.h; sourceTree = "<group>"; };
+		AA4891811B8F514F00357D40 /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
 		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
@@ -182,12 +191,26 @@
 			name = Base;
 			sourceTree = "<group>";
 		};
+		AA48917B1B8F4DC800357D40 /* Point */ = {
+			isa = PBXGroup;
+			children = (
+				AA4891791B8F3EE800357D40 /* PointEngineShader.metal */,
+				AA48917C1B8F4F0A00357D40 /* Point_common.h */,
+				AA48917D1B8F4F4B00357D40 /* PointBuffers.h */,
+				AA48917E1B8F4F4B00357D40 /* PointBuffers.m */,
+				AA4891801B8F514F00357D40 /* Points.h */,
+				AA4891811B8F514F00357D40 /* Points.m */,
+			);
+			name = Point;
+			sourceTree = "<group>";
+		};
 		AA88E52A1B74C9D40004AA4E /* Engine */ = {
 			isa = PBXGroup;
 			children = (
 				AA2A9B741B8D885200C79D32 /* Base */,
 				AA2A9B721B8D881600C79D32 /* Line */,
 				AA2A9B731B8D882600C79D32 /* Rect */,
+				AA48917B1B8F4DC800357D40 /* Point */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -237,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
+				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
 				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
 				AA88E5371B74E5420004AA4E /* Chart */,
 				AA88E52A1B74C9D40004AA4E /* Engine */,
@@ -246,7 +270,6 @@
 				AAB584E51B6F0D8C00480AAE /* Assets.xcassets */,
 				AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */,
 				AAB584EA1B6F0D8C00480AAE /* Info.plist */,
-				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
 			);
 			path = MetalChartDev;
 			sourceTree = "<group>";
@@ -422,8 +445,10 @@
 			files = (
 				AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */,
 				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
+				AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */,
 				AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
+				AA4891821B8F514F00357D40 /* Points.m in Sources */,
 				AA909CA51B8CDE510056FE14 /* RectBuffers.m in Sources */,
 				AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */,
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
@@ -433,6 +458,7 @@
 				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
+				AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */,
 				AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* Engine.m in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,

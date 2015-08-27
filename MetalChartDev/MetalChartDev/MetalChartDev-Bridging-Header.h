@@ -10,6 +10,8 @@
 #import "Engine/LineBuffers.h"
 #import "Engine/Rects.h"
 #import "Engine/RectBuffers.h"
+#import "Engine/Points.h"
+#import "Engine/PointBuffers.h"
 
 #import "Chart/MetalChart.h"
 #import "Chart/MCProjectionUpdater.h"
