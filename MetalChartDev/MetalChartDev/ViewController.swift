@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 	
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
-	let asChart = false
+	let asChart = true
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -64,6 +64,10 @@ class ViewController: UIViewController {
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleAttributes()
+            
+            let pointAttributes = UniformPoint(resource: resource)
+            pointAttributes.setOuterColor(0, green: 0, blue: 0, alpha: 0)
+            line.pointAttributes = pointAttributes
             
             let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
             let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries, attributes:nil)
@@ -152,9 +156,10 @@ class ViewController: UIViewController {
 			bar.attributes.setBarDirection(CGPointMake(0, 1))
 			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
 			bar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-//			let barSeries = MCBarSeries(bar: bar)
+			let barSeries = MCBarSeries(bar: bar)
             
-            let point = OrderedPointPrimitive(engine: engine, series: series2, attributes:nil)
+            let pointAttributes = UniformPoint(resource: resource)
+            line.pointAttributes = pointAttributes
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()
@@ -170,8 +175,7 @@ class ViewController: UIViewController {
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)
-//			chart.addSeries(barSeries, projection: space)
-            chart.addSeries(MCPointSeries(point: point), projection: space)
+			chart.addSeries(barSeries, projection: space)
             
             let rect = PlotRect(engine: engine)
             rect.attributes.setColor(1, green: 1, blue: 1, alpha: 1)

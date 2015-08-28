@@ -36,8 +36,9 @@ vertex out_vertex PolyLineEngineVertexOrdered(
                                               uint v_id [[ vertex_id ]]
 ) {
     const uint vid = v_id / 6;
-    const ushort index_current = vid % info.vertex_capacity;
-    const ushort index_next = (vid + 1) % info.vertex_capacity;
+    const uint vcap = info.vertex_capacity;
+    const ushort index_current = vid % vcap;
+    const ushort index_next = (vid + 1) % vcap;
     const float2 p_current = adjustPoint( coords[index_current].position, proj );
     const float2 p_next = adjustPoint( coords[index_next].position, proj );
     
@@ -83,7 +84,7 @@ fragment out_fragment LineEngineFragment_WriteDepth(
     if( core.is_same_dir ) {
         out.color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : round(core.ratio);
     }
-    out.depth = (out.color.a > 0) ? input.depth : 0;
+    out.depth = (out.color.a > 0) * input.depth;
     
 	return out;
 }
