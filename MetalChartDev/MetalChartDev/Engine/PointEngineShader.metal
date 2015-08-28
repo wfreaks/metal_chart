@@ -46,6 +46,28 @@ vertex out_vertex Point_VertexOrdered(
     return out;
 }
 
+vertex out_vertex Point_VertexIndexed(
+									  device vertex_coord *vertices [[ buffer(0) ]],
+									  device vertex_index *indices  [[ buffer(1) ]],
+									  constant uniform_point& point [[ buffer(2) ]],
+									  constant uniform_projection& proj [[ buffer(3) ]],
+									  constant uniform_series_info& info [[ buffer(4) ]],
+									  const uint vid [[ vertex_id ]]
+									  )
+{
+	const uint index = indices[vid % info.vertex_capacity].index;
+	const float2 pos_data = vertices[index].position;
+	const float2 pos_ndc = adjustPoint(pos_data, proj);
+	
+	out_vertex out;
+	out.position = float4(pos_ndc.x, pos_ndc.y, 0, 1.0);
+	out.psize = point.rad_outer + 1;
+	out.point_size = 2 * out.psize; // rad_inner > rad_outer とかそんなん知らん！無駄ァ!
+	
+	return out;
+}
+
+
 fragment out_fragment Point_Fragment(
                                      const out_vertex in [[ stage_in ]],
                                      const float2 pos_coord [[ point_coord ]],

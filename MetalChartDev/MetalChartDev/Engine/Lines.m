@@ -12,10 +12,14 @@
 #import "Engine.h"
 #import "Series.h"
 #import "LineBuffers.h"
+#import "Points.h"
 
 @interface LinePrimitive()
 
+@property (strong, nonatomic) DynamicPointPrimitive * _Nullable point;
+
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjection * _Nonnull)projection;
@@ -28,37 +32,17 @@
 
 
 
-@interface OrderedSeparatedLinePrimitive()
-
-@property (strong, nonatomic) OrderedSeries * _Nullable series;
-
-@end
-
-
-
-@interface OrderedPolyLinePrimitive()
-
-@property (strong, nonatomic) OrderedSeries * _Nullable series;
-
-@end
-
-
-
-@interface IndexedPolyLinePrimitive()
-
-@property (strong, nonatomic) IndexedSeries * _Nullable series;
-
-@end
 
 @implementation LinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
+					attributes:(UniformLineAttributes *)attributes
 {
     self = [super init];
     if(self) {
 		DeviceResource *resource = engine.resource;
 		_engine = engine;
-		_attributes = [[UniformLineAttributes alloc] initWithResource:resource];
+		_attributes = (attributes) ? attributes : [[UniformLineAttributes alloc] initWithResource:resource];
     }
     return self;
 }
@@ -133,6 +117,11 @@
 			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 		}
 		
+		PointPrimitive *point = [self point];
+		if(point) {
+			[point encodeWith:encoder projection:projection];
+		}
+		
 		[encoder popDebugGroup];
 	}
 }
@@ -147,14 +136,27 @@
 
 - (id<Series>)series { return nil; }
 
+- (void)setPointAttributes:(UniformPoint *)pointAttributes
+{
+	if(_pointAttributes != pointAttributes) {
+		_pointAttributes = pointAttributes;
+		if(pointAttributes) {
+			_point = [[DynamicPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
+		} else {
+			_point = nil;
+		}
+	}
+}
+
 @end
 
 @implementation OrderedSeparatedLinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
 				orderedSeries:(OrderedSeries *)series
+					attributes:(UniformLineAttributes * _Nullable)attributes
 {
-	self = [super initWithEngine:engine];
+	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
 		_series = series;
 	}
@@ -167,6 +169,11 @@
 }
 
 - (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
+
+- (PointPrimitive *)createPointPrimitiveWithAttributes:(UniformPoint *)attributes
+{
+	return [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
+}
 
 @end
 
@@ -183,8 +190,9 @@
 
 - (instancetype)initWithEngine:(Engine *)engine
 				 orderedSeries:(OrderedSeries *)series
+					attributes:(UniformLineAttributes * _Nullable)attributes
 {
-	self = [super initWithEngine:engine];
+	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
 		_series = series;
 	}
@@ -241,14 +249,21 @@ static double gaussian(double mean, double variance) {
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrdered"; }
 
+- (void)setSeries:(OrderedSeries *)series
+{
+	_series = series;
+	self.point.series = series;
+}
+
 @end
 
 @implementation IndexedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
 				 indexedSeries:(IndexedSeries *)series
+					attributes:(UniformLineAttributes * _Nullable)attributes
 {
-	self = [super initWithEngine:engine];
+	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
 		_series = series;
 	}
@@ -261,6 +276,12 @@ static double gaussian(double mean, double variance) {
 }
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexIndexed"; }
+
+- (void)setSeries:(IndexedSeries *)series
+{
+	_series = series;
+	self.point.series = series;
+}
 
 @end
 

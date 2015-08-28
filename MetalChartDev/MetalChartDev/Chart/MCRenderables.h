@@ -12,6 +12,7 @@
 @class LinePrimitive;
 @class BarPrimitive;
 @class PointPrimitive;
+@class UniformPoint;
 
 @interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 

@@ -13,15 +13,21 @@
 #import "PointBuffers.h"
 #import "Series.h"
 
+@interface PointPrimitive()
+
+- (id<MTLBuffer>)indexBuffer;
+
+@end
+
 @implementation PointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(Engine *)engine attributes:(UniformPoint * _Nullable)attributes
 {
     self = [super init];
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _attributes = [[UniformPoint alloc] initWithResource:res];
+        _attributes = (attributes) ? attributes : [[UniformPoint alloc] initWithResource:res];
     }
     return self;
 }
@@ -91,9 +97,11 @@ projection:(UniformProjection *)projection
 
 @implementation OrderedPointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine series:(OrderedSeries *)series
+- (instancetype)initWithEngine:(Engine *)engine
+						series:(OrderedSeries *)series
+					attributes:(UniformPoint * _Nullable)attributes
 {
-    self = [super initWithEngine:engine];
+    self = [super initWithEngine:engine attributes:attributes];
     if(self) {
         _series = series;
     }
@@ -106,8 +114,54 @@ projection:(UniformProjection *)projection
 
 
 
+@implementation IndexedPointPrimitive
+
+- (instancetype)initWithEngine:(Engine *)engine
+						series:(IndexedSeries *)series
+					attributes:(UniformPoint * _Nullable)attributes
+{
+	self = [super initWithEngine:engine attributes:attributes];
+	if(self) {
+		_series = series;
+	}
+	return self;
+}
+
+- (NSString *)vertexFunctionName { return @"Point_VertexIndexed"; }
+
+- (id<MTLBuffer>)indexBuffer { return _series.indices.buffer; }
+
+@end
 
 
+
+@implementation DynamicPointPrimitive
+
+- (instancetype)initWithEngine:(Engine *)engine
+						series:(id<Series> _Nullable)series
+					attributes:(UniformPoint * _Nullable)attributes
+{
+	self = [super initWithEngine:engine attributes:attributes];
+	if(self) {
+		_series = series;
+	}
+	return self;
+}
+
+- (NSString *)vertexFunctionName {
+	return ([self indexBuffer]) ? @"Point_VertexIndexed" : @"Point_VertexOrdered";
+}
+
+- (id<MTLBuffer>)indexBuffer
+{
+	id<Series> series = _series;
+	if([series isKindOfClass:[IndexedSeries class]]) {
+		return ((IndexedSeries *)series).indices.buffer;
+	}
+	return nil;
+}
+
+@end
 
 
 

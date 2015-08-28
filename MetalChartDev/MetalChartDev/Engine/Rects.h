@@ -46,6 +46,8 @@
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nullable)series;
+                                          series:(OrderedSeries * _Nullable)series
+									  attributes:(UniformBar * _Nullable)attributes
+;
 
 @end

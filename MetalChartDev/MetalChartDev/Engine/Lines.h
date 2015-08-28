@@ -14,6 +14,7 @@
 @class UniformProjection;
 @class UniformLineAttributes;
 @class UniformAxis;
+@class UniformPoint;
 @class OrderedSeries;
 @class IndexedSeries;
 
@@ -22,6 +23,7 @@
 @interface LinePrimitive : NSObject<Primitive>
 
 @property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
+@property (strong  , nonatomic) UniformPoint * _Nullable pointAttributes;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
 - (void)setSampleAttributes;
@@ -35,8 +37,11 @@
 
 @interface OrderedSeparatedLinePrimitive : LinePrimitive
 
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
+
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
+									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
 @end
@@ -47,8 +52,11 @@
 
 @interface OrderedPolyLinePrimitive : PolyLinePrimitive
 
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
+
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
+									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
 - (void)setSampleData;
@@ -65,8 +73,11 @@
 
 @interface IndexedPolyLinePrimitive : PolyLinePrimitive
 
+@property (strong, nonatomic) IndexedSeries * _Nullable series;
+
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
 								   indexedSeries:(IndexedSeries * _Nullable)series
+									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
 @end

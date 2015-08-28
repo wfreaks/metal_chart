@@ -15,6 +15,10 @@
 #import "Points.h"
 #import "LineBuffers.h"
 
+@interface MCLineSeries()
+
+@end
+
 @implementation MCLineSeries
 
 - (instancetype)initWithLine:(LinePrimitive *)line

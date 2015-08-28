@@ -14,6 +14,7 @@
 @class UniformPlotRect;
 @class UniformPoint;
 @class OrderedSeries;
+@class IndexedSeries;
 
 @protocol MTLRenderCommandEncoder;
 @protocol Series;
@@ -29,10 +30,32 @@
 
 @interface OrderedPointPrimitive : PointPrimitive
 
-@property (readonly, nonatomic) OrderedSeries * _Nullable series;
+@property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nullable)series;
+                                          series:(OrderedSeries * _Nullable)series
+									  attributes:(UniformPoint * _Nullable)attributes
+;
+@end
 
+@interface IndexedPointPrimitive : PointPrimitive
+
+@property (strong, nonatomic) IndexedSeries * _Nullable series;
+
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+										  series:(IndexedSeries * _Nullable)series
+									  attributes:(UniformPoint * _Nullable)attributes
+;
+@end
+
+
+@interface DynamicPointPrimitive : PointPrimitive
+
+@property (strong, nonatomic) id<Series> _Nullable series;
+
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+										  series:(id<Series> _Nullable)series
+									  attributes:(UniformPoint * _Nullable)attributes
+;
 @end
 

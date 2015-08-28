@@ -62,11 +62,11 @@ class ViewController: UIViewController {
 			let vertOffset = 1 << 4
 			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
-			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series)
+			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleAttributes()
             
             let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
-            let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries)
+            let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries, attributes:nil)
             overlayLine.setSampleAttributes()
             overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLine.attributes.setWidth(3)
@@ -139,7 +139,7 @@ class ViewController: UIViewController {
 			
 			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
-			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series)
+			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleData()
 			series.info.count = 5
 			line.attributes.setWidth(10)
@@ -147,14 +147,14 @@ class ViewController: UIViewController {
 			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
 			series2.addPoint(CGPointMake(0.5, 0.5))
             series2.addPoint(CGPointMake(0.5, 0))
-			let bar = OrderedBarPrimitive(engine: engine, series: series2)
+			let bar = OrderedBarPrimitive(engine: engine, series: series2, attributes:nil)
 			bar.attributes.setBarWidth(20)
 			bar.attributes.setBarDirection(CGPointMake(0, 1))
 			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
 			bar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
 //			let barSeries = MCBarSeries(bar: bar)
             
-            let point = OrderedPointPrimitive(engine: engine, series: series2)
+            let point = OrderedPointPrimitive(engine: engine, series: series2, attributes:nil)
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()

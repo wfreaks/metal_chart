@@ -62,7 +62,7 @@
 @interface BarPrimitive()
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(id<Series> _Nullable)series
+									  attributes:(UniformBar * _Nullable)attributes
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjection * _Nonnull)projection;
@@ -75,13 +75,14 @@
 
 @implementation BarPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine series:(id<Series>)series
+- (instancetype)initWithEngine:(Engine *)engine
+					attributes:(UniformBar * _Nullable)attributes
 {
     self = [super init];
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _attributes = [[UniformBar alloc] initWithResource:res];
+        _attributes = (attributes) ? attributes : [[UniformBar alloc] initWithResource:res];
     }
     return self;
 }
@@ -150,9 +151,11 @@
 
 @implementation OrderedBarPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine series:(OrderedSeries *)series
+- (instancetype)initWithEngine:(Engine *)engine
+						series:(OrderedSeries *)series
+					attributes:(UniformBar * _Nullable)attributes
 {
-    self = [super initWithEngine:engine series:series];
+    self = [super initWithEngine:engine attributes:attributes];
     if(self) {
         _series = series;
     }
