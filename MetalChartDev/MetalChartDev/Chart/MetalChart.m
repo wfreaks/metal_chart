@@ -159,7 +159,6 @@
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
 - (void)drawInMTKView:(MTKView *)view
 {
-	
 	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
 	if(willDraw != nil) willDraw(self);
 	

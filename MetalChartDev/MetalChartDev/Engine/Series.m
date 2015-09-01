@@ -36,14 +36,17 @@
 
 - (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max
 {
-	const NSUInteger count = _info.count;
-	const NSUInteger idx = count + _info.offset;
-	[_vertices bufferAtIndex:idx]->position = vector2((float)point.x, (float)point.y);
-	if(0 < max && max <= count) {
-		_info.offset += 1;
-	} else {
-		_info.count += 1;
-	}
+    @synchronized(self) {
+        const NSUInteger count = _info.count;
+        const NSUInteger offset = _info.offset;
+        const NSUInteger idx = count + offset + 2;
+        [_vertices bufferAtIndex:idx]->position = vector2((float)point.x, (float)point.y);
+        if(0 < max && max <= count) {
+            _info.offset = (offset + 1);
+        } else {
+            _info.count = (count + 1);
+        }
+    }
 }
 
 @end

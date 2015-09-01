@@ -109,7 +109,7 @@ class ViewController: UIViewController {
                 line.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
-                overlayLine.appendSampleData((1<<0), maxVertexCount: vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
+                overlayLine.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
                     xUpdater.addSourceValue(CGFloat(x), update: false)
                 }
 				xUpdater.updateTarget()
