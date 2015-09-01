@@ -36,6 +36,7 @@
 		AAB584F41B6F0D8C00480AAE /* MetalChartDevTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */; };
 		AAB584FF1B6F0D8C00480AAE /* MetalChartDevUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */; };
 		AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB585121B6F0E1F00480AAE /* DeviceResource.m */; };
+		AAB794541B9583B6006992BC /* MCAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB794531B9583B6006992BC /* MCAnimator.m */; settings = {ASSET_TAGS = (); }; };
 		AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AADC1AC21B8F2002002F455D /* MetalKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +119,8 @@
 		AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MetalChartDev-Bridging-Header.h"; sourceTree = "<group>"; };
 		AAB585111B6F0E1F00480AAE /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceResource.h; sourceTree = "<group>"; };
 		AAB585121B6F0E1F00480AAE /* DeviceResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceResource.m; sourceTree = "<group>"; };
+		AAB794521B9583B6006992BC /* MCAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAnimator.h; sourceTree = "<group>"; };
+		AAB794531B9583B6006992BC /* MCAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAnimator.m; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -233,6 +236,8 @@
 				AAA537121B7A42400099017D /* MCAxis.m */,
 				AA909C9C1B8798BF0056FE14 /* MCInteractive.h */,
 				AA909C9D1B8798BF0056FE14 /* MCInteractive.m */,
+				AAB794521B9583B6006992BC /* MCAnimator.h */,
+				AAB794531B9583B6006992BC /* MCAnimator.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -463,6 +468,7 @@
 				AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */,
 				AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* Engine.m in Sources */,
+				AAB794541B9583B6006992BC /* MCAnimator.m in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 				AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */,
 				AAA537131B7A42400099017D /* MCAxis.m in Sources */,

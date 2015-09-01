@@ -65,9 +65,9 @@ class ViewController: UIViewController {
 			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleAttributes()
             
-            let pointAttributes = UniformPoint(resource: resource)
-            pointAttributes.setOuterColor(0, green: 0, blue: 0, alpha: 0)
-            line.pointAttributes = pointAttributes
+//            let pointAttributes = UniformPoint(resource: resource)
+//            pointAttributes.setOuterColor(0, green: 0, blue: 0, alpha: 0)
+//            line.pointAttributes = pointAttributes
             
             let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
             let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries, attributes:nil)
