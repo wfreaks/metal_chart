@@ -14,6 +14,55 @@
 		AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
 		AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; settings = {ASSET_TAGS = (); }; };
 		AA4891821B8F514F00357D40 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; settings = {ASSET_TAGS = (); }; };
+		AA5861941B95FA9800956E42 /* MCKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5861931B95FA9800956E42 /* MCKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861981B95FA9800956E42 /* MCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; };
+		AA58619A1B95FA9800956E42 /* MCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA58619E1B95FAD500956E42 /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
+		AA58619F1B95FAD500956E42 /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
+		AA5861A01B95FAD500956E42 /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
+		AA5861A11B95FAD500956E42 /* MCRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A84A1B7925B2005EEA8D /* MCRenderables.m */; };
+		AA5861A21B95FAD500956E42 /* MCAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA537121B7A42400099017D /* MCAxis.m */; };
+		AA5861A31B95FAD500956E42 /* MCInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909C9D1B8798BF0056FE14 /* MCInteractive.m */; };
+		AA5861A41B95FAD500956E42 /* MCAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB794531B9583B6006992BC /* MCAnimator.m */; };
+		AA5861A51B95FADE00956E42 /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB585121B6F0E1F00480AAE /* DeviceResource.m */; };
+		AA5861A61B95FADE00956E42 /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA01B879BDE0056FE14 /* NSArray+Utility.m */; };
+		AA5861A71B95FAFD00956E42 /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52C1B74C9D40004AA4E /* Buffers.mm */; };
+		AA5861A81B95FAFD00956E42 /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52E1B74C9D40004AA4E /* Engine.m */; };
+		AA5861A91B95FAFD00956E42 /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8471B7904E1005EEA8D /* Series.m */; };
+		AA5861AA1B95FAFD00956E42 /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */; };
+		AA5861AB1B95FAFD00956E42 /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
+		AA5861AC1B95FAFD00956E42 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; };
+		AA5861AD1B95FAFD00956E42 /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5321B74C9D40004AA4E /* Lines.m */; };
+		AA5861AE1B95FAFD00956E42 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; };
+		AA5861AF1B95FAFD00956E42 /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA41B8CDE510056FE14 /* RectBuffers.m */; };
+		AA5861B01B95FAFD00956E42 /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AA909CA71B8CDE980056FE14 /* Rects.m */; };
+		AA5861B11B95FAFD00956E42 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; };
+		AA5861B21B95FAFD00956E42 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; };
+		AA5861B31B95FAFD00956E42 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; };
+		AA5861B41B95FB8D00956E42 /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E5381B74E59A0004AA4E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861B51B95FB8D00956E42 /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A83D1B774196005EEA8D /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861B61B95FB8D00956E42 /* MCProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861B71B95FB8D00956E42 /* MCRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8431B78DAEB005EEA8D /* MCRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861B81B95FB8D00956E42 /* MCRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8491B7925B2005EEA8D /* MCRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861B91B95FB8D00956E42 /* MCAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA537111B7A42400099017D /* MCAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BA1B95FB8D00956E42 /* MCInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909C9C1B8798BF0056FE14 /* MCInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BB1B95FB8D00956E42 /* MCAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB794521B9583B6006992BC /* MCAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BC1B95FBA300956E42 /* Protocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA91B8F7FFD0056FE14 /* Protocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BD1B95FBA300956E42 /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52B1B74C9D40004AA4E /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BE1B95FBA300956E42 /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52D1B74C9D40004AA4E /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861BF1B95FBA300956E42 /* Engine_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C01B95FBA300956E42 /* Series.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8461B7904E1005EEA8D /* Series.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C21B95FBC500956E42 /* Lines_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52F1B74C9D40004AA4E /* Lines_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C41B95FBC500956E42 /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C51B95FBC600956E42 /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E5311B74C9D40004AA4E /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C61B95FBE000956E42 /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA21B8CDE350056FE14 /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C71B95FBE000956E42 /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA31B8CDE510056FE14 /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C81B95FBE000956E42 /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA61B8CDE980056FE14 /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861C91B95FBF600956E42 /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA48917C1B8F4F0A00357D40 /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861CA1B95FBF600956E42 /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA48917D1B8F4F4B00357D40 /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861CB1B95FBF600956E42 /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4891801B8F514F00357D40 /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861CC1B95FC0600956E42 /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB585111B6F0E1F00480AAE /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5861CD1B95FC0F00956E42 /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909C9F1B879BDE0056FE14 /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
@@ -41,6 +90,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA5861961B95FA9800956E42 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA5861901B95FA9800956E42;
+			remoteInfo = MCKit;
+		};
 		AAB584F01B6F0D8C00480AAE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
@@ -57,6 +113,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA5861991B95FA9800956E42 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA58619A1B95FA9800956E42 /* MCKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
 		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
@@ -72,6 +142,9 @@
 		AA48917E1B8F4F4B00357D40 /* PointBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointBuffers.m; sourceTree = "<group>"; };
 		AA4891801B8F514F00357D40 /* Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Points.h; sourceTree = "<group>"; };
 		AA4891811B8F514F00357D40 /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
+		AA5861911B95FA9800956E42 /* MCKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA5861931B95FA9800956E42 /* MCKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCKit.h; sourceTree = "<group>"; };
+		AA5861951B95FA9800956E42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA67A83D1B774196005EEA8D /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
 		AA67A83E1B774196005EEA8D /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
 		AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
@@ -126,10 +199,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA58618D1B95FA9800956E42 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D81B6F0D8C00480AAE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA5861981B95FA9800956E42 /* MCKit.framework in Frameworks */,
 				AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
 			);
@@ -209,6 +290,15 @@
 			name = Point;
 			sourceTree = "<group>";
 		};
+		AA5861921B95FA9800956E42 /* MCKit */ = {
+			isa = PBXGroup;
+			children = (
+				AA5861931B95FA9800956E42 /* MCKit.h */,
+				AA5861951B95FA9800956E42 /* Info.plist */,
+			);
+			path = MCKit;
+			sourceTree = "<group>";
+		};
 		AA88E52A1B74C9D40004AA4E /* Engine */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,11 +335,12 @@
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
-				AADC1AC41B8F20D8002F455D /* Frameworks */,
+				AA5861921B95FA9800956E42 /* MCKit */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
 				AAB584F21B6F0D8C00480AAE /* MetalChartDevTests */,
 				AAB584FD1B6F0D8C00480AAE /* MetalChartDevUITests */,
 				AAB584DC1B6F0D8C00480AAE /* Products */,
+				AADC1AC41B8F20D8002F455D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -259,6 +350,7 @@
 				AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */,
 				AAB584EF1B6F0D8C00480AAE /* MetalChartDevTests.xctest */,
 				AAB584FA1B6F0D8C00480AAE /* MetalChartDevUITests.xctest */,
+				AA5861911B95FA9800956E42 /* MCKit.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,7 +413,60 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		AA58618E1B95FA9800956E42 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA5861941B95FA9800956E42 /* MCKit.h in Headers */,
+				AA5861B41B95FB8D00956E42 /* chart_common.h in Headers */,
+				AA5861B51B95FB8D00956E42 /* MetalChart.h in Headers */,
+				AA5861B61B95FB8D00956E42 /* MCProjectionUpdater.h in Headers */,
+				AA5861B71B95FB8D00956E42 /* MCRestrictions.h in Headers */,
+				AA5861B81B95FB8D00956E42 /* MCRenderables.h in Headers */,
+				AA5861B91B95FB8D00956E42 /* MCAxis.h in Headers */,
+				AA5861BA1B95FB8D00956E42 /* MCInteractive.h in Headers */,
+				AA5861BB1B95FB8D00956E42 /* MCAnimator.h in Headers */,
+				AA5861BC1B95FBA300956E42 /* Protocols.h in Headers */,
+				AA5861BD1B95FBA300956E42 /* Buffers.h in Headers */,
+				AA5861BE1B95FBA300956E42 /* Engine.h in Headers */,
+				AA5861BF1B95FBA300956E42 /* Engine_common.h in Headers */,
+				AA5861C01B95FBA300956E42 /* Series.h in Headers */,
+				AA5861C21B95FBC500956E42 /* Lines_common.h in Headers */,
+				AA5861C41B95FBC500956E42 /* LineBuffers.h in Headers */,
+				AA5861C51B95FBC600956E42 /* Lines.h in Headers */,
+				AA5861C61B95FBE000956E42 /* Rect_common.h in Headers */,
+				AA5861C71B95FBE000956E42 /* RectBuffers.h in Headers */,
+				AA5861C81B95FBE000956E42 /* Rects.h in Headers */,
+				AA5861C91B95FBF600956E42 /* Point_common.h in Headers */,
+				AA5861CA1B95FBF600956E42 /* PointBuffers.h in Headers */,
+				AA5861CB1B95FBF600956E42 /* Points.h in Headers */,
+				AA5861CC1B95FC0600956E42 /* DeviceResource.h in Headers */,
+				AA5861CD1B95FC0F00956E42 /* NSArray+Utility.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		AA5861901B95FA9800956E42 /* MCKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA58619D1B95FA9800956E42 /* Build configuration list for PBXNativeTarget "MCKit" */;
+			buildPhases = (
+				AA58618C1B95FA9800956E42 /* Sources */,
+				AA58618D1B95FA9800956E42 /* Frameworks */,
+				AA58618E1B95FA9800956E42 /* Headers */,
+				AA58618F1B95FA9800956E42 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MCKit;
+			productName = MCKit;
+			productReference = AA5861911B95FA9800956E42 /* MCKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		AAB584DA1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAB585031B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDev" */;
@@ -329,10 +474,12 @@
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
+				AA5861991B95FA9800956E42 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA5861971B95FA9800956E42 /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
@@ -385,6 +532,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = freaks;
 				TargetAttributes = {
+					AA5861901B95FA9800956E42 = {
+						CreatedOnToolsVersion = 7.0;
+					};
 					AAB584DA1B6F0D8C00480AAE = {
 						CreatedOnToolsVersion = 7.0;
 					};
@@ -414,11 +564,19 @@
 				AAB584DA1B6F0D8C00480AAE /* MetalChartDev */,
 				AAB584EE1B6F0D8C00480AAE /* MetalChartDevTests */,
 				AAB584F91B6F0D8C00480AAE /* MetalChartDevUITests */,
+				AA5861901B95FA9800956E42 /* MCKit */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA58618F1B95FA9800956E42 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D91B6F0D8C00480AAE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -446,6 +604,35 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA58618C1B95FA9800956E42 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA5861A31B95FAD500956E42 /* MCInteractive.m in Sources */,
+				AA5861A71B95FAFD00956E42 /* Buffers.mm in Sources */,
+				AA58619F1B95FAD500956E42 /* MCProjectionUpdater.m in Sources */,
+				AA5861A21B95FAD500956E42 /* MCAxis.m in Sources */,
+				AA5861B31B95FAFD00956E42 /* Points.m in Sources */,
+				AA5861A51B95FADE00956E42 /* DeviceResource.m in Sources */,
+				AA5861A11B95FAD500956E42 /* MCRenderables.m in Sources */,
+				AA5861A91B95FAFD00956E42 /* Series.m in Sources */,
+				AA5861B01B95FAFD00956E42 /* Rects.m in Sources */,
+				AA5861AB1B95FAFD00956E42 /* LineEngineShaderAux.metal in Sources */,
+				AA5861AA1B95FAFD00956E42 /* LineEngineShader.metal in Sources */,
+				AA58619E1B95FAD500956E42 /* MetalChart.m in Sources */,
+				AA5861A61B95FADE00956E42 /* NSArray+Utility.m in Sources */,
+				AA5861AC1B95FAFD00956E42 /* LineBuffers.m in Sources */,
+				AA5861A01B95FAD500956E42 /* MCRestrictions.m in Sources */,
+				AA5861AD1B95FAFD00956E42 /* Lines.m in Sources */,
+				AA5861A81B95FAFD00956E42 /* Engine.m in Sources */,
+				AA5861B21B95FAFD00956E42 /* PointBuffers.m in Sources */,
+				AA5861AF1B95FAFD00956E42 /* RectBuffers.m in Sources */,
+				AA5861AE1B95FAFD00956E42 /* RectEngineShader.metal in Sources */,
+				AA5861A41B95FAD500956E42 /* MCAnimator.m in Sources */,
+				AA5861B11B95FAFD00956E42 /* PointEngineShader.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D71B6F0D8C00480AAE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -496,6 +683,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AA5861971B95FA9800956E42 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA5861901B95FA9800956E42 /* MCKit */;
+			targetProxy = AA5861961B95FA9800956E42 /* PBXContainerItemProxy */;
+		};
 		AAB584F11B6F0D8C00480AAE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AAB584DA1B6F0D8C00480AAE /* MetalChartDev */;
@@ -528,6 +720,53 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AA58619B1B95FA9800956E42 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MCKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MCKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SYMROOT = build;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AA58619C1B95FA9800956E42 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MCKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MCKit;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SYMROOT = build;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		AAB585011B6F0D8C00480AAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -687,6 +926,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA58619D1B95FA9800956E42 /* Build configuration list for PBXNativeTarget "MCKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA58619B1B95FA9800956E42 /* Debug */,
+				AA58619C1B95FA9800956E42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		AAB584D61B6F0D8C00480AAE /* Build configuration list for PBXProject "MetalChartDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
