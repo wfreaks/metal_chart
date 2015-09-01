@@ -26,6 +26,8 @@
 
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 
+- (void)setAlpha:(float)alpha;
+
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
 
 - (void)setDepthValue:(float)depth;

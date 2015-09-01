@@ -25,6 +25,16 @@
 
 @implementation MCAnimator
 
+- (instancetype)init
+{
+    self = [super init];
+    if(self) {
+        _runningAnimations = [NSArray array];
+        _pendingAnimations = [NSArray array];
+    }
+    return self;
+}
+
 - (void)chart:(MetalChart *)chart willStartEncodingToBuffer:(id<MTLCommandBuffer>)buffer
 {
     NSArray<id<MCAnimation>> * running;
@@ -50,7 +60,7 @@
         }
     }
     
-    _runningAnimations = running;
+    _runningAnimations = newRunning;
 }
 
 - (void)chart:(MetalChart *)chart willCommitBuffer:(id<MTLCommandBuffer>)buffer
@@ -77,9 +87,9 @@
 
 @implementation MCBlockAnimation
 
-- (instancetype)initWithBlock:(MCAnimationBlock)block
-                     duration:(NSTimeInterval)duration
-                        delay:(NSTimeInterval)delay
+- (instancetype)initWithDuration:(NSTimeInterval)duration
+                           delay:(NSTimeInterval)delay
+                           Block:(MCAnimationBlock)block
 {
     self = [super init];
     if(self) {

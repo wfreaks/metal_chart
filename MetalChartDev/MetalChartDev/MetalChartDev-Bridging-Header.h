@@ -19,4 +19,5 @@
 #import "Chart/MCRenderables.h"
 #import "Chart/MCAxis.h"
 #import "Chart/MCInteractive.h"
+#import "Chart/MCAnimator.h"
 

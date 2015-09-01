@@ -30,7 +30,8 @@
 {
     self = [super init];
     if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _buffer = [resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceCPUCacheModeWriteCombined];
+        self.attributes->alpha = 1;
     }
     return self;
 }
@@ -48,6 +49,11 @@
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     [self attributes]->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setAlpha:(float)alpha
+{
+    [self attributes]->alpha = MIN(1.0f, MAX(0, alpha));
 }
 
 - (void)setModifyAlphaOnEdge:(BOOL)modify

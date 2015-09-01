@@ -15,10 +15,13 @@ class ViewController: UIViewController {
 	@IBOutlet var metalView: MTKView!
     @IBOutlet var panRecognizer: UIPanGestureRecognizer!
     @IBOutlet var pinchRecognizer: UIPinchGestureRecognizer!
-	
+    @IBOutlet var tapRecognizer: UITapGestureRecognizer!
+    
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
+    let animator : MCAnimator = MCAnimator();
 	let asChart = true
+    var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -35,6 +38,7 @@ class ViewController: UIViewController {
 		metalView.preferredFramesPerSecond = 60
 		metalView.addGestureRecognizer(panRecognizer)
 		metalView.addGestureRecognizer(pinchRecognizer)
+        metalView.addGestureRecognizer(tapRecognizer)
 		
 		setupChart()
 		metalView.delegate = chart
@@ -118,6 +122,9 @@ class ViewController: UIViewController {
             chart.addSeries(overlayLineSeries, projection: space)
 			chart.addPostRenderable(yAxis)
 			chart.addPostRenderable(xAxis)
+            
+            firstLineAttributes = line.attributes
+            chart.bufferHook = animator
 			
 		} else {
             chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
@@ -186,4 +193,13 @@ class ViewController: UIViewController {
             chart.addPreRenderable(plotArea)
 		}
 	}
+    
+    @IBAction func chartTapped(sender: UITapGestureRecognizer) {
+        let anim = MCBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
+            let alpha : CFloat = CFloat( 2 * fabs(0.5 - progress) )
+            self.firstLineAttributes?.setAlpha(alpha)
+        }
+        animator.addAnimation(anim)
+    }
+    
 }

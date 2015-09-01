@@ -18,6 +18,7 @@ typedef struct uniform_line_attr {
 	vector_float2 length_mod;
 	float width;
     float depth;
+    float alpha;
     uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 

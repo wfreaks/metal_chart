@@ -30,6 +30,7 @@ struct uniform_line_attr {
     float2 length_mod;
     float width;
     float depth;
+    float alpha;
     uchar modify_alpha_on_edge;
 };
 

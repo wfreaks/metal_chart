@@ -37,11 +37,17 @@
                         <outlet property="metalView" destination="ygm-Ew-ej8" id="4sl-Kd-39H"/>
                         <outlet property="panRecognizer" destination="TAB-pm-xdG" id="bIr-nd-zFf"/>
                         <outlet property="pinchRecognizer" destination="c54-rs-69b" id="o5M-Ko-EUg"/>
+                        <outlet property="tapRecognizer" destination="dOG-xX-0k0" id="Uqg-up-3Th"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="TAB-pm-xdG"/>
                 <pinchGestureRecognizer id="c54-rs-69b"/>
+                <tapGestureRecognizer id="dOG-xX-0k0">
+                    <connections>
+                        <action selector="chartTapped:" destination="BYZ-38-t0r" id="MjE-Vj-O0K"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="220" y="462"/>
         </scene>

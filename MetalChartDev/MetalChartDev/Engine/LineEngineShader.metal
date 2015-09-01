@@ -81,6 +81,7 @@ fragment out_fragment LineEngineFragment_WriteDepth(
     const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
     out_fragment out;
     out.color = attr.color;
+    out.color.a *= attr.alpha;
     if( core.is_same_dir ) {
         out.color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : round(core.ratio);
     }
@@ -96,6 +97,7 @@ fragment float4 LineEngineFragment_NoDepth(
 ) {
     const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
     float4 color = attr.color;
+    color.a *= attr.alpha;
     if( core.is_same_dir ) {
         color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : 0;
     }
