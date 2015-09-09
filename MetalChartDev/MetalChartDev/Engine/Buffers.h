@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import <Metal/Metal.h>
-#import "Lines_common.h"
+#import "Line_common.h"
 #import "DeviceResource.h"
+
+#ifndef __Buffers_h__
+#define __Buffers_h__
 
 #ifdef __cplusplus
 
@@ -111,4 +114,4 @@
 @end
 
 
-
+#endif

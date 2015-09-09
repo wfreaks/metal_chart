@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "Buffers.h"
 
+#ifndef __Series_h__
+#define __Series_h__
+
 @protocol Series<NSObject>
 
 - (id<MTLBuffer> _Nonnull)vertexBuffer;
@@ -43,3 +46,5 @@
 
 
 @end
+
+#endif

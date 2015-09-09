@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
-#import "Lines_common.h"
+#import "Line_common.h"
 
 @protocol MTLBuffer;
 @class DeviceResource;

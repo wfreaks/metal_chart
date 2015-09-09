@@ -16,4 +16,31 @@ FOUNDATION_EXPORT const unsigned char MCKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <MCKit/PublicHeader.h>
 
+#import <MCKit/DeviceResource.h>
+
+#import <MCKit/MetalChart.h>
+#import <MCKit/MCProjectionUpdater.h>
+#import <MCKit/MCRestrictions.h>
+#import <MCKit/MCRenderables.h>
+#import <MCKit/MCAxis.h>
+#import <MCKit/MCInteractive.h>
+#import <MCKit/MCAnimator.h>
+
+#import <MCKit/Protocols.h>
+#import <MCKit/Buffers.h>
+#import <MCKit/Engine.h>
+#import <MCKit/Series.h>
+
+#import <MCKit/Engine_common.h>
+#import <MCKit/Line_common.h>
+#import <MCKit/Rect_common.h>
+#import <MCKit/Point_common.h>
+
+#import <MCKit/LineBuffers.h>
+#import <MCKit/RectBuffers.h>
+#import <MCKit/PointBuffers.h>
+
+#import <MCKit/Lines.h>
+#import <MCKit/Rects.h>
+#import <MCKit/Points.h>
 

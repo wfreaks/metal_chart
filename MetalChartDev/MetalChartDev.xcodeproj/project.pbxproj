@@ -39,29 +39,6 @@
 		AA5861B11B95FAFD00956E42 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; };
 		AA5861B21B95FAFD00956E42 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; };
 		AA5861B31B95FAFD00956E42 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; };
-		AA5861B41B95FB8D00956E42 /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E5381B74E59A0004AA4E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861B51B95FB8D00956E42 /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A83D1B774196005EEA8D /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861B61B95FB8D00956E42 /* MCProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8401B78C8D8005EEA8D /* MCProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861B71B95FB8D00956E42 /* MCRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8431B78DAEB005EEA8D /* MCRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861B81B95FB8D00956E42 /* MCRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8491B7925B2005EEA8D /* MCRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861B91B95FB8D00956E42 /* MCAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA537111B7A42400099017D /* MCAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BA1B95FB8D00956E42 /* MCInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909C9C1B8798BF0056FE14 /* MCInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BB1B95FB8D00956E42 /* MCAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB794521B9583B6006992BC /* MCAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BC1B95FBA300956E42 /* Protocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA91B8F7FFD0056FE14 /* Protocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BD1B95FBA300956E42 /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52B1B74C9D40004AA4E /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BE1B95FBA300956E42 /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52D1B74C9D40004AA4E /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861BF1B95FBA300956E42 /* Engine_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C01B95FBA300956E42 /* Series.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67A8461B7904E1005EEA8D /* Series.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C21B95FBC500956E42 /* Lines_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E52F1B74C9D40004AA4E /* Lines_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C41B95FBC500956E42 /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C51B95FBC600956E42 /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AA88E5311B74C9D40004AA4E /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C61B95FBE000956E42 /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA21B8CDE350056FE14 /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C71B95FBE000956E42 /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA31B8CDE510056FE14 /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C81B95FBE000956E42 /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909CA61B8CDE980056FE14 /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861C91B95FBF600956E42 /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA48917C1B8F4F0A00357D40 /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861CA1B95FBF600956E42 /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA48917D1B8F4F4B00357D40 /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861CB1B95FBF600956E42 /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4891801B8F514F00357D40 /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861CC1B95FC0600956E42 /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB585111B6F0E1F00480AAE /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA5861CD1B95FC0F00956E42 /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA909C9F1B879BDE0056FE14 /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
@@ -159,7 +136,7 @@
 		AA88E52C1B74C9D40004AA4E /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
 		AA88E52D1B74C9D40004AA4E /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		AA88E52E1B74C9D40004AA4E /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
-		AA88E52F1B74C9D40004AA4E /* Lines_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines_common.h; sourceTree = "<group>"; };
+		AA88E52F1B74C9D40004AA4E /* Line_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line_common.h; sourceTree = "<group>"; };
 		AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
 		AA88E5311B74C9D40004AA4E /* Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines.h; sourceTree = "<group>"; };
 		AA88E5321B74C9D40004AA4E /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
@@ -236,7 +213,7 @@
 		AA2A9B721B8D881600C79D32 /* Line */ = {
 			isa = PBXGroup;
 			children = (
-				AA88E52F1B74C9D40004AA4E /* Lines_common.h */,
+				AA88E52F1B74C9D40004AA4E /* Line_common.h */,
 				AA1544501B822A8600F0193E /* LineEngineShader.h */,
 				AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */,
 				AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */,
@@ -419,29 +396,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA5861941B95FA9800956E42 /* MCKit.h in Headers */,
-				AA5861B41B95FB8D00956E42 /* chart_common.h in Headers */,
-				AA5861B51B95FB8D00956E42 /* MetalChart.h in Headers */,
-				AA5861B61B95FB8D00956E42 /* MCProjectionUpdater.h in Headers */,
-				AA5861B71B95FB8D00956E42 /* MCRestrictions.h in Headers */,
-				AA5861B81B95FB8D00956E42 /* MCRenderables.h in Headers */,
-				AA5861B91B95FB8D00956E42 /* MCAxis.h in Headers */,
-				AA5861BA1B95FB8D00956E42 /* MCInteractive.h in Headers */,
-				AA5861BB1B95FB8D00956E42 /* MCAnimator.h in Headers */,
-				AA5861BC1B95FBA300956E42 /* Protocols.h in Headers */,
-				AA5861BD1B95FBA300956E42 /* Buffers.h in Headers */,
-				AA5861BE1B95FBA300956E42 /* Engine.h in Headers */,
-				AA5861BF1B95FBA300956E42 /* Engine_common.h in Headers */,
-				AA5861C01B95FBA300956E42 /* Series.h in Headers */,
-				AA5861C21B95FBC500956E42 /* Lines_common.h in Headers */,
-				AA5861C41B95FBC500956E42 /* LineBuffers.h in Headers */,
-				AA5861C51B95FBC600956E42 /* Lines.h in Headers */,
-				AA5861C61B95FBE000956E42 /* Rect_common.h in Headers */,
-				AA5861C71B95FBE000956E42 /* RectBuffers.h in Headers */,
-				AA5861C81B95FBE000956E42 /* Rects.h in Headers */,
-				AA5861C91B95FBF600956E42 /* Point_common.h in Headers */,
-				AA5861CA1B95FBF600956E42 /* PointBuffers.h in Headers */,
-				AA5861CB1B95FBF600956E42 /* Points.h in Headers */,
-				AA5861CC1B95FC0600956E42 /* DeviceResource.h in Headers */,
 				AA5861CD1B95FC0F00956E42 /* NSArray+Utility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,6 +887,7 @@
 				AA58619C1B95FA9800956E42 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AAB584D61B6F0D8C00480AAE /* Build configuration list for PBXProject "MetalChartDev" */ = {
 			isa = XCConfigurationList;
