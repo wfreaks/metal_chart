@@ -9,14 +9,18 @@
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
-		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; settings = {ASSET_TAGS = (); }; };
-		AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
-		AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; settings = {ASSET_TAGS = (); }; };
-		AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; settings = {ASSET_TAGS = (); }; };
-		AA4891821B8F514F00357D40 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; settings = {ASSET_TAGS = (); }; };
+		AA1D05B21BA958E20041DCF0 /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */; };
+		AA1D05B61BA95D8B0041DCF0 /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */; };
+		AA1D05BC1BA9800B0041DCF0 /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */; };
+		AA1D05BF1BA990D70041DCF0 /* MCText.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BE1BA990D70041DCF0 /* MCText.m */; };
+		AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C01BA9959A0041DCF0 /* CoreText.framework */; };
+		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
+		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; };
+		AA2A9B701B8CBC9900C79D32 /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6F1B8CBC9900C79D32 /* RectEngineShader.metal */; };
+		AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA4891791B8F3EE800357D40 /* PointEngineShader.metal */; };
+		AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA48917E1B8F4F4B00357D40 /* PointBuffers.m */; };
+		AA4891821B8F514F00357D40 /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4891811B8F514F00357D40 /* Points.m */; };
 		AA5861941B95FA9800956E42 /* MCKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5861931B95FA9800956E42 /* MCKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5861981B95FA9800956E42 /* MCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; };
-		AA58619A1B95FA9800956E42 /* MCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA58619E1B95FAD500956E42 /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A83E1B774196005EEA8D /* MetalChart.m */; };
 		AA58619F1B95FAD500956E42 /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8411B78C8D8005EEA8D /* MCProjectionUpdater.m */; };
 		AA5861A01B95FAD500956E42 /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
@@ -59,54 +63,24 @@
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
 		AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E51B6F0D8C00480AAE /* Assets.xcassets */; };
 		AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */; };
-		AAB584F41B6F0D8C00480AAE /* MetalChartDevTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */; };
-		AAB584FF1B6F0D8C00480AAE /* MetalChartDevUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */; };
 		AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB585121B6F0E1F00480AAE /* DeviceResource.m */; };
-		AAB794541B9583B6006992BC /* MCAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB794531B9583B6006992BC /* MCAnimator.m */; settings = {ASSET_TAGS = (); }; };
+		AAB794541B9583B6006992BC /* MCAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB794531B9583B6006992BC /* MCAnimator.m */; };
 		AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AADC1AC21B8F2002002F455D /* MetalKit.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		AA5861961B95FA9800956E42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA5861901B95FA9800956E42;
-			remoteInfo = MCKit;
-		};
-		AAB584F01B6F0D8C00480AAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AAB584DA1B6F0D8C00480AAE;
-			remoteInfo = MetalChartDev;
-		};
-		AAB584FB1B6F0D8C00480AAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AAB584DA1B6F0D8C00480AAE;
-			remoteInfo = MetalChartDev;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		AA5861991B95FA9800956E42 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				AA58619A1B95FA9800956E42 /* MCKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
 		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
+		AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = TextureQuadShader.metal; sourceTree = "<group>"; };
+		AA1D05B31BA95CF40041DCF0 /* TextureQuad_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureQuad_common.h; sourceTree = "<group>"; };
+		AA1D05B41BA95D8B0041DCF0 /* TextureQuadBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuadBuffers.h; sourceTree = "<group>"; };
+		AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuadBuffers.m; sourceTree = "<group>"; };
+		AA1D05BA1BA9800B0041DCF0 /* TextureQuads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuads.h; sourceTree = "<group>"; };
+		AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuads.m; sourceTree = "<group>"; };
+		AA1D05BD1BA990D70041DCF0 /* MCText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCText.h; sourceTree = "<group>"; };
+		AA1D05BE1BA990D70041DCF0 /* MCText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCText.m; sourceTree = "<group>"; };
+		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AA2A9B6B1B8CB86C00C79D32 /* Engine_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
 		AA2A9B6C1B8CB9C400C79D32 /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
@@ -160,10 +134,8 @@
 		AAB584E51B6F0D8C00480AAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAB584E81B6F0D8C00480AAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB584EA1B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB584EF1B6F0D8C00480AAE /* MetalChartDevTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetalChartDevTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalChartDevTests.swift; sourceTree = "<group>"; };
 		AAB584F51B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB584FA1B6F0D8C00480AAE /* MetalChartDevUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MetalChartDevUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalChartDevUITests.swift; sourceTree = "<group>"; };
 		AAB585001B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MetalChartDev-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -187,29 +159,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA5861981B95FA9800956E42 /* MCKit.framework in Frameworks */,
+				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
+				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
 				AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AAB584EC1B6F0D8C00480AAE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AAB584F71B6F0D8C00480AAE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA1D05B01BA958940041DCF0 /* TextureQuad */ = {
+			isa = PBXGroup;
+			children = (
+				AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */,
+				AA1D05B31BA95CF40041DCF0 /* TextureQuad_common.h */,
+				AA1D05B41BA95D8B0041DCF0 /* TextureQuadBuffers.h */,
+				AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */,
+				AA1D05BA1BA9800B0041DCF0 /* TextureQuads.h */,
+				AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */,
+			);
+			name = TextureQuad;
+			sourceTree = "<group>";
+		};
 		AA2A9B721B8D881600C79D32 /* Line */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +255,7 @@
 				AA2A9B721B8D881600C79D32 /* Line */,
 				AA2A9B731B8D882600C79D32 /* Rect */,
 				AA48917B1B8F4DC800357D40 /* Point */,
+				AA1D05B01BA958940041DCF0 /* TextureQuad */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -305,6 +278,8 @@
 				AA909C9D1B8798BF0056FE14 /* MCInteractive.m */,
 				AAB794521B9583B6006992BC /* MCAnimator.h */,
 				AAB794531B9583B6006992BC /* MCAnimator.m */,
+				AA1D05BD1BA990D70041DCF0 /* MCText.h */,
+				AA1D05BE1BA990D70041DCF0 /* MCText.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -325,8 +300,6 @@
 			isa = PBXGroup;
 			children = (
 				AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */,
-				AAB584EF1B6F0D8C00480AAE /* MetalChartDevTests.xctest */,
-				AAB584FA1B6F0D8C00480AAE /* MetalChartDevUITests.xctest */,
 				AA5861911B95FA9800956E42 /* MCKit.framework */,
 			);
 			name = Products;
@@ -382,6 +355,8 @@
 		AADC1AC41B8F20D8002F455D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */,
+				AA1D05C01BA9959A0041DCF0 /* CoreText.framework */,
 				AADC1AC21B8F2002002F455D /* MetalKit.framework */,
 				AACD43101B708EB300A83B69 /* Metal.framework */,
 			);
@@ -428,53 +403,15 @@
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
-				AA5861991B95FA9800956E42 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AA5861971B95FA9800956E42 /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
 			productReference = AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */;
 			productType = "com.apple.product-type.application";
-		};
-		AAB584EE1B6F0D8C00480AAE /* MetalChartDevTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AAB585061B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevTests" */;
-			buildPhases = (
-				AAB584EB1B6F0D8C00480AAE /* Sources */,
-				AAB584EC1B6F0D8C00480AAE /* Frameworks */,
-				AAB584ED1B6F0D8C00480AAE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AAB584F11B6F0D8C00480AAE /* PBXTargetDependency */,
-			);
-			name = MetalChartDevTests;
-			productName = MetalChartDevTests;
-			productReference = AAB584EF1B6F0D8C00480AAE /* MetalChartDevTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		AAB584F91B6F0D8C00480AAE /* MetalChartDevUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AAB585091B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevUITests" */;
-			buildPhases = (
-				AAB584F61B6F0D8C00480AAE /* Sources */,
-				AAB584F71B6F0D8C00480AAE /* Frameworks */,
-				AAB584F81B6F0D8C00480AAE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AAB584FC1B6F0D8C00480AAE /* PBXTargetDependency */,
-			);
-			name = MetalChartDevUITests;
-			productName = MetalChartDevUITests;
-			productReference = AAB584FA1B6F0D8C00480AAE /* MetalChartDevUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -492,14 +429,6 @@
 					AAB584DA1B6F0D8C00480AAE = {
 						CreatedOnToolsVersion = 7.0;
 					};
-					AAB584EE1B6F0D8C00480AAE = {
-						CreatedOnToolsVersion = 7.0;
-						TestTargetID = AAB584DA1B6F0D8C00480AAE;
-					};
-					AAB584F91B6F0D8C00480AAE = {
-						CreatedOnToolsVersion = 7.0;
-						TestTargetID = AAB584DA1B6F0D8C00480AAE;
-					};
 				};
 			};
 			buildConfigurationList = AAB584D61B6F0D8C00480AAE /* Build configuration list for PBXProject "MetalChartDev" */;
@@ -516,8 +445,6 @@
 			projectRoot = "";
 			targets = (
 				AAB584DA1B6F0D8C00480AAE /* MetalChartDev */,
-				AAB584EE1B6F0D8C00480AAE /* MetalChartDevTests */,
-				AAB584F91B6F0D8C00480AAE /* MetalChartDevUITests */,
 				AA5861901B95FA9800956E42 /* MCKit */,
 			);
 		};
@@ -538,20 +465,6 @@
 				AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */,
 				AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */,
 				AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AAB584ED1B6F0D8C00480AAE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AAB584F81B6F0D8C00480AAE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,6 +507,8 @@
 				AA909C9E1B8798BF0056FE14 /* MCInteractive.m in Sources */,
 				AA67A8421B78C8D8005EEA8D /* MCProjectionUpdater.m in Sources */,
 				AA48917A1B8F3EE800357D40 /* PointEngineShader.metal in Sources */,
+				AA1D05B21BA958E20041DCF0 /* TextureQuadShader.metal in Sources */,
+				AA1D05BC1BA9800B0041DCF0 /* TextureQuads.m in Sources */,
 				AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */,
 				AA88E5361B74C9D40004AA4E /* Lines.m in Sources */,
 				AA4891821B8F514F00357D40 /* Points.m in Sources */,
@@ -602,8 +517,10 @@
 				AAB585131B6F0E1F00480AAE /* DeviceResource.m in Sources */,
 				AA909CA81B8CDE980056FE14 /* Rects.m in Sources */,
 				AA67A8481B7904E1005EEA8D /* Series.m in Sources */,
+				AA1D05B61BA95D8B0041DCF0 /* TextureQuadBuffers.m in Sources */,
 				AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */,
 				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,
+				AA1D05BF1BA990D70041DCF0 /* MCText.m in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
 				AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */,
@@ -618,41 +535,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AAB584EB1B6F0D8C00480AAE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AAB584F41B6F0D8C00480AAE /* MetalChartDevTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		AAB584F61B6F0D8C00480AAE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AAB584FF1B6F0D8C00480AAE /* MetalChartDevUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AA5861971B95FA9800956E42 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA5861901B95FA9800956E42 /* MCKit */;
-			targetProxy = AA5861961B95FA9800956E42 /* PBXContainerItemProxy */;
-		};
-		AAB584F11B6F0D8C00480AAE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AAB584DA1B6F0D8C00480AAE /* MetalChartDev */;
-			targetProxy = AAB584F01B6F0D8C00480AAE /* PBXContainerItemProxy */;
-		};
-		AAB584FC1B6F0D8C00480AAE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AAB584DA1B6F0D8C00480AAE /* MetalChartDev */;
-			targetProxy = AAB584FB1B6F0D8C00480AAE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AAB584E21B6F0D8C00480AAE /* Main.storyboard */ = {
@@ -829,54 +712,6 @@
 			};
 			name = Release;
 		};
-		AAB585071B6F0D8C00480AAE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MetalChartDevTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MetalChartDev.app/MetalChartDev";
-			};
-			name = Debug;
-		};
-		AAB585081B6F0D8C00480AAE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = MetalChartDevTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MetalChartDev.app/MetalChartDev";
-			};
-			name = Release;
-		};
-		AAB5850A1B6F0D8C00480AAE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MetalChartDevUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = MetalChartDev;
-				USES_XCTRUNNER = YES;
-			};
-			name = Debug;
-		};
-		AAB5850B1B6F0D8C00480AAE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MetalChartDevUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = MetalChartDev;
-				USES_XCTRUNNER = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -903,24 +738,6 @@
 			buildConfigurations = (
 				AAB585041B6F0D8C00480AAE /* Debug */,
 				AAB585051B6F0D8C00480AAE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AAB585061B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AAB585071B6F0D8C00480AAE /* Debug */,
-				AAB585081B6F0D8C00480AAE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AAB585091B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDevUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AAB5850A1B6F0D8C00480AAE /* Debug */,
-				AAB5850B1B6F0D8C00480AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

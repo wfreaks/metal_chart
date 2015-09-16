@@ -1,0 +1,61 @@
+//
+//  TextureQuads.m
+//  MetalChartDev
+//
+//  Created by Keisuke Mori on 2015/09/16.
+//  Copyright © 2015年 freaks. All rights reserved.
+//
+
+#import "TextureQuads.h"
+#import <Metal/Metal.h>
+#import "Engine.h"
+#import "Buffers.h"
+#import "TextureQuad_common.h"
+#import "TextureQuadBuffers.h"
+
+@implementation TextureQuad
+
+- (instancetype _Null_unspecified)initWithEngine:(Engine *)engine
+                                         texture:(id<MTLTexture>)texture
+{
+    self = [super init];
+    if(self) {
+        DeviceResource *resource = engine.resource;
+        _engine = engine;
+        _texRegion = [[UniformRegion alloc] initWithResource:resource];
+        _viewRegion = [[UniformRegion alloc] initWithResource:resource];
+        _texture = texture;
+    }
+    return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+        projection:(UniformProjection *)projection
+             count:(NSUInteger)count
+{
+    id<MTLTexture> texture = _texture;
+    if(texture) {
+        id<MTLRenderPipelineState> renderState = nil;
+        id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+        [encoder pushDebugGroup:@"DrawTextureQuad"];
+        [encoder setRenderPipelineState:renderState];
+        [encoder setDepthStencilState:depthState];
+        
+        const CGSize ps = projection.physicalSize;
+        const CGFloat scale = projection.screenScale;
+        MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
+        [encoder setScissorRect:rect];
+        
+        [encoder setVertexBuffer:_viewRegion.buffer offset:0 atIndex:0];
+        [encoder setVertexBuffer:_texRegion.buffer offset:0 atIndex:1];
+        [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+        
+        [encoder setFragmentTexture:_texture atIndex:0];
+        
+        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:count];
+        
+        [encoder popDebugGroup];
+    }
+}
+
+@end
