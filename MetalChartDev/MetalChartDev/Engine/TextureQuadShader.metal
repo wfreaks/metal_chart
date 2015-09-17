@@ -64,7 +64,7 @@ constexpr sampler st(filter::linear);
 
 fragment out_fragment TextureQuad_fragment(
                                            out_vertex in[[ stage_in ]],
-                                           texture2d<float4> tex [[ texture(0) ]]
+                                           texture2d<float> tex [[ texture(0) ]]
                                            )
 {
     out_fragment out;

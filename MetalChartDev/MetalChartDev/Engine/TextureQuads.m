@@ -35,7 +35,7 @@
 {
     id<MTLTexture> texture = _texture;
     if(texture) {
-        id<MTLRenderPipelineState> renderState = nil;
+        id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
         id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
         [encoder pushDebugGroup:@"DrawTextureQuad"];
         [encoder setRenderPipelineState:renderState];
@@ -56,6 +56,11 @@
         
         [encoder popDebugGroup];
     }
+}
+
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+{
+	return [_engine pipelineStateWithProjection:projection vertFunc:@"TextureQuad_vertex" fragFunc:@"TextureQuad_fragment"];
 }
 
 @end

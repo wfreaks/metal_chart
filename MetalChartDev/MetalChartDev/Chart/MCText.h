@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <Metal/MTLTypes.h>
+#import "MCAxis.h"
 
 @protocol MTLTexture;
 
 @class DeviceResource;
+@class Engine;
+@class TextureQuad;
 
 @interface MCTextBuffer : NSObject
 
@@ -27,3 +30,14 @@
 ;
 
 @end
+
+@interface MCText : NSObject<MCAxisDecoration>
+
+@property (readonly, nonatomic) MCTextBuffer * _Nonnull buffer;
+@property (readonly, nonatomic) TextureQuad * _Nonnull quad;
+@property (readonly, nonatomic) Engine * _Nonnull engine;
+
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine;
+
+@end
+

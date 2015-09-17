@@ -13,6 +13,7 @@
 @class UniformLineAttributes;
 @class Axis;
 @class UniformAxis;
+@class MCAxis;
 
 typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
 										MCDimensionalProjection *_Nonnull dimension,
@@ -28,6 +29,15 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
 @end
 
 
+@protocol MCAxisDecoration<NSObject>
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+			  axis:(MCAxis * _Nonnull)axis
+		projection:(UniformProjection * _Nonnull)projection
+;
+
+@end
+
 
 @interface MCAxis : NSObject<MCAttachment>
 
@@ -36,6 +46,7 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
 
 @property (readonly, nonatomic) Axis *						_Nonnull  axis;
 @property (readonly, nonatomic) id<MCAxisConfigurator>		_Nonnull  conf;
+@property (strong  , nonatomic) id<MCAxisDecoration>		_Nullable decoration;
 
 - (_Nonnull instancetype)initWithEngine:(Engine * _Nonnull)engine
 							 Projection:(MCSpatialProjection * _Nonnull)projection

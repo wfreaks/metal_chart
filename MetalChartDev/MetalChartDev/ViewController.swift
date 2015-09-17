@@ -20,7 +20,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()
     let animator : MCAnimator = MCAnimator();
-	let asChart = true
+	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -179,6 +179,17 @@ class ViewController: UIViewController {
 			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
 			
 			xAxis.setMinorTickCountPerMajor(3)
+			
+			let text = MCText(engine: engine)
+			text.quad.viewRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
+			text.quad.viewRegion.setSize(CGSizeMake(160, 60))
+			text.quad.texRegion.setBasePosition(CGPointMake(0.5, 0.5))
+			text.quad.texRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
+			text.quad.texRegion.setSize(CGSizeMake(1.0, 1.0))
+			text.buffer.drawString(NSAttributedString(string: "abc"), toTexture: text.quad.texture!) { (rect : CGRect) -> MTLRegion in 
+				return MTLRegionMake2D(0, 0, Int(rect.size.width), Int(rect.size.height));
+			}
+			xAxis.decoration = text
 			
 			let lineSeries = MCLineSeries(line: line)
 			chart.addSeries(lineSeries, projection: space)

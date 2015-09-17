@@ -12,6 +12,8 @@
 #import "Engine/RectBuffers.h"
 #import "Engine/Points.h"
 #import "Engine/PointBuffers.h"
+#import "Engine/TextureQuadBuffers.h"
+#import "Engine/TextureQuads.h"
 
 #import "Chart/MetalChart.h"
 #import "Chart/MCProjectionUpdater.h"
@@ -20,4 +22,5 @@
 #import "Chart/MCAxis.h"
 #import "Chart/MCInteractive.h"
 #import "Chart/MCAnimator.h"
+#import "Chart/MCText.h"
 
