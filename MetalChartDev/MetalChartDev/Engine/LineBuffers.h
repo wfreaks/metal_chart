@@ -50,7 +50,7 @@
 
 @end
 
-@interface UniformAxis : NSObject
+@interface UniformAxisConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> axisBuffer;
 @property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
@@ -66,11 +66,15 @@
 @property (assign  , nonatomic) uint8_t maxMajorTicks;
 @property (assign  , nonatomic) uint8_t minorTicksPerMajor;
 
+@property (readonly, nonatomic) BOOL majorTickValueModified;
+
 - (instancetype)initWithResource:(DeviceResource *)resource;
 
-- (uniform_axis *)axis;
+- (uniform_axis_configuration *)axis;
 
 - (void)setDimensionIndex:(uint8_t)index;
+
+- (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified;
 
 @end
 

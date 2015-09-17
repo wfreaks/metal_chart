@@ -22,7 +22,7 @@ typedef struct uniform_line_attr {
     uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 
-typedef struct uniform_axis {
+typedef struct uniform_axis_configuration {
     float           axis_anchor_value;
     float           tick_anchor_value;
     float           tick_interval_major;
@@ -30,7 +30,7 @@ typedef struct uniform_axis {
     uint8_t         dimIndex;
     uint8_t         minor_ticks_per_major;
     uint8_t         max_major_ticks;
-} uniform_axis;
+} uniform_axis_configuration;
 
 typedef struct uniform_axis_attributes {
     vector_float4   color;

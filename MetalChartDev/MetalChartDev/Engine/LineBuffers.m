@@ -109,14 +109,14 @@
 
 @end
 
-@implementation UniformAxis
+@implementation UniformAxisConfiguration
 
 - (instancetype)initWithResource:(DeviceResource *)resource
 {
     self = [super init];
     if(self) {
         id<MTLDevice> device = resource.device;
-        _axisBuffer = [device newBufferWithLength:sizeof(uniform_axis) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _axisBuffer = [device newBufferWithLength:sizeof(uniform_axis_configuration) options:MTLResourceOptionCPUCacheModeWriteCombined];
         _attributeBuffer = [device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
         _axisAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
         _majorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
@@ -125,8 +125,8 @@
     return self;
 }
 
-- (uniform_axis *)axis {
-    return (uniform_axis *)[_axisBuffer contents];
+- (uniform_axis_configuration *)axis {
+    return (uniform_axis_configuration *)[_axisBuffer contents];
 }
 
 - (uniform_axis_attributes *)attributesAtIndex:(NSUInteger)index
@@ -146,6 +146,7 @@
 {
     if( _tickAnchorValue != value ) {
         _tickAnchorValue = value;
+        _majorTickValueModified = YES;
         [self axis]->tick_anchor_value = value;
     }
 }
@@ -154,6 +155,7 @@
 {
     if( _majorTickInterval != interval ) {
         _majorTickInterval = interval;
+        _majorTickValueModified = YES;
         [self axis]->tick_interval_major = interval;
     }
 }
@@ -171,6 +173,15 @@
 - (void)setMaxMajorTicks:(uint8_t)count {
     _maxMajorTicks = count;
     [self axis]->max_major_ticks = count;
+}
+
+- (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified
+{
+    const BOOL isModified = _majorTickValueModified;
+    if(isModified) {
+        _majorTickValueModified = ! ifModified(self);
+    }
+    return isModified;
 }
 
 @end

@@ -180,14 +180,19 @@ class ViewController: UIViewController {
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			
-			let text = MCText(engine: engine)
-			text.quad.viewRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
-			text.quad.viewRegion.setSize(CGSizeMake(160, 60))
+            let text = MCText(engine: engine, textureSize:CGSizeMake(160, 60))
+			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
+            text.quad.dataRegion.setBasePosition(CGPointMake(0, 0))
+			text.quad.dataRegion.setSize(CGSizeMake(80, 30))
 			text.quad.texRegion.setBasePosition(CGPointMake(0.5, 0.5))
 			text.quad.texRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
 			text.quad.texRegion.setSize(CGSizeMake(1.0, 1.0))
-			text.buffer.drawString(NSAttributedString(string: "abc"), toTexture: text.quad.texture!) { (rect : CGRect) -> MTLRegion in 
-				return MTLRegionMake2D(0, 0, Int(rect.size.width), Int(rect.size.height));
+			text.buffer.drawString(NSAttributedString(string: "abc"), toTexture: text.quad.texture!) { (rect : CGRect) -> MTLRegion in
+                let r : CGFloat = rect.size.width / rect.size.height
+                let w : CGFloat = min(160, r * 60)
+                let x : CGFloat = (160 - w) / 2;
+                let h : CGFloat = min(60 , 160 / r)
+				return MTLRegionMake2D(Int(x), 0, Int(w), Int(h));
 			}
 			xAxis.decoration = text
 			

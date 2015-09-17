@@ -36,7 +36,7 @@ vertex out_vertex Point_VertexOrdered(
                                       )
 {
     const float2 pos_data = vertices[vid % info.vertex_capacity].position;
-    const float2 pos_ndc = adjustPoint(pos_data, proj);
+    const float2 pos_ndc = data_to_ndc(pos_data, proj);
     
     out_vertex out;
     out.position = float4(pos_ndc.x, pos_ndc.y, 0, 1.0);
@@ -57,7 +57,7 @@ vertex out_vertex Point_VertexIndexed(
 {
 	const uint index = indices[vid % info.vertex_capacity].index;
 	const float2 pos_data = vertices[index].position;
-	const float2 pos_ndc = adjustPoint(pos_data, proj);
+	const float2 pos_ndc = data_to_ndc(pos_data, proj);
 	
 	out_vertex out;
 	out.position = float4(pos_ndc.x, pos_ndc.y, 0, 1.0);

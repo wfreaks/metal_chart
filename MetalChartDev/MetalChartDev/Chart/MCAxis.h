@@ -12,16 +12,16 @@
 @class Engine;
 @class UniformLineAttributes;
 @class Axis;
-@class UniformAxis;
+@class UniformAxisConfiguration;
 @class MCAxis;
 
-typedef void (^MCAxisConfiguratorBlock)(UniformAxis *_Nonnull axis,
+typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 										MCDimensionalProjection *_Nonnull dimension,
 										MCDimensionalProjection *_Nonnull orthogonal);
 
 @protocol MCAxisConfigurator<NSObject>
 
-- (void)configureUniform:(UniformAxis * _Nonnull)uniform
+- (void)configureUniform:(UniformAxisConfiguration * _Nonnull)uniform
 		   withDimension:(MCDimensionalProjection * _Nonnull)dimension
 			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
 ;

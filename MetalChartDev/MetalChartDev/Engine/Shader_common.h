@@ -38,8 +38,7 @@ struct uniform_series_info {
 };
 
 
-// 命名をミスった感があるが、やる事は data空間上の座標 -> NDC上の座標
-inline float2 adjustPoint(float2 value, constant uniform_projection& proj)
+inline float2 data_to_ndc(float2 value, constant uniform_projection& proj)
 {
 	const float2 ps = proj.physical_size;
 	const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
@@ -54,6 +53,16 @@ inline float2 view_to_ndc(const float2 pos_view, const bool top_to_bottom, const
     const float fixed_y_view = ((!top_to_bottom) * proj.physical_size.y) + (y_coef * pos_view.y);
     const float2 fixed_pos_view = float2(pos_view.x, fixed_y_view);
     return (fixed_pos_view - (0.5 * psize)) / psize;
+}
+
+inline float2 view_diff_to_data_diff(float2 diff_view, const bool top_to_bottom, constant uniform_projection& proj)
+{
+    const float2 ps = proj.physical_size;
+    const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
+    const float coef_y = ((2 * top_to_bottom) - 1);
+    const float2 fixed_diff_view = float2(diff_view.x, coef_y * diff_view.y);
+    const float2 fixed_vs = proj.value_scale * ps / (ps - float2(pd.x+pd.z, pd.y+pd.w));
+    return (fixed_diff_view / ps) * fixed_vs;
 }
 
 #endif /* Shader_common_h */

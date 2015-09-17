@@ -22,8 +22,8 @@
     if(self) {
         DeviceResource *resource = engine.resource;
         _engine = engine;
+        _dataRegion = [[UniformRegion alloc] initWithResource:resource];
         _texRegion = [[UniformRegion alloc] initWithResource:resource];
-        _viewRegion = [[UniformRegion alloc] initWithResource:resource];
         _texture = texture;
     }
     return self;
@@ -46,13 +46,14 @@
         MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
         [encoder setScissorRect:rect];
         
-        [encoder setVertexBuffer:_viewRegion.buffer offset:0 atIndex:0];
+        [encoder setVertexBuffer:_dataRegion.buffer offset:0 atIndex:0];
         [encoder setVertexBuffer:_texRegion.buffer offset:0 atIndex:1];
         [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
         
         [encoder setFragmentTexture:_texture atIndex:0];
         
-        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:count];
+        const NSUInteger vCount = count * 6;
+        [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vCount];
         
         [encoder popDebugGroup];
     }

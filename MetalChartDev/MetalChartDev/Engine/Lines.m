@@ -292,7 +292,7 @@ static double gaussian(double mean, double variance) {
     self = [super init];
     if(self) {
         _engine = engine;
-        _attributes = [[UniformAxis alloc] initWithResource:engine.resource];
+        _attributes = [[UniformAxisConfiguration alloc] initWithResource:engine.resource];
     }
     return self;
 }
@@ -318,7 +318,7 @@ static double gaussian(double mean, double variance) {
     MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
     [encoder setScissorRect:rect];
 	
-	UniformAxis *const attributes = _attributes;
+	UniformAxisConfiguration *const attributes = _attributes;
     
     [encoder setVertexBuffer:attributes.axisBuffer offset:0 atIndex:0];
     [encoder setVertexBuffer:attributes.attributeBuffer offset:0 atIndex:1];

@@ -55,7 +55,7 @@ vertex out_vertex_plot PlotRect_Vertex(
 	const bool is_right = ((spec % 2) == 1);
 	const bool is_top = ((spec / 2) == 0);
 	const float2 value = float2( (2*(is_right))-1, (2*(is_top))-1 ); // (±1, ±1)へマッピング.
-	const float2 pos = adjustPoint(value, proj);
+	const float2 pos = data_to_ndc(value, proj);
     out_vertex_plot out;
 	out.position = float4(pos.x, pos.y, 0, 1.0);
     out.pos = pos * (proj.physical_size / 2);
@@ -126,8 +126,8 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
     const float  w = bar.width / 2;
     const float2 dir_view = normalize(bar.dir);
     const float2 perp_view(dir_view.y, -dir_view.x);
-    const float2 anchor_view = adjustPoint(bar.anchor_point, proj) * size; // data -> ndc -> view
-    const float2 position_view = adjustPoint(vertices[vid].position, proj) * size;
+    const float2 anchor_view = data_to_ndc(bar.anchor_point, proj) * size; // data -> ndc -> view
+    const float2 position_view = data_to_ndc(vertices[vid].position, proj) * size;
     const float2 root_view = (dot(position_view-anchor_view, perp_view) * perp_view) + anchor_view;
     
     const float2 mid_view = (position_view + root_view) / 2;

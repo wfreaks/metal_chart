@@ -19,7 +19,7 @@
 @interface TextureQuad : NSObject
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformRegion * _Nonnull viewRegion;
+@property (readonly, nonatomic) UniformRegion * _Nonnull dataRegion;
 @property (readonly, nonatomic) UniformRegion * _Nonnull texRegion;
 @property (strong  , nonatomic) id<MTLTexture> _Nullable texture;
 

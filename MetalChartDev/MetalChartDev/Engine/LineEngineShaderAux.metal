@@ -10,7 +10,7 @@
 
 #include "LineEngineShader.h"
 
-struct uniform_axis {
+struct uniform_axis_conf {
     float  axis_anchor_value;
     float  tick_anchor_value;
 	float  tick_interval_major;
@@ -37,7 +37,7 @@ struct out_vertex_axis {
     bool   dropped  [[ flat ]];
 };
 
-inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis& axis, constant uniform_projection& proj )
+inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection& proj )
 {
 	const uchar idx = axis.dimIndex;
 	const uchar idx_orth = idx ^ 0x01;
@@ -62,7 +62,7 @@ inline float2 axis_dir_vec( const uchar dimIndex, const bool is_axis )
 	return v;
 }
 
-inline float2 tick_iter_vec( constant uniform_axis& axis, const bool is_axis ) {
+inline float2 tick_iter_vec( constant uniform_axis_conf& axis, const bool is_axis ) {
 	const uchar idx = axis.dimIndex;
 	float2 v(0, 0);
 	v[idx] = axis.tick_interval_major * (!is_axis); // 軸の場合は移動0.
@@ -100,7 +100,7 @@ inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_
 }
 
 vertex out_vertex_axis AxisVertex(
-								  constant uniform_axis& axis [[ buffer(0) ]],
+								  constant uniform_axis_conf& axis [[ buffer(0) ]],
 								  constant uniform_axis_attributes *attr_ptr [[ buffer(1) ]],
 								  constant uniform_projection& proj [[ buffer(2) ]],
 								  uint v_id [[ vertex_id ]]
@@ -123,8 +123,8 @@ vertex out_vertex_axis AxisVertex(
     const float4 padding = proj.rect_padding;
     const float2 plot_size = physical_size - (padding.xy + padding.zw);
 	const float2 modifier = (attr.line_length * max(1.0f, (type == 0) * plot_size[dimIndex])) * attr.length_mod;
-	float2 start = adjustPoint(mid - dir, proj);
-	float2 end = adjustPoint(mid + dir, proj);
+	float2 start = data_to_ndc(mid - dir, proj);
+	float2 end = data_to_ndc(mid + dir, proj);
 	
 	modify_length(start, end, modifier, physical_size);
 	

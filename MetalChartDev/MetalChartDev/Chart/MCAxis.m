@@ -63,10 +63,7 @@
 	[_conf configureUniform:_axis.attributes withDimension:_dimension orthogonal:_orthogonal];
     [_axis encodeWith:encoder projection:_projection.projection];
 	
-	id<MCAxisDecoration> decoration = _decoration;
-	if(decoration) {
-		[decoration encodeWith:encoder axis:self projection:_projection.projection];
-	}
+    [_decoration encodeWith:encoder axis:self projection:_projection.projection];
 }
 
 - (void)setMinorTickCountPerMajor:(NSUInteger)count
@@ -110,7 +107,7 @@
 	return self;
 }
 
-- (void)configureUniform:(UniformAxis *)uniform
+- (void)configureUniform:(UniformAxisConfiguration *)uniform
 		   withDimension:(MCDimensionalProjection *)dimension
 			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
 {

@@ -19,8 +19,8 @@ vertex out_vertex PolyLineEngineVertexIndexed(
 	const uint vid = v_id / 6;
     const ushort index_current = indices[vid].index;
     const ushort index_next = indices[vid+1].index;
-    const float2 p_current = adjustPoint( coords[index_current].position, proj );
-    const float2 p_next = adjustPoint( coords[index_next].position, proj );
+    const float2 p_current = data_to_ndc( coords[index_current].position, proj );
+    const float2 p_next = data_to_ndc( coords[index_next].position, proj );
     
 	const uchar spec = v_id % 6;
     out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
@@ -39,8 +39,8 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const uint vcap = info.vertex_capacity;
     const ushort index_current = vid % vcap;
     const ushort index_next = (vid + 1) % vcap;
-    const float2 p_current = adjustPoint( coords[index_current].position, proj );
-    const float2 p_next = adjustPoint( coords[index_next].position, proj );
+    const float2 p_current = data_to_ndc( coords[index_current].position, proj );
+    const float2 p_next = data_to_ndc( coords[index_next].position, proj );
     
     const uchar spec = v_id % 6;
     out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
@@ -60,8 +60,8 @@ vertex out_vertex SeparatedLineEngineVertexOrdered(
 	const ushort index_current = vid % info.vertex_capacity;
 	const ushort index_next = (vid + 1) % info.vertex_capacity;
 	
-	float2 p_current = adjustPoint( coords[index_current].position, proj );
-	float2 p_next = adjustPoint( coords[index_next].position, proj );
+	float2 p_current = data_to_ndc( coords[index_current].position, proj );
+	float2 p_next = data_to_ndc( coords[index_next].position, proj );
 	const float2 physical_size = proj.physical_size;
 	
 	const float2 length_mod = attr.length_mod;

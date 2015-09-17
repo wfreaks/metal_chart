@@ -37,7 +37,17 @@
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine;
+- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+                                     textureSize:(CGSize)size
+;
+
+@end
+
+@protocol MCAxisLabelDelegate<NSObject>
+
+- (NSAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
+                                                dimension:(MCDimensionalProjection * _Nonnull)dimension
+;
 
 @end
 

@@ -69,7 +69,7 @@
     const float sx = region.size.width / size.width;
     const float sy = region.size.height / size.height;
     CGContextRef context = CGBitmapContextCreate(_data, region.size.width, region.size.height, 8, 4 * region.size.width, _cgSpace, kCGImageAlphaPremultipliedLast);
-//    CGContextScaleCTM(context, sx, sy);
+    CGContextScaleCTM(context, sx, sy);
     CGContextSetTextPosition(context, 0, 0);
     CTLineDraw(line, context);
     
@@ -83,19 +83,19 @@
 
 @end
 
-
 @implementation MCText
 
 - (instancetype)initWithEngine:(Engine *)engine
+                   textureSize:(CGSize)size
 {
 	self = [super init];
 	if(self) {
 		_engine = engine;
-		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:320 height:360 mipmapped:NO];
+		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:size.width height:size.height mipmapped:NO];
 		id<MTLTexture> texture = [engine.resource.device newTextureWithDescriptor:desc];
 		_quad = [[TextureQuad alloc] initWithEngine:engine texture:texture];
 		_buffer = [[MCTextBuffer alloc] initWithBufferSize:CGSizeMake(320, 120)];
-		_buffer.font = [UIFont systemFontOfSize:14];
+		_buffer.font = [UIFont boldSystemFontOfSize:14];
 	}
 	return self;
 }
@@ -103,7 +103,14 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			  axis:(MCAxis *)axis projection:(UniformProjection *)projection
 {
+    [self configure:axis];
 	[_quad encodeWith:encoder projection:projection count:1];
+}
+
+- (void)configure:(MCAxis *)axis
+{
+    const CGFloat min = axis.dimension.min;
+    
 }
 
 @end
