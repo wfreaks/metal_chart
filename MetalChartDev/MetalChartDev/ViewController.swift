@@ -180,15 +180,15 @@ class ViewController: UIViewController {
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			
-            let text = MCText(engine: engine, textureSize:CGSizeMake(160, 60))
+			let text = MCText(engine: engine, textureSize:CGSizeMake(160, 60), drawingBufferSize:CGSizeMake(160, 60))
 			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
             text.quad.dataRegion.setBasePosition(CGPointMake(0, 0))
 			text.quad.dataRegion.setSize(CGSizeMake(80, 30))
-			text.quad.texRegion.setBasePosition(CGPointMake(0.5, 0.5))
-			text.quad.texRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
-			text.quad.texRegion.setSize(CGSizeMake(1.0, 1.0))
+			text.quad.texRegion.setBasePosition(CGPointMake(0, 0))
+			text.quad.texRegion.setAnchorPoint(CGPointMake(0, 0))
+			text.quad.texRegion.setSize(CGSizeMake(1, 1))
 			text.buffer.drawString(NSAttributedString(string: "abc"), toTexture: text.quad.texture!) { (rect : CGRect) -> MTLRegion in
-                let r : CGFloat = rect.size.width / rect.size.height
+                let r : CGFloat = (rect.origin.x + rect.size.width) / (rect.origin.y + rect.size.height)
                 let w : CGFloat = min(160, r * 60)
                 let x : CGFloat = (160 - w) / 2;
                 let h : CGFloat = min(60 , 160 / r)

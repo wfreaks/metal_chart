@@ -86,15 +86,16 @@
 @implementation MCText
 
 - (instancetype)initWithEngine:(Engine *)engine
-                   textureSize:(CGSize)size
+                   textureSize:(CGSize)texSize
+			 drawingBufferSize:(CGSize)bufSize
 {
 	self = [super init];
 	if(self) {
 		_engine = engine;
-		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:size.width height:size.height mipmapped:NO];
+		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:texSize.width height:texSize.height mipmapped:NO];
 		id<MTLTexture> texture = [engine.resource.device newTextureWithDescriptor:desc];
 		_quad = [[TextureQuad alloc] initWithEngine:engine texture:texture];
-		_buffer = [[MCTextBuffer alloc] initWithBufferSize:CGSizeMake(320, 120)];
+		_buffer = [[MCTextBuffer alloc] initWithBufferSize:bufSize];
 		_buffer.font = [UIFont boldSystemFontOfSize:14];
 	}
 	return self;
@@ -109,8 +110,6 @@
 
 - (void)configure:(MCAxis *)axis
 {
-    const CGFloat min = axis.dimension.min;
-    
 }
 
 @end

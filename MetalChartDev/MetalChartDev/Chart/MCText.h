@@ -38,7 +38,8 @@
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                     textureSize:(CGSize)size
+                                     textureSize:(CGSize)texSize
+							   drawingBufferSize:(CGSize)bufSize
 ;
 
 @end

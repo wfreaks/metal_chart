@@ -12,7 +12,8 @@ struct uniform_region {
     float2 base_pos;
     float2 iter_vec;
     float2 anchor;
-    float2 size;
+    float2 size;   // size, offsetは他のフィールドと異なり、文脈によって意味合い、座標空間が変わる.
+	float2 offset; // uv(texture)ではそのままuv, dataではview空間での値となる.
     
     float iter_offset;
 };
@@ -36,7 +37,7 @@ inline float2 position_with_region(const uint qid, const uint spec, constant uni
 {
     const float2 base = region.base_pos + ((qid + region.iter_offset) * region.iter_vec);
     const float2 diff = 0.5 * region.size;
-    const float2 center = base + (2 * diff * (float2(0.5, 0.5) - region.anchor));
+    const float2 center = base + (2 * diff * (float2(0.5, 0.5) - region.anchor)) + region.offset;
     const float2 pos = (spec_to_coef(spec) * diff) + center;
     return pos;
 }
@@ -44,9 +45,10 @@ inline float2 position_with_region(const uint qid, const uint spec, constant uni
 inline float2 position_with_region_view_sized(const uint qid, const uint spec, constant uniform_region& region, constant uniform_projection& proj)
 {
     const float2 base = region.base_pos + ((qid + region.iter_offset) * region.iter_vec);
-    const float2 diff = view_diff_to_data_diff(0.5 * region.size, false, proj);
-    const float2 center = base + (2 * diff * (float2(0.5, 0.5) - region.anchor));
-    const float2 pos = (spec_to_coef(spec) * diff) + center;
+    const float2 diff_data = view_diff_to_data_diff(0.5 * region.size, false, proj);
+	const float2 offset_data = view_diff_to_data_diff(region.size, false, proj);
+    const float2 center = base + (2 * diff_data * (float2(0.5, 0.5) - region.anchor)) + offset_data;
+    const float2 pos = (spec_to_coef(spec) * diff_data) + center;
     return pos;
 }
 
@@ -69,7 +71,8 @@ vertex out_vertex TextureQuad_vertex(
     return out;
 }
 
-constexpr sampler st{filter::linear};
+// textureへのアクセスはピクセルベース、かつy軸のみリピートとする。リピートにするのはRingBuffer的な使い方を許容するため.
+constexpr sampler st = sampler(filter::linear, t_address::repeat, r_address::repeat);
 
 fragment out_fragment TextureQuad_fragment(
                                            out_vertex in[[ stage_in ]],
