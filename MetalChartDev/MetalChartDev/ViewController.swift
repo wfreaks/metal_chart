@@ -180,20 +180,12 @@ class ViewController: UIViewController {
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			
-			let text = MCText(engine: engine, textureSize:CGSizeMake(160, 60), drawingBufferSize:CGSizeMake(160, 60))
+            let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSAttributedString in
+                return NSAttributedString(string: String(value))
+            }
+            let text = MCText(engine: engine, drawingBufferSize:CGSizeMake(160, 60), bufferCapacity:10, labelDelegate:labelDelegate)
 			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
-            text.quad.dataRegion.setBasePosition(CGPointMake(0, 0))
 			text.quad.dataRegion.setSize(CGSizeMake(80, 30))
-			text.quad.texRegion.setBasePosition(CGPointMake(0, 0))
-			text.quad.texRegion.setAnchorPoint(CGPointMake(0, 0))
-			text.quad.texRegion.setSize(CGSizeMake(1, 1))
-			text.buffer.drawString(NSAttributedString(string: "abc"), toTexture: text.quad.texture!) { (rect : CGRect) -> MTLRegion in
-                let r : CGFloat = (rect.origin.x + rect.size.width) / (rect.origin.y + rect.size.height)
-                let w : CGFloat = min(160, r * 60)
-                let x : CGFloat = (160 - w) / 2;
-                let h : CGFloat = min(60 , 160 / r)
-				return MTLRegionMake2D(Int(x), 0, Int(w), Int(h));
-			}
 			xAxis.decoration = text
 			
 			let lineSeries = MCLineSeries(line: line)

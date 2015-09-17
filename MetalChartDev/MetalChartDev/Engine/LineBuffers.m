@@ -162,7 +162,10 @@
 
 - (void)setDimensionIndex:(uint8_t)index
 {
-    [self axis]->dimIndex = index;
+    if( _dimensionIndex != index ) {
+        _dimensionIndex = index;
+        [self axis]->dimIndex = index;
+    }
 }
 
 - (void)setMinorTicksPerMajor:(uint8_t)count {

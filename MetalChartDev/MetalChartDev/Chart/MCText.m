@@ -13,6 +13,9 @@
 #import "DeviceResource.h"
 #import "Engine.h"
 #import "TextureQuads.h"
+#import "TextureQuadBuffers.h"
+#import "Lines.h"
+#import "LineBuffers.h"
 
 @interface MCTextBuffer()
 
@@ -78,25 +81,41 @@
     
     [texture replaceRegion:region mipmapLevel:0 withBytes:_data bytesPerRow:region.size.width * 4];
     
-//    memset(_data, 0, 4 * size.width * size.height);
+    memset(_data, 0, 4 * region.size.width * region.size.height);
 }
+
+@end
+
+
+@interface MCText()
+
+@property (assign, nonatomic) NSInteger idxMin;
+@property (assign, nonatomic) NSInteger idxMax;
+@property (assign, nonatomic) CGSize bufSize;
+@property (assign, nonatomic) NSUInteger capacity;
 
 @end
 
 @implementation MCText
 
 - (instancetype)initWithEngine:(Engine *)engine
-                   textureSize:(CGSize)texSize
-			 drawingBufferSize:(CGSize)bufSize
+             drawingBufferSize:(CGSize)bufSize
+                bufferCapacity:(NSUInteger)capacity
+                 labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate
 {
 	self = [super init];
 	if(self) {
 		_engine = engine;
-		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:texSize.width height:texSize.height mipmapped:NO];
+		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:bufSize.width height:bufSize.height * capacity mipmapped:NO];
 		id<MTLTexture> texture = [engine.resource.device newTextureWithDescriptor:desc];
 		_quad = [[TextureQuad alloc] initWithEngine:engine texture:texture];
 		_buffer = [[MCTextBuffer alloc] initWithBufferSize:bufSize];
 		_buffer.font = [UIFont boldSystemFontOfSize:14];
+        _bufSize = bufSize;
+        _capacity = capacity;
+        _delegate = delegate;
+        _idxMin = 1;
+        _idxMax = -1;
 	}
 	return self;
 }
@@ -105,14 +124,87 @@
 			  axis:(MCAxis *)axis projection:(UniformProjection *)projection
 {
     [self configure:axis];
-	[_quad encodeWith:encoder projection:projection count:1];
+    const NSInteger count = 1;// MAX(0, (_idxMax-_idxMin) + 1);
+	[_quad encodeWith:encoder projection:projection count:count];
 }
 
 - (void)configure:(MCAxis *)axis
 {
+    MCDimensionalProjection *dimension = axis.dimension;
+    const CGFloat min = dimension.min;
+    const CGFloat max = dimension.max;
+    UniformAxisConfiguration *conf = axis.axis.attributes;
+    const CGFloat anchor = conf.tickAnchorValue;
+    const CGFloat interval = conf.majorTickInterval;
+    const NSInteger newMin = ceil((min-anchor)/interval);
+    const NSInteger newMax = floor((max-anchor)/interval);
+    
+    const NSInteger oldMin = _idxMin;
+    const NSInteger oldMax = _idxMax;
+    const CGSize bufSize = _bufSize;
+    const NSInteger capacity = _capacity;
+    for(NSInteger idx = newMin; idx <= newMax; ++idx) {
+        if(!(oldMin <= idx && idx <= oldMax)) {
+            const CGFloat value = anchor + (idx * interval);
+            NSAttributedString *str = [_delegate attributedStringForValue:value dimension:dimension];
+            [_buffer drawString:str toTexture:_quad.texture regionBlock:^(const CGRect rect) {
+                const CGFloat r = (rect.origin.x+rect.size.width) / (rect.origin.y+rect.size.height);
+                const CGFloat w = MIN(bufSize.width, r * bufSize.height);
+                const CGFloat h = MIN(bufSize.height, bufSize.width / r);
+                const CGFloat x = 0.5 * (bufSize.width - w);
+                NSInteger wrapped_idx = (idx % capacity);
+                if(wrapped_idx < 0) wrapped_idx += capacity;
+                const CGFloat y = 0.5 * (bufSize.height - h) + (wrapped_idx * bufSize.height);
+                return MTLRegionMake2D(x, y, w, h);
+            }];
+        }
+    }
+    
+    [conf checkIfMajorTickValueModified:^BOOL(UniformAxisConfiguration *conf) {
+        UniformRegion *texRegion = _quad.texRegion;
+        const CGFloat normHeight = 1 / (CGFloat)self.capacity;
+        [texRegion setIterationVector:CGPointMake(0, normHeight)];
+        [texRegion setSize:CGSizeMake(1, normHeight)];
+        UniformRegion *dataRegion = _quad.dataRegion;
+        const CGFloat aVal = conf.axisAnchorValue;
+        const CGFloat tVal = conf.tickAnchorValue;
+        [dataRegion setIterationVector:(conf.dimensionIndex == 0) ? CGPointMake(interval, 0) : CGPointMake(0, interval)];
+        [dataRegion setBasePosition:(conf.dimensionIndex == 0) ? CGPointMake(tVal, aVal) : CGPointMake(aVal, tVal)];
+
+        return YES;
+    }];
+    [_quad.texRegion setIterationOffset:newMin];
+    [_quad.dataRegion setIterationOffset:newMin];
 }
 
 @end
+
+@interface MCAxisLabelBlockDelegate()
+
+@property (copy, nonatomic) MCAxisLabelDelegateBlock block;
+
+@end
+
+@implementation MCAxisLabelBlockDelegate
+
+- (instancetype)initWithBlock:(MCAxisLabelDelegateBlock)block
+{
+    self = [super init];
+    if(self) {
+        self.block = block;
+    }
+    return self;
+}
+
+- (NSAttributedString *)attributedStringForValue:(CGFloat)value
+                                       dimension:(MCDimensionalProjection *)dimension
+{
+    return _block(value, dimension);
+}
+
+@end
+
+
 
 
 

@@ -16,6 +16,15 @@
 @class Engine;
 @class TextureQuad;
 
+@protocol MCAxisLabelDelegate<NSObject>
+
+- (NSAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
+                                                dimension:(MCDimensionalProjection * _Nonnull)dimension
+;
+
+@end
+
+
 @interface MCTextBuffer : NSObject
 
 @property (assign, nonatomic) CGSize size;
@@ -36,19 +45,21 @@
 @property (readonly, nonatomic) MCTextBuffer * _Nonnull buffer;
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) id<MCAxisLabelDelegate> _Nonnull delegate;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-                                     textureSize:(CGSize)texSize
 							   drawingBufferSize:(CGSize)bufSize
+                                  bufferCapacity:(NSUInteger)capacity
+                                   labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
 ;
 
 @end
 
-@protocol MCAxisLabelDelegate<NSObject>
+typedef NSAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat value, MCDimensionalProjection *_Nonnull dimension);
 
-- (NSAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
-                                                dimension:(MCDimensionalProjection * _Nonnull)dimension
-;
+@interface MCAxisLabelBlockDelegate : NSObject<MCAxisLabelDelegate>
+
+- (instancetype _Null_unspecified)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block;
 
 @end
 

@@ -67,6 +67,7 @@ vertex out_vertex TextureQuad_vertex(
     out_vertex out;
     out.position = float4(data_to_ndc(pos_data, proj), 0, 1);
     out.uv = pos_uv;
+//    out.uv = (0.5 * spec_to_coef(spec)) + 0.5;
     
     return out;
 }

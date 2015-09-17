@@ -50,4 +50,9 @@
     self.region->iter_offset = (float)offset;
 }
 
+- (void)setPositionOffset:(CGPoint)offset
+{
+    self.region->offset = vector2((float)offset.x, (float)offset.y);
+}
+
 @end

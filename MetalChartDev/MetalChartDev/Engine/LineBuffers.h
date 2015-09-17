@@ -65,6 +65,7 @@
 
 @property (assign  , nonatomic) uint8_t maxMajorTicks;
 @property (assign  , nonatomic) uint8_t minorTicksPerMajor;
+@property (assign  , nonatomic) uint8_t dimensionIndex;
 
 @property (readonly, nonatomic) BOOL majorTickValueModified;
 
@@ -72,7 +73,6 @@
 
 - (uniform_axis_configuration *)axis;
 
-- (void)setDimensionIndex:(uint8_t)index;
 
 - (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified;
 
