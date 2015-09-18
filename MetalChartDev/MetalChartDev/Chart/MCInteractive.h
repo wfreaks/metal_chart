@@ -40,7 +40,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 @property (readonly, nonatomic) CGPoint translationCumulative;
 @property (readonly, nonatomic) CGSize  scaleCumulative;
 
-- (instancetype _Null_unspecified)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
+- (instancetype _Nonnull)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
 										pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
 										restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
 ;
@@ -60,7 +60,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 @property (readonly, nonatomic) CGPoint minTranslation;
 @property (readonly, nonatomic) CGPoint maxTranslation;
 
-- (instancetype _Null_unspecified)initWithScaleMin:(CGSize)minScale
+- (instancetype _Nonnull)initWithScaleMin:(CGSize)minScale
 											   max:(CGSize)maxScale
 									translationMin:(CGPoint)minTrans
 											   max:(CGPoint)maxTrans
@@ -72,6 +72,6 @@ typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
 
 @interface MCSimpleBlockInteraction : NSObject<MCInteraction>
 
-- (instancetype _Null_unspecified)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
 
 @end

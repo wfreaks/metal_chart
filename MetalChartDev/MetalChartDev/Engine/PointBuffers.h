@@ -18,7 +18,7 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_point * _Nonnull point;
 
-- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setInnerColor:(float)r green:(float)g blue:(float)b alpha:(float)a;
 - (void)setOuterColor:(float)r green:(float)g blue:(float)b alpha:(float)a;

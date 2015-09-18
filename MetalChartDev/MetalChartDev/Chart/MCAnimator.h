@@ -33,7 +33,7 @@ typedef void (^MCAnimationBlock)(float progress);
 @property (readonly, nonatomic) NSTimeInterval duration;
 @property (readonly, nonatomic) NSTimeInterval delay;
 
-- (instancetype _Null_unspecified)initWithDuration:(NSTimeInterval)duration
+- (instancetype _Nonnull)initWithDuration:(NSTimeInterval)duration
                                              delay:(NSTimeInterval)delay
                                              Block:(MCAnimationBlock _Nonnull)block
 ;

@@ -18,7 +18,7 @@
 
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 
-- (instancetype _Null_unspecified)initWithLine:(LinePrimitive * _Nonnull)line;
+- (instancetype _Nonnull)initWithLine:(LinePrimitive * _Nonnull)line;
 
 @end
 
@@ -27,7 +27,7 @@
 
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 
-- (instancetype _Null_unspecified)initWithBar:(BarPrimitive * _Nonnull)bar;
+- (instancetype _Nonnull)initWithBar:(BarPrimitive * _Nonnull)bar;
 
 @end
 
@@ -36,7 +36,7 @@
 
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
 
-- (instancetype _Null_unspecified)initWithPoint:(PointPrimitive * _Nonnull)point;
+- (instancetype _Nonnull)initWithPoint:(PointPrimitive * _Nonnull)point;
 
 @end
 
@@ -48,6 +48,6 @@
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;
 
-- (instancetype _Null_unspecified)initWithRect:(PlotRect * _Nonnull)rect;
+- (instancetype _Nonnull)initWithRect:(PlotRect * _Nonnull)rect;
 
 @end

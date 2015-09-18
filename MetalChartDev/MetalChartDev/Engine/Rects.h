@@ -23,7 +23,7 @@
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 @property (readonly, nonatomic) UniformPlotRect * _Nonnull attributes;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine;
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
         projection:(UniformProjection * _Nonnull)projection
@@ -45,7 +45,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
                                           series:(OrderedSeries * _Nullable)series
 									  attributes:(UniformBar * _Nullable)attributes
 ;

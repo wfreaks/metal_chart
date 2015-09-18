@@ -31,7 +31,7 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 @property (assign, nonatomic) CGSize size;
 @property (strong, nonatomic) UIFont * _Nullable font;
 
-- (instancetype _Null_unspecified)initWithBufferSize:(CGSize)size
+- (instancetype _Nonnull)initWithBufferSize:(CGSize)size
 ;
 
 - (void)drawString:(NSMutableAttributedString * _Nonnull)string
@@ -50,7 +50,7 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
 @property (assign  , nonatomic) CGPoint textAlignment;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
                                        frameSize:(CGSize)frameSize
                                   bufferCapacity:(NSUInteger)capacity
                                    labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
@@ -66,7 +66,7 @@ typedef NSMutableAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat 
 
 @interface MCAxisLabelBlockDelegate : NSObject<MCAxisLabelDelegate>
 
-- (instancetype _Null_unspecified)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block;
 
 @end
 

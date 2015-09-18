@@ -158,7 +158,7 @@ class ViewController: UIViewController {
 			let bar = OrderedBarPrimitive(engine: engine, series: series2, attributes:nil)
 			bar.attributes.setBarWidth(10)
 			bar.attributes.setBarDirection(CGPointMake(0, 1))
-			bar.attributes.setAnchorPoint(CGPointMake(0, -0.5))
+			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
 			bar.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			let barSeries = MCBarSeries(bar: bar)
             

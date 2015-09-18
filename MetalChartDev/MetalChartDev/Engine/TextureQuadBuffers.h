@@ -19,7 +19,7 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_region * _Nonnull region;
 
-- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setBasePosition:(CGPoint)point;
 - (void)setAnchorPoint:(CGPoint)anchor;

@@ -23,7 +23,7 @@
 @property (readonly, nonatomic) UniformRegion * _Nonnull texRegion;
 @property (strong  , nonatomic) id<MTLTexture> _Nullable texture;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
                                          texture:(id<MTLTexture> _Nullable)texture;
 ;
 

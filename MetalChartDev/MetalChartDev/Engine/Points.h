@@ -32,7 +32,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
                                           series:(OrderedSeries * _Nullable)series
 									  attributes:(UniformPoint * _Nullable)attributes
 ;
@@ -42,7 +42,7 @@
 
 @property (strong, nonatomic) IndexedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 										  series:(IndexedSeries * _Nullable)series
 									  attributes:(UniformPoint * _Nullable)attributes
 ;
@@ -53,7 +53,7 @@
 
 @property (strong, nonatomic) id<Series> _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 										  series:(id<Series> _Nullable)series
 									  attributes:(UniformPoint * _Nullable)attributes
 ;

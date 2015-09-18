@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) DynamicPointPrimitive * _Nullable point;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 

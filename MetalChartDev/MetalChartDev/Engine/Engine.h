@@ -18,7 +18,7 @@
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_writeDepth;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
 
-- (instancetype _Null_unspecified)initWithResource:(DeviceResource * _Nonnull) resource
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull) resource
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjection * _Nonnull)projection

@@ -40,7 +40,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
@@ -55,7 +55,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
@@ -76,7 +76,7 @@
 
 @property (strong, nonatomic) IndexedSeries * _Nullable series;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 								   indexedSeries:(IndexedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
@@ -93,7 +93,7 @@
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
-- (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder

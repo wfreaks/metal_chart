@@ -81,7 +81,7 @@
 @property (assign  , nonatomic) CGFloat     max;
 @property (copy    , nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
-- (instancetype _Null_unspecified)initWithDimensionId:(NSInteger)dimId
+- (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
 											 minValue:(CGFloat)min
 											 maxValue:(CGFloat)max
 ;
@@ -98,7 +98,7 @@
 @property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 
-- (instancetype _Null_unspecified)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
+- (instancetype _Nonnull)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
 
 - (NSUInteger)rank;
 
@@ -118,7 +118,7 @@
 @property (strong , nonatomic) id<MCCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
 
-- (instancetype _Null_unspecified)init;
+- (instancetype _Nonnull)init;
 
 - (void)addSeries:(id<MCRenderable> _Nonnull)series
 	   projection:(MCSpatialProjection * _Nonnull)projection
