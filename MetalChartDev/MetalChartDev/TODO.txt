@@ -1,6 +1,5 @@
 
 
-で、とりあえずCoreText -> CoreGraphics -> MTLTexture -> Metal
-
-という方法でラベル描画する事を選択したわけだが、
+・ちょっとクラス名適当すぎるのでリファクタリング
+・
 

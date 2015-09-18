@@ -22,5 +22,5 @@
 #import "Chart/MCAxis.h"
 #import "Chart/MCInteractive.h"
 #import "Chart/MCAnimator.h"
-#import "Chart/MCText.h"
+#import "Chart/MCAxisLabel.h"
 

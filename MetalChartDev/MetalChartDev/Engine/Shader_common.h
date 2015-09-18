@@ -62,7 +62,7 @@ inline float2 view_diff_to_data_diff(float2 diff_view, const bool bottom_to_top,
     const float coef_y = ((2 * bottom_to_top) - 1);
     const float2 fixed_diff_view = float2(diff_view.x, coef_y * diff_view.y);
     const float2 fixed_vs = proj.value_scale * ps / (ps - float2(pd.x+pd.z, pd.y+pd.w));
-    return (fixed_diff_view / ps) * fixed_vs;
+    return 2 * (fixed_diff_view / ps) * fixed_vs;
 }
 
 #endif /* Shader_common_h */

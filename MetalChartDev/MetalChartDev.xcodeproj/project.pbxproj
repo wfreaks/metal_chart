@@ -12,7 +12,7 @@
 		AA1D05B21BA958E20041DCF0 /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */; };
 		AA1D05B61BA95D8B0041DCF0 /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */; };
 		AA1D05BC1BA9800B0041DCF0 /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */; };
-		AA1D05BF1BA990D70041DCF0 /* MCText.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BE1BA990D70041DCF0 /* MCText.m */; };
+		AA1D05BF1BA990D70041DCF0 /* MCAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BE1BA990D70041DCF0 /* MCAxisLabel.m */; };
 		AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C01BA9959A0041DCF0 /* CoreText.framework */; };
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
 		AA2A9B6E1B8CB9C400C79D32 /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2A9B6D1B8CB9C400C79D32 /* LineBuffers.m */; };
@@ -77,8 +77,8 @@
 		AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuadBuffers.m; sourceTree = "<group>"; };
 		AA1D05BA1BA9800B0041DCF0 /* TextureQuads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuads.h; sourceTree = "<group>"; };
 		AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuads.m; sourceTree = "<group>"; };
-		AA1D05BD1BA990D70041DCF0 /* MCText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCText.h; sourceTree = "<group>"; };
-		AA1D05BE1BA990D70041DCF0 /* MCText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCText.m; sourceTree = "<group>"; };
+		AA1D05BD1BA990D70041DCF0 /* MCAxisLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxisLabel.h; sourceTree = "<group>"; };
+		AA1D05BE1BA990D70041DCF0 /* MCAxisLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxisLabel.m; sourceTree = "<group>"; };
 		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
@@ -278,8 +278,8 @@
 				AA909C9D1B8798BF0056FE14 /* MCInteractive.m */,
 				AAB794521B9583B6006992BC /* MCAnimator.h */,
 				AAB794531B9583B6006992BC /* MCAnimator.m */,
-				AA1D05BD1BA990D70041DCF0 /* MCText.h */,
-				AA1D05BE1BA990D70041DCF0 /* MCText.m */,
+				AA1D05BD1BA990D70041DCF0 /* MCAxisLabel.h */,
+				AA1D05BE1BA990D70041DCF0 /* MCAxisLabel.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -520,7 +520,7 @@
 				AA1D05B61BA95D8B0041DCF0 /* TextureQuadBuffers.m in Sources */,
 				AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */,
 				AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */,
-				AA1D05BF1BA990D70041DCF0 /* MCText.m in Sources */,
+				AA1D05BF1BA990D70041DCF0 /* MCAxisLabel.m in Sources */,
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
 				AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */,

@@ -18,14 +18,15 @@
 
 @protocol MCAxisLabelDelegate<NSObject>
 
-- (NSAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
+- (NSMutableAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
                                                 dimension:(MCDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
 
+typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
-@interface MCTextBuffer : NSObject
+@interface MCTextRenderer : NSObject
 
 @property (assign, nonatomic) CGSize size;
 @property (strong, nonatomic) UIFont * _Nullable font;
@@ -33,29 +34,35 @@
 - (instancetype _Null_unspecified)initWithBufferSize:(CGSize)size
 ;
 
-- (void)drawString:(NSAttributedString * _Nonnull)string
+- (void)drawString:(NSMutableAttributedString * _Nonnull)string
          toTexture:(id<MTLTexture> _Nonnull)texture
-       regionBlock:(MTLRegion(^ _Nonnull)(CGRect))block;
+         confBlock:(MCTextDrawConfBlock _Nonnull)block;
 ;
 
 @end
 
-@interface MCText : NSObject<MCAxisDecoration>
+@interface MCAxisLabel : NSObject<MCAxisDecoration>
 
-@property (readonly, nonatomic) MCTextBuffer * _Nonnull buffer;
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
-@property (readonly, nonatomic) Engine * _Nonnull engine;
 @property (readonly, nonatomic) id<MCAxisLabelDelegate> _Nonnull delegate;
 
+// textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
+// この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
+@property (assign  , nonatomic) CGPoint textAlignment;
+
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine
-							   drawingBufferSize:(CGSize)bufSize
+                                       frameSize:(CGSize)frameSize
                                   bufferCapacity:(NSUInteger)capacity
                                    labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
 ;
 
+- (void)setFont:(UIFont * _Nonnull)font;
+- (void)setFrameOffset:(CGPoint)offset;
+- (void)setFrameAnchorPoint:(CGPoint)point;
+
 @end
 
-typedef NSAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat value, MCDimensionalProjection *_Nonnull dimension);
+typedef NSMutableAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat value, MCDimensionalProjection *_Nonnull dimension);
 
 @interface MCAxisLabelBlockDelegate : NSObject<MCAxisLabelDelegate>
 

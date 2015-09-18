@@ -157,20 +157,18 @@ class ViewController: UIViewController {
 			
 			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
 			series2.addPoint(CGPointMake(0.5, 0.5))
-            series2.addPoint(CGPointMake(0.5, 0))
 			let bar = OrderedBarPrimitive(engine: engine, series: series2, attributes:nil)
-			bar.attributes.setBarWidth(20)
+			bar.attributes.setBarWidth(10)
 			bar.attributes.setBarDirection(CGPointMake(0, 1))
-			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
-			bar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+			bar.attributes.setAnchorPoint(CGPointMake(0, -0.5))
+			bar.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			let barSeries = MCBarSeries(bar: bar)
             
             let pointAttributes = UniformPoint(resource: resource)
             line.pointAttributes = pointAttributes
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
-				let l = dimension.length()
-				uniform.majorTickInterval = CFloat(l / 4)
+				uniform.majorTickInterval = 0.5
 				uniform.maxMajorTicks = 5
 				uniform.axisAnchorValue = CFloat(max(orthogonal.min, min(orthogonal.max, -0.5)))
 				uniform.tickAnchorValue = +0.0
@@ -180,12 +178,15 @@ class ViewController: UIViewController {
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			
-            let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSAttributedString in
-                return NSAttributedString(string: String(value))
+            let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
+                let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
+                str.addAttribute(kCTForegroundColorAttributeName as String, value: UIColor.redColor(), range: NSMakeRange(0, str.length))
+                return str
             }
-            let text = MCText(engine: engine, drawingBufferSize:CGSizeMake(160, 60), bufferCapacity:5, labelDelegate:labelDelegate)
-			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.0))
-			text.quad.dataRegion.setSize(CGSizeMake(80, 30))
+            let text = MCAxisLabel(engine: engine, frameSize:CGSizeMake(40, 20), bufferCapacity:5, labelDelegate:labelDelegate)
+            text.setFrameAnchorPoint(CGPoint(x: 0.5, y: 0.0))
+            text.setFont(UIFont.systemFontOfSize(12))
+            text.textAlignment = CGPointMake(0, 0.5)
 			xAxis.decoration = text
 			
 			let lineSeries = MCLineSeries(line: line)
