@@ -183,8 +183,8 @@ class ViewController: UIViewController {
             let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSAttributedString in
                 return NSAttributedString(string: String(value))
             }
-            let text = MCText(engine: engine, drawingBufferSize:CGSizeMake(160, 60), bufferCapacity:10, labelDelegate:labelDelegate)
-			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.5))
+            let text = MCText(engine: engine, drawingBufferSize:CGSizeMake(160, 60), bufferCapacity:5, labelDelegate:labelDelegate)
+			text.quad.dataRegion.setAnchorPoint(CGPointMake(0.5, 0.0))
 			text.quad.dataRegion.setSize(CGSizeMake(80, 30))
 			xAxis.decoration = text
 			

@@ -28,7 +28,7 @@ struct out_fragment {
 };
 
 inline float2 spec_to_coef(const uint spec) {
-    const float is_right = ((spec%2) == 0);
+    const float is_right = ((spec%2) == 1);
     const float is_top = (spec%2 == 0) ^ (spec%5 == 0);
     return float2((2*is_right)-1, (2*is_top)-1);
 }
@@ -46,7 +46,7 @@ inline float2 position_with_region_view_sized(const uint qid, const uint spec, c
 {
     const float2 base = region.base_pos + ((qid + region.iter_offset) * region.iter_vec);
     const float2 diff_data = view_diff_to_data_diff(0.5 * region.size, false, proj);
-	const float2 offset_data = view_diff_to_data_diff(region.size, false, proj);
+	const float2 offset_data = view_diff_to_data_diff(region.offset, false, proj);
     const float2 center = base + (2 * diff_data * (float2(0.5, 0.5) - region.anchor)) + offset_data;
     const float2 pos = (spec_to_coef(spec) * diff_data) + center;
     return pos;

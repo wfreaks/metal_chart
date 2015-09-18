@@ -69,10 +69,11 @@
     const CGRect rect = CTLineGetBoundsWithOptions(line, kCTLineBoundsUseGlyphPathBounds);
     const CGSize size = rect.size;
     const MTLRegion region = block(rect);
-    const float sx = region.size.width / size.width;
-    const float sy = region.size.height / size.height;
+    const float sx = 5;//(region.size.width) / size.width;
+    const float sy = 5;//(region.size.height) / size.height;
     CGContextRef context = CGBitmapContextCreate(_data, region.size.width, region.size.height, 8, 4 * region.size.width, _cgSpace, kCGImageAlphaPremultipliedLast);
     CGContextScaleCTM(context, sx, sy);
+	CGContextTranslateCTM(context, 0, 2);
     CGContextSetTextPosition(context, 0, 0);
     CTLineDraw(line, context);
     
@@ -124,7 +125,7 @@
 			  axis:(MCAxis *)axis projection:(UniformProjection *)projection
 {
     [self configure:axis];
-    const NSInteger count = 1;// MAX(0, (_idxMax-_idxMin) + 1);
+    const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
 	[_quad encodeWith:encoder projection:projection count:count];
 }
 
@@ -149,8 +150,8 @@
             NSAttributedString *str = [_delegate attributedStringForValue:value dimension:dimension];
             [_buffer drawString:str toTexture:_quad.texture regionBlock:^(const CGRect rect) {
                 const CGFloat r = (rect.origin.x+rect.size.width) / (rect.origin.y+rect.size.height);
-                const CGFloat w = MIN(bufSize.width, r * bufSize.height);
-                const CGFloat h = MIN(bufSize.height, bufSize.width / r);
+                const CGFloat w = ceil(MIN(bufSize.width, r * bufSize.height));
+                const CGFloat h = ceil(MIN(bufSize.height, bufSize.width / r));
                 const CGFloat x = 0.5 * (bufSize.width - w);
                 NSInteger wrapped_idx = (idx % capacity);
                 if(wrapped_idx < 0) wrapped_idx += capacity;
@@ -175,6 +176,8 @@
     }];
     [_quad.texRegion setIterationOffset:newMin];
     [_quad.dataRegion setIterationOffset:newMin];
+	_idxMax = newMax;
+	_idxMin = newMin;
 }
 
 @end
