@@ -53,7 +53,6 @@ class ViewController: UIViewController {
 		
 		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
-		interpreter.orientationStepDegree = 1
 		
 		if (asChart) {
 			let yRange : CGFloat = CGFloat(5)

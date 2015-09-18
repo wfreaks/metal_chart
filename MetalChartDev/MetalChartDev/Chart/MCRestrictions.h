@@ -36,8 +36,8 @@
 @property (readonly, nonatomic) CGFloat offset;
 
 - (instancetype _Nonnull)initWithLength:(CGFloat)length
-										  anchor:(CGFloat)anchor
-										  offset:(CGFloat)offset
+                                 anchor:(CGFloat)anchor
+                                 offset:(CGFloat)offset
 ;
 
 @end
@@ -55,9 +55,9 @@
 @property (readonly, nonatomic) BOOL    expandMax;
 
 - (instancetype _Nonnull)initWithMinValue:(CGFloat)min
-										  maxValue:(CGFloat)max
-										 expandMin:(BOOL)expandMin
-										 expandMax:(BOOL)expandMax
+                                 maxValue:(CGFloat)max
+                                expandMin:(BOOL)expandMin
+                                expandMax:(BOOL)expandMax
 ;
 
 @end
@@ -75,10 +75,10 @@
 @property (readonly, nonatomic) BOOL    applyToCurrentMinMax;
 
 - (instancetype _Nonnull)initWithPaddingLow:(CGFloat)low
-												high:(CGFloat)high
-										   shrinkMin:(BOOL)shrinkLow
-										   shrinkMax:(BOOL)shrinkHigh
-									  applyToCurrent:(BOOL)apply
+                                       high:(CGFloat)high
+                                  shrinkMin:(BOOL)shrinkLow
+                                  shrinkMax:(BOOL)shrinkHigh
+                             applyToCurrent:(BOOL)apply
 ;
 
 @end
@@ -123,7 +123,7 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 @property (readonly, nonatomic) MCGestureInterpreter * _Nonnull interpreter;
 
 - (instancetype _Nonnull)initWithGestureInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
-												 orientation:(CGFloat)radian
+                                        orientation:(CGFloat)radian
 ;
 
 @end

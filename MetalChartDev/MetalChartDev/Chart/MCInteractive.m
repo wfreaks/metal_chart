@@ -8,6 +8,8 @@
 
 #import "MCInteractive.h"
 #import "NSArray+Utility.h"
+#import "MCProjectionUpdater.h"
+#import "MCRestrictions.h"
 
 @interface MCGestureInterpreter()
 
@@ -242,6 +244,27 @@
 - (void)didScaleChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
 
 - (void)didTranslationChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
+
++ (instancetype)connectUpdaters:(NSArray<MCProjectionUpdater *> *)updaters
+                  toInterpreter:(MCGestureInterpreter *)interpreter
+                   orientations:(NSArray<NSNumber *> * _Nonnull)orientations
+{
+    if(updaters.count == orientations.count) {
+        const NSInteger count = updaters.count;
+        for(NSInteger i = 0; i < count; ++i) {
+            const CGFloat orientation = (CGFloat)(orientations[i].doubleValue);
+            id<MCRestriction> r = [[MCUserInteractiveRestriction alloc] initWithGestureInterpreter:interpreter orientation:orientation];
+            [(updaters[i]) addRestriction:r];
+        }
+    }
+    MCSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(MCGestureInterpreter * _Nonnull interpreter) {
+        for(MCProjectionUpdater *updater in updaters) {
+            [updater updateTarget];
+        }
+    }];
+    [interpreter addInteraction:obj];
+    return obj;
+}
 
 @end
 

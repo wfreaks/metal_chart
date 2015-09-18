@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class MCGestureInterpreter;
+@class MCProjectionUpdater;
 
 @protocol MCInteraction <NSObject>
 
@@ -73,5 +74,10 @@ typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
 @interface MCSimpleBlockInteraction : NSObject<MCInteraction>
 
 - (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
+
++ (instancetype _Nonnull)connectUpdaters:(NSArray<MCProjectionUpdater*> * _Nonnull)updaters
+                           toInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
+                            orientations:(NSArray<NSNumber*> * _Nonnull)orientations;
+;
 
 @end
