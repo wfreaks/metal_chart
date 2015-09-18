@@ -168,6 +168,7 @@ class ViewController: UIViewController {
             line.pointAttributes = pointAttributes
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
+//                let l : CGFloat = dimension.max - dimension.min
 				uniform.majorTickInterval = 0.5
 				uniform.maxMajorTicks = 5
 				uniform.axisAnchorValue = CFloat(max(orthogonal.min, min(orthogonal.max, -0.5)))
@@ -179,7 +180,7 @@ class ViewController: UIViewController {
 			xAxis.setMinorTickCountPerMajor(3)
 			
             let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
-                let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
+                let str = NSMutableAttributedString(string: String(format: "%.2f", Float(value)))
                 str.addAttribute(kCTForegroundColorAttributeName as String, value: UIColor.redColor(), range: NSMakeRange(0, str.length))
                 return str
             }
