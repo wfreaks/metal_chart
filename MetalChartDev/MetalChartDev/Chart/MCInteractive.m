@@ -17,7 +17,7 @@
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
-@property (readonly, nonatomic) NSArray<id<MCCumulativeInteraction>> *cumulatives;
+@property (readonly, nonatomic) NSArray<id<MCInteraction>> *cumulatives;
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer;
@@ -79,8 +79,8 @@
 			
 			if(!CGPointEqualToPoint(oldT, newT)) {
 //				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
-				NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
-				for(id<MCCumulativeInteraction> object in cumulatives) {
+				NSArray<id<MCInteraction>> *cumulatives = _cumulatives;
+				for(id<MCInteraction> object in cumulatives) {
 					[object didTranslationChange:self];
 				}
 			}
@@ -115,8 +115,8 @@
 				
 				if(!CGSizeEqualToSize(oldScale, newScale)) {
 //					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
-					NSArray<id<MCCumulativeInteraction>> *cumulatives = _cumulatives;
-					for(id<MCCumulativeInteraction> object in cumulatives) {
+					NSArray<id<MCInteraction>> *cumulatives = _cumulatives;
+					for(id<MCInteraction> object in cumulatives) {
 						[object didScaleChange:self];
 					}
 				}
@@ -143,14 +143,14 @@
 	self.pinchRecognizer = nil;
 }
 
-- (void)addCumulative:(id<MCCumulativeInteraction>)object
+- (void)addInteraction:(id<MCInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removeCumulative:(id<MCCumulativeInteraction>)object
+- (void)removeInteraction:(id<MCInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByRemovingObject:object];
@@ -188,7 +188,7 @@
 	}
 }
 
-- (void)resetCumulativeStates
+- (void)resetStates
 {
 	_translationCumulative = CGPointZero;
 	_scaleCumulative = CGSizeMake(1, 1);

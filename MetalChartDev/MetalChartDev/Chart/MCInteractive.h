@@ -10,7 +10,7 @@
 
 @class MCGestureInterpreter;
 
-@protocol MCCumulativeInteraction <NSObject>
+@protocol MCInteraction <NSObject>
 
 - (void)didScaleChange:(MCGestureInterpreter * _Nonnull)interpreter;
 - (void)didTranslationChange:(MCGestureInterpreter * _Nonnull)interpreter;
@@ -45,10 +45,10 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 										restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
 ;
 
-- (void)resetCumulativeStates;
+- (void)resetStates;
 
-- (void)addCumulative:(id<MCCumulativeInteraction> _Nonnull)object;
-- (void)removeCumulative:(id<MCCumulativeInteraction> _Nonnull)object;
+- (void)addInteraction:(id<MCInteraction> _Nonnull)object;
+- (void)removeInteraction:(id<MCInteraction> _Nonnull)object;
 
 @end
 
@@ -70,7 +70,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
 
-@interface MCSimpleBlockInteraction : NSObject<MCCumulativeInteraction>
+@interface MCSimpleBlockInteraction : NSObject<MCInteraction>
 
 - (instancetype _Null_unspecified)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
 

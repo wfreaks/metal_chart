@@ -144,7 +144,7 @@ class ViewController: UIViewController {
 				xUpdater.updateTarget()
 				yUpdater.updateTarget()
 			}
-			interpreter.addCumulative(interaction)
+			interpreter.addInteraction(interaction)
 			
 			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
