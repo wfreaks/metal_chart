@@ -55,13 +55,24 @@
 	_srcMaxValue = -CGFLOAT_MAX;
 }
 
-- (void)addRestriction:(id<MCRestriction>)object
+- (void)addRestrictionToLast:(id<MCRestriction>)object
 {
 	@synchronized(self) {
 		if(![_restrictions containsObject:object]) {
 			_restrictions = [_restrictions arrayByAddingObject:object];
 		}
 	}
+}
+
+- (void)addRestrictionToFirst:(id<MCRestriction>)object
+{
+    @synchronized(self) {
+        if(![_restrictions containsObject:object]) {
+            NSMutableArray *ar = _restrictions.mutableCopy;
+            [ar insertObject:object atIndex:0];
+            _restrictions = ar.copy;
+        }
+    }
 }
 
 - (void)removeRestriction:(id<MCRestriction>)object
@@ -82,7 +93,7 @@
 		NSArray<id<MCRestriction>> *restrictions = _restrictions;
 		CGFloat min = +CGFLOAT_MAX;
 		CGFloat max = -CGFLOAT_MAX;
-		for(id<MCRestriction> restriction in restrictions.reverseObjectEnumerator) {
+		for(id<MCRestriction> restriction in restrictions.objectEnumerator) {
 			[restriction updater:self minValue:&min maxValue:&max];
 		}
 		

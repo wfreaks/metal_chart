@@ -26,7 +26,8 @@
 - (void)addSourceValue:(CGFloat)value update:(BOOL)update;
 - (void)clearSourceValues:(BOOL)update;
 
-- (void)addRestriction:(id<MCRestriction> _Nonnull)object;
+- (void)addRestrictionToLast:(id<MCRestriction> _Nonnull)object;
+- (void)addRestrictionToFirst:(id<MCRestriction> _Nonnull)object;
 - (void)removeRestriction:(id<MCRestriction> _Nonnull)object;
 
 - (void)updateTarget;

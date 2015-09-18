@@ -97,8 +97,8 @@ class ViewController: UIViewController {
             xAxis.setMinorTickCountPerMajor(4)
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
-			xUpdater.addRestriction(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
-			xUpdater.addRestriction(MCSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+            xUpdater.addRestrictionToLast(MCSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+			xUpdater.addRestrictionToLast(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
 			
 			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60)
 			
@@ -132,12 +132,12 @@ class ViewController: UIViewController {
 			let space = MCSpatialProjection(dimensions: [dimX, dimY])
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
-			xUpdater.addRestriction(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(0)))
-			xUpdater.addRestriction(MCLengthRestriction(length: 2, anchor: 0, offset: offsetX))
+            xUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: offsetX))
+			xUpdater.addRestrictionToLast(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(0)))
 			
 			let yUpdater = MCProjectionUpdater(target: dimY)
-			yUpdater.addRestriction(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(M_PI_2)))
-			yUpdater.addRestriction(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
+            yUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
+			yUpdater.addRestrictionToLast(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(M_PI_2)))
 			
 			let interaction = MCSimpleBlockInteraction() { (interpreter) -> Void in
 				xUpdater.updateTarget()

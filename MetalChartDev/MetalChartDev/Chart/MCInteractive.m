@@ -254,7 +254,7 @@
         for(NSInteger i = 0; i < count; ++i) {
             const CGFloat orientation = (CGFloat)(orientations[i].doubleValue);
             id<MCRestriction> r = [[MCUserInteractiveRestriction alloc] initWithGestureInterpreter:interpreter orientation:orientation];
-            [(updaters[i]) addRestriction:r];
+            [(updaters[i]) addRestrictionToLast:r];
         }
     }
     MCSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(MCGestureInterpreter * _Nonnull interpreter) {
