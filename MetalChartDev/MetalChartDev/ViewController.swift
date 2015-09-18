@@ -133,17 +133,11 @@ class ViewController: UIViewController {
 			
 			let xUpdater = MCProjectionUpdater(target: dimX)
             xUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: offsetX))
-			xUpdater.addRestrictionToLast(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(0)))
 			
 			let yUpdater = MCProjectionUpdater(target: dimY)
             yUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
-			yUpdater.addRestrictionToLast(MCUserInteractiveRestriction(gestureInterpreter: interpreter, orientation: CGFloat(M_PI_2)))
 			
-			let interaction = MCSimpleBlockInteraction() { (interpreter) -> Void in
-				xUpdater.updateTarget()
-				yUpdater.updateTarget()
-			}
-			interpreter.addInteraction(interaction)
+            MCSimpleBlockInteraction.connectUpdaters([xUpdater, yUpdater], toInterpreter: interpreter, orientations: [0, M_PI_2])
 			
 			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
