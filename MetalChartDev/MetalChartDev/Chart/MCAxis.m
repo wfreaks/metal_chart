@@ -22,6 +22,7 @@
 @interface MCBlockAxisConfigurator()
 
 @property (copy, nonatomic) MCAxisConfiguratorBlock _Nonnull block;
+@property (readonly, nonatomic) BOOL isFirst;
 
 @end
 
@@ -105,6 +106,7 @@
 	self = [super init];
 	if(self) {
 		self.block = block;
+        _isFirst = YES;
 	}
 	return self;
 }
@@ -113,7 +115,49 @@
 		   withDimension:(MCDimensionalProjection *)dimension
 			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
 {
-	_block(uniform, dimension, orthogonal);
+	_block(uniform, dimension, orthogonal, _isFirst);
+    _isFirst = NO;
+}
+
++ (instancetype)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
+                                     tickAnchor:(CGFloat)tickAnchor
+                                  fixedInterval:(CGFloat)tickInterval
+                                 minorTicksFreq:(uint8_t)minorPerMajor
+{
+    MCAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+                                      MCDimensionalProjection *dim,
+                                      MCDimensionalProjection *orth,
+                                      BOOL isFirst) {
+        if(isFirst) {
+            [conf setAxisAnchorValue:axisAnchor];
+            [conf setTickAnchorValue:tickAnchor];
+            [conf setMajorTickInterval:tickInterval];
+            [conf setMinorTicksPerMajor:minorPerMajor];
+        }
+    };
+    return [[self alloc] initWithBlock:block];
+}
+
++ (instancetype)configuratorWithRelativePosition:(CGFloat)axisPosition
+                                      tickAnchor:(CGFloat)tickAnchor
+                                   fixedInterval:(CGFloat)tickInterval
+                                  minorTicksFreq:(uint8_t)minorPerMajor
+{
+    MCAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+                                      MCDimensionalProjection *dim,
+                                      MCDimensionalProjection *orth,
+                                      BOOL isFirst) {
+        const CGFloat min = orth.min;
+        const CGFloat l = orth.max - min;
+        const CGFloat anchor = min + (axisPosition * l);
+        [conf setAxisAnchorValue:anchor];
+        if(isFirst) {
+            [conf setTickAnchorValue:tickAnchor];
+            [conf setMajorTickInterval:tickInterval];
+            [conf setMinorTicksPerMajor:minorPerMajor];
+        }
+    };
+    return [[self alloc] initWithBlock:block];
 }
 
 @end

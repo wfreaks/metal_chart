@@ -17,7 +17,9 @@
 
 typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 										MCDimensionalProjection *_Nonnull dimension,
-										MCDimensionalProjection *_Nonnull orthogonal);
+										MCDimensionalProjection *_Nonnull orthogonal,
+                                        BOOL isFirst
+                                        );
 
 @protocol MCAxisConfigurator<NSObject>
 
@@ -59,13 +61,32 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 @end
 
 
-
+// 全ての項目を自由に、かつ効率的にコントロールするためのクラス（だが宣言的ではない）
+// 固定機能クラスも作ろうと思ったけど全部代用できるのでやめた.
 @interface MCBlockAxisConfigurator : NSObject<MCAxisConfigurator>
 
-- (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block; 
+- (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block;
+
+// 1度だけ与えられた値をそのままconfへ設定する.
+// axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動いて場合によってはプロット領域の外に出る.
+// もしも範囲外へ出たら端で留めたいというような特殊な事がやりたいならば、自分でブロックを書くべきだ.
+// (そういう「宜しくやってくれる」部品を集めた時、)
++ (instancetype _Nonnull)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
+                                              tickAnchor:(CGFloat)tickAnchor
+                                           fixedInterval:(CGFloat)majorTickInterval
+                                          minorTicksFreq:(uint8_t)minorPerMajor
+;
+
+// 基本は上と同じだが、画面上での軸位置を固定する時に使う.
+// 例えばy方向の範囲が[yMin,yMax]の時、axisPos=0としてx軸に設定すると、x軸はy=yMinの位置に表示される.
+// 同様に, axisPos=1とすれば、y=yMaxの位置に現れる.
++ (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
+                                               tickAnchor:(CGFloat)tickAnchor
+                                            fixedInterval:(CGFloat)tickInterval
+                                           minorTicksFreq:(uint8_t)minorPerMajor
+;
 
 @end
-
 
 
 

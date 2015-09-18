@@ -51,7 +51,7 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		
-		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -0.5,y: -0.5), max: CGPoint(x: 0.5,y: 0.5))
+		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
 		interpreter.orientationStepDegree = 1
 		
@@ -79,13 +79,13 @@ class ViewController: UIViewController {
             overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLine.attributes.setWidth(3)
 			
-			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
+			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
 				uniform.majorTickInterval = CFloat(1<<6)
 				uniform.axisAnchorValue = 0
 				uniform.tickAnchorValue = 0
 			}
 			
-			let yAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
+			let yAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
 				uniform.axisAnchorValue = CFloat(orthogonal.min)
@@ -165,26 +165,20 @@ class ViewController: UIViewController {
             let pointAttributes = UniformPoint(resource: resource)
             line.pointAttributes = pointAttributes
 			
-			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
-//                let l : CGFloat = dimension.max - dimension.min
-				uniform.majorTickInterval = 0.5
-				uniform.axisAnchorValue = CFloat(max(orthogonal.min, min(orthogonal.max, -0.5)))
-				uniform.tickAnchorValue = +0.0
-			}
+			let xAxisConf = MCBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
 			
 			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
 			
 			xAxis.setMinorTickCountPerMajor(3)
 			
             let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
-                let str = NSMutableAttributedString(string: String(format: "%.2f", Float(value)))
-                str.addAttribute(kCTForegroundColorAttributeName as String, value: UIColor.redColor(), range: NSMakeRange(0, str.length))
+                let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
                 return str
             }
-            let text = MCAxisLabel(engine: engine, frameSize:CGSizeMake(40, 20), bufferCapacity:5, labelDelegate:labelDelegate)
+            let text = MCAxisLabel(engine: engine, frameSize:CGSizeMake(20, 10), bufferCapacity:5, labelDelegate:labelDelegate)
             text.setFrameAnchorPoint(CGPoint(x: 0.5, y: 0.0))
-            text.setFont(UIFont.systemFontOfSize(12))
-            text.textAlignment = CGPointMake(0, 0.5)
+            text.setFrameOffset(CGPointMake(0, 5))
+            text.setFont(UIFont.systemFontOfSize(10))
 			xAxis.decoration = text
 			
 			let lineSeries = MCLineSeries(line: line)
