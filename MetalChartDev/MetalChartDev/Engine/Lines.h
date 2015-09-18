@@ -14,6 +14,7 @@
 @class UniformProjection;
 @class UniformLineAttributes;
 @class UniformAxisConfiguration;
+@class UniformAxisAttributes;
 @class UniformPoint;
 @class OrderedSeries;
 @class IndexedSeries;
@@ -85,7 +86,11 @@
 
 @interface Axis : NSObject
 
-@property (readonly, nonatomic) UniformAxisConfiguration * _Nonnull attributes;
+@property (readonly, nonatomic) UniformAxisConfiguration * _Nonnull configuration;
+@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull axisAttributes;
+@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull majorTickAttributes;
+@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull minorTickAttributes;
+
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 
 - (instancetype _Null_unspecified)initWithEngine:(Engine * _Nonnull)engine

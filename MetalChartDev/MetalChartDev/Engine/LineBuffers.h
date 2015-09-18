@@ -40,6 +40,8 @@
 
 @property (readonly, nonatomic) uniform_axis_attributes *attributes;
 
+- (instancetype)initWithAttributes:(uniform_axis_attributes *)attr;
+
 - (void)setWidth:(float)width;
 
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
@@ -53,11 +55,6 @@
 @interface UniformAxisConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> axisBuffer;
-@property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
-
-@property (readonly, nonatomic) UniformAxisAttributes *axisAttributes;
-@property (readonly, nonatomic) UniformAxisAttributes *majorTickAttributes;
-@property (readonly, nonatomic) UniformAxisAttributes *minorTickAttributes;
 
 @property (assign  , nonatomic) float axisAnchorValue;
 @property (assign  , nonatomic) float tickAnchorValue;

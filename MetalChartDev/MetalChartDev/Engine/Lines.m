@@ -285,6 +285,12 @@ static double gaussian(double mean, double variance) {
 
 @end
 
+@interface Axis()
+
+@property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
+
+@end
+
 @implementation Axis
 
 - (instancetype)initWithEngine:(Engine *)engine
@@ -292,10 +298,20 @@ static double gaussian(double mean, double variance) {
     self = [super init];
     if(self) {
         _engine = engine;
-        _attributes = [[UniformAxisConfiguration alloc] initWithResource:engine.resource];
+        _configuration = [[UniformAxisConfiguration alloc] initWithResource:engine.resource];
+        _attributeBuffer = [engine.resource.device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _axisAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
+        _majorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
+        _minorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
     }
     return self;
 }
+
+- (uniform_axis_attributes *)attributesAtIndex:(NSUInteger)index
+{
+    return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
+}
+
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
 {
@@ -318,16 +334,17 @@ static double gaussian(double mean, double variance) {
     MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
     [encoder setScissorRect:rect];
 	
-	UniformAxisConfiguration *const attributes = _attributes;
+	UniformAxisConfiguration *const conf = _configuration;
+    id<MTLBuffer> attributesBuffer = _attributeBuffer;
     
-    [encoder setVertexBuffer:attributes.axisBuffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:attributes.attributeBuffer offset:0 atIndex:1];
+    [encoder setVertexBuffer:conf.axisBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:1];
     [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
     
-    [encoder setFragmentBuffer:attributes.attributeBuffer offset:0 atIndex:0];
+    [encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
 	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
     
-    const NSUInteger lineCount = (1 + ((1+attributes.minorTicksPerMajor) * attributes.maxMajorTicks));
+    const NSUInteger lineCount = (1 + ((1 + conf.minorTicksPerMajor) * conf.maxMajorTicks));
     const NSUInteger vertCount = 6 * lineCount;
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
     

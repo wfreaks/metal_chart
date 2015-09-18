@@ -16,14 +16,6 @@
 
 @end
 
-@interface UniformAxisAttributes()
-
-- (instancetype)initWithAttributes:(uniform_axis_attributes *)attr;
-
-@end
-
-
-
 @implementation UniformLineAttributes
 
 - (id)initWithResource:(DeviceResource *)resource
@@ -117,21 +109,12 @@
     if(self) {
         id<MTLDevice> device = resource.device;
         _axisBuffer = [device newBufferWithLength:sizeof(uniform_axis_configuration) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _attributeBuffer = [device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _axisAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
-        _majorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
-        _minorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
     }
     return self;
 }
 
 - (uniform_axis_configuration *)axis {
     return (uniform_axis_configuration *)[_axisBuffer contents];
-}
-
-- (uniform_axis_attributes *)attributesAtIndex:(NSUInteger)index
-{
-    return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
 }
 
 - (void)setAxisAnchorValue:(float)value
