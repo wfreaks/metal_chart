@@ -52,6 +52,10 @@
 
 @end
 
+// 他のUniform系と異なりほとんどがreadableなプロパティで定義されているのは、
+// Attributeと違い設定はCPU側で参照される事が多いためである。
+// CPU/GPU共有バッファは出来れば書き込み専用にしたいので、プロパティへのミラリングをしている.
+
 @interface UniformAxisConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> axisBuffer;
@@ -59,18 +63,26 @@
 @property (assign  , nonatomic) float axisAnchorValue;
 @property (assign  , nonatomic) float tickAnchorValue;
 @property (assign  , nonatomic) float majorTickInterval;
-
-@property (assign  , nonatomic) uint8_t maxMajorTicks;
 @property (assign  , nonatomic) uint8_t minorTicksPerMajor;
-@property (assign  , nonatomic) uint8_t dimensionIndex;
 
+// basically there is no need of setting properties below.
+// maxMajorTicks gets overridden at every frame, and dimensionIndex will be set by classes in upper layer.
+// if you want to set dimensionIndex manually, then you should read shader codes and MCAxisLabel
+// implementation before doing so.
+
+@property (assign  , nonatomic) uint8_t dimensionIndex;
+@property (assign  , nonatomic) uint8_t maxMajorTicks;
+
+// MCAxisLabel use this property and 'checkIfMajorTickValueModified:' method to avoid redundant
+// buffer updates.
 @property (readonly, nonatomic) BOOL majorTickValueModified;
 
 - (instancetype)initWithResource:(DeviceResource *)resource;
 
 - (uniform_axis_configuration *)axis;
 
-
+// if majorTickValueModified is YES, then ifModified will be invoked, and clear the flag when YES is returned from it.
+// return value of this method is identical to majorTickValueModified.
 - (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified;
 
 @end

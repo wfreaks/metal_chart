@@ -61,7 +61,9 @@
               view:(MTKView *)view
 {
 	[_conf configureUniform:_axis.configuration withDimension:_dimension orthogonal:_orthogonal];
-    [_axis encodeWith:encoder projection:_projection.projection];
+    const CGFloat len = _dimension.max - _dimension.min;
+    const NSUInteger majorTickCount = floor(len/_axis.configuration.majorTickInterval) + 1;
+    [_axis encodeWith:encoder projection:_projection.projection maxMajorTicks:majorTickCount];
 	
     [_decoration encodeWith:encoder axis:self projection:_projection.projection];
 }

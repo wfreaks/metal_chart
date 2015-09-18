@@ -98,6 +98,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
         projection:(UniformProjection * _Nonnull)projection
+     maxMajorTicks:(NSUInteger)maxCount
 ;
 
 @end

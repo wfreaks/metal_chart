@@ -81,7 +81,6 @@ class ViewController: UIViewController {
 			
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				uniform.majorTickInterval = CFloat(1<<6)
-				uniform.maxMajorTicks = CUnsignedChar((1<<2) + 1)
 				uniform.axisAnchorValue = 0
 				uniform.tickAnchorValue = 0
 			}
@@ -89,7 +88,6 @@ class ViewController: UIViewController {
 			let yAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
-				uniform.maxMajorTicks = 5
 				uniform.axisAnchorValue = CFloat(orthogonal.min)
 				uniform.tickAnchorValue = 0
 			}
@@ -170,7 +168,6 @@ class ViewController: UIViewController {
 			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal) -> Void in
 //                let l : CGFloat = dimension.max - dimension.min
 				uniform.majorTickInterval = 0.5
-				uniform.maxMajorTicks = 5
 				uniform.axisAnchorValue = CFloat(max(orthogonal.min, min(orthogonal.max, -0.5)))
 				uniform.tickAnchorValue = +0.0
 			}
