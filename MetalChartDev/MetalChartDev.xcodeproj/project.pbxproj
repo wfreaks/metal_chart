@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA15444F1B822A5400F0193E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */; };
+		AA1648ED1BAD4A9B00E5B73D /* README_JA.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */; };
 		AA1D05B21BA958E20041DCF0 /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */; };
 		AA1D05B61BA95D8B0041DCF0 /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05B51BA95D8B0041DCF0 /* TextureQuadBuffers.m */; };
 		AA1D05BC1BA9800B0041DCF0 /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D05BB1BA9800B0041DCF0 /* TextureQuads.m */; };
@@ -71,6 +72,7 @@
 /* Begin PBXFileReference section */
 		AA15444E1B822A5400F0193E /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
 		AA1544501B822A8600F0193E /* LineEngineShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
+		AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_JA.txt; sourceTree = "<group>"; };
 		AA1D05B11BA958E20041DCF0 /* TextureQuadShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = TextureQuadShader.metal; sourceTree = "<group>"; };
 		AA1D05B31BA95CF40041DCF0 /* TextureQuad_common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextureQuad_common.h; sourceTree = "<group>"; };
 		AA1D05B41BA95D8B0041DCF0 /* TextureQuadBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuadBuffers.h; sourceTree = "<group>"; };
@@ -272,14 +274,14 @@
 				AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */,
 				AA67A8491B7925B2005EEA8D /* MCRenderables.h */,
 				AA67A84A1B7925B2005EEA8D /* MCRenderables.m */,
-				AAA537111B7A42400099017D /* MCAxis.h */,
-				AAA537121B7A42400099017D /* MCAxis.m */,
 				AA909C9C1B8798BF0056FE14 /* MCInteractive.h */,
 				AA909C9D1B8798BF0056FE14 /* MCInteractive.m */,
-				AAB794521B9583B6006992BC /* MCAnimator.h */,
-				AAB794531B9583B6006992BC /* MCAnimator.m */,
+				AAA537111B7A42400099017D /* MCAxis.h */,
+				AAA537121B7A42400099017D /* MCAxis.m */,
 				AA1D05BD1BA990D70041DCF0 /* MCAxisLabel.h */,
 				AA1D05BE1BA990D70041DCF0 /* MCAxisLabel.m */,
+				AAB794521B9583B6006992BC /* MCAnimator.h */,
+				AAB794531B9583B6006992BC /* MCAnimator.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -309,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
+				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
 				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
 				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
 				AA88E5371B74E5420004AA4E /* Chart */,
@@ -465,6 +468,7 @@
 				AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */,
 				AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */,
 				AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */,
+				AA1648ED1BAD4A9B00E5B73D /* README_JA.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
