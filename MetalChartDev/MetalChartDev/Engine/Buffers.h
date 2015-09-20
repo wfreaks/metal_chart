@@ -23,7 +23,7 @@
 
 @interface VertexBuffer : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 
 @property (readonly, nonatomic) NSUInteger capacity;
 
@@ -32,9 +32,9 @@
 
 @property (assign, nonatomic) CGSize scale;
 
-- (id)initWithResource:(DeviceResource *)resource capacity:(NSUInteger)capacity;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
-- (vertex_buffer *)bufferAtIndex:(NSUInteger)index;
+- (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 #ifdef __cplusplus
 
@@ -51,12 +51,12 @@
 
 @interface IndexBuffer : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) NSUInteger capacity;
 
-- (id)initWithResource:(DeviceResource *)resource capacity:(NSUInteger)capacity;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
-- (index_buffer *)bufferAtIndex:(NSUInteger)index;
+- (index_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 #ifdef __cplusplus
 
@@ -75,7 +75,7 @@
 
 @interface UniformProjection : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) CGFloat screenScale;
 @property (assign, nonatomic) NSUInteger sampleCount;
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
@@ -83,9 +83,9 @@
 @property (assign, nonatomic) RectPadding padding;
 @property (assign, nonatomic) BOOL enableScissor;
 
-- (id)initWithResource:(DeviceResource *)resource;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
-- (uniform_projection *)projection;
+- (uniform_projection * _Nonnull)projection;
 
 - (void)setPixelSize:(CGSize)size;
 
@@ -103,13 +103,13 @@
 
 @interface UniformSeriesInfo : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (assign, nonatomic) NSUInteger count;
 @property (assign, nonatomic) NSUInteger offset;
 
-- (id)initWithResource:(DeviceResource *)resource;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
-- (uniform_series_info *)info;
+- (uniform_series_info * _Nonnull)info;
 
 @end
 

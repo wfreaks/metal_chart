@@ -84,7 +84,9 @@
 - (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
 											 minValue:(CGFloat)min
 											 maxValue:(CGFloat)max
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)setMin:(CGFloat)min max:(CGFloat)max;
 
@@ -98,7 +100,10 @@
 @property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 
-- (instancetype _Nonnull)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions;
+- (instancetype _Nonnull)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (NSUInteger)rank;
 
@@ -120,7 +125,7 @@
 @property (strong , nonatomic) id<MCCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
 
-- (instancetype _Nonnull)init;
+- (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
 
 // 以下でArrayごと追加するメソッドは、単純にクライアントコードをシンプルにするためだけのものであって、
 // 最適化などはしていないので注意.

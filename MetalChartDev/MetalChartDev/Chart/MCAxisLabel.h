@@ -35,7 +35,10 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 @property (strong  , nonatomic) UIFont * _Nullable font;
 
 - (instancetype _Nonnull)initWithBufferSize:(CGSize)size
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 - (void)drawString:(NSMutableAttributedString * _Nonnull)string
          toTexture:(id<MTLTexture> _Nonnull)texture
@@ -61,8 +64,11 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize
 						 bufferCapacity:(NSUInteger)capacity
-						  labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
-;
+						  labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 - (void)setFont:(UIFont * _Nonnull)font;
 - (void)setFrameOffset:(CGPoint)offset;
@@ -74,7 +80,11 @@ typedef NSMutableAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat 
 
 @interface MCAxisLabelBlockDelegate : NSObject<MCAxisLabelDelegate>
 
-- (instancetype _Nonnull)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 @end
 

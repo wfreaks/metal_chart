@@ -338,7 +338,7 @@ static double gaussian(double mean, double variance) {
 	UniformAxisConfiguration *const conf = _configuration;
     id<MTLBuffer> attributesBuffer = _attributeBuffer;
     
-    [encoder setVertexBuffer:conf.axisBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:conf.buffer offset:0 atIndex:0];
     [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:1];
     [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
     

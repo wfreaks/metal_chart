@@ -54,7 +54,10 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 							 Projection:(MCSpatialProjection * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
 						  configuration:(id<MCAxisConfigurator> _Nonnull)conf
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 - (void)setMinorTickCountPerMajor:(NSUInteger)count;
 
@@ -65,7 +68,11 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 // 固定機能クラスも作ろうと思ったけど全部代用できるのでやめた.
 @interface MCBlockAxisConfigurator : NSObject<MCAxisConfigurator>
 
-- (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 // 1度だけ与えられた値をそのままconfへ設定する.
 // axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動く.

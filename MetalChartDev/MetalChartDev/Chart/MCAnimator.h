@@ -36,6 +36,9 @@ typedef void (^MCAnimationBlock)(float progress);
 - (instancetype _Nonnull)initWithDuration:(NSTimeInterval)duration
                                              delay:(NSTimeInterval)delay
                                              Block:(MCAnimationBlock _Nonnull)block
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 @end

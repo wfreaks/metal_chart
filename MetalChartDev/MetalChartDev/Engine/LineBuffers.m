@@ -108,20 +108,20 @@
     self = [super init];
     if(self) {
         id<MTLDevice> device = resource.device;
-        _axisBuffer = [device newBufferWithLength:sizeof(uniform_axis_configuration) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _buffer = [device newBufferWithLength:sizeof(uniform_axis_configuration) options:MTLResourceOptionCPUCacheModeWriteCombined];
     }
     return self;
 }
 
-- (uniform_axis_configuration *)axis {
-    return (uniform_axis_configuration *)[_axisBuffer contents];
+- (uniform_axis_configuration *)configuration {
+    return (uniform_axis_configuration *)[_buffer contents];
 }
 
 - (void)setAxisAnchorValue:(float)value
 {
     if(_axisAnchorValue != value) {
         _axisAnchorValue = value;
-        [self axis]->axis_anchor_value = value;
+        self.configuration->axis_anchor_value = value;
     }
 }
 
@@ -130,7 +130,7 @@
     if( _tickAnchorValue != value ) {
         _tickAnchorValue = value;
         _majorTickValueModified = YES;
-        [self axis]->tick_anchor_value = value;
+        self.configuration->tick_anchor_value = value;
     }
 }
 
@@ -139,7 +139,7 @@
     if( _majorTickInterval != interval ) {
         _majorTickInterval = interval;
         _majorTickValueModified = YES;
-        [self axis]->tick_interval_major = interval;
+        self.configuration->tick_interval_major = interval;
     }
 }
 
@@ -147,18 +147,18 @@
 {
     if( _dimensionIndex != index ) {
         _dimensionIndex = index;
-        [self axis]->dimIndex = index;
+        self.configuration->dimIndex = index;
     }
 }
 
 - (void)setMinorTicksPerMajor:(uint8_t)count {
     _minorTicksPerMajor = count;
-    [self axis]->minor_ticks_per_major = count;
+    self.configuration->minor_ticks_per_major = count;
 }
 
 - (void)setMaxMajorTicks:(uint8_t)count {
     _maxMajorTicks = count;
-    [self axis]->max_major_ticks = count;
+    self.configuration->max_major_ticks = count;
 }
 
 - (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified

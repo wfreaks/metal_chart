@@ -40,7 +40,7 @@
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
 						  restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
 {
-	self = [self init];
+	self = [super init];
 	if(self) {
 		_cumulatives = [NSArray array];
 		_orientationStep = M_PI_4; // 45 degree.

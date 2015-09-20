@@ -15,12 +15,11 @@
 
 @interface UniformLineAttributes : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> buffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_line_attr * _Nonnull attributes;
 @property (assign, nonatomic) BOOL enableOverlay;
 
-- (id)initWithResource:(DeviceResource *)resource;
-
-- (uniform_line_attr *)attributes;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setWidth:(CGFloat)width;
 
@@ -38,9 +37,9 @@
 
 @interface UniformAxisAttributes : NSObject
 
-@property (readonly, nonatomic) uniform_axis_attributes *attributes;
+@property (readonly, nonatomic) uniform_axis_attributes * _Nonnull attributes;
 
-- (instancetype)initWithAttributes:(uniform_axis_attributes *)attr;
+- (instancetype _Nonnull)initWithAttributes:(uniform_axis_attributes * _Nonnull)attr;
 
 - (void)setWidth:(float)width;
 
@@ -58,7 +57,8 @@
 
 @interface UniformAxisConfiguration : NSObject
 
-@property (readonly, nonatomic) id<MTLBuffer> axisBuffer;
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_axis_configuration * _Nonnull configuration;
 
 @property (assign  , nonatomic) float axisAnchorValue;
 @property (assign  , nonatomic) float tickAnchorValue;
@@ -77,13 +77,11 @@
 // buffer updates.
 @property (readonly, nonatomic) BOOL majorTickValueModified;
 
-- (instancetype)initWithResource:(DeviceResource *)resource;
-
-- (uniform_axis_configuration *)axis;
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 // if majorTickValueModified is YES, then ifModified will be invoked, and clear the flag when YES is returned from it.
 // return value of this method is identical to majorTickValueModified.
-- (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified;
+- (BOOL)checkIfMajorTickValueModified:(BOOL (^_Nonnull)(UniformAxisConfiguration *_Nonnull))ifModified;
 
 @end
 

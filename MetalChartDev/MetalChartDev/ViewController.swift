@@ -142,9 +142,9 @@ class ViewController: UIViewController {
 			line.attributes.setWidth(10)
 			
 			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
-			series2.addPoint(CGPointMake(0.5, 0.5))
+			series2.addPoint(CGPointMake(0.5, -1.0))
 			let bar = OrderedBarPrimitive(engine: engine, series: series2, attributes:nil)
-			bar.attributes.setBarWidth(10)
+			bar.attributes.setBarWidth(20)
 			bar.attributes.setBarDirection(CGPointMake(0, 1))
 			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
 			bar.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)

@@ -30,6 +30,11 @@
 	return self;
 }
 
+- (instancetype)init
+{
+	return[self initWithTarget:nil];
+}
+
 - (const CGFloat *)sourceMinValue { return (_srcMinValue != +CGFLOAT_MAX) ? &_srcMinValue : nil; }
 - (const CGFloat *)sourceMaxValue { return (_srcMaxValue != -CGFLOAT_MAX) ? &_srcMaxValue : nil; }
 

@@ -38,7 +38,9 @@
 - (instancetype _Nonnull)initWithLength:(CGFloat)length
                                  anchor:(CGFloat)anchor
                                  offset:(CGFloat)offset
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 
@@ -58,7 +60,9 @@
                                  maxValue:(CGFloat)max
                                 expandMin:(BOOL)expandMin
                                 expandMax:(BOOL)expandMax
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 
@@ -79,7 +83,9 @@
                                   shrinkMin:(BOOL)shrinkLow
                                   shrinkMax:(BOOL)shrinkHigh
                              applyToCurrent:(BOOL)apply
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 
@@ -91,7 +97,10 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 @interface MCBlockRestriction : NSObject<MCRestriction>
 
-- (instancetype _Nonnull)initWithBlock:(RestrictionBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(RestrictionBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 
@@ -124,7 +133,9 @@ typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat 
 
 - (instancetype _Nonnull)initWithGestureInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
                                         orientation:(CGFloat)radian
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 

@@ -44,7 +44,10 @@ typedef MCProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 
 - (instancetype _Nonnull)initWithChart:(MetalChart * _Nonnull)chart
 								engine:(Engine * _Nullable)engine
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 - (MCSpatialProjection * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
 										 configureBlock:(DimensionConfigureBlock _Nullable)block

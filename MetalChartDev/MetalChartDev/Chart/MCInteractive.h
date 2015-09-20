@@ -44,7 +44,9 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 - (instancetype _Nonnull)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
 										pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
 										restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)resetStates;
 
@@ -65,7 +67,10 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 											   max:(CGSize)maxScale
 									translationMin:(CGPoint)minTrans
 											   max:(CGPoint)maxTrans
-;
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 @end
 
@@ -73,7 +78,11 @@ typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
 
 @interface MCSimpleBlockInteraction : NSObject<MCInteraction>
 
-- (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block;
+- (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
 
 + (instancetype _Nonnull)connectUpdaters:(NSArray<MCProjectionUpdater*> * _Nonnull)updaters
                            toInterpreter:(MCGestureInterpreter * _Nonnull)interpreter

@@ -75,6 +75,7 @@
 			MCProjectionUpdater *updater = block(dimensionId);
 			if(updater) {
 				_updaters = [_updaters arrayByAddingObject:updater];
+				updater.target = r;
 			}
 		}
 		_dimensions = [_dimensions arrayByAddingObject:r];
@@ -103,11 +104,11 @@
 		if([ar containsObject:s]) {
 			MCProjectionUpdater *x = [self updaterWithDimensionId:s.dimensions[0].dimensionId];
 			MCProjectionUpdater *y = [self updaterWithDimensionId:s.dimensions[1].dimensionId];
-			if(![updaters containsObject:x]) {
+			if(x && ![updaters containsObject:x]) {
 				[updaters addObject:x];
 				[orientations addObject:@(0)];
 			}
-			if(![updaters containsObject:y]) {
+			if(y && ![updaters containsObject:y]) {
 				[updaters addObject:y];
 				[orientations addObject:@(M_PI_2)];
 			}
