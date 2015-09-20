@@ -108,6 +108,8 @@
 
 - (MCDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
+- (BOOL)matchesDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids;
+
 @end
 
 

@@ -48,7 +48,7 @@
 		_translationCumulative = CGPointZero;
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
-		_restriction = restriction;
+		_stateRestriction = restriction;
 	}
 	return self;
 }
@@ -129,13 +129,13 @@
 
 - (void)setTranslationCumulative:(CGPoint)translationCumulative
 {
-	[_restriction interpreter:self willTranslationChange:&translationCumulative];
+	[_stateRestriction interpreter:self willTranslationChange:&translationCumulative];
 	_translationCumulative = translationCumulative;
 }
 
 - (void)setScaleCumulative:(CGSize)scaleCumulative
 {
-	[_restriction interpreter:self willScaleChange:&scaleCumulative];
+	[_stateRestriction interpreter:self willScaleChange:&scaleCumulative];
 	_scaleCumulative = scaleCumulative;
 }
 

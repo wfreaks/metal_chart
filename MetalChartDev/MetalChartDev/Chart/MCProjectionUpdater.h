@@ -20,8 +20,6 @@
 - (instancetype _Nonnull)initWithTarget:(MCDimensionalProjection * _Nullable)target
 ;
 
-+ (instancetype _Nonnull)updaterWithDimensionId:(NSInteger)dimensionId;
-
 - (const CGFloat * _Nullable)sourceMinValue;
 - (const CGFloat * _Nullable)sourceMaxValue;
 

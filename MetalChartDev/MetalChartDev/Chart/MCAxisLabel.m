@@ -22,7 +22,6 @@
 @property (assign, nonatomic) void * data;
 @property (assign, nonatomic) CTFontRef ctFont;
 @property (assign, nonatomic) CGColorSpaceRef cgSpace;
-@property (assign, nonatomic) CGSize bufSize;
 
 @end
 
@@ -32,10 +31,9 @@
 {
     self = [super init];
     if(self) {
-        _size = size;
+        _bufferSize = size;
         _cgSpace = CGColorSpaceCreateDeviceRGB();
         _data = malloc(4 * size.width * size.height);
-        _bufSize = size;
     }
     return self;
 }
@@ -75,7 +73,7 @@
     CTLineRef line = CTLineCreateWithAttributedString((CFAttributedStringRef)string);
     
     const CGRect glyphRect = CTLineGetBoundsWithOptions(line, kCTLineBoundsUseGlyphPathBounds);
-    const CGSize bufSize = _bufSize;
+    const CGSize bufSize = _bufferSize;
     CGRect drawRect;
     const MTLRegion region = block(glyphRect.size, bufSize, &drawRect);
     const float sx = (drawRect.size.width) / glyphRect.size.width;

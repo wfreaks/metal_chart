@@ -19,17 +19,20 @@
 @protocol MCAxisLabelDelegate<NSObject>
 
 - (NSMutableAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
-                                                dimension:(MCDimensionalProjection * _Nonnull)dimension
+													   dimension:(MCDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
 
 typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
+// Class that manages CGBitmapContext and draw text to it, then copy its contents to MTLTexture.
+// It's not a class that you have to use, but you may do so if you know what it does.
+
 @interface MCTextRenderer : NSObject
 
-@property (assign, nonatomic) CGSize size;
-@property (strong, nonatomic) UIFont * _Nullable font;
+@property (readonly, nonatomic) CGSize bufferSize;
+@property (strong  , nonatomic) UIFont * _Nullable font;
 
 - (instancetype _Nonnull)initWithBufferSize:(CGSize)size
 ;
@@ -41,6 +44,11 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 
 @end
 
+
+// Label renderer for MCAxis.
+// This class manages its own drawing buffer(MTLTexture to be precise), 
+// and you should not use one instance from multiple Axis. 
+
 @interface MCAxisLabel : NSObject<MCAxisDecoration>
 
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
@@ -51,9 +59,9 @@ typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGR
 @property (assign  , nonatomic) CGPoint textAlignment;
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
-                                       frameSize:(CGSize)frameSize
-                                  bufferCapacity:(NSUInteger)capacity
-                                   labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
+							  frameSize:(CGSize)frameSize
+						 bufferCapacity:(NSUInteger)capacity
+						  labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate;
 ;
 
 - (void)setFont:(UIFont * _Nonnull)font;

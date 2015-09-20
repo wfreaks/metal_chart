@@ -15,16 +15,20 @@
 	NSMutableDictionary *_samplerStates;
 }
 
-- (id)init
+- (instancetype)initWithDevice:(id<MTLDevice>)device
 {
 	self = [super init];
 	if( self ) {
-		_device = MTLCreateSystemDefaultDevice();
-		_library = [_device newDefaultLibrary];
-		_renderStates = [NSMutableDictionary dictionary];
-		_computeStates = [NSMutableDictionary dictionary];
-		_samplerStates = [NSMutableDictionary dictionary];
-		_queue = [_device newCommandQueue];
+		_device = (device) ? device : MTLCreateSystemDefaultDevice();
+		if(_device) {
+			_library = [_device newDefaultLibrary];
+			_renderStates = [NSMutableDictionary dictionary];
+			_computeStates = [NSMutableDictionary dictionary];
+			_samplerStates = [NSMutableDictionary dictionary];
+			_queue = [_device newCommandQueue];
+		} else {
+			self = nil;
+		}
 	}
 	return self;
 }
@@ -59,11 +63,11 @@
 	return NO;
 }
 
-+ (DeviceResource *)defaultResource
++ (instancetype _Nullable)defaultResource
 {
 	static DeviceResource* res = nil;
 	if( res == nil ) {
-		res = [[DeviceResource alloc] init];
+		res = [[DeviceResource alloc] initWithDevice:nil];
 	}
 	return res;
 }

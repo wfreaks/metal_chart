@@ -30,14 +30,6 @@
 	return self;
 }
 
-+ (instancetype)updaterWithDimensionId:(NSInteger)dimensionId
-{
-	MCDimensionalProjection *dim = [[MCDimensionalProjection alloc] initWithDimensionId:dimensionId
-																			   minValue:-1
-																			   maxValue:1];
-	return [[self alloc] initWithTarget:dim];
-}
-
 - (const CGFloat *)sourceMinValue { return (_srcMinValue != +CGFLOAT_MAX) ? &_srcMinValue : nil; }
 - (const CGFloat *)sourceMaxValue { return (_srcMaxValue != -CGFLOAT_MAX) ? &_srcMaxValue : nil; }
 

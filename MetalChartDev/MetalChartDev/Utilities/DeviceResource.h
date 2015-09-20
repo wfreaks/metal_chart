@@ -14,21 +14,23 @@
 
 @interface DeviceResource : NSObject
 
-@property (readonly, nonatomic) id<MTLDevice> device;
-@property (readonly, nonatomic) id<MTLLibrary> library;
-@property (readonly, nonatomic) NSDictionary *renderStates;
-@property (readonly, nonatomic) NSDictionary *computeStates;
-@property (readonly, nonatomic) NSDictionary *samplerStates;
-@property (readonly, nonatomic) id<MTLCommandQueue> queue;
+@property (readonly, nonatomic) id<MTLDevice> _Nonnull device;
+@property (readonly, nonatomic) id<MTLLibrary> _Nonnull library;
+@property (readonly, nonatomic) NSDictionary *_Nonnull renderStates;
+@property (readonly, nonatomic) NSDictionary * _Nonnull computeStates;
+@property (readonly, nonatomic) NSDictionary * _Nonnull samplerStates;
+@property (readonly, nonatomic) id<MTLCommandQueue> _Nonnull queue;
 
-+ (DeviceResource *)defaultResource;
++ (instancetype _Nullable)defaultResource;
 
-- (BOOL)addRenderPipelineState:(id<MTLRenderPipelineState>)state;
+- (instancetype _Nullable)initWithDevice:(id<MTLDevice> _Nullable)device;
 
-- (BOOL)addComputePipelineState:(id<MTLComputePipelineState>)state
-						 forKey:(NSString *)key;
+- (BOOL)addRenderPipelineState:(id<MTLRenderPipelineState> _Nonnull)state;
 
-- (BOOL)addSamplerState:(id<MTLSamplerState>)state
-				  forKey:(NSString *)key;
+- (BOOL)addComputePipelineState:(id<MTLComputePipelineState> _Nonnull)state
+						 forKey:(NSString * _Nonnull)key;
+
+- (BOOL)addSamplerState:(id<MTLSamplerState> _Nonnull)state
+				  forKey:(NSString * _Nonnull)key;
 
 @end

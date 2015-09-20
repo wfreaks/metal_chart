@@ -127,6 +127,21 @@
 	[_projection setPadding:padding];
 }
 
+- (BOOL)matchesDimensionIds:(NSArray<NSNumber *> *)ids
+{
+	const NSInteger count = _dimensions.count;
+	BOOL r = NO;
+	if(count == ids.count) {
+		for(NSInteger i = 0; i < count; ++i) {
+			if(_dimensions[i].dimensionId != ids[i].integerValue) {
+				return NO;
+			}
+		}
+		r = YES;
+	}
+	return r;
+}
+
 @end
 
 

@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     
 	var chart : MetalChart = MetalChart()
-	let resource : DeviceResource = DeviceResource.defaultResource()
+	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : MCAnimator = MCAnimator();
 	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
@@ -50,6 +50,9 @@ class ViewController: UIViewController {
 	}
 	
 	func setupChart() {
+	
+		let engine = Engine(resource: resource)
+		let configurator : MCConfigurator = MCConfigurator(chart:chart, engine:engine)
 		
 		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
@@ -63,7 +66,6 @@ class ViewController: UIViewController {
 			let vertCapacity : UInt = 1<<9
 			let vertLength = 1 << 8
 			let vertOffset = 1 << 4
-			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleAttributes()
@@ -126,20 +128,13 @@ class ViewController: UIViewController {
 		} else {
             chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 			
-			let offsetX = CGFloat(0)
-			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1 + offsetX, maxValue: 1 + offsetX)
-			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -1, maxValue: 1)
-			let space = MCSpatialProjection(dimensions: [dimX, dimY])
+			let space : MCSpatialProjection = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> MCProjectionUpdater? in
+				let updater = MCProjectionUpdater()
+				updater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
+				return updater
+			}
+			configurator.connectSpace([space], toInterpreter: interpreter)
 			
-			let xUpdater = MCProjectionUpdater(target: dimX)
-            xUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: offsetX))
-			
-			let yUpdater = MCProjectionUpdater(target: dimY)
-            yUpdater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
-			
-            MCSimpleBlockInteraction.connectUpdaters([xUpdater, yUpdater], toInterpreter: interpreter, orientations: [0, M_PI_2])
-			
-			let engine = Engine(resource: resource)
 			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
 			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
 			line.setSampleData()
@@ -157,6 +152,7 @@ class ViewController: UIViewController {
             
             let pointAttributes = UniformPoint(resource: resource)
             line.pointAttributes = pointAttributes
+			let lineSeries = MCLineSeries(line: line)
 			
 			let xAxisConf = MCBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
 			
@@ -174,9 +170,7 @@ class ViewController: UIViewController {
             text.setFont(UIFont.systemFontOfSize(10))
 			xAxis.decoration = text
 			
-			let lineSeries = MCLineSeries(line: line)
-			chart.addSeries(lineSeries, projection: space)
-			chart.addSeries(barSeries, projection: space)
+			chart.addSeriesArray([lineSeries, barSeries], projections: [space, space])
             
             let rect = PlotRect(engine: engine)
             rect.attributes.setColor(1, green: 1, blue: 1, alpha: 1)

@@ -23,4 +23,4 @@
 #import "Chart/MCInteractive.h"
 #import "Chart/MCAnimator.h"
 #import "Chart/MCAxisLabel.h"
-
+#import "Chart/MCUtility.h"
