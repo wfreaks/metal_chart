@@ -181,10 +181,10 @@ class ViewController: UIViewController {
             let rect = PlotRect(engine: engine)
             rect.attributes.setColor(1, green: 1, blue: 1, alpha: 1)
             rect.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 5)
-            let plotArea = MCPlotArea(rect: rect)
+            let plotArea = MCPlotArea(plotRect: rect)
 			
 			chart.addPostRenderable(xAxis)
-            chart.addPreRenderable(plotArea)
+			chart.addPreRenderable(plotArea)
 		}
 	}
     

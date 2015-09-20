@@ -50,6 +50,7 @@
 		AA67A8451B78DAEB005EEA8D /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8441B78DAEB005EEA8D /* MCRestrictions.m */; };
 		AA67A8481B7904E1005EEA8D /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A8471B7904E1005EEA8D /* Series.m */; };
 		AA67A84B1B7925B2005EEA8D /* MCRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AA67A84A1B7925B2005EEA8D /* MCRenderables.m */; };
+		AA7F79761BAE71A20016F6AA /* MCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7F79751BAE71A20016F6AA /* MCUtility.m */; };
 		AA88E5331B74C9D40004AA4E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52C1B74C9D40004AA4E /* Buffers.mm */; };
 		AA88E5341B74C9D40004AA4E /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AA88E52E1B74C9D40004AA4E /* Engine.m */; };
 		AA88E5351B74C9D40004AA4E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA88E5301B74C9D40004AA4E /* LineEngineShader.metal */; };
@@ -108,6 +109,8 @@
 		AA67A8471B7904E1005EEA8D /* Series.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Series.m; sourceTree = "<group>"; };
 		AA67A8491B7925B2005EEA8D /* MCRenderables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MCRenderables.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AA67A84A1B7925B2005EEA8D /* MCRenderables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRenderables.m; sourceTree = "<group>"; };
+		AA7F79741BAE71A20016F6AA /* MCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUtility.h; sourceTree = "<group>"; };
+		AA7F79751BAE71A20016F6AA /* MCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCUtility.m; sourceTree = "<group>"; };
 		AA88E52B1B74C9D40004AA4E /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
 		AA88E52C1B74C9D40004AA4E /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
 		AA88E52D1B74C9D40004AA4E /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Engine.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -282,6 +285,8 @@
 				AA1D05BE1BA990D70041DCF0 /* MCAxisLabel.m */,
 				AAB794521B9583B6006992BC /* MCAnimator.h */,
 				AAB794531B9583B6006992BC /* MCAnimator.m */,
+				AA7F79741BAE71A20016F6AA /* MCUtility.h */,
+				AA7F79751BAE71A20016F6AA /* MCUtility.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
@@ -528,6 +533,7 @@
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
 				AA67A83F1B774196005EEA8D /* MetalChart.m in Sources */,
 				AA48917F1B8F4F4B00357D40 /* PointBuffers.m in Sources */,
+				AA7F79761BAE71A20016F6AA /* MCUtility.m in Sources */,
 				AA909CA11B879BDE0056FE14 /* NSArray+Utility.m in Sources */,
 				AA88E5341B74C9D40004AA4E /* Engine.m in Sources */,
 				AAB794541B9583B6006992BC /* MCAnimator.m in Sources */,

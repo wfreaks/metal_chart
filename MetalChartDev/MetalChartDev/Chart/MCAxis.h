@@ -68,9 +68,9 @@ typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 - (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block;
 
 // 1度だけ与えられた値をそのままconfへ設定する.
-// axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動いて場合によってはプロット領域の外に出る.
-// もしも範囲外へ出たら端で留めたいというような特殊な事がやりたいならば、自分でブロックを書くべきだ.
-// (そういう「宜しくやってくれる」部品を集めた時、)
+// axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動く.
+// 範囲外へ出てしまう時に軸を消すという動作は現在実装されていない（シザーテストは描画が崩れ、またラベルなどへも影響する）
+// ので、範囲外の時は端に留める挙動にしてあることに注意.
 + (instancetype _Nonnull)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
                                               tickAnchor:(CGFloat)tickAnchor
                                            fixedInterval:(CGFloat)majorTickInterval

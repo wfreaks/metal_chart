@@ -247,6 +247,19 @@
 	}
 }
 
+- (void)addSeriesArray:(NSArray<id<MCRenderable>> *)series
+		   projections:(NSArray<MCSpatialProjection *> *)projections
+{
+	if(series.count == projections.count) {
+		const NSInteger count = series.count;
+		@synchronized(self) {
+			for(NSInteger i = 0; i < count; ++i) {
+				[self addSeries:series[i] projection:projections[i]];
+			}
+		}
+	}
+}
+
 // immutableなcollectionを使ってるので非常にまどろっこしいが、描画サイクルの度に
 // 防御的コピーを強制されるならこちらの方がよほどパフォーマンス的にはまともだと思われる
 - (void)removeSeries:(id<MCRenderable>)series
@@ -281,6 +294,13 @@
 	}
 }
 
+- (void)addPreRenderables:(NSArray<id<MCAttachment>> *)array
+{
+	@synchronized(self) {
+		for(id<MCAttachment> pre in array) [self addPreRenderable:pre];
+	}
+}
+
 - (void)removePreRenderable:(id<MCAttachment>)object
 {
 	@synchronized(self) {
@@ -300,6 +320,13 @@
         if(old != _postRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
             [self reconstructDepthClients];
         }
+	}
+}
+
+- (void)addPostRenderables:(NSArray<id<MCAttachment>> *)array
+{
+	@synchronized(self) {
+		for(id<MCAttachment> post in array) [self addPostRenderable:post];
 	}
 }
 

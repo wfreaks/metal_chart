@@ -128,8 +128,9 @@
                                       MCDimensionalProjection *dim,
                                       MCDimensionalProjection *orth,
                                       BOOL isFirst) {
+		const CGFloat v = MIN(orth.max, MAX(orth.min, axisAnchor));
+		[conf setAxisAnchorValue:v];
         if(isFirst) {
-            [conf setAxisAnchorValue:axisAnchor];
             [conf setTickAnchorValue:tickAnchor];
             [conf setMajorTickInterval:tickInterval];
             [conf setMinorTicksPerMajor:minorPerMajor];

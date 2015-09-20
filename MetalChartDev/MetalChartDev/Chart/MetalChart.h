@@ -120,16 +120,27 @@
 
 - (instancetype _Nonnull)init;
 
+// 以下でArrayごと追加するメソッドは、単純にクライアントコードをシンプルにするためだけのものであって、
+// 最適化などはしていないので注意.
+
+// また、すでに追加されているものを再度追加しようとした場合、あるいは追加されていないものを除こうとした場合、
+// そのメソッドは何もしない. 他の条件が不正な呼び出しもそれに準ずる.
+
 - (void)addSeries:(id<MCRenderable> _Nonnull)series
 	   projection:(MCSpatialProjection * _Nonnull)projection
+;
+- (void)addSeriesArray:(NSArray<id<MCRenderable>> *_Nonnull)series
+		   projections:(NSArray<MCSpatialProjection*> *_Nonnull)projections
 ;
 
 - (void)removeSeries:(id<MCRenderable> _Nonnull)series;
 
 - (void)addPreRenderable:(id<MCAttachment> _Nonnull)object;
+- (void)addPreRenderables:(NSArray<id<MCAttachment>> * _Nonnull)array;
 - (void)removePreRenderable:(id<MCAttachment> _Nonnull)object;
 
 - (void)addPostRenderable:(id<MCAttachment> _Nonnull)object;
+- (void)addPostRenderables:(NSArray<id<MCAttachment>> * _Nonnull)array;
 - (void)removePostRenderable:(id<MCAttachment> _Nonnull)object;
 
 - (NSArray<id<MCRenderable>> * _Nonnull)series;

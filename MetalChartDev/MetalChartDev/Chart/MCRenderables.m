@@ -10,6 +10,7 @@
 #import "DeviceResource.h"
 #import "Engine.h"
 #import "Buffers.h"
+#import "Series.h"
 #import "Lines.h"
 #import "Rects.h"
 #import "Points.h"
@@ -42,6 +43,17 @@
     return 0.1;
 }
 
++ (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
+								   engine:(Engine *)engine
+{
+	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+													 vertexCapacity:capacity];
+	OrderedPolyLinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:engine
+																		orderedSeries:series
+																		   attributes:nil];
+	return [[self alloc] initWithLine:line];
+}
+
 @end
 
 
@@ -60,6 +72,18 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
     [_bar encodeWith:encoder projection:projection];
+}
+
++ (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
+								   engine:(Engine *)engine
+{
+	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+													 vertexCapacity:capacity];
+	OrderedBarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:engine
+																	 series:series
+																 attributes:nil];
+	
+	return [[self alloc] initWithBar:bar];
 }
 
 @end
@@ -83,6 +107,18 @@
     [_point encodeWith:encoder projection:projection];
 }
 
++ (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
+								   engine:(Engine *)engine
+{
+	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+													 vertexCapacity:capacity];
+	OrderedPointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:engine
+																		  series:series
+																	  attributes:nil];
+	
+	return [[self alloc] initWithPoint:point];
+}
+
 @end
 
 
@@ -90,7 +126,7 @@
 
 @implementation MCPlotArea
 
-- (instancetype)initWithRect:(PlotRect *)rect
+- (instancetype)initWithPlotRect:(PlotRect *)rect
 {
     self = [super init];
     if(self) {
@@ -112,6 +148,12 @@
     [_projection setPadding:chart.padding];
     
     [_rect encodeWith:encoder projection:_projection];
+}
+
++ (instancetype)rectWithEngine:(Engine *)engine
+{
+	PlotRect *rect = [[PlotRect alloc] initWithEngine:engine];
+	return [[self alloc] initWithPlotRect:rect];
 }
 
 @end
