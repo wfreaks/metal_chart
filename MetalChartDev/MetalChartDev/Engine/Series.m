@@ -72,5 +72,38 @@
 
 - (id<MTLBuffer>)vertexBuffer { return _vertices.buffer; }
 
+- (void)addPoint:(CGPoint)point
+{
+	const NSUInteger count = _info.count;
+	const NSUInteger offset = _info.offset;
+	const NSUInteger idx = count + offset;
+	[self addPoint:point atIndex:idx maxCount:_vertices.capacity];
+}
+
+- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max
+{
+	const NSUInteger count = _info.count;
+	const NSUInteger offset = _info.offset;
+	const NSUInteger idx = count + offset;
+	[self addPoint:point atIndex:idx maxCount:max];
+}
+
+- (void)addPoint:(CGPoint)point atIndex:(NSUInteger)index maxCount:(NSUInteger)max
+{
+	@synchronized(self) {
+		const NSUInteger count = _info.count;
+		const NSUInteger offset = _info.offset;
+		const NSUInteger idx = count + offset;
+		[_vertices bufferAtIndex:index]->position = vector2((float)point.x, (float)point.y);
+		[_indices bufferAtIndex:idx]->index = (uint32_t)index;
+		if(0 < max && max <= count) {
+			_info.offset = (offset + 1);
+		} else {
+			_info.count = (count + 1);
+		}
+	}
+}
+
+
 @end
 

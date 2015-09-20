@@ -17,6 +17,9 @@
 - (id<MTLBuffer> _Nonnull)vertexBuffer;
 - (UniformSeriesInfo * _Nonnull)info;
 
+- (void)addPoint:(CGPoint)point; // increment count.
+- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
+
 @end
 
 @interface OrderedSeries : NSObject<Series>
@@ -27,9 +30,6 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource
 									vertexCapacity:(NSUInteger)vertCapacity
 ;
-
-- (void)addPoint:(CGPoint)point; // increment count.
-- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
 
 @end
 
@@ -44,7 +44,10 @@
 									 indexCapacity:(NSUInteger)idxCapacity
 ;
 
-
+// write vertices[index] = point, indices[head] = index;
+- (void)addPoint:(CGPoint)point
+		 atIndex:(NSUInteger)index
+		maxCount:(NSUInteger)max; 
 @end
 
 #endif

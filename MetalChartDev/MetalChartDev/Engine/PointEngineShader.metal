@@ -55,7 +55,9 @@ vertex out_vertex Point_VertexIndexed(
 									  const uint vid [[ vertex_id ]]
 									  )
 {
-	const uint index = indices[vid % info.vertex_capacity].index;
+	const uint vcap = info.vertex_capacity;
+	const uint icap = info.index_capacity;
+	const uint index = (indices[vid % icap].index) % vcap;
 	const float2 pos_data = vertices[index].position;
 	const float2 pos_ndc = data_to_ndc(pos_data, proj);
 	

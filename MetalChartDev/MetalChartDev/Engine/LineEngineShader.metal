@@ -17,8 +17,10 @@ vertex out_vertex PolyLineEngineVertexIndexed(
                                               uint v_id [[ vertex_id ]]
 ) {
 	const uint vid = v_id / 6;
-    const ushort index_current = indices[vid].index;
-    const ushort index_next = indices[vid+1].index;
+	const uint vcap = info.vertex_capacity;
+	const uint icap = info.index_capacity;
+    const ushort index_current = (indices[vid].index % icap) % vcap;
+    const ushort index_next = (indices[vid+1].index % icap) % vcap;
     const float2 p_current = data_to_ndc( coords[index_current].position, proj );
     const float2 p_next = data_to_ndc( coords[index_next].position, proj );
     
@@ -57,8 +59,9 @@ vertex out_vertex SeparatedLineEngineVertexOrdered(
 ) {
 	const uint idx_offset = info.offset % 2;
 	const uint vid = (2 * ((v_id / 6) - idx_offset)) + idx_offset; // 質の悪い事に頂点IDだけでは奇数点から+1へ線を引くのか偶数からなのか判断ができない.
-	const ushort index_current = vid % info.vertex_capacity;
-	const ushort index_next = (vid + 1) % info.vertex_capacity;
+	const uint vcap = info.vertex_capacity;
+	const ushort index_current = vid % vcap;
+	const ushort index_next = (vid + 1) % vcap;
 	
 	float2 p_current = data_to_ndc( coords[index_current].position, proj );
 	float2 p_next = data_to_ndc( coords[index_next].position, proj );
