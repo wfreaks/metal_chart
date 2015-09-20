@@ -23,8 +23,10 @@ FOUNDATION_EXPORT const unsigned char MCKitVersionString[];
 #import <MCKit/MCRestrictions.h>
 #import <MCKit/MCRenderables.h>
 #import <MCKit/MCAxis.h>
+#import <MCKit/MCAxisLabel.h>
 #import <MCKit/MCInteractive.h>
 #import <MCKit/MCAnimator.h>
+#import <MCKit/MCUtility.h>
 
 #import <MCKit/Protocols.h>
 #import <MCKit/Buffers.h>
@@ -35,12 +37,14 @@ FOUNDATION_EXPORT const unsigned char MCKitVersionString[];
 #import <MCKit/Line_common.h>
 #import <MCKit/Rect_common.h>
 #import <MCKit/Point_common.h>
+#import <MCKit/TextureQuad_common.h>
 
 #import <MCKit/LineBuffers.h>
 #import <MCKit/RectBuffers.h>
 #import <MCKit/PointBuffers.h>
+#import <MCKit/TextureQuadBuffers.h>
 
 #import <MCKit/Lines.h>
 #import <MCKit/Rects.h>
 #import <MCKit/Points.h>
-
+#import <MCKit/TextureQuads.h>

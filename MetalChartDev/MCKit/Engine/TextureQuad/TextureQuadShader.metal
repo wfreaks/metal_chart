@@ -6,7 +6,7 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#include "Shader_common.h"
+#include "../Base/Shader_common.h"
 
 struct uniform_region {
     float2 base_pos;

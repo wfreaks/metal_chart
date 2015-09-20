@@ -9,7 +9,7 @@
 #ifndef LineEngineShader_h
 #define LineEngineShader_h
 
-#include "Shader_common.h"
+#include "../Base/Shader_common.h"
 
 struct out_vertex {
     float4 position [[ position ]];
