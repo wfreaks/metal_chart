@@ -31,6 +31,10 @@
 	return self;
 }
 
+- (UniformLineAttributes *)attributes { return _line.attributes; }
+
+- (id<Series>)series { return [_line series]; }
+
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(UniformProjection *)projection
 {
@@ -69,6 +73,10 @@
     return self;
 }
 
+- (UniformBarAttributes *)attributes { return _bar.attributes; }
+
+- (id<Series>)series { return [_bar series]; }
+
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
     [_bar encodeWith:encoder projection:projection];
@@ -86,6 +94,7 @@
 	return [[self alloc] initWithBar:bar];
 }
 
+
 @end
 
 
@@ -101,6 +110,9 @@
     }
     return self;
 }
+
+- (UniformPointAttributes *)attributes { return _point.attributes; }
+- (id<Series>)series { return [_point series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
@@ -137,6 +149,8 @@
     }
     return self;
 }
+
+- (UniformPlotRectAttributes *)attributes { return _rect.attributes; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart

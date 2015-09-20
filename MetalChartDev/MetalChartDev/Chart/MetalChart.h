@@ -143,6 +143,7 @@ NS_DESIGNATED_INITIALIZER;
 - (void)removeSeries:(id<MCRenderable> _Nonnull)series;
 
 - (void)addPreRenderable:(id<MCAttachment> _Nonnull)object;
+- (void)insertPreRenderable:(id<MCAttachment> _Nonnull)object atIndex:(NSUInteger)index;
 - (void)addPreRenderables:(NSArray<id<MCAttachment>> * _Nonnull)array;
 - (void)removePreRenderable:(id<MCAttachment> _Nonnull)object;
 

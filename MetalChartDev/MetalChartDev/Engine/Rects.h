@@ -11,8 +11,8 @@
 
 @class Engine;
 @class UniformProjection;
-@class UniformPlotRect;
-@class UniformBar;
+@class UniformPlotRectAttributes;
+@class UniformBarAttributes;
 @class OrderedSeries;
 
 @protocol MTLRenderCommandEncoder;
@@ -21,7 +21,7 @@
 @interface PlotRect : NSObject
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformPlotRect * _Nonnull attributes;
+@property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine;
 
@@ -35,7 +35,7 @@
 @interface BarPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformBar * _Nonnull attributes;
+@property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
 
@@ -46,8 +46,8 @@
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nullable)series
-									  attributes:(UniformBar * _Nullable)attributes
+								 series:(OrderedSeries * _Nullable)series
+							 attributes:(UniformBarAttributes * _Nullable)attributes
 ;
 
 @end

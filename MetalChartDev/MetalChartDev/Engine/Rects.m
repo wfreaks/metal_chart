@@ -21,7 +21,7 @@
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _attributes = [[UniformPlotRect alloc] initWithResource:res];
+        _attributes = [[UniformPlotRectAttributes alloc] initWithResource:res];
     }
     return self;
 }
@@ -62,7 +62,7 @@
 @interface BarPrimitive()
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
-									  attributes:(UniformBar * _Nullable)attributes
+									  attributes:(UniformBarAttributes * _Nullable)attributes
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjection * _Nonnull)projection;
@@ -76,13 +76,13 @@
 @implementation BarPrimitive
 
 - (instancetype)initWithEngine:(Engine *)engine
-					attributes:(UniformBar * _Nullable)attributes
+					attributes:(UniformBarAttributes * _Nullable)attributes
 {
     self = [super init];
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _attributes = (attributes) ? attributes : [[UniformBar alloc] initWithResource:res];
+        _attributes = (attributes) ? attributes : [[UniformBarAttributes alloc] initWithResource:res];
     }
     return self;
 }
@@ -153,7 +153,7 @@
 
 - (instancetype)initWithEngine:(Engine *)engine
 						series:(OrderedSeries *)series
-					attributes:(UniformBar * _Nullable)attributes
+					attributes:(UniformBarAttributes * _Nullable)attributes
 {
     self = [super initWithEngine:engine attributes:attributes];
     if(self) {

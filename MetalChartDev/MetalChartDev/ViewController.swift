@@ -30,18 +30,9 @@ class ViewController: UIViewController {
         let v : Double = 0.9
         let alpha : Double = 1
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
-        metalView.clearDepth = 0
-		metalView.colorPixelFormat = MTLPixelFormat.BGRA8Unorm
-        metalView.depthStencilPixelFormat = MTLPixelFormat.Depth32Float_Stencil8
-		metalView.enableSetNeedsDisplay = false
-		metalView.paused = false
-		metalView.preferredFramesPerSecond = 60
-		metalView.addGestureRecognizer(panRecognizer)
-		metalView.addGestureRecognizer(pinchRecognizer)
         metalView.addGestureRecognizer(tapRecognizer)
 		
 		setupChart()
-		metalView.delegate = chart
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -50,12 +41,13 @@ class ViewController: UIViewController {
 	}
 	
 	func setupChart() {
-	
 		let engine = Engine(resource: resource)
-		let configurator : MCConfigurator = MCConfigurator(chart:chart, engine:engine)
+		let configurator : MCConfigurator = MCConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 60)
 		
 		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
-		let interpreter = MCGestureInterpreter(panRecognizer: panRecognizer, pinchRecognizer: pinchRecognizer, restriction: restriction)
+		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
+		
+		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 		
 		if (asChart) {
 			let yRange : CGFloat = CGFloat(5)
@@ -68,15 +60,9 @@ class ViewController: UIViewController {
 			let vertOffset = 1 << 4
 			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
 			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
-			line.setSampleAttributes()
-            
-//            let pointAttributes = UniformPoint(resource: resource)
-//            pointAttributes.setOuterColor(0, green: 0, blue: 0, alpha: 0)
-//            line.pointAttributes = pointAttributes
             
             let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
             let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries, attributes:nil)
-            overlayLine.setSampleAttributes()
             overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLine.attributes.setWidth(3)
 			
@@ -126,8 +112,6 @@ class ViewController: UIViewController {
             chart.bufferHook = animator
 			
 		} else {
-            chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
-			
 			let space : MCSpatialProjection = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> MCProjectionUpdater? in
 				let updater = MCProjectionUpdater()
 				updater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
@@ -135,50 +119,28 @@ class ViewController: UIViewController {
 			}
 			configurator.connectSpace([space], toInterpreter: interpreter)
 			
-			let series = OrderedSeries(resource: resource, vertexCapacity: 1<<6)
-			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
-			line.setSampleData()
-			series.info.count = 5
-			line.attributes.setWidth(10)
+			let lineSeries = MCLineSeries.orderedSeriesWithCapacity(4, engine: engine)
+			lineSeries.attributes.setWidth(10)
+			for idx in 0 ..< 4  {
+				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
+			}
+			lineSeries.series?.info().count = 5;
 			
-			let series2 = OrderedSeries(resource: resource, vertexCapacity: (1<<4))
-			series2.addPoint(CGPointMake(0.5, -1.0))
-			let bar = OrderedBarPrimitive(engine: engine, series: series2, attributes:nil)
-			bar.attributes.setBarWidth(20)
-			bar.attributes.setBarDirection(CGPointMake(0, 1))
-			bar.attributes.setAnchorPoint(CGPointMake(0, 0))
-			bar.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
-			let barSeries = MCBarSeries(bar: bar)
-            
-            let pointAttributes = UniformPoint(resource: resource)
-            line.pointAttributes = pointAttributes
-			let lineSeries = MCLineSeries(line: line)
+			let barSeries = MCBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
+			barSeries.attributes.setBarWidth(10)
+			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
+			barSeries.bar.series()?.addPoint(CGPointMake(0.5, 1.0))
 			
 			let xAxisConf = MCBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
+			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
+				let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
+				return str
+			}
 			
-			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
-			
-			xAxis.setMinorTickCountPerMajor(3)
-			
-            let labelDelegate : MCAxisLabelDelegate = MCAxisLabelBlockDelegate() { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
-                let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
-                return str
-            }
-            let text = MCAxisLabel(engine: engine, frameSize:CGSizeMake(20, 10), bufferCapacity:5, labelDelegate:labelDelegate)
-            text.setFrameAnchorPoint(CGPoint(x: 0.5, y: 0.0))
-            text.setFrameOffset(CGPointMake(0, 5))
-            text.setFont(UIFont.systemFontOfSize(10))
-			xAxis.decoration = text
+			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())
+			rect.attributes.setCornerRadius(5, rt: 5, lb: 5, rb: 5)
 			
 			chart.addSeriesArray([lineSeries, barSeries], projections: [space, space])
-            
-            let rect = PlotRect(engine: engine)
-            rect.attributes.setColor(1, green: 1, blue: 1, alpha: 1)
-            rect.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 5)
-            let plotArea = MCPlotArea(plotRect: rect)
-			
-			chart.addPostRenderable(xAxis)
-			chart.addPreRenderable(plotArea)
 		}
 	}
     

@@ -309,6 +309,17 @@
 	}
 }
 
+- (void)insertPreRenderable:(id<MCAttachment>)object atIndex:(NSUInteger)index
+{
+	@synchronized(self) {
+		NSArray <id<MCAttachment>> *old = _preRenderables;
+		_preRenderables = [_preRenderables arrayByInsertingObjectIfNotExists:object atIndex:index];
+		if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+			[self reconstructDepthClients];
+		}
+	}
+}
+
 - (void)addPreRenderables:(NSArray<id<MCAttachment>> *)array
 {
 	@synchronized(self) {

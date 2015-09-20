@@ -21,13 +21,13 @@
 
 @implementation PointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine attributes:(UniformPoint * _Nullable)attributes
+- (instancetype)initWithEngine:(Engine *)engine attributes:(UniformPointAttributes * _Nullable)attributes
 {
     self = [super init];
     if(self) {
         _engine = engine;
         DeviceResource *res = engine.resource;
-        _attributes = (attributes) ? attributes : [[UniformPoint alloc] initWithResource:res];
+        _attributes = (attributes) ? attributes : [[UniformPointAttributes alloc] initWithResource:res];
     }
     return self;
 }
@@ -99,7 +99,7 @@ projection:(UniformProjection *)projection
 
 - (instancetype)initWithEngine:(Engine *)engine
 						series:(OrderedSeries *)series
-					attributes:(UniformPoint * _Nullable)attributes
+					attributes:(UniformPointAttributes * _Nullable)attributes
 {
     self = [super initWithEngine:engine attributes:attributes];
     if(self) {
@@ -118,7 +118,7 @@ projection:(UniformProjection *)projection
 
 - (instancetype)initWithEngine:(Engine *)engine
 						series:(IndexedSeries *)series
-					attributes:(UniformPoint * _Nullable)attributes
+					attributes:(UniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
@@ -139,7 +139,7 @@ projection:(UniformProjection *)projection
 
 - (instancetype)initWithEngine:(Engine *)engine
 						series:(id<Series> _Nullable)series
-					attributes:(UniformPoint * _Nullable)attributes
+					attributes:(UniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {

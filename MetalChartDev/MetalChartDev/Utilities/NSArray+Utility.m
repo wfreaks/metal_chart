@@ -15,6 +15,14 @@
 	return ([self containsObject:object]) ? self : [self arrayByAddingObject:object];
 }
 
+- (instancetype)arrayByInsertingObjectIfNotExists:(id)object atIndex:(NSUInteger)index
+{
+	if([self containsObject:object]) return self;
+	NSMutableArray *ar = self.mutableCopy;
+	[ar insertObject:object atIndex:index];
+	return ar.copy;
+}
+
 - (instancetype)arrayByRemovingObject:(id)object
 {
 	if([self containsObject:object]) {

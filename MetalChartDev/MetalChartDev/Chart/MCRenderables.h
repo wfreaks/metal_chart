@@ -13,11 +13,18 @@
 @class LinePrimitive;
 @class BarPrimitive;
 @class PointPrimitive;
-@class UniformPoint;
+@class UniformLineAttributes;
+@class UniformBarAttributes;
+@class UniformPointAttributes;
+@class UniformPlotRectAttributes;
+
+@protocol Series;
 
 @interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
 
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
+@property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) id<Series> _Nullable series;
 
 - (instancetype _Nonnull)initWithLine:(LinePrimitive * _Nonnull)line
 NS_DESIGNATED_INITIALIZER;
@@ -34,6 +41,8 @@ NS_DESIGNATED_INITIALIZER;
 @interface MCBarSeries : NSObject<MCRenderable>
 
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
+@property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) id<Series> _Nullable series;
 
 - (instancetype _Nonnull)initWithBar:(BarPrimitive * _Nonnull)bar
 NS_DESIGNATED_INITIALIZER;
@@ -50,6 +59,8 @@ NS_DESIGNATED_INITIALIZER;
 @interface MCPointSeries : NSObject<MCRenderable>
 
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
+@property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) id<Series> _Nullable series;
 
 - (instancetype _Nonnull)initWithPoint:(PointPrimitive * _Nonnull)point
 NS_DESIGNATED_INITIALIZER;
@@ -69,6 +80,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;
+@property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
 
 - (instancetype _Nonnull)initWithPlotRect:(PlotRect * _Nonnull)rect
 NS_DESIGNATED_INITIALIZER;

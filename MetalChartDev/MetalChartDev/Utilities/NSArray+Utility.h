@@ -11,6 +11,7 @@
 @interface NSArray (Utility)
 
 - (_Nonnull instancetype)arrayByAddingObjectIfNotExists:(id _Nonnull)object;
+- (_Nonnull instancetype)arrayByInsertingObjectIfNotExists:(id _Nonnull)object atIndex:(NSUInteger)index;
 - (_Nonnull instancetype)arrayByRemovingObject:(id _Nonnull)object;
 - (_Nonnull instancetype)arrayByRemovingObjectAtIndex:(NSUInteger)index;
 

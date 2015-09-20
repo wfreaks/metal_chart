@@ -126,17 +126,9 @@
 	}
 }
 
-- (void)setSampleAttributes
-{
-	UniformLineAttributes *attributes = self.attributes;
-	[attributes setColorWithRed:0.3 green:0.6 blue:0.8 alpha:0.5];
-	[attributes setWidth:2];
-	attributes.enableOverlay = NO;
-}
-
 - (id<Series>)series { return nil; }
 
-- (void)setPointAttributes:(UniformPoint *)pointAttributes
+- (void)setPointAttributes:(UniformPointAttributes *)pointAttributes
 {
 	if(_pointAttributes != pointAttributes) {
 		_pointAttributes = pointAttributes;
@@ -170,7 +162,7 @@
 
 - (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
 
-- (PointPrimitive *)createPointPrimitiveWithAttributes:(UniformPoint *)attributes
+- (PointPrimitive *)createPointPrimitiveWithAttributes:(UniformPointAttributes *)attributes
 {
 	return [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
 }
@@ -195,23 +187,10 @@
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
 		_series = series;
+		[self.attributes setWidth:5.0];
+		[self.attributes setColorWithRed:0.3 green:0.6 blue:0.8 alpha:0.5];
 	}
 	return self;
-}
-
-- (void)setSampleData
-{
-	VertexBuffer *vertices = _series.vertices;
-	const NSUInteger vCount = vertices.capacity;
-	for(int i = 0; i < vCount; ++i) {
-		vertex_buffer *v = [vertices bufferAtIndex:i];
-		const float range = 0.5;
-		v->position.x = ((2 * ((i  ) % 2)) - 1) * range;
-		v->position.y = ((2 * ((i/2) % 2)) - 1) * range;
-	}
-	self.series.info.offset = 0;
-	
-	[self setSampleAttributes];
 }
 
 static double gaussian(double mean, double variance) {

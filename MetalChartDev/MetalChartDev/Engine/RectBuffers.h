@@ -13,7 +13,7 @@
 @protocol MTLBuffer;
 @class DeviceResource;
 
-@interface UniformPlotRect : NSObject
+@interface UniformPlotRectAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_plot_rect * _Nonnull rect;
@@ -27,7 +27,7 @@
 @end
 
 
-@interface UniformBar : NSObject
+@interface UniformBarAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_bar * _Nonnull bar;
@@ -35,10 +35,17 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 - (void)setCornerRadius:(float)radius;
 - (void)setBarWidth:(float)width;
 - (void)setAnchorPoint:(CGPoint)point;
 - (void)setBarDirection:(CGPoint)dir;
+
+// 各頂点に個別の大きさを設定する. 注意すべきは、lt/rtがどこに来るかの自然な解釈が難しい事だ.
+// 現状では, t/bはそれぞれ、(direction＋値の正負を考慮した)Barの伸展方向を上にした時の上下だが、
+// l/rはbarDirectionを上にした時の右左である.
+// 正直な所、名前を変えるべきか挙動を変えるべきか、判断がついていない.
+// ただ、棒グラフとしては（機能の要不要は棚に上げると）この挙動が望ましいと考えている.
+- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
+
 
 @end

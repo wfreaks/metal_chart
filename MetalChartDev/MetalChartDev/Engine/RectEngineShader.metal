@@ -162,6 +162,7 @@ fragment out_fragment GeneralBar_Fragment(
     // この様に分解したのち、9patchでマッピングする必要があるが、これには形状に関する情報が必要となる. これは in.w / in.l が担当するが、以下の仮定を置いている.
     // lはdir方向の長さ成分、wは垂直方向の成分、どちらもcenterから矩形の境界までの距離に相当する、つまり長さ/2, 太さ/2である.
     // また、dirを上に向ける形で処理を進める. この仮定はcorner_radiusがどう適用されるかに影響される事に注意.
+	// ただし現状では、dirと逆方向に棒が伸びる(負値の場合)、t/bは頂点/根元に相当するため入れ替わるが、l/rは棒の進行方向に関係なく維持されることに注意.
     const float2 p = in.pos - in.center;
     const float2 perp(+in.dir.y, -in.dir.x);
     const float2 pos(dot(p, perp), dot(p, in.dir));

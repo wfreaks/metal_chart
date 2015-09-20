@@ -15,7 +15,7 @@
 @class UniformLineAttributes;
 @class UniformAxisConfiguration;
 @class UniformAxisAttributes;
-@class UniformPoint;
+@class UniformPointAttributes;
 @class OrderedSeries;
 @class IndexedSeries;
 
@@ -24,10 +24,8 @@
 @interface LinePrimitive : NSObject<Primitive>
 
 @property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
-@property (strong  , nonatomic) UniformPoint * _Nullable pointAttributes;
+@property (strong  , nonatomic) UniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-
-- (void)setSampleAttributes;
 
 - (id<Series> _Nullable)series;
 
@@ -59,8 +57,6 @@
 								   orderedSeries:(OrderedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
-
-- (void)setSampleData;
 
 - (void)appendSampleData:(NSUInteger)count
 		  maxVertexCount:(NSUInteger)maxCount

@@ -10,7 +10,7 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 
-@implementation UniformPlotRect
+@implementation UniformPlotRectAttributes
 
 @dynamic rect;
 
@@ -46,7 +46,7 @@
 @end
 
 
-@implementation UniformBar
+@implementation UniformBarAttributes
 
 @dynamic bar;
 

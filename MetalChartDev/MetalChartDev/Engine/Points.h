@@ -11,8 +11,8 @@
 
 @class Engine;
 @class UniformProjection;
-@class UniformPlotRect;
-@class UniformPoint;
+@class UniformPlotRectAttributes;
+@class UniformPointAttributes;
 @class OrderedSeries;
 @class IndexedSeries;
 
@@ -22,7 +22,7 @@
 @interface PointPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) Engine * _Nonnull engine;
-@property (readonly, nonatomic) UniformPoint * _Nonnull attributes;
+@property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
 
@@ -34,7 +34,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
                                           series:(OrderedSeries * _Nullable)series
-									  attributes:(UniformPoint * _Nullable)attributes
+									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
 @end
 
@@ -44,7 +44,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 										  series:(IndexedSeries * _Nullable)series
-									  attributes:(UniformPoint * _Nullable)attributes
+									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
 @end
 
@@ -55,7 +55,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 										  series:(id<Series> _Nullable)series
-									  attributes:(UniformPoint * _Nullable)attributes
+									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
 @end
 
