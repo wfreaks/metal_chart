@@ -19,9 +19,15 @@
 {
 	self = [super init];
 	if( self ) {
+		NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+		NSString *path = [bundle pathForResource:@"default" ofType:@"metallib"];
 		_device = (device) ? device : MTLCreateSystemDefaultDevice();
-		if(_device) {
-			_library = [_device newDefaultLibrary];
+		if(_device && path) {
+			NSError *error = nil;
+			_library = [_device newLibraryWithFile:path error:&error];
+			if(error) {
+				NSLog(@"error while loading metal lib file : %@", error);
+			}
 			_renderStates = [NSMutableDictionary dictionary];
 			_computeStates = [NSMutableDictionary dictionary];
 			_samplerStates = [NSMutableDictionary dictionary];
