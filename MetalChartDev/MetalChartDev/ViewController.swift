@@ -9,7 +9,7 @@
 import UIKit
 import Metal
 import MetalKit
-import MCKit
+import FMChart
 
 class ViewController: UIViewController {
 
@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
-    let animator : MCAnimator = MCAnimator();
+    let animator : FMAnimator = FMAnimator();
 	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
@@ -43,18 +43,18 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		let engine = Engine(resource: resource)
-		let configurator : MCConfigurator = MCConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 60)
+		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 60)
 		
-		let restriction = MCDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
+		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
 		
 		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 		
 		if (asChart) {
 			let yRange : CGFloat = CGFloat(5)
-			let dimX = MCDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
-			let dimY = MCDimensionalProjection(dimensionId: 2, minValue: -yRange, maxValue: yRange)
-			let space = MCSpatialProjection(dimensions: [dimX, dimY])
+			let dimX = FMDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
+			let dimY = FMDimensionalProjection(dimensionId: 2, minValue: -yRange, maxValue: yRange)
+			let space = FMSpatialProjection(dimensions: [dimX, dimY])
 			
 			let vertCapacity : UInt = 1<<9
 			let vertLength = 1 << 8
@@ -67,31 +67,31 @@ class ViewController: UIViewController {
             overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLine.attributes.setWidth(3)
 			
-			let xAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
+			let xAxisConf = FMBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
 				uniform.majorTickInterval = CFloat(1<<6)
 				uniform.axisAnchorValue = 0
 				uniform.tickAnchorValue = 0
 			}
 			
-			let yAxisConf = MCBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
+			let yAxisConf = FMBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
 				let l = dimension.length()
 				uniform.majorTickInterval = CFloat(l / 4)
 				uniform.axisAnchorValue = CFloat(orthogonal.min)
 				uniform.tickAnchorValue = 0
 			}
 			
-			let xAxis = MCAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
-			let yAxis = MCAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf)
+			let xAxis = FMAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
+			let yAxis = FMAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf)
             
             xAxis.setMinorTickCountPerMajor(4)
 			
-			let xUpdater = MCProjectionUpdater(target: dimX)
-            xUpdater.addRestrictionToLast(MCSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
-			xUpdater.addRestrictionToLast(MCLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
+			let xUpdater = FMProjectionUpdater(target: dimX)
+            xUpdater.addRestrictionToLast(FMSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+			xUpdater.addRestrictionToLast(FMLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
 			
 			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60)
 			
-			chart.willDraw = { (mc : MetalChart) -> Void in
+			chart.willDraw = { (FM : MetalChart) -> Void in
                 line.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
@@ -101,8 +101,8 @@ class ViewController: UIViewController {
 				xUpdater.updateTarget()
 			}
 			
-			let lineSeries = MCLineSeries(line: line)
-            let overlayLineSeries = MCLineSeries(line: overlayLine)
+			let lineSeries = FMLineSeries(line: line)
+            let overlayLineSeries = FMLineSeries(line: overlayLine)
             
 			chart.addSeries(lineSeries, projection: space)
             chart.addSeries(overlayLineSeries, projection: space)
@@ -113,27 +113,27 @@ class ViewController: UIViewController {
             chart.bufferHook = animator
 			
 		} else {
-			let space : MCSpatialProjection = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> MCProjectionUpdater? in
-				let updater = MCProjectionUpdater()
-				updater.addRestrictionToLast(MCLengthRestriction(length: 2, anchor: 0, offset: 0))
+			let space : FMSpatialProjection = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> FMProjectionUpdater? in
+				let updater = FMProjectionUpdater()
+				updater.addRestrictionToLast(FMLengthRestriction(length: 2, anchor: 0, offset: 0))
 				return updater
 			}
 			configurator.connectSpace([space], toInterpreter: interpreter)
 			
-			let lineSeries = MCLineSeries.orderedSeriesWithCapacity(4, engine: engine)
+			let lineSeries = FMLineSeries.orderedSeriesWithCapacity(4, engine: engine)
 			lineSeries.attributes.setWidth(10)
 			for idx in 0 ..< 4  {
 				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
 			}
 			lineSeries.series?.info().count = 5;
 			
-			let barSeries = MCBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
+			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
 			barSeries.attributes.setBarWidth(10)
 			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			barSeries.bar.series()?.addPoint(CGPointMake(0.5, 1.0))
 			
-			let xAxisConf = MCBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
-			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : MCDimensionalProjection) -> NSMutableAttributedString in
+			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
+			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> NSMutableAttributedString in
 				let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
 				return str
 			}
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
 	}
     
     @IBAction func chartTapped(sender: UITapGestureRecognizer) {
-        let anim = MCBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
+        let anim = FMBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
             let alpha : CFloat = CFloat( 2 * fabs(0.5 - progress) )
             self.firstLineAttributes?.setAlpha(alpha)
         }

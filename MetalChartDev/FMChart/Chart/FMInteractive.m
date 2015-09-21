@@ -1,17 +1,17 @@
 //
-//  MCInteractive.m
+//  FMInteractive.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/22.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCInteractive.h"
+#import "FMInteractive.h"
 #import "NSArray+Utility.h"
-#import "MCProjectionUpdater.h"
-#import "MCRestrictions.h"
+#import "FMProjectionUpdater.h"
+#import "FMRestrictions.h"
 
-@interface MCGestureInterpreter()
+@interface FMGestureInterpreter()
 
 @property (readonly, nonatomic) CGPoint currentTranslation;
 @property (readonly, nonatomic) CGFloat currentScale;
@@ -19,26 +19,26 @@
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
-@property (readonly, nonatomic) NSArray<id<MCInteraction>> *cumulatives;
+@property (readonly, nonatomic) NSArray<id<FMInteraction>> *cumulatives;
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer;
 
 @end
 
-@interface MCSimpleBlockInteraction()
+@interface FMSimpleBlockInteraction()
 
 @property (copy, nonatomic) SimpleInterfactionBlock _Nonnull block;
 
 @end
 
-@implementation MCGestureInterpreter
+@implementation FMGestureInterpreter
 
 @dynamic orientationStepDegree;
 
 - (instancetype)initWithPanRecognizer:(UIPanGestureRecognizer *)pan
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
-						  restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
+						  restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 {
 	self = [super init];
 	if(self) {
@@ -81,8 +81,8 @@
 			
 			if(!CGPointEqualToPoint(oldT, newT)) {
 //				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
-				NSArray<id<MCInteraction>> *cumulatives = _cumulatives;
-				for(id<MCInteraction> object in cumulatives) {
+				NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+				for(id<FMInteraction> object in cumulatives) {
 					[object didTranslationChange:self];
 				}
 			}
@@ -117,8 +117,8 @@
 				
 				if(!CGSizeEqualToSize(oldScale, newScale)) {
 //					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
-					NSArray<id<MCInteraction>> *cumulatives = _cumulatives;
-					for(id<MCInteraction> object in cumulatives) {
+					NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+					for(id<FMInteraction> object in cumulatives) {
 						[object didScaleChange:self];
 					}
 				}
@@ -145,14 +145,14 @@
 	self.pinchRecognizer = nil;
 }
 
-- (void)addInteraction:(id<MCInteraction>)object
+- (void)addInteraction:(id<FMInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByAddingObjectIfNotExists:object];
 	}
 }
 
-- (void)removeInteraction:(id<MCInteraction>)object
+- (void)removeInteraction:(id<FMInteraction>)object
 {
 	@synchronized(self) {
 		_cumulatives = [_cumulatives arrayByRemovingObject:object];
@@ -199,7 +199,7 @@
 @end
 
 
-@implementation MCDefaultInterpreterRestriction
+@implementation FMDefaultInterpreterRestriction
 
 - (instancetype)initWithScaleMin:(CGSize)minScale
 							 max:(CGSize)maxScale
@@ -216,13 +216,13 @@
 	return self;
 }
 
-- (void)interpreter:(MCGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
+- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
 {
 	size->width = MIN(_maxScale.width, MAX(_minScale.width, size->width));
 	size->height = MIN(_maxScale.height, MAX(_minScale.height, size->height));
 }
 
-- (void)interpreter:(MCGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
+- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
 {
 	translation->x = MIN(_maxTranslation.x, MAX(_minTranslation.x, translation->x));
 	translation->y = MIN(_maxTranslation.y, MAX(_minTranslation.y, translation->y));
@@ -230,7 +230,7 @@
 
 @end
 
-@implementation MCSimpleBlockInteraction
+@implementation FMSimpleBlockInteraction
 
 - (instancetype)initWithBlock:(SimpleInterfactionBlock)block
 {
@@ -241,24 +241,24 @@
 	return self;
 }
 
-- (void)didScaleChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
+- (void)didScaleChange:(FMGestureInterpreter *)interpreter { _block(interpreter); }
 
-- (void)didTranslationChange:(MCGestureInterpreter *)interpreter { _block(interpreter); }
+- (void)didTranslationChange:(FMGestureInterpreter *)interpreter { _block(interpreter); }
 
-+ (instancetype)connectUpdaters:(NSArray<MCProjectionUpdater *> *)updaters
-                  toInterpreter:(MCGestureInterpreter *)interpreter
++ (instancetype)connectUpdaters:(NSArray<FMProjectionUpdater *> *)updaters
+                  toInterpreter:(FMGestureInterpreter *)interpreter
                    orientations:(NSArray<NSNumber *> * _Nonnull)orientations
 {
     if(updaters.count == orientations.count) {
         const NSInteger count = updaters.count;
         for(NSInteger i = 0; i < count; ++i) {
             const CGFloat orientation = (CGFloat)(orientations[i].doubleValue);
-            id<MCRestriction> r = [[MCUserInteractiveRestriction alloc] initWithGestureInterpreter:interpreter orientation:orientation];
+            id<FMRestriction> r = [[FMUserInteractiveRestriction alloc] initWithGestureInterpreter:interpreter orientation:orientation];
             [(updaters[i]) addRestrictionToLast:r];
         }
     }
-    MCSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(MCGestureInterpreter * _Nonnull interpreter) {
-        for(MCProjectionUpdater *updater in updaters) {
+    FMSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull interpreter) {
+        for(FMProjectionUpdater *updater in updaters) {
             [updater updateTarget];
         }
     }];

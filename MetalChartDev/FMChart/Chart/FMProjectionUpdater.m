@@ -1,24 +1,24 @@
 //
-//  MCProjectionUpdater.m
+//  FMProjectionUpdater.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/10.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCProjectionUpdater.h"
-#import "MCRestrictions.h"
+#import "FMProjectionUpdater.h"
+#import "FMRestrictions.h"
 
-@interface MCProjectionUpdater()
+@interface FMProjectionUpdater()
 
 @property (assign, nonatomic) CGFloat srcMinValue;
 @property (assign, nonatomic) CGFloat srcMaxValue;
 
 @end
 
-@implementation MCProjectionUpdater
+@implementation FMProjectionUpdater
 
-- (instancetype)initWithTarget:(MCDimensionalProjection * _Nullable)target
+- (instancetype)initWithTarget:(FMDimensionalProjection * _Nullable)target
 {
 	self = [super self];
 	if(self) {
@@ -60,7 +60,7 @@
 	_srcMaxValue = -CGFLOAT_MAX;
 }
 
-- (void)addRestrictionToLast:(id<MCRestriction>)object
+- (void)addRestrictionToLast:(id<FMRestriction>)object
 {
 	@synchronized(self) {
 		if(![_restrictions containsObject:object]) {
@@ -69,7 +69,7 @@
 	}
 }
 
-- (void)addRestrictionToFirst:(id<MCRestriction>)object
+- (void)addRestrictionToFirst:(id<FMRestriction>)object
 {
     @synchronized(self) {
         if(![_restrictions containsObject:object]) {
@@ -80,7 +80,7 @@
     }
 }
 
-- (void)removeRestriction:(id<MCRestriction>)object
+- (void)removeRestriction:(id<FMRestriction>)object
 {
 	@synchronized(self) {
 		if([_restrictions containsObject:object]) {
@@ -93,12 +93,12 @@
 
 - (void)updateTarget
 {
-	MCDimensionalProjection *projection = _target;
+	FMDimensionalProjection *projection = _target;
 	if(projection) {
-		NSArray<id<MCRestriction>> *restrictions = _restrictions;
+		NSArray<id<FMRestriction>> *restrictions = _restrictions;
 		CGFloat min = +CGFLOAT_MAX;
 		CGFloat max = -CGFLOAT_MAX;
-		for(id<MCRestriction> restriction in restrictions.objectEnumerator) {
+		for(id<FMRestriction> restriction in restrictions.objectEnumerator) {
 			[restriction updater:self minValue:&min maxValue:&max];
 		}
 		

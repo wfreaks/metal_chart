@@ -14,10 +14,10 @@
  * このヘッダファイル内で宣言されたクラスは代替の利かないコアなコンポーネントの「全て」である.
  * その目的と興味はプロットエリアにおける座標変換のみに絞られている.
  * 軸・メモリ・レンジの制御・UI操作フィードバックなどはデフォルト実装を提供しているが、すべて独自定義クラスで代替可能.
- * 描画エンジンもMCRenderableを通して利用しているため、これらも独自定義可能である.
+ * 描画エンジンもFMRenderableを通して利用しているため、これらも独自定義可能である.
  * もちろんコード量と煩雑さはそこそこなのでオススメはできない.
  * (ただしUniformProjectionクラスだけは座標変換の仕組みに組み込まれているため、代替不可能.
- *  細かいハンドリングはMCRenderableが担当するためプロトコル化する事はできない)
+ *  細かいハンドリングはFMRenderableが担当するためプロトコル化する事はできない)
  */
 
 @class UniformProjection;
@@ -38,7 +38,7 @@
  * [MetalChart (add/remove)(Series/PreRenderable/PostRenderable):]
  * の引数に渡されたオブジェクトだけである.
  */
-@protocol MCDepthClient <NSObject>
+@protocol FMDepthClient <NSObject>
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min;
 
@@ -46,7 +46,7 @@
 
 
 
-@protocol MCRenderable <NSObject>
+@protocol FMRenderable <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
 		projection:(UniformProjection * _Nonnull)projection
@@ -56,7 +56,7 @@
 
 
 
-@protocol MCAttachment <NSObject>
+@protocol FMAttachment <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
              chart:(MetalChart * _Nonnull)chart
@@ -66,7 +66,7 @@
 @end
 
 
-@protocol MCCommandBufferHook <NSObject>
+@protocol FMCommandBufferHook <NSObject>
 
 - (void)chart:(MetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
 - (void)chart:(MetalChart * _Nonnull)chart willCommitBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
@@ -74,7 +74,7 @@
 @end
 
 
-@interface MCDimensionalProjection : NSObject
+@interface FMDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
 @property (assign  , nonatomic) CGFloat     min;
@@ -95,12 +95,12 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface MCSpatialProjection : NSObject
+@interface FMSpatialProjection : NSObject
 
-@property (readonly, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
+@property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 
-- (instancetype _Nonnull)initWithDimensions:(NSArray<MCDimensionalProjection *> * _Nonnull)dimensions
+- (instancetype _Nonnull)initWithDimensions:(NSArray<FMDimensionalProjection *> * _Nonnull)dimensions
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -111,7 +111,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)configure:(MTKView * _Nonnull)view padding:(RectPadding)padding;
 
-- (MCDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
+- (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
 - (BOOL)matchesDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids;
 
@@ -122,7 +122,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
-@property (strong , nonatomic) id<MCCommandBufferHook> _Nullable bufferHook;
+@property (strong , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
 
 - (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
@@ -133,26 +133,26 @@ NS_DESIGNATED_INITIALIZER;
 // また、すでに追加されているものを再度追加しようとした場合、あるいは追加されていないものを除こうとした場合、
 // そのメソッドは何もしない. 他の条件が不正な呼び出しもそれに準ずる.
 
-- (void)addSeries:(id<MCRenderable> _Nonnull)series
-	   projection:(MCSpatialProjection * _Nonnull)projection
+- (void)addSeries:(id<FMRenderable> _Nonnull)series
+	   projection:(FMSpatialProjection * _Nonnull)projection
 ;
-- (void)addSeriesArray:(NSArray<id<MCRenderable>> *_Nonnull)series
-		   projections:(NSArray<MCSpatialProjection*> *_Nonnull)projections
+- (void)addSeriesArray:(NSArray<id<FMRenderable>> *_Nonnull)series
+		   projections:(NSArray<FMSpatialProjection*> *_Nonnull)projections
 ;
 
-- (void)removeSeries:(id<MCRenderable> _Nonnull)series;
+- (void)removeSeries:(id<FMRenderable> _Nonnull)series;
 
-- (void)addPreRenderable:(id<MCAttachment> _Nonnull)object;
-- (void)insertPreRenderable:(id<MCAttachment> _Nonnull)object atIndex:(NSUInteger)index;
-- (void)addPreRenderables:(NSArray<id<MCAttachment>> * _Nonnull)array;
-- (void)removePreRenderable:(id<MCAttachment> _Nonnull)object;
+- (void)addPreRenderable:(id<FMAttachment> _Nonnull)object;
+- (void)insertPreRenderable:(id<FMAttachment> _Nonnull)object atIndex:(NSUInteger)index;
+- (void)addPreRenderables:(NSArray<id<FMAttachment>> * _Nonnull)array;
+- (void)removePreRenderable:(id<FMAttachment> _Nonnull)object;
 
-- (void)addPostRenderable:(id<MCAttachment> _Nonnull)object;
-- (void)addPostRenderables:(NSArray<id<MCAttachment>> * _Nonnull)array;
-- (void)removePostRenderable:(id<MCAttachment> _Nonnull)object;
+- (void)addPostRenderable:(id<FMAttachment> _Nonnull)object;
+- (void)addPostRenderables:(NSArray<id<FMAttachment>> * _Nonnull)array;
+- (void)removePostRenderable:(id<FMAttachment> _Nonnull)object;
 
-- (NSArray<id<MCRenderable>> * _Nonnull)series;
+- (NSArray<id<FMRenderable>> * _Nonnull)series;
 
-- (NSArray<MCSpatialProjection *> * _Nonnull)projections;
+- (NSArray<FMSpatialProjection *> * _Nonnull)projections;
 
 @end

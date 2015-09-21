@@ -1,5 +1,5 @@
 //
-//  MCText.h
+//  FMText.h
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2015/09/16.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Metal/MTLTypes.h>
-#import "MCAxis.h"
+#import "FMAxis.h"
 
 @protocol MTLTexture;
 
@@ -16,20 +16,20 @@
 @class Engine;
 @class TextureQuad;
 
-@protocol MCAxisLabelDelegate<NSObject>
+@protocol FMAxisLabelDelegate<NSObject>
 
 - (NSMutableAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
-													   dimension:(MCDimensionalProjection * _Nonnull)dimension
+													   dimension:(FMDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
 
-typedef MTLRegion (^MCTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
+typedef MTLRegion (^FMTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
 // Class that manages CGBitmapContext and draw text to it, then copy its contents to MTLTexture.
 // It's not a class that you have to use, but you may do so if you know what it does.
 
-@interface MCTextRenderer : NSObject
+@interface FMTextRenderer : NSObject
 
 @property (readonly, nonatomic) CGSize bufferSize;
 @property (strong  , nonatomic) UIFont * _Nullable font;
@@ -42,20 +42,20 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)drawString:(NSMutableAttributedString * _Nonnull)string
          toTexture:(id<MTLTexture> _Nonnull)texture
-         confBlock:(MCTextDrawConfBlock _Nonnull)block;
+         confBlock:(FMTextDrawConfBlock _Nonnull)block;
 ;
 
 @end
 
 
-// Label renderer for MCAxis.
+// Label renderer for FMAxis.
 // This class manages its own drawing buffer(MTLTexture to be precise), 
 // and you should not use one instance from multiple Axis. 
 
-@interface MCAxisLabel : NSObject<MCAxisDecoration>
+@interface FMAxisLabel : NSObject<FMAxisDecoration>
 
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
-@property (readonly, nonatomic) id<MCAxisLabelDelegate> _Nonnull delegate;
+@property (readonly, nonatomic) id<FMAxisLabelDelegate> _Nonnull delegate;
 
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
@@ -64,7 +64,7 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize
 						 bufferCapacity:(NSUInteger)capacity
-						  labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate
+						  labelDelegate:(id<FMAxisLabelDelegate> _Nonnull)delegate
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -76,11 +76,11 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef NSMutableAttributedString *_Nonnull (^MCAxisLabelDelegateBlock)(CGFloat value, MCDimensionalProjection *_Nonnull dimension);
+typedef NSMutableAttributedString *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, FMDimensionalProjection *_Nonnull dimension);
 
-@interface MCAxisLabelBlockDelegate : NSObject<MCAxisLabelDelegate>
+@interface FMAxisLabelBlockDelegate : NSObject<FMAxisLabelDelegate>
 
-- (instancetype _Nonnull)initWithBlock:(MCAxisLabelDelegateBlock _Nonnull)block
+- (instancetype _Nonnull)initWithBlock:(FMAxisLabelDelegateBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;

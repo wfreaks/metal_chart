@@ -1,5 +1,5 @@
 //
-//  MCRenderables.h
+//  FMRenderables.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/11.
@@ -20,7 +20,7 @@
 
 @protocol Series;
 
-@interface MCLineSeries : NSObject<MCRenderable, MCDepthClient>
+@interface FMLineSeries : NSObject<FMRenderable, FMDepthClient>
 
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
@@ -38,7 +38,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface MCBarSeries : NSObject<MCRenderable>
+@interface FMBarSeries : NSObject<FMRenderable>
 
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
@@ -56,7 +56,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface MCPointSeries : NSObject<MCRenderable>
+@interface FMPointSeries : NSObject<FMRenderable>
 
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
@@ -76,7 +76,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @class PlotRect;
 
-@interface MCPlotArea : NSObject<MCAttachment>
+@interface FMPlotArea : NSObject<FMAttachment>
 
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;

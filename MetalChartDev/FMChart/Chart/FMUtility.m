@@ -1,33 +1,33 @@
 //
-//  MCUtility.m
+//  FMUtility.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/09/20.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCUtility.h"
+#import "FMUtility.h"
 #import "MetalChart.h"
-#import "MCProjectionUpdater.h"
-#import "MCAxis.h"
-#import "MCAxisLabel.h"
-#import "MCRenderables.h"
-#import "MCInteractive.h"
+#import "FMProjectionUpdater.h"
+#import "FMAxis.h"
+#import "FMAxisLabel.h"
+#import "FMRenderables.h"
+#import "FMInteractive.h"
 #import "Engine.h"
 #import "DeviceResource.h"
 #import "Rects.h"
 #import "RectBuffers.h"
 
-@implementation MCUtility
+@implementation FMUtility
 
 @end
 
 
-@interface MCConfigurator()
+@interface FMConfigurator()
 
 @end
 
-@implementation MCConfigurator
+@implementation FMConfigurator
 
 - (instancetype)initWithChart:(MetalChart *)chart
 					   engine:(Engine *)engine
@@ -57,29 +57,29 @@
 	return self;
 }
 
-- (MCSpatialProjection *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
+- (FMSpatialProjection *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
 								configureBlock:(DimensionConfigureBlock)block
 {
-	for(MCSpatialProjection *s in self.space) {
+	for(FMSpatialProjection *s in self.space) {
 		if([s matchesDimensionIds:ids]) {
 			return s;
 		}
 	}
-	NSMutableArray<MCDimensionalProjection*> *dims = [NSMutableArray array];
+	NSMutableArray<FMDimensionalProjection*> *dims = [NSMutableArray array];
 	for(NSNumber *dimId in ids) {
-		MCDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
+		FMDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
 		[dims addObject:dim];
 	}
-	MCSpatialProjection *space = [[MCSpatialProjection alloc] initWithDimensions:dims];
+	FMSpatialProjection *space = [[FMSpatialProjection alloc] initWithDimensions:dims];
 	_space = [_space arrayByAddingObject:space];
 	return space;
 }
 
-- (MCDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
+- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
 {
 	NSArray *dims = self.dimensions;
-	MCDimensionalProjection *r = nil;
-	for(MCDimensionalProjection *dim in dims) {
+	FMDimensionalProjection *r = nil;
+	for(FMDimensionalProjection *dim in dims) {
 		if(dim.dimensionId == dimensionId) {
 			r = dim;
 			break;
@@ -88,13 +88,13 @@
 	return r;
 }
 
-- (MCDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId confBlock:(DimensionConfigureBlock)block
+- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId confBlock:(DimensionConfigureBlock)block
 {
-	MCDimensionalProjection *r = [self dimensionWithId:dimensionId];
+	FMDimensionalProjection *r = [self dimensionWithId:dimensionId];
 	if(r == nil) {
-		r = [[MCDimensionalProjection alloc] initWithDimensionId:dimensionId minValue:-1 maxValue:1];
+		r = [[FMDimensionalProjection alloc] initWithDimensionId:dimensionId minValue:-1 maxValue:1];
 		if(block) {
-			MCProjectionUpdater *updater = block(dimensionId);
+			FMProjectionUpdater *updater = block(dimensionId);
 			if(updater) {
 				_updaters = [_updaters arrayByAddingObject:updater];
 				updater.target = r;
@@ -105,10 +105,10 @@
 	return r;
 }
 
-- (MCProjectionUpdater *)updaterWithDimensionId:(NSInteger)dimensionId
+- (FMProjectionUpdater *)updaterWithDimensionId:(NSInteger)dimensionId
 {
-	NSArray<MCProjectionUpdater *> *updaters = self.updaters;
-	for(MCProjectionUpdater *u in updaters) {
+	NSArray<FMProjectionUpdater *> *updaters = self.updaters;
+	for(FMProjectionUpdater *u in updaters) {
 		if(u.target.dimensionId == dimensionId) {
 			 return u;
 		}
@@ -116,16 +116,16 @@
 	return nil;
 }
 
-- (id<MCInteraction>)connectSpace:(NSArray<MCSpatialProjection *> *)space
-					toInterpreter:(MCGestureInterpreter *)interpreter
+- (id<FMInteraction>)connectSpace:(NSArray<FMSpatialProjection *> *)space
+					toInterpreter:(FMGestureInterpreter *)interpreter
 {
-	NSArray<MCSpatialProjection *> *ar = self.space;
+	NSArray<FMSpatialProjection *> *ar = self.space;
 	NSMutableArray<NSNumber*> * orientations = [NSMutableArray array];
-	NSMutableArray<MCProjectionUpdater*> *updaters = [NSMutableArray array];
-	for(MCSpatialProjection *s in space) {
+	NSMutableArray<FMProjectionUpdater*> *updaters = [NSMutableArray array];
+	for(FMSpatialProjection *s in space) {
 		if([ar containsObject:s]) {
-			MCProjectionUpdater *x = [self updaterWithDimensionId:s.dimensions[0].dimensionId];
-			MCProjectionUpdater *y = [self updaterWithDimensionId:s.dimensions[1].dimensionId];
+			FMProjectionUpdater *x = [self updaterWithDimensionId:s.dimensions[0].dimensionId];
+			FMProjectionUpdater *y = [self updaterWithDimensionId:s.dimensions[1].dimensionId];
 			if(x && ![updaters containsObject:x]) {
 				[updaters addObject:x];
 				[orientations addObject:@(0)];
@@ -136,15 +136,15 @@
 			}
 		}
 	}
-	id<MCInteraction> r = nil;
+	id<FMInteraction> r = nil;
 	if(updaters.count > 0) {
-		r = [MCSimpleBlockInteraction connectUpdaters:updaters
+		r = [FMSimpleBlockInteraction connectUpdaters:updaters
 										toInterpreter:interpreter
 										 orientations:orientations];
 		const BOOL setNeedsDisplay = (_preferredFps <= 0);
 		if(setNeedsDisplay) {
 			MTKView *view = _view;
-			[interpreter addInteraction:[[MCSimpleBlockInteraction alloc] initWithBlock:^(MCGestureInterpreter * _Nonnull _interpreter) {
+			[interpreter addInteraction:[[FMSimpleBlockInteraction alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull _interpreter) {
 				[view setNeedsDisplay];
 			}]];
 		}
@@ -152,17 +152,17 @@
 	return r;
 }
 
-- (MCAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
+- (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
 						 belowSeries:(BOOL)below
-						configurator:(id<MCAxisConfigurator>)configurator
-						 label:(MCAxisLabelDelegateBlock)block
+						configurator:(id<FMAxisConfigurator>)configurator
+						 label:(FMAxisLabelDelegateBlock)block
 {
-	MCDimensionalProjection *dim = [self dimensionWithId:dimensionId];
+	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
-		MCSpatialProjection *targetSpace;
-		NSArray<MCSpatialProjection*> *space = self.space;
+		FMSpatialProjection *targetSpace;
+		NSArray<FMSpatialProjection*> *space = self.space;
 		NSUInteger dimIndex = 0;
-		for(MCSpatialProjection *s in space) {
+		for(FMSpatialProjection *s in space) {
 			if([s.dimensions containsObject:dim]) {
 				dimIndex = [s.dimensions indexOfObject:dim];
 				targetSpace = s;
@@ -170,15 +170,15 @@
 			}
 		}
 		if(targetSpace) {
-			MCAxis *axis = [[MCAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
+			FMAxis *axis = [[FMAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
 			if(below) {
 				[_chart addPreRenderable:axis];
 			} else {
 				[_chart addPostRenderable:axis];
 			}
 			if(block) {
-				MCAxisLabelBlockDelegate *delegate = [[MCAxisLabelBlockDelegate alloc] initWithBlock:block];
-				MCAxisLabel *label = [[MCAxisLabel alloc] initWithEngine:_engine
+				FMAxisLabelBlockDelegate *delegate = [[FMAxisLabelBlockDelegate alloc] initWithBlock:block];
+				FMAxisLabel *label = [[FMAxisLabel alloc] initWithEngine:_engine
 															   frameSize:CGSizeMake(45, 15)
 														  bufferCapacity:12
 														   labelDelegate:delegate];
@@ -191,10 +191,10 @@
 	return nil;
 }
 
-- (MCPlotArea *)addPlotAreaWithColor:(UIColor *)color
+- (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color
 {
 	PlotRect *rect = [[PlotRect alloc] initWithEngine:_engine];
-	MCPlotArea *area = [[MCPlotArea alloc] initWithPlotRect:rect];
+	FMPlotArea *area = [[FMPlotArea alloc] initWithPlotRect:rect];
 	CGFloat r, g, b, a;
 	if([color getRed:&r green:&g blue:&b alpha:&a]) {
 		[area.attributes setColor:r green:g blue:b alpha:a];
@@ -208,11 +208,11 @@
 	return area;
 }
 
-- (MCGestureInterpreter *)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *)pan
+- (FMGestureInterpreter *)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *)pan
 										pinchRecognizer:(UIPinchGestureRecognizer *)pinch
-									   stateRestriction:(id<MCInterpreterStateRestriction>)restriction
+									   stateRestriction:(id<FMInterpreterStateRestriction>)restriction
 {
-	MCGestureInterpreter *interpreter = [[MCGestureInterpreter alloc] initWithPanRecognizer:pan
+	FMGestureInterpreter *interpreter = [[FMGestureInterpreter alloc] initWithPanRecognizer:pan
 																			pinchRecognizer:pinch
 																				restriction:restriction];
 	[_view addGestureRecognizer:pan];

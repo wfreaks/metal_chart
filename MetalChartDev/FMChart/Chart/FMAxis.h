@@ -1,5 +1,5 @@
 //
-//  MCAxis.h
+//  FMAxis.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/11.
@@ -13,47 +13,47 @@
 @class UniformLineAttributes;
 @class Axis;
 @class UniformAxisConfiguration;
-@class MCAxis;
+@class FMAxis;
 
-typedef void (^MCAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
-										MCDimensionalProjection *_Nonnull dimension,
-										MCDimensionalProjection *_Nonnull orthogonal,
+typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
+										FMDimensionalProjection *_Nonnull dimension,
+										FMDimensionalProjection *_Nonnull orthogonal,
                                         BOOL isFirst
                                         );
 
-@protocol MCAxisConfigurator<NSObject>
+@protocol FMAxisConfigurator<NSObject>
 
 - (void)configureUniform:(UniformAxisConfiguration * _Nonnull)uniform
-		   withDimension:(MCDimensionalProjection * _Nonnull)dimension
-			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
+		   withDimension:(FMDimensionalProjection * _Nonnull)dimension
+			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
 ;
 
 @end
 
 
-@protocol MCAxisDecoration<NSObject>
+@protocol FMAxisDecoration<NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-			  axis:(MCAxis * _Nonnull)axis
+			  axis:(FMAxis * _Nonnull)axis
 		projection:(UniformProjection * _Nonnull)projection
 ;
 
 @end
 
 
-@interface MCAxis : NSObject<MCAttachment>
+@interface FMAxis : NSObject<FMAttachment>
 
-@property (readonly, nonatomic) MCSpatialProjection *		_Nonnull  projection;
-@property (readonly, nonatomic) MCDimensionalProjection *	_Nonnull  dimension;
+@property (readonly, nonatomic) FMSpatialProjection *		_Nonnull  projection;
+@property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
 
 @property (readonly, nonatomic) Axis *						_Nonnull  axis;
-@property (readonly, nonatomic) id<MCAxisConfigurator>		_Nonnull  conf;
-@property (strong  , nonatomic) id<MCAxisDecoration>		_Nullable decoration;
+@property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
+@property (strong  , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 
 - (_Nonnull instancetype)initWithEngine:(Engine * _Nonnull)engine
-							 Projection:(MCSpatialProjection * _Nonnull)projection
+							 Projection:(FMSpatialProjection * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
-						  configuration:(id<MCAxisConfigurator> _Nonnull)conf
+						  configuration:(id<FMAxisConfigurator> _Nonnull)conf
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -66,9 +66,9 @@ NS_DESIGNATED_INITIALIZER;
 
 // 全ての項目を自由に、かつ効率的にコントロールするためのクラス（だが宣言的ではない）
 // 固定機能クラスも作ろうと思ったけど全部代用できるのでやめた.
-@interface MCBlockAxisConfigurator : NSObject<MCAxisConfigurator>
+@interface FMBlockAxisConfigurator : NSObject<FMAxisConfigurator>
 
-- (instancetype _Nonnull)initWithBlock:(MCAxisConfiguratorBlock _Nonnull)block
+- (instancetype _Nonnull)initWithBlock:(FMAxisConfiguratorBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;

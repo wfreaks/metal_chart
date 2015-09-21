@@ -1,29 +1,29 @@
 //
-//  MCAnimator.m
+//  FMAnimator.m
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2015/09/01.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCAnimator.h"
+#import "FMAnimator.h"
 #import "NSArray+Utility.h"
 
-@interface MCAnimator()
+@interface FMAnimator()
 
-@property (strong, nonatomic) NSArray<id<MCAnimation>> * _Nonnull runningAnimations;
-@property (strong, nonatomic) NSArray<id<MCAnimation>> * _Nonnull pendingAnimations;
+@property (strong, nonatomic) NSArray<id<FMAnimation>> * _Nonnull runningAnimations;
+@property (strong, nonatomic) NSArray<id<FMAnimation>> * _Nonnull pendingAnimations;
 
 @end
 
-@interface MCBlockAnimation()
+@interface FMBlockAnimation()
 
-@property (copy  , nonatomic) MCAnimationBlock block;
+@property (copy  , nonatomic) FMAnimationBlock block;
 @property (assign, nonatomic) NSTimeInterval anchorTime;
 
 @end
 
-@implementation MCAnimator
+@implementation FMAnimator
 
 - (instancetype)init
 {
@@ -37,8 +37,8 @@
 
 - (void)chart:(MetalChart *)chart willStartEncodingToBuffer:(id<MTLCommandBuffer>)buffer
 {
-    NSArray<id<MCAnimation>> * running;
-    NSArray<id<MCAnimation>> * pending;
+    NSArray<id<FMAnimation>> * running;
+    NSArray<id<FMAnimation>> * pending;
     const NSTimeInterval timestamp = CFAbsoluteTimeGetCurrent();
     
     @synchronized(self) {
@@ -46,15 +46,15 @@
         pending = _pendingAnimations;
     }
     
-    for(id<MCAnimation> a in pending) {
+    for(id<FMAnimation> a in pending) {
         if([a shouldStartAnimating:running timestamp:timestamp]) {
             running = [running arrayByAddingObject:a];
             [self removePendingAnimation:a];
         }
     }
     
-    NSArray<id<MCAnimation>> * newRunning = running;
-    for(id<MCAnimation> a in running) {
+    NSArray<id<FMAnimation>> * newRunning = running;
+    for(id<FMAnimation> a in running) {
         if([a animate:buffer timestamp:timestamp]) {
             newRunning = [newRunning arrayByRemovingObject:a];
         }
@@ -68,7 +68,7 @@
     
 }
 
-- (void)addAnimation:(id<MCAnimation>)animation
+- (void)addAnimation:(id<FMAnimation>)animation
 {
     @synchronized(self) {
         [animation addedToPendingQueue:CFAbsoluteTimeGetCurrent()];
@@ -76,7 +76,7 @@
     }
 }
 
-- (void)removePendingAnimation:(id<MCAnimation>)animation
+- (void)removePendingAnimation:(id<FMAnimation>)animation
 {
     @synchronized(self) {
         _pendingAnimations = [_pendingAnimations arrayByRemovingObject:animation];
@@ -85,11 +85,11 @@
 
 @end
 
-@implementation MCBlockAnimation
+@implementation FMBlockAnimation
 
 - (instancetype)initWithDuration:(NSTimeInterval)duration
                            delay:(NSTimeInterval)delay
-                           Block:(MCAnimationBlock)block
+                           Block:(FMAnimationBlock)block
 {
     self = [super init];
     if(self) {
@@ -103,7 +103,7 @@
 - (BOOL)requestCancel { return NO; }
 - (void)addedToPendingQueue:(NSTimeInterval)timestamp { _anchorTime = timestamp; }
 
-- (BOOL)shouldStartAnimating:(NSArray<id<MCAnimation>> *)currentAnimations timestamp:(NSTimeInterval)timestamp
+- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> *)currentAnimations timestamp:(NSTimeInterval)timestamp
 {
     return (_anchorTime + _delay <= timestamp);
 }

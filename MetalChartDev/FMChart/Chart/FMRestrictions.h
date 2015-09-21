@@ -1,5 +1,5 @@
 //
-//  MCRestrictions.h
+//  FMRestrictions.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/10.
@@ -7,18 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MCInteractive.h"
+#import "FMInteractive.h"
 
-@class MCProjectionUpdater;
+@class FMProjectionUpdater;
 
 
-// MCProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
-// どんな実装でも構わないが、対象のMCDimensionalProjectionのmin/max（現在値）を使うとフィードバックループが発生するので、
+// FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
+// どんな実装でも構わないが、対象のFMDimensionalProjectionのmin/max（現在値）を使うとフィードバックループが発生するので、
 // これだけはオススメしない.
 
-@protocol MCRestriction<NSObject>
+@protocol FMRestriction<NSObject>
 
-- (void)updater:(MCProjectionUpdater * _Nonnull)updater
+- (void)updater:(FMProjectionUpdater * _Nonnull)updater
 	   minValue:(CGFloat * _Nonnull)min
 	   maxValue:(CGFloat * _Nonnull)max
 ;
@@ -29,7 +29,7 @@
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
 // つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=1ならば中央値を固定してmin,maxを動かす.
 // offsetはlengthによらない移動を提供する.
-@interface MCLengthRestriction : NSObject<MCRestriction>
+@interface FMLengthRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat length;
 @property (readonly, nonatomic) CGFloat anchor;
@@ -49,7 +49,7 @@ NS_DESIGNATED_INITIALIZER;
 // それ以外の場合にはsourceの値でmin/maxを更新する. このクラスはmin/maxの現在地を「完全に」無視する.
 // sourceの値が代替値に達していなくてもsourceの値を使いたい場合はexpand{Min,Max}をNOにする.
 // 優先度的に低い方に来るのが普通の使い方だろう.
-@interface MCSourceRestriction : NSObject<MCRestriction>
+@interface FMSourceRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat min;
 @property (readonly, nonatomic) CGFloat max;
@@ -70,7 +70,7 @@ NS_DESIGNATED_INITIALIZER;
 // allowShrinkはsourceから計算した新しい値が範囲を狭める場合にその値を使うか否か,
 // applyToCurrentMinMaxはpaddingを現在値に加えるかどうか. 例えばAlternativeSourceの次に使う場合は
 // 現在のmin/maxが補正されてsourceMin/Maxのように働くため.
-@interface MCPaddingRestriction : NSObject<MCRestriction>
+@interface FMPaddingRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat paddingLow;
 @property (readonly, nonatomic) CGFloat paddingHigh;
@@ -91,11 +91,11 @@ NS_DESIGNATED_INITIALIZER;
 
 
 
-typedef void (^RestrictionBlock)(MCProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
+typedef void (^RestrictionBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
 
 
 
-@interface MCBlockRestriction : NSObject<MCRestriction>
+@interface FMBlockRestriction : NSObject<FMRestriction>
 
 - (instancetype _Nonnull)initWithBlock:(RestrictionBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
@@ -104,7 +104,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// MCUserInteractiveRestriction - Pan/Zoom操作を実現するコンポーネント.
+// FMUserInteractiveRestriction - Pan/Zoom操作を実現するコンポーネント.
 // 
 // 上記概要からわかるように、このクラスは少し毛並みが異なる.
 // このクラスだけが他の具体的な実装を持つRestrictionsとは異なり、statefullである。
@@ -122,16 +122,16 @@ NS_DESIGNATED_INITIALIZER;
 // 適用する際に弄り回すと、ステートと実際のレンジとの間にギャップが生まれる（リミット以上の拡大もステート上は可能になる）.
 // 結果として例えば拡大率200%でリミットをかけてステートが400%に達したとき、縮小は400%->200%までの間は無反応になる.
 // 
-// もしもより細かいレベルのコントロールを行いたいのなら、MCGestureInterpreterの代替を用意すればよい.
+// もしもより細かいレベルのコントロールを行いたいのなら、FMGestureInterpreterの代替を用意すればよい.
 // あれはUIGestureRecognizerのtarget selector pairに設定してステートを管理するだけのユーティリティクラスで、
 // コアクラス(MetalChart.h内で宣言されるクラス)からは一切参照されない.
 
-@interface MCUserInteractiveRestriction : NSObject<MCRestriction>
+@interface FMUserInteractiveRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat orientationRad;
-@property (readonly, nonatomic) MCGestureInterpreter * _Nonnull interpreter;
+@property (readonly, nonatomic) FMGestureInterpreter * _Nonnull interpreter;
 
-- (instancetype _Nonnull)initWithGestureInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
+- (instancetype _Nonnull)initWithGestureInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
                                         orientation:(CGFloat)radian
 NS_DESIGNATED_INITIALIZER;
 

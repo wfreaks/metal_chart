@@ -1,5 +1,5 @@
 //
-//  MCInteractive.h
+//  FMInteractive.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/22.
@@ -8,31 +8,31 @@
 
 #import <UIKit/UIKit.h>
 
-@class MCGestureInterpreter;
-@class MCProjectionUpdater;
+@class FMGestureInterpreter;
+@class FMProjectionUpdater;
 
-@protocol MCInteraction <NSObject>
+@protocol FMInteraction <NSObject>
 
-- (void)didScaleChange:(MCGestureInterpreter * _Nonnull)interpreter;
-- (void)didTranslationChange:(MCGestureInterpreter * _Nonnull)interpreter;
+- (void)didScaleChange:(FMGestureInterpreter * _Nonnull)interpreter;
+- (void)didTranslationChange:(FMGestureInterpreter * _Nonnull)interpreter;
 
 @end
 
-@protocol MCInterpreterStateRestriction<NSObject>
+@protocol FMInterpreterStateRestriction<NSObject>
 
-- (void)interpreter:(MCGestureInterpreter * _Nonnull)interpreter
+- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
 	willScaleChange:(CGSize * _Nonnull)size;
 
-- (void)interpreter:(MCGestureInterpreter * _Nonnull)interpreter
+- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
 willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @end
 
-@interface MCGestureInterpreter : NSObject
+@interface FMGestureInterpreter : NSObject
 
 @property (strong, nonatomic) UIPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
-@property (strong, nonatomic) id<MCInterpreterStateRestriction> _Nullable stateRestriction;
+@property (strong, nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
 
 @property (assign, nonatomic) CGFloat orientationStep;
 @property (assign, nonatomic) CGFloat orientationStepDegree;
@@ -43,20 +43,20 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 - (instancetype _Nonnull)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
 										pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
-										restriction:(id<MCInterpreterStateRestriction> _Nullable)restriction
+										restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)resetStates;
 
-- (void)addInteraction:(id<MCInteraction> _Nonnull)object;
-- (void)removeInteraction:(id<MCInteraction> _Nonnull)object;
+- (void)addInteraction:(id<FMInteraction> _Nonnull)object;
+- (void)removeInteraction:(id<FMInteraction> _Nonnull)object;
 
 @end
 
 
-@interface MCDefaultInterpreterRestriction : NSObject<MCInterpreterStateRestriction>
+@interface FMDefaultInterpreterRestriction : NSObject<FMInterpreterStateRestriction>
 
 @property (readonly, nonatomic) CGSize minScale;
 @property (readonly, nonatomic) CGSize maxScale;
@@ -74,9 +74,9 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef void (^SimpleInterfactionBlock)(MCGestureInterpreter * _Nonnull);
+typedef void (^SimpleInterfactionBlock)(FMGestureInterpreter * _Nonnull);
 
-@interface MCSimpleBlockInteraction : NSObject<MCInteraction>
+@interface FMSimpleBlockInteraction : NSObject<FMInteraction>
 
 - (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
@@ -84,8 +84,8 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 
-+ (instancetype _Nonnull)connectUpdaters:(NSArray<MCProjectionUpdater*> * _Nonnull)updaters
-                           toInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
++ (instancetype _Nonnull)connectUpdaters:(NSArray<FMProjectionUpdater*> * _Nonnull)updaters
+                           toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
                             orientations:(NSArray<NSNumber*> * _Nonnull)orientations;
 ;
 

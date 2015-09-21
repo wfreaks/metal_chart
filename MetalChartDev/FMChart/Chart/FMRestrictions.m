@@ -1,15 +1,15 @@
 //
-//  MCRestrictions.m
+//  FMRestrictions.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/10.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCRestrictions.h"
-#import "MCProjectionUpdater.h"
+#import "FMRestrictions.h"
+#import "FMProjectionUpdater.h"
 
-@implementation MCLengthRestriction
+@implementation FMLengthRestriction
 
 - (instancetype)initWithLength:(CGFloat)length anchor:(CGFloat)anchor offset:(CGFloat)offset
 {
@@ -22,7 +22,7 @@
 	return self;
 }
 
-- (void)updater:(MCProjectionUpdater *)updater
+- (void)updater:(FMProjectionUpdater *)updater
 	   minValue:(CGFloat *)min
 	   maxValue:(CGFloat *)max
 {
@@ -36,7 +36,7 @@
 
 @end
 
-@implementation MCSourceRestriction
+@implementation FMSourceRestriction
 
 - (instancetype)initWithMinValue:(CGFloat)min
 						maxValue:(CGFloat)max
@@ -53,7 +53,7 @@
 	return self;
 }
 
-- (void)updater:(MCProjectionUpdater *)updater
+- (void)updater:(FMProjectionUpdater *)updater
 	   minValue:(CGFloat *)min
 	   maxValue:(CGFloat *)max
 {
@@ -67,7 +67,7 @@
 
 @end
 
-@implementation MCPaddingRestriction
+@implementation FMPaddingRestriction
 
 - (instancetype)initWithPaddingLow:(CGFloat)low
 							  high:(CGFloat)high
@@ -86,7 +86,7 @@
 	return self;
 }
 
-- (void)updater:(MCProjectionUpdater *)updater
+- (void)updater:(FMProjectionUpdater *)updater
 	   minValue:(CGFloat *)min
 	   maxValue:(CGFloat *)max
 {
@@ -121,13 +121,13 @@
 @end
 
 
-@interface MCBlockRestriction()
+@interface FMBlockRestriction()
 
 @property (copy, nonatomic) RestrictionBlock _Nonnull block;
 
 @end
 
-@implementation MCBlockRestriction
+@implementation FMBlockRestriction
 
 - (instancetype)initWithBlock:(RestrictionBlock)block
 {
@@ -138,16 +138,16 @@
 	return self;
 }
 
-- (void)updater:(MCProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
+- (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
 {
 	_block(updater, min, max);
 }
 
 @end
 
-@implementation MCUserInteractiveRestriction
+@implementation FMUserInteractiveRestriction
 
-- (instancetype)initWithGestureInterpreter:(MCGestureInterpreter *)interpreter
+- (instancetype)initWithGestureInterpreter:(FMGestureInterpreter *)interpreter
 							   orientation:(CGFloat)radian
 {
 	self = [super init];
@@ -158,7 +158,7 @@
 	return self;
 }
 
-- (void)updater:(MCProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
+- (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
 {
 	const CGFloat minValue = *min;
 	const CGFloat maxValue = *max;

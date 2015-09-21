@@ -67,13 +67,13 @@
 
 // basically there is no need of setting properties below.
 // maxMajorTicks gets overridden at every frame, and dimensionIndex will be set by classes in upper layer.
-// if you want to set dimensionIndex manually, then you should read shader codes and MCAxisLabel
+// if you want to set dimensionIndex manually, then you should read shader codes and FMAxisLabel
 // implementation before doing so.
 
 @property (assign  , nonatomic) uint8_t dimensionIndex;
 @property (assign  , nonatomic) uint8_t maxMajorTicks;
 
-// MCAxisLabel use this property and 'checkIfMajorTickValueModified:' method to avoid redundant
+// FMAxisLabel use this property and 'checkIfMajorTickValueModified:' method to avoid redundant
 // buffer updates.
 @property (readonly, nonatomic) BOOL majorTickValueModified;
 

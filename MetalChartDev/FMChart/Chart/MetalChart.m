@@ -10,15 +10,15 @@
 #import "Buffers.h"
 #import "NSArray+Utility.h"
 
-@interface MCDimensionalProjection()
+@interface FMDimensionalProjection()
 
 
 @end
 
 
-@interface MCSpatialProjection()
+@interface FMSpatialProjection()
 
-@property (strong, nonatomic) NSArray<MCDimensionalProjection *> * _Nonnull dimensions;
+@property (strong, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 @property (strong, nonatomic) UniformProjection * _Nonnull projection;
 
 @end
@@ -26,20 +26,20 @@
 
 @interface MetalChart()
 
-@property (strong, nonatomic) NSArray<id<MCRenderable>> *series;
-@property (strong, nonatomic) NSArray<MCSpatialProjection *> *projections;
-@property (strong, nonatomic) NSSet<MCSpatialProjection *> *projectionSet;
+@property (strong, nonatomic) NSArray<id<FMRenderable>> *series;
+@property (strong, nonatomic) NSArray<FMSpatialProjection *> *projections;
+@property (strong, nonatomic) NSSet<FMSpatialProjection *> *projectionSet;
 
-@property (strong, nonatomic) NSArray<id<MCAttachment>> *preRenderables;
-@property (strong, nonatomic) NSArray<id<MCAttachment>> *postRenderables;
+@property (strong, nonatomic) NSArray<id<FMAttachment>> *preRenderables;
+@property (strong, nonatomic) NSArray<id<FMAttachment>> *postRenderables;
 
-@property (strong, nonatomic) NSArray<id<MCDepthClient>> *depthClients;
+@property (strong, nonatomic) NSArray<id<FMDepthClient>> *depthClients;
 
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
 @end
 
-@implementation MCDimensionalProjection
+@implementation FMDimensionalProjection
 
 - (instancetype)initWithDimensionId:(NSInteger)dimId minValue:(CGFloat)min maxValue:(CGFloat)max
 {
@@ -85,9 +85,9 @@
 @end
 
 
-@implementation MCSpatialProjection
+@implementation FMSpatialProjection
 
-- (instancetype)initWithDimensions:(NSArray<MCDimensionalProjection *> *)dimensions
+- (instancetype)initWithDimensions:(NSArray<FMDimensionalProjection *> *)dimensions
 {
 	self = [super init];
 	if(self) {
@@ -105,15 +105,15 @@
 
 - (void)writeToBuffer
 {
-	MCDimensionalProjection *xDim = _dimensions[0];
-	MCDimensionalProjection *yDim = _dimensions[1];
+	FMDimensionalProjection *xDim = _dimensions[0];
+	FMDimensionalProjection *yDim = _dimensions[1];
 	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
 	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
 
-- (MCDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
+- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
 {
-	for(MCDimensionalProjection *p in _dimensions) {
+	for(FMDimensionalProjection *p in _dimensions) {
 		if(p.dimensionId == dimensionId) return p;
 	}
 	return nil;
@@ -177,11 +177,11 @@
 	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
 	if(willDraw != nil) willDraw(self);
 	
-	NSArray<id<MCRenderable>> *seriesArray = nil;
-	NSArray<MCSpatialProjection *> *projectionArray = nil;
-	NSArray<id<MCAttachment>> *preRenderables = nil;
-	NSArray<id<MCAttachment>> *postRenderables = nil;
-    id<MCCommandBufferHook> hook = nil;
+	NSArray<id<FMRenderable>> *seriesArray = nil;
+	NSArray<FMSpatialProjection *> *projectionArray = nil;
+	NSArray<id<FMAttachment>> *preRenderables = nil;
+	NSArray<id<FMAttachment>> *postRenderables = nil;
+    id<FMCommandBufferHook> hook = nil;
 	
 	@synchronized(self) {
 		seriesArray = _series;
@@ -191,7 +191,7 @@
         hook = _bufferHook;
 	}
 	
-	for(MCSpatialProjection *projection in _projectionSet) {
+	for(FMSpatialProjection *projection in _projectionSet) {
 		[projection configure:view padding:_padding];
 		[projection writeToBuffer];
 	}
@@ -211,18 +211,18 @@
             
 			id<MTLRenderCommandEncoder> encoder = [buffer renderCommandEncoderWithDescriptor:pass];
 			
-			for(id<MCAttachment> renderable in preRenderables) {
+			for(id<FMAttachment> renderable in preRenderables) {
 				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
 			const NSUInteger count = seriesArray.count;
 			for(NSUInteger i = 0; i < count; ++i) {
-				id<MCRenderable> series = seriesArray[i];
-				MCSpatialProjection *projection = projectionArray[i];
+				id<FMRenderable> series = seriesArray[i];
+				FMSpatialProjection *projection = projectionArray[i];
 				[series encodeWith:encoder projection:projection.projection];
 			}
 			
-			for(id<MCAttachment> renderable in postRenderables) {
+			for(id<FMAttachment> renderable in postRenderables) {
 				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
@@ -248,22 +248,22 @@
 	
 }
 
-- (void)addSeries:(id<MCRenderable>)series projection:(MCSpatialProjection *)projection
+- (void)addSeries:(id<FMRenderable>)series projection:(FMSpatialProjection *)projection
 {
 	@synchronized(self) {
 		if(![_series containsObject:series]) {
 			_projectionSet = [_projectionSet setByAddingObject:projection];
 			_projections = [_projections arrayByAddingObject:projection];
 			_series = [_series arrayByAddingObject:series];
-            if([series conformsToProtocol:@protocol(MCDepthClient)]) {
+            if([series conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
             }
 		}
 	}
 }
 
-- (void)addSeriesArray:(NSArray<id<MCRenderable>> *)series
-		   projections:(NSArray<MCSpatialProjection *> *)projections
+- (void)addSeriesArray:(NSArray<id<FMRenderable>> *)series
+		   projections:(NSArray<FMSpatialProjection *> *)projections
 {
 	if(series.count == projections.count) {
 		const NSInteger count = series.count;
@@ -277,12 +277,12 @@
 
 // immutableなcollectionを使ってるので非常にまどろっこしいが、描画サイクルの度に
 // 防御的コピーを強制されるならこちらの方がよほどパフォーマンス的にはまともだと思われる
-- (void)removeSeries:(id<MCRenderable>)series
+- (void)removeSeries:(id<FMRenderable>)series
 {
 	@synchronized(self) {
 		const NSUInteger idx = [_series indexOfObject:series];
 		if(idx != NSNotFound) {
-			MCSpatialProjection *proj = _projections[idx];
+			FMSpatialProjection *proj = _projections[idx];
 			_series = [_series arrayByRemovingObjectAtIndex:idx];
 			_projections = [_projections arrayByRemovingObjectAtIndex:idx];
 			
@@ -291,77 +291,77 @@
 				[newProjSet removeObject:proj];
 				_projectionSet = [newProjSet copy];
 			}
-            if([series conformsToProtocol:@protocol(MCDepthClient)]) {
+            if([series conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
             }
 		}
 	}
 }
 
-- (void)addPreRenderable:(id<MCAttachment>)object
+- (void)addPreRenderable:(id<FMAttachment>)object
 {
 	@synchronized(self) {
-        NSArray <id<MCAttachment>> *old = _preRenderables;
+        NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByAddingObjectIfNotExists:object];
-        if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+        if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
             [self reconstructDepthClients];
         }
 	}
 }
 
-- (void)insertPreRenderable:(id<MCAttachment>)object atIndex:(NSUInteger)index
+- (void)insertPreRenderable:(id<FMAttachment>)object atIndex:(NSUInteger)index
 {
 	@synchronized(self) {
-		NSArray <id<MCAttachment>> *old = _preRenderables;
+		NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByInsertingObjectIfNotExists:object atIndex:index];
-		if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+		if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
 			[self reconstructDepthClients];
 		}
 	}
 }
 
-- (void)addPreRenderables:(NSArray<id<MCAttachment>> *)array
+- (void)addPreRenderables:(NSArray<id<FMAttachment>> *)array
 {
 	@synchronized(self) {
-		for(id<MCAttachment> pre in array) [self addPreRenderable:pre];
+		for(id<FMAttachment> pre in array) [self addPreRenderable:pre];
 	}
 }
 
-- (void)removePreRenderable:(id<MCAttachment>)object
+- (void)removePreRenderable:(id<FMAttachment>)object
 {
 	@synchronized(self) {
-        NSArray <id<MCAttachment>> *old = _preRenderables;
+        NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByRemovingObject:object];
-        if(old != _preRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+        if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
             [self reconstructDepthClients];
         }
 	}
 }
 
-- (void)addPostRenderable:(id<MCAttachment>)object
+- (void)addPostRenderable:(id<FMAttachment>)object
 {
 	@synchronized(self) {
-        NSArray <id<MCAttachment>> *old = _postRenderables;
+        NSArray <id<FMAttachment>> *old = _postRenderables;
 		_postRenderables = [_postRenderables arrayByAddingObjectIfNotExists:object];
-        if(old != _postRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+        if(old != _postRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
             [self reconstructDepthClients];
         }
 	}
 }
 
-- (void)addPostRenderables:(NSArray<id<MCAttachment>> *)array
+- (void)addPostRenderables:(NSArray<id<FMAttachment>> *)array
 {
 	@synchronized(self) {
-		for(id<MCAttachment> post in array) [self addPostRenderable:post];
+		for(id<FMAttachment> post in array) [self addPostRenderable:post];
 	}
 }
 
-- (void)removePostRenderable:(id<MCAttachment>)object
+- (void)removePostRenderable:(id<FMAttachment>)object
 {
 	@synchronized(self) {
-        NSArray <id<MCAttachment>> *old = _postRenderables;
+        NSArray <id<FMAttachment>> *old = _postRenderables;
 		_postRenderables = [_postRenderables arrayByRemovingObject:object];
-        if(old != _postRenderables && [object conformsToProtocol:@protocol(MCDepthClient)]) {
+        if(old != _postRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
             [self reconstructDepthClients];
         }
 	}
@@ -370,24 +370,24 @@
 // このメソッドはprivateメソッドなので、synchronizedブロックを使っていない. 呼び出す側で管理する事.
 - (void)reconstructDepthClients
 {
-    // 複数のarrayから描画順にMCDepthClientを実装するオブジェクトを並べる必要があるので、
+    // 複数のarrayから描画順にFMDepthClientを実装するオブジェクトを並べる必要があるので、
     // 単純なadd/removeでは管理できない。
-    NSMutableArray<id<MCDepthClient>> *newClients = [NSMutableArray array];
+    NSMutableArray<id<FMDepthClient>> *newClients = [NSMutableArray array];
     [self.class addDepthClientsIn:_preRenderables to:newClients];
     [self.class addDepthClientsIn:_series to:newClients];
     [self.class addDepthClientsIn:_postRenderables to:newClients];
     _depthClients = [newClients copy];
     
     CGFloat currentBase = 0.01; // 0だとclearValueと重なる可能性が高い.
-    for(id<MCDepthClient> client in _depthClients) {
+    for(id<FMDepthClient> client in _depthClients) {
         currentBase += MAX(0, [client requestDepthRangeFrom:currentBase]);
     }
 }
 
-+ (void)addDepthClientsIn:(NSArray *)from to:(NSMutableArray<id<MCDepthClient>> *)to
++ (void)addDepthClientsIn:(NSArray *)from to:(NSMutableArray<id<FMDepthClient>> *)to
 {
     for(id object in from) {
-        if([object conformsToProtocol:@protocol(MCDepthClient)]) {
+        if([object conformsToProtocol:@protocol(FMDepthClient)]) {
             [to addObject:object];
         }
     }

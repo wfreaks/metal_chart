@@ -1,27 +1,27 @@
 //
-//  MCAxis.m
+//  FMAxis.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/11.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCAxis.h"
+#import "FMAxis.h"
 #import "Lines.h"
 #import "Series.h"
 #import "LineBuffers.h"
 
-@interface MCAxis()
+@interface FMAxis()
 
-@property (readonly, nonatomic) MCDimensionalProjection *orthogonal;
+@property (readonly, nonatomic) FMDimensionalProjection *orthogonal;
 
 @end
 
 
 
-@interface MCBlockAxisConfigurator()
+@interface FMBlockAxisConfigurator()
 
-@property (copy, nonatomic) MCAxisConfiguratorBlock _Nonnull block;
+@property (copy, nonatomic) FMAxisConfiguratorBlock _Nonnull block;
 @property (readonly, nonatomic) BOOL isFirst;
 
 @end
@@ -29,12 +29,12 @@
 
 
 
-@implementation MCAxis
+@implementation FMAxis
 
 - (instancetype)initWithEngine:(Engine *)engine
-					Projection:(MCSpatialProjection *)projection
+					Projection:(FMSpatialProjection *)projection
 					 dimension:(NSInteger)dimensionId
-				 configuration:(id<MCAxisConfigurator>)conf
+				 configuration:(id<FMAxisConfigurator>)conf
 {
 	self = [super init];
 	if(self) {
@@ -99,9 +99,9 @@
 @end
 
 
-@implementation MCBlockAxisConfigurator
+@implementation FMBlockAxisConfigurator
 
-- (instancetype)initWithBlock:(MCAxisConfiguratorBlock)block
+- (instancetype)initWithBlock:(FMAxisConfiguratorBlock)block
 {
 	self = [super init];
 	if(self) {
@@ -112,8 +112,8 @@
 }
 
 - (void)configureUniform:(UniformAxisConfiguration *)uniform
-		   withDimension:(MCDimensionalProjection *)dimension
-			  orthogonal:(MCDimensionalProjection * _Nonnull)orthogonal
+		   withDimension:(FMDimensionalProjection *)dimension
+			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
 {
 	_block(uniform, dimension, orthogonal, _isFirst);
     _isFirst = NO;
@@ -124,9 +124,9 @@
                                   fixedInterval:(CGFloat)tickInterval
                                  minorTicksFreq:(uint8_t)minorPerMajor
 {
-    MCAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
-                                      MCDimensionalProjection *dim,
-                                      MCDimensionalProjection *orth,
+    FMAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+                                      FMDimensionalProjection *dim,
+                                      FMDimensionalProjection *orth,
                                       BOOL isFirst) {
 		const CGFloat v = MIN(orth.max, MAX(orth.min, axisAnchor));
 		[conf setAxisAnchorValue:v];
@@ -144,9 +144,9 @@
                                    fixedInterval:(CGFloat)tickInterval
                                   minorTicksFreq:(uint8_t)minorPerMajor
 {
-    MCAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
-                                      MCDimensionalProjection *dim,
-                                      MCDimensionalProjection *orth,
+    FMAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+                                      FMDimensionalProjection *dim,
+                                      FMDimensionalProjection *orth,
                                       BOOL isFirst) {
         const CGFloat min = orth.min;
         const CGFloat l = orth.max - min;

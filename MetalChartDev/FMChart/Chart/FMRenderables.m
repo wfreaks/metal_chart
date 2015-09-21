@@ -1,12 +1,12 @@
 //
-//  MCRenderables.m
+//  FMRenderables.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/11.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCRenderables.h"
+#import "FMRenderables.h"
 #import "DeviceResource.h"
 #import "Engine.h"
 #import "Buffers.h"
@@ -16,11 +16,11 @@
 #import "Points.h"
 #import "LineBuffers.h"
 
-@interface MCLineSeries()
+@interface FMLineSeries()
 
 @end
 
-@implementation MCLineSeries
+@implementation FMLineSeries
 
 - (instancetype)initWithLine:(LinePrimitive *)line
 {
@@ -62,7 +62,7 @@
 
 
 
-@implementation MCBarSeries
+@implementation FMBarSeries
 
 - (instancetype)initWithBar:(BarPrimitive *)bar
 {
@@ -100,7 +100,7 @@
 
 
 
-@implementation MCPointSeries
+@implementation FMPointSeries
 
 - (instancetype)initWithPoint:(PointPrimitive *)point
 {
@@ -136,7 +136,7 @@
 
 
 
-@implementation MCPlotArea
+@implementation FMPlotArea
 
 - (instancetype)initWithPlotRect:(PlotRect *)rect
 {

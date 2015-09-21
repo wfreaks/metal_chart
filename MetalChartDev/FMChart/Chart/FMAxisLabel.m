@@ -1,12 +1,12 @@
 //
-//  MCAxisLabel.m
+//  FMAxisLabel.m
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2015/09/16.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "MCAxisLabel.h"
+#import "FMAxisLabel.h"
 #import <Metal/Metal.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <CoreText/CoreText.h>
@@ -17,7 +17,7 @@
 #import "Lines.h"
 #import "LineBuffers.h"
 
-@interface MCTextRenderer()
+@interface FMTextRenderer()
 
 @property (assign, nonatomic) void * data;
 @property (assign, nonatomic) CTFontRef ctFont;
@@ -25,7 +25,7 @@
 
 @end
 
-@implementation MCTextRenderer
+@implementation FMTextRenderer
 
 - (instancetype)initWithBufferSize:(CGSize)size
 {
@@ -62,7 +62,7 @@
 
 - (void)drawString:(NSMutableAttributedString *)string
          toTexture:(id<MTLTexture>)texture
-         confBlock:(MCTextDrawConfBlock _Nonnull)block
+         confBlock:(FMTextDrawConfBlock _Nonnull)block
 {
     CTFontRef font = _ctFont;
     if(font) {
@@ -95,21 +95,21 @@
 @end
 
 
-@interface MCAxisLabel()
+@interface FMAxisLabel()
 
-@property (readonly, nonatomic) MCTextRenderer * _Nonnull buffer;
+@property (readonly, nonatomic) FMTextRenderer * _Nonnull buffer;
 @property (assign, nonatomic) NSInteger idxMin;
 @property (assign, nonatomic) NSInteger idxMax;
 @property (assign, nonatomic) NSUInteger capacity;
 
 @end
 
-@implementation MCAxisLabel
+@implementation FMAxisLabel
 
 - (instancetype)initWithEngine:(Engine *)engine
                      frameSize:(CGSize)frameSize
                 bufferCapacity:(NSUInteger)capacity
-                 labelDelegate:(id<MCAxisLabelDelegate> _Nonnull)delegate
+                 labelDelegate:(id<FMAxisLabelDelegate> _Nonnull)delegate
 {
 	self = [super init];
 	if(self) {
@@ -118,7 +118,7 @@
 		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:bufSize.width height:bufSize.height * capacity mipmapped:NO];
 		id<MTLTexture> texture = [engine.resource.device newTextureWithDescriptor:desc];
 		_quad = [[TextureQuad alloc] initWithEngine:engine texture:texture];
-		_buffer = [[MCTextRenderer alloc] initWithBufferSize:bufSize];
+		_buffer = [[FMTextRenderer alloc] initWithBufferSize:bufSize];
         _capacity = capacity;
         _delegate = delegate;
         _idxMin = 1;
@@ -147,16 +147,16 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			  axis:(MCAxis *)axis projection:(UniformProjection *)projection
+			  axis:(FMAxis *)axis projection:(UniformProjection *)projection
 {
     [self configure:axis];
     const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
 	[_quad encodeWith:encoder projection:projection count:count];
 }
 
-- (void)configure:(MCAxis *)axis
+- (void)configure:(FMAxis *)axis
 {
-    MCDimensionalProjection *dimension = axis.dimension;
+    FMDimensionalProjection *dimension = axis.dimension;
     const CGFloat min = dimension.min;
     const CGFloat max = dimension.max;
     UniformAxisConfiguration *conf = axis.axis.configuration;
@@ -210,15 +210,15 @@
 
 @end
 
-@interface MCAxisLabelBlockDelegate()
+@interface FMAxisLabelBlockDelegate()
 
-@property (copy, nonatomic) MCAxisLabelDelegateBlock block;
+@property (copy, nonatomic) FMAxisLabelDelegateBlock block;
 
 @end
 
-@implementation MCAxisLabelBlockDelegate
+@implementation FMAxisLabelBlockDelegate
 
-- (instancetype)initWithBlock:(MCAxisLabelDelegateBlock)block
+- (instancetype)initWithBlock:(FMAxisLabelDelegateBlock)block
 {
     self = [super init];
     if(self) {
@@ -228,7 +228,7 @@
 }
 
 - (NSMutableAttributedString *)attributedStringForValue:(CGFloat)value
-                                       dimension:(MCDimensionalProjection *)dimension
+                                       dimension:(FMDimensionalProjection *)dimension
 {
     return _block(value, dimension);
 }

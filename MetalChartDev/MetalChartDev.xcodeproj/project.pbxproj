@@ -16,75 +16,75 @@
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
 		AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E51B6F0D8C00480AAE /* Assets.xcassets */; };
 		AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */; };
-		AAC4A7981BAF2C690032A0CF /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7711BAF2C690032A0CF /* Buffers.mm */; };
-		AAC4A79A1BAF2C690032A0CF /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7731BAF2C690032A0CF /* Engine.m */; };
-		AAC4A79F1BAF2C690032A0CF /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7791BAF2C690032A0CF /* LineBuffers.m */; };
-		AAC4A7A11BAF2C690032A0CF /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A77B1BAF2C690032A0CF /* LineEngineShader.metal */; };
-		AAC4A7A21BAF2C690032A0CF /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A77C1BAF2C690032A0CF /* LineEngineShaderAux.metal */; };
-		AAC4A7A41BAF2C690032A0CF /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A77E1BAF2C690032A0CF /* Lines.m */; };
-		AAC4A7A71BAF2C690032A0CF /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7821BAF2C690032A0CF /* PointBuffers.m */; };
-		AAC4A7A81BAF2C690032A0CF /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7831BAF2C690032A0CF /* PointEngineShader.metal */; };
-		AAC4A7AA1BAF2C690032A0CF /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7851BAF2C690032A0CF /* Points.m */; };
-		AAC4A7AD1BAF2C690032A0CF /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7891BAF2C690032A0CF /* RectBuffers.m */; };
-		AAC4A7AE1BAF2C690032A0CF /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A78A1BAF2C690032A0CF /* RectEngineShader.metal */; };
-		AAC4A7B01BAF2C690032A0CF /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A78C1BAF2C690032A0CF /* Rects.m */; };
-		AAC4A7B61BAF2C690032A0CF /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7931BAF2C690032A0CF /* TextureQuadBuffers.m */; };
-		AAC4A7B81BAF2C690032A0CF /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7951BAF2C690032A0CF /* TextureQuads.m */; };
-		AAC4A7B91BAF2C690032A0CF /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7961BAF2C690032A0CF /* TextureQuadShader.metal */; };
-		AAC4A7D01BAF2C750032A0CF /* MCAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7BD1BAF2C750032A0CF /* MCAnimator.m */; };
-		AAC4A7D21BAF2C750032A0CF /* MCAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7BF1BAF2C750032A0CF /* MCAxis.m */; };
-		AAC4A7D41BAF2C750032A0CF /* MCAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7C11BAF2C750032A0CF /* MCAxisLabel.m */; };
-		AAC4A7D61BAF2C750032A0CF /* MCInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7C31BAF2C750032A0CF /* MCInteractive.m */; };
-		AAC4A7D81BAF2C750032A0CF /* MCProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7C51BAF2C750032A0CF /* MCProjectionUpdater.m */; };
-		AAC4A7DA1BAF2C750032A0CF /* MCRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7C71BAF2C750032A0CF /* MCRenderables.m */; };
-		AAC4A7DC1BAF2C750032A0CF /* MCRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7C91BAF2C750032A0CF /* MCRestrictions.m */; };
-		AAC4A7DE1BAF2C750032A0CF /* MCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7CB1BAF2C750032A0CF /* MCUtility.m */; };
-		AAC4A7E01BAF2C750032A0CF /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7CD1BAF2C750032A0CF /* MetalChart.m */; };
-		AAC4A7E91BAF2D180032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7E51BAF2D180032A0CF /* DeviceResource.m */; };
-		AAC4A7EB1BAF2D180032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7E71BAF2D180032A0CF /* NSArray+Utility.m */; };
-		AAC4A7EC1BAF2DF10032A0CF /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7BB1BAF2C750032A0CF /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7ED1BAF2DF10032A0CF /* MCAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7BC1BAF2C750032A0CF /* MCAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7EE1BAF2DF10032A0CF /* MCAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7BE1BAF2C750032A0CF /* MCAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7EF1BAF2DF10032A0CF /* MCAxisLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7C01BAF2C750032A0CF /* MCAxisLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F01BAF2DF10032A0CF /* MCInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7C21BAF2C750032A0CF /* MCInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F11BAF2DF10032A0CF /* MCProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7C41BAF2C750032A0CF /* MCProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F21BAF2DF10032A0CF /* MCRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7C61BAF2C750032A0CF /* MCRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F31BAF2DF10032A0CF /* MCRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7C81BAF2C750032A0CF /* MCRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F41BAF2DF10032A0CF /* MCUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7CA1BAF2C750032A0CF /* MCUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F51BAF2DF10032A0CF /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7CC1BAF2C750032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F61BAF2E070032A0CF /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7701BAF2C690032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F71BAF2E070032A0CF /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7721BAF2C690032A0CF /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7F81BAF2E070032A0CF /* Protocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7751BAF2C690032A0CF /* Protocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7FC1BAF2E1E0032A0CF /* Series.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7F91BAF2E1E0032A0CF /* Series.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A7FD1BAF2E1E0032A0CF /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A7FA1BAF2E1E0032A0CF /* Series.m */; };
-		AAC4A7FF1BAF2E820032A0CF /* Engine_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7741BAF2C690032A0CF /* Engine_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8001BAF2E970032A0CF /* Line_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7771BAF2C690032A0CF /* Line_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8011BAF2E970032A0CF /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7781BAF2C690032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8021BAF2E970032A0CF /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A77D1BAF2C690032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8031BAF2EA00032A0CF /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7871BAF2C690032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8041BAF2EA00032A0CF /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7881BAF2C690032A0CF /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8051BAF2EA00032A0CF /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A78B1BAF2C690032A0CF /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8061BAF2EAA0032A0CF /* TextureQuad_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7911BAF2C690032A0CF /* TextureQuad_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8071BAF2EAA0032A0CF /* TextureQuadBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7921BAF2C690032A0CF /* TextureQuadBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8081BAF2EAA0032A0CF /* TextureQuads.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7941BAF2C690032A0CF /* TextureQuads.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8091BAF2EBF0032A0CF /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7E41BAF2D180032A0CF /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A80A1BAF2EBF0032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7E61BAF2D180032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A80B1BAF2F2E0032A0CF /* MCKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5861931B95FA9800956E42 /* MCKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A80E1BAF32C80032A0CF /* MCKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; };
-		AAC4A80F1BAF32C80032A0CF /* MCKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA5861911B95FA9800956E42 /* MCKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AAC4A8111BAF34C90032A0CF /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7801BAF2C690032A0CF /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8121BAF34C90032A0CF /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7811BAF2C690032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8131BAF34C90032A0CF /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A7841BAF2C690032A0CF /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A81F1BAFE2960032A0CF /* FMChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8241BAFE2960032A0CF /* FMChart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; };
+		AAC4A8251BAFE2960032A0CF /* FMChart.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AAC4A86B1BAFE3020032A0CF /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82A1BAFE3020032A0CF /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */; };
+		AAC4A86E1BAFE3020032A0CF /* FMAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82D1BAFE3020032A0CF /* FMAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A86F1BAFE3020032A0CF /* FMAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82E1BAFE3020032A0CF /* FMAxis.m */; };
+		AAC4A8701BAFE3020032A0CF /* FMAxisLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82F1BAFE3020032A0CF /* FMAxisLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8711BAFE3020032A0CF /* FMAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */; };
+		AAC4A8721BAFE3020032A0CF /* FMInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8311BAFE3020032A0CF /* FMInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
+		AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */; };
+		AAC4A8761BAFE3020032A0CF /* FMRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8351BAFE3020032A0CF /* FMRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
+		AAC4A8781BAFE3020032A0CF /* FMRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */; };
+		AAC4A87A1BAFE3020032A0CF /* FMUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8391BAFE3020032A0CF /* FMUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A87B1BAFE3020032A0CF /* FMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMUtility.m */; };
+		AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* MetalChart.m */; };
+		AAC4A87E1BAFE3020032A0CF /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
+		AAC4A8801BAFE3020032A0CF /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8411BAFE3020032A0CF /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8811BAFE3020032A0CF /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8421BAFE3020032A0CF /* Engine.m */; };
+		AAC4A8821BAFE3020032A0CF /* Engine_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8431BAFE3020032A0CF /* Engine_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8831BAFE3020032A0CF /* Protocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8441BAFE3020032A0CF /* Protocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8841BAFE3020032A0CF /* Series.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8451BAFE3020032A0CF /* Series.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8851BAFE3020032A0CF /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8461BAFE3020032A0CF /* Series.m */; };
+		AAC4A8871BAFE3020032A0CF /* Line_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8491BAFE3020032A0CF /* Line_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
+		AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; };
+		AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; };
+		AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84F1BAFE3020032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8501BAFE3020032A0CF /* Lines.m */; };
+		AAC4A88F1BAFE3020032A0CF /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8521BAFE3020032A0CF /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8531BAFE3020032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
+		AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; };
+		AAC4A8931BAFE3020032A0CF /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8561BAFE3020032A0CF /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8941BAFE3020032A0CF /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
+		AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
+		AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; };
+		AAC4A8991BAFE3020032A0CF /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85D1BAFE3020032A0CF /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
+		AAC4A89B1BAFE3020032A0CF /* TextureQuad_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */; };
+		AAC4A89E1BAFE3020032A0CF /* TextureQuads.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8631BAFE3020032A0CF /* TextureQuads.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A89F1BAFE3020032A0CF /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8641BAFE3020032A0CF /* TextureQuads.m */; };
+		AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; };
+		AAC4A8A11BAFE3020032A0CF /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8671BAFE3020032A0CF /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
+		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
 		AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AADC1AC21B8F2002002F455D /* MetalKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AAC4A7E11BAF2C910032A0CF /* PBXContainerItemProxy */ = {
+		AAC4A8221BAFE2960032A0CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AA5861901B95FA9800956E42;
-			remoteInfo = MCKit;
+			remoteGlobalIDString = AAC4A81C1BAFE2960032A0CF;
+			remoteInfo = FMChart;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -95,7 +95,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AAC4A80F1BAF32C80032A0CF /* MCKit.framework in Embed Frameworks */,
+				AAC4A8251BAFE2960032A0CF /* FMChart.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,9 +107,6 @@
 		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
-		AA5861911B95FA9800956E42 /* MCKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MCKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA5861931B95FA9800956E42 /* MCKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCKit.h; sourceTree = "<group>"; };
-		AA5861951B95FA9800956E42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,115 +114,100 @@
 		AAB584E51B6F0D8C00480AAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAB584E81B6F0D8C00480AAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB584EA1B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalChartDevTests.swift; sourceTree = "<group>"; };
-		AAB584F51B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalChartDevUITests.swift; sourceTree = "<group>"; };
-		AAB585001B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MetalChartDev-Bridging-Header.h"; sourceTree = "<group>"; };
-		AAC4A7701BAF2C690032A0CF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
-		AAC4A7711BAF2C690032A0CF /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
-		AAC4A7721BAF2C690032A0CF /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
-		AAC4A7731BAF2C690032A0CF /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
-		AAC4A7741BAF2C690032A0CF /* Engine_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
-		AAC4A7751BAF2C690032A0CF /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
-		AAC4A7771BAF2C690032A0CF /* Line_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line_common.h; sourceTree = "<group>"; };
-		AAC4A7781BAF2C690032A0CF /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
-		AAC4A7791BAF2C690032A0CF /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
-		AAC4A77A1BAF2C690032A0CF /* LineEngineShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
-		AAC4A77B1BAF2C690032A0CF /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
-		AAC4A77C1BAF2C690032A0CF /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
-		AAC4A77D1BAF2C690032A0CF /* Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines.h; sourceTree = "<group>"; };
-		AAC4A77E1BAF2C690032A0CF /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
-		AAC4A7801BAF2C690032A0CF /* Point_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point_common.h; sourceTree = "<group>"; };
-		AAC4A7811BAF2C690032A0CF /* PointBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointBuffers.h; sourceTree = "<group>"; };
-		AAC4A7821BAF2C690032A0CF /* PointBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointBuffers.m; sourceTree = "<group>"; };
-		AAC4A7831BAF2C690032A0CF /* PointEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PointEngineShader.metal; sourceTree = "<group>"; };
-		AAC4A7841BAF2C690032A0CF /* Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Points.h; sourceTree = "<group>"; };
-		AAC4A7851BAF2C690032A0CF /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
-		AAC4A7871BAF2C690032A0CF /* Rect_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect_common.h; sourceTree = "<group>"; };
-		AAC4A7881BAF2C690032A0CF /* RectBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectBuffers.h; sourceTree = "<group>"; };
-		AAC4A7891BAF2C690032A0CF /* RectBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectBuffers.m; sourceTree = "<group>"; };
-		AAC4A78A1BAF2C690032A0CF /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
-		AAC4A78B1BAF2C690032A0CF /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
-		AAC4A78C1BAF2C690032A0CF /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
-		AAC4A7911BAF2C690032A0CF /* TextureQuad_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuad_common.h; sourceTree = "<group>"; };
-		AAC4A7921BAF2C690032A0CF /* TextureQuadBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuadBuffers.h; sourceTree = "<group>"; };
-		AAC4A7931BAF2C690032A0CF /* TextureQuadBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuadBuffers.m; sourceTree = "<group>"; };
-		AAC4A7941BAF2C690032A0CF /* TextureQuads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuads.h; sourceTree = "<group>"; };
-		AAC4A7951BAF2C690032A0CF /* TextureQuads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuads.m; sourceTree = "<group>"; };
-		AAC4A7961BAF2C690032A0CF /* TextureQuadShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = TextureQuadShader.metal; sourceTree = "<group>"; };
-		AAC4A7BB1BAF2C750032A0CF /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
-		AAC4A7BC1BAF2C750032A0CF /* MCAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAnimator.h; sourceTree = "<group>"; };
-		AAC4A7BD1BAF2C750032A0CF /* MCAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAnimator.m; sourceTree = "<group>"; };
-		AAC4A7BE1BAF2C750032A0CF /* MCAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxis.h; sourceTree = "<group>"; };
-		AAC4A7BF1BAF2C750032A0CF /* MCAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxis.m; sourceTree = "<group>"; };
-		AAC4A7C01BAF2C750032A0CF /* MCAxisLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAxisLabel.h; sourceTree = "<group>"; };
-		AAC4A7C11BAF2C750032A0CF /* MCAxisLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAxisLabel.m; sourceTree = "<group>"; };
-		AAC4A7C21BAF2C750032A0CF /* MCInteractive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCInteractive.h; sourceTree = "<group>"; };
-		AAC4A7C31BAF2C750032A0CF /* MCInteractive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCInteractive.m; sourceTree = "<group>"; };
-		AAC4A7C41BAF2C750032A0CF /* MCProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProjectionUpdater.h; sourceTree = "<group>"; };
-		AAC4A7C51BAF2C750032A0CF /* MCProjectionUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCProjectionUpdater.m; sourceTree = "<group>"; };
-		AAC4A7C61BAF2C750032A0CF /* MCRenderables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRenderables.h; sourceTree = "<group>"; };
-		AAC4A7C71BAF2C750032A0CF /* MCRenderables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRenderables.m; sourceTree = "<group>"; };
-		AAC4A7C81BAF2C750032A0CF /* MCRestrictions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCRestrictions.h; sourceTree = "<group>"; };
-		AAC4A7C91BAF2C750032A0CF /* MCRestrictions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCRestrictions.m; sourceTree = "<group>"; };
-		AAC4A7CA1BAF2C750032A0CF /* MCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUtility.h; sourceTree = "<group>"; };
-		AAC4A7CB1BAF2C750032A0CF /* MCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCUtility.m; sourceTree = "<group>"; };
-		AAC4A7CC1BAF2C750032A0CF /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
-		AAC4A7CD1BAF2C750032A0CF /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
-		AAC4A7E41BAF2D180032A0CF /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceResource.h; sourceTree = "<group>"; };
-		AAC4A7E51BAF2D180032A0CF /* DeviceResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceResource.m; sourceTree = "<group>"; };
-		AAC4A7E61BAF2D180032A0CF /* NSArray+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utility.h"; sourceTree = "<group>"; };
-		AAC4A7E71BAF2D180032A0CF /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
-		AAC4A7F91BAF2E1E0032A0CF /* Series.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Series.h; sourceTree = "<group>"; };
-		AAC4A7FA1BAF2E1E0032A0CF /* Series.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Series.m; sourceTree = "<group>"; };
-		AAC4A7FB1BAF2E1E0032A0CF /* Shader_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
+		AAC4A81D1BAFE2960032A0CF /* FMChart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC4A81F1BAFE2960032A0CF /* FMChart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMChart.h; sourceTree = "<group>"; };
+		AAC4A8211BAFE2960032A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAC4A82A1BAFE3020032A0CF /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
+		AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMAnimator.h; sourceTree = "<group>"; };
+		AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMAnimator.m; sourceTree = "<group>"; };
+		AAC4A82D1BAFE3020032A0CF /* FMAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMAxis.h; sourceTree = "<group>"; };
+		AAC4A82E1BAFE3020032A0CF /* FMAxis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMAxis.m; sourceTree = "<group>"; };
+		AAC4A82F1BAFE3020032A0CF /* FMAxisLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMAxisLabel.h; sourceTree = "<group>"; };
+		AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMAxisLabel.m; sourceTree = "<group>"; };
+		AAC4A8311BAFE3020032A0CF /* FMInteractive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMInteractive.h; sourceTree = "<group>"; };
+		AAC4A8321BAFE3020032A0CF /* FMInteractive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMInteractive.m; sourceTree = "<group>"; };
+		AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjectionUpdater.h; sourceTree = "<group>"; };
+		AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjectionUpdater.m; sourceTree = "<group>"; };
+		AAC4A8351BAFE3020032A0CF /* FMRenderables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRenderables.h; sourceTree = "<group>"; };
+		AAC4A8361BAFE3020032A0CF /* FMRenderables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRenderables.m; sourceTree = "<group>"; };
+		AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRestrictions.h; sourceTree = "<group>"; };
+		AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRestrictions.m; sourceTree = "<group>"; };
+		AAC4A8391BAFE3020032A0CF /* FMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMUtility.h; sourceTree = "<group>"; };
+		AAC4A83A1BAFE3020032A0CF /* FMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMUtility.m; sourceTree = "<group>"; };
+		AAC4A83B1BAFE3020032A0CF /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
+		AAC4A83C1BAFE3020032A0CF /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
+		AAC4A83F1BAFE3020032A0CF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
+		AAC4A8401BAFE3020032A0CF /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
+		AAC4A8411BAFE3020032A0CF /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		AAC4A8421BAFE3020032A0CF /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
+		AAC4A8431BAFE3020032A0CF /* Engine_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine_common.h; sourceTree = "<group>"; };
+		AAC4A8441BAFE3020032A0CF /* Protocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Protocols.h; sourceTree = "<group>"; };
+		AAC4A8451BAFE3020032A0CF /* Series.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Series.h; sourceTree = "<group>"; };
+		AAC4A8461BAFE3020032A0CF /* Series.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Series.m; sourceTree = "<group>"; };
+		AAC4A8471BAFE3020032A0CF /* Shader_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
+		AAC4A8491BAFE3020032A0CF /* Line_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line_common.h; sourceTree = "<group>"; };
+		AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
+		AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
+		AAC4A84C1BAFE3020032A0CF /* LineEngineShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
+		AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
+		AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
+		AAC4A84F1BAFE3020032A0CF /* Lines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lines.h; sourceTree = "<group>"; };
+		AAC4A8501BAFE3020032A0CF /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
+		AAC4A8521BAFE3020032A0CF /* Point_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point_common.h; sourceTree = "<group>"; };
+		AAC4A8531BAFE3020032A0CF /* PointBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointBuffers.h; sourceTree = "<group>"; };
+		AAC4A8541BAFE3020032A0CF /* PointBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointBuffers.m; sourceTree = "<group>"; };
+		AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PointEngineShader.metal; sourceTree = "<group>"; };
+		AAC4A8561BAFE3020032A0CF /* Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Points.h; sourceTree = "<group>"; };
+		AAC4A8571BAFE3020032A0CF /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
+		AAC4A8591BAFE3020032A0CF /* Rect_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect_common.h; sourceTree = "<group>"; };
+		AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectBuffers.h; sourceTree = "<group>"; };
+		AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectBuffers.m; sourceTree = "<group>"; };
+		AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
+		AAC4A85D1BAFE3020032A0CF /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
+		AAC4A85E1BAFE3020032A0CF /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
+		AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuad_common.h; sourceTree = "<group>"; };
+		AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuadBuffers.h; sourceTree = "<group>"; };
+		AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuadBuffers.m; sourceTree = "<group>"; };
+		AAC4A8631BAFE3020032A0CF /* TextureQuads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureQuads.h; sourceTree = "<group>"; };
+		AAC4A8641BAFE3020032A0CF /* TextureQuads.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureQuads.m; sourceTree = "<group>"; };
+		AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = TextureQuadShader.metal; sourceTree = "<group>"; };
+		AAC4A8671BAFE3020032A0CF /* DeviceResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceResource.h; sourceTree = "<group>"; };
+		AAC4A8681BAFE3020032A0CF /* DeviceResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceResource.m; sourceTree = "<group>"; };
+		AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utility.h"; sourceTree = "<group>"; };
+		AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AA58618D1B95FA9800956E42 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AAB584D81B6F0D8C00480AAE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
-				AAC4A80E1BAF32C80032A0CF /* MCKit.framework in Frameworks */,
 				AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */,
+				AAC4A8241BAFE2960032A0CF /* FMChart.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AAC4A8191BAFE2960032A0CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA5861921B95FA9800956E42 /* MCKit */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7BA1BAF2C750032A0CF /* Chart */,
-				AAC4A76D1BAF2C690032A0CF /* Engine */,
-				AAC4A7E31BAF2D180032A0CF /* Utilities */,
-				AA5861931B95FA9800956E42 /* MCKit.h */,
-				AA5861951B95FA9800956E42 /* Info.plist */,
-			);
-			path = MCKit;
-			sourceTree = "<group>";
-		};
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
-				AA5861921B95FA9800956E42 /* MCKit */,
+				AAC4A81E1BAFE2960032A0CF /* FMChart */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
-				AAB584F21B6F0D8C00480AAE /* MetalChartDevTests */,
-				AAB584FD1B6F0D8C00480AAE /* MetalChartDevUITests */,
 				AAB584DC1B6F0D8C00480AAE /* Products */,
 				AADC1AC41B8F20D8002F455D /* Frameworks */,
 			);
@@ -235,7 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */,
-				AA5861911B95FA9800956E42 /* MCKit.framework */,
+				AAC4A81D1BAFE2960032A0CF /* FMChart.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -256,139 +238,133 @@
 			path = MetalChartDev;
 			sourceTree = "<group>";
 		};
-		AAB584F21B6F0D8C00480AAE /* MetalChartDevTests */ = {
+		AAC4A81E1BAFE2960032A0CF /* FMChart */ = {
 			isa = PBXGroup;
 			children = (
-				AAB584F31B6F0D8C00480AAE /* MetalChartDevTests.swift */,
-				AAB584F51B6F0D8C00480AAE /* Info.plist */,
+				AAC4A8291BAFE3020032A0CF /* Chart */,
+				AAC4A83D1BAFE3020032A0CF /* Engine */,
+				AAC4A8661BAFE3020032A0CF /* Utilities */,
+				AAC4A81F1BAFE2960032A0CF /* FMChart.h */,
+				AAC4A8211BAFE2960032A0CF /* Info.plist */,
 			);
-			path = MetalChartDevTests;
+			path = FMChart;
 			sourceTree = "<group>";
 		};
-		AAB584FD1B6F0D8C00480AAE /* MetalChartDevUITests */ = {
+		AAC4A8291BAFE3020032A0CF /* Chart */ = {
 			isa = PBXGroup;
 			children = (
-				AAB584FE1B6F0D8C00480AAE /* MetalChartDevUITests.swift */,
-				AAB585001B6F0D8C00480AAE /* Info.plist */,
-			);
-			path = MetalChartDevUITests;
-			sourceTree = "<group>";
-		};
-		AAC4A76D1BAF2C690032A0CF /* Engine */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A76F1BAF2C690032A0CF /* Base */,
-				AAC4A7761BAF2C690032A0CF /* Line */,
-				AAC4A77F1BAF2C690032A0CF /* Point */,
-				AAC4A7861BAF2C690032A0CF /* Rect */,
-				AAC4A7901BAF2C690032A0CF /* TextureQuad */,
-			);
-			path = Engine;
-			sourceTree = "<group>";
-		};
-		AAC4A76F1BAF2C690032A0CF /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7701BAF2C690032A0CF /* Buffers.h */,
-				AAC4A7711BAF2C690032A0CF /* Buffers.mm */,
-				AAC4A7721BAF2C690032A0CF /* Engine.h */,
-				AAC4A7731BAF2C690032A0CF /* Engine.m */,
-				AAC4A7741BAF2C690032A0CF /* Engine_common.h */,
-				AAC4A7751BAF2C690032A0CF /* Protocols.h */,
-				AAC4A7F91BAF2E1E0032A0CF /* Series.h */,
-				AAC4A7FA1BAF2E1E0032A0CF /* Series.m */,
-				AAC4A7FB1BAF2E1E0032A0CF /* Shader_common.h */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		AAC4A7761BAF2C690032A0CF /* Line */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7771BAF2C690032A0CF /* Line_common.h */,
-				AAC4A7781BAF2C690032A0CF /* LineBuffers.h */,
-				AAC4A7791BAF2C690032A0CF /* LineBuffers.m */,
-				AAC4A77A1BAF2C690032A0CF /* LineEngineShader.h */,
-				AAC4A77B1BAF2C690032A0CF /* LineEngineShader.metal */,
-				AAC4A77C1BAF2C690032A0CF /* LineEngineShaderAux.metal */,
-				AAC4A77D1BAF2C690032A0CF /* Lines.h */,
-				AAC4A77E1BAF2C690032A0CF /* Lines.m */,
-			);
-			path = Line;
-			sourceTree = "<group>";
-		};
-		AAC4A77F1BAF2C690032A0CF /* Point */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7801BAF2C690032A0CF /* Point_common.h */,
-				AAC4A7811BAF2C690032A0CF /* PointBuffers.h */,
-				AAC4A7821BAF2C690032A0CF /* PointBuffers.m */,
-				AAC4A7831BAF2C690032A0CF /* PointEngineShader.metal */,
-				AAC4A7841BAF2C690032A0CF /* Points.h */,
-				AAC4A7851BAF2C690032A0CF /* Points.m */,
-			);
-			path = Point;
-			sourceTree = "<group>";
-		};
-		AAC4A7861BAF2C690032A0CF /* Rect */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7871BAF2C690032A0CF /* Rect_common.h */,
-				AAC4A7881BAF2C690032A0CF /* RectBuffers.h */,
-				AAC4A7891BAF2C690032A0CF /* RectBuffers.m */,
-				AAC4A78A1BAF2C690032A0CF /* RectEngineShader.metal */,
-				AAC4A78B1BAF2C690032A0CF /* Rects.h */,
-				AAC4A78C1BAF2C690032A0CF /* Rects.m */,
-			);
-			path = Rect;
-			sourceTree = "<group>";
-		};
-		AAC4A7901BAF2C690032A0CF /* TextureQuad */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7911BAF2C690032A0CF /* TextureQuad_common.h */,
-				AAC4A7921BAF2C690032A0CF /* TextureQuadBuffers.h */,
-				AAC4A7931BAF2C690032A0CF /* TextureQuadBuffers.m */,
-				AAC4A7941BAF2C690032A0CF /* TextureQuads.h */,
-				AAC4A7951BAF2C690032A0CF /* TextureQuads.m */,
-				AAC4A7961BAF2C690032A0CF /* TextureQuadShader.metal */,
-			);
-			path = TextureQuad;
-			sourceTree = "<group>";
-		};
-		AAC4A7BA1BAF2C750032A0CF /* Chart */ = {
-			isa = PBXGroup;
-			children = (
-				AAC4A7BB1BAF2C750032A0CF /* chart_common.h */,
-				AAC4A7BC1BAF2C750032A0CF /* MCAnimator.h */,
-				AAC4A7BD1BAF2C750032A0CF /* MCAnimator.m */,
-				AAC4A7BE1BAF2C750032A0CF /* MCAxis.h */,
-				AAC4A7BF1BAF2C750032A0CF /* MCAxis.m */,
-				AAC4A7C01BAF2C750032A0CF /* MCAxisLabel.h */,
-				AAC4A7C11BAF2C750032A0CF /* MCAxisLabel.m */,
-				AAC4A7C21BAF2C750032A0CF /* MCInteractive.h */,
-				AAC4A7C31BAF2C750032A0CF /* MCInteractive.m */,
-				AAC4A7C41BAF2C750032A0CF /* MCProjectionUpdater.h */,
-				AAC4A7C51BAF2C750032A0CF /* MCProjectionUpdater.m */,
-				AAC4A7C61BAF2C750032A0CF /* MCRenderables.h */,
-				AAC4A7C71BAF2C750032A0CF /* MCRenderables.m */,
-				AAC4A7C81BAF2C750032A0CF /* MCRestrictions.h */,
-				AAC4A7C91BAF2C750032A0CF /* MCRestrictions.m */,
-				AAC4A7CA1BAF2C750032A0CF /* MCUtility.h */,
-				AAC4A7CB1BAF2C750032A0CF /* MCUtility.m */,
-				AAC4A7CC1BAF2C750032A0CF /* MetalChart.h */,
-				AAC4A7CD1BAF2C750032A0CF /* MetalChart.m */,
+				AAC4A82A1BAFE3020032A0CF /* chart_common.h */,
+				AAC4A83B1BAFE3020032A0CF /* MetalChart.h */,
+				AAC4A83C1BAFE3020032A0CF /* MetalChart.m */,
+				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
+				AAC4A8361BAFE3020032A0CF /* FMRenderables.m */,
+				AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */,
+				AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */,
+				AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */,
+				AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */,
+				AAC4A8311BAFE3020032A0CF /* FMInteractive.h */,
+				AAC4A8321BAFE3020032A0CF /* FMInteractive.m */,
+				AAC4A82D1BAFE3020032A0CF /* FMAxis.h */,
+				AAC4A82E1BAFE3020032A0CF /* FMAxis.m */,
+				AAC4A82F1BAFE3020032A0CF /* FMAxisLabel.h */,
+				AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */,
+				AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */,
+				AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */,
+				AAC4A8391BAFE3020032A0CF /* FMUtility.h */,
+				AAC4A83A1BAFE3020032A0CF /* FMUtility.m */,
 			);
 			path = Chart;
 			sourceTree = "<group>";
 		};
-		AAC4A7E31BAF2D180032A0CF /* Utilities */ = {
+		AAC4A83D1BAFE3020032A0CF /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A7E41BAF2D180032A0CF /* DeviceResource.h */,
-				AAC4A7E51BAF2D180032A0CF /* DeviceResource.m */,
-				AAC4A7E61BAF2D180032A0CF /* NSArray+Utility.h */,
-				AAC4A7E71BAF2D180032A0CF /* NSArray+Utility.m */,
+				AAC4A83E1BAFE3020032A0CF /* Base */,
+				AAC4A8481BAFE3020032A0CF /* Line */,
+				AAC4A8511BAFE3020032A0CF /* Point */,
+				AAC4A8581BAFE3020032A0CF /* Rect */,
+				AAC4A85F1BAFE3020032A0CF /* TextureQuad */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		AAC4A83E1BAFE3020032A0CF /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A8471BAFE3020032A0CF /* Shader_common.h */,
+				AAC4A8431BAFE3020032A0CF /* Engine_common.h */,
+				AAC4A8441BAFE3020032A0CF /* Protocols.h */,
+				AAC4A8411BAFE3020032A0CF /* Engine.h */,
+				AAC4A8421BAFE3020032A0CF /* Engine.m */,
+				AAC4A83F1BAFE3020032A0CF /* Buffers.h */,
+				AAC4A8401BAFE3020032A0CF /* Buffers.mm */,
+				AAC4A8451BAFE3020032A0CF /* Series.h */,
+				AAC4A8461BAFE3020032A0CF /* Series.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		AAC4A8481BAFE3020032A0CF /* Line */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A84C1BAFE3020032A0CF /* LineEngineShader.h */,
+				AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */,
+				AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */,
+				AAC4A8491BAFE3020032A0CF /* Line_common.h */,
+				AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */,
+				AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */,
+				AAC4A84F1BAFE3020032A0CF /* Lines.h */,
+				AAC4A8501BAFE3020032A0CF /* Lines.m */,
+			);
+			path = Line;
+			sourceTree = "<group>";
+		};
+		AAC4A8511BAFE3020032A0CF /* Point */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */,
+				AAC4A8521BAFE3020032A0CF /* Point_common.h */,
+				AAC4A8531BAFE3020032A0CF /* PointBuffers.h */,
+				AAC4A8541BAFE3020032A0CF /* PointBuffers.m */,
+				AAC4A8561BAFE3020032A0CF /* Points.h */,
+				AAC4A8571BAFE3020032A0CF /* Points.m */,
+			);
+			path = Point;
+			sourceTree = "<group>";
+		};
+		AAC4A8581BAFE3020032A0CF /* Rect */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */,
+				AAC4A8591BAFE3020032A0CF /* Rect_common.h */,
+				AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */,
+				AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */,
+				AAC4A85D1BAFE3020032A0CF /* Rects.h */,
+				AAC4A85E1BAFE3020032A0CF /* Rects.m */,
+			);
+			path = Rect;
+			sourceTree = "<group>";
+		};
+		AAC4A85F1BAFE3020032A0CF /* TextureQuad */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */,
+				AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */,
+				AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */,
+				AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */,
+				AAC4A8631BAFE3020032A0CF /* TextureQuads.h */,
+				AAC4A8641BAFE3020032A0CF /* TextureQuads.m */,
+			);
+			path = TextureQuad;
+			sourceTree = "<group>";
+		};
+		AAC4A8661BAFE3020032A0CF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AAC4A8671BAFE3020032A0CF /* DeviceResource.h */,
+				AAC4A8681BAFE3020032A0CF /* DeviceResource.m */,
+				AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */,
+				AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -407,64 +383,46 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		AA58618E1B95FA9800956E42 /* Headers */ = {
+		AAC4A81A1BAFE2960032A0CF /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC4A7EC1BAF2DF10032A0CF /* chart_common.h in Headers */,
-				AAC4A7ED1BAF2DF10032A0CF /* MCAnimator.h in Headers */,
-				AAC4A7EE1BAF2DF10032A0CF /* MCAxis.h in Headers */,
-				AAC4A7EF1BAF2DF10032A0CF /* MCAxisLabel.h in Headers */,
-				AAC4A7F01BAF2DF10032A0CF /* MCInteractive.h in Headers */,
-				AAC4A7F11BAF2DF10032A0CF /* MCProjectionUpdater.h in Headers */,
-				AAC4A7F21BAF2DF10032A0CF /* MCRenderables.h in Headers */,
-				AAC4A7F31BAF2DF10032A0CF /* MCRestrictions.h in Headers */,
-				AAC4A7F41BAF2DF10032A0CF /* MCUtility.h in Headers */,
-				AAC4A7FC1BAF2E1E0032A0CF /* Series.h in Headers */,
-				AAC4A7F61BAF2E070032A0CF /* Buffers.h in Headers */,
-				AAC4A7F71BAF2E070032A0CF /* Engine.h in Headers */,
-				AAC4A7F81BAF2E070032A0CF /* Protocols.h in Headers */,
-				AAC4A7F51BAF2DF10032A0CF /* MetalChart.h in Headers */,
-				AAC4A7FF1BAF2E820032A0CF /* Engine_common.h in Headers */,
-				AAC4A8091BAF2EBF0032A0CF /* DeviceResource.h in Headers */,
-				AAC4A80A1BAF2EBF0032A0CF /* NSArray+Utility.h in Headers */,
-				AAC4A8061BAF2EAA0032A0CF /* TextureQuad_common.h in Headers */,
-				AAC4A8071BAF2EAA0032A0CF /* TextureQuadBuffers.h in Headers */,
-				AAC4A8081BAF2EAA0032A0CF /* TextureQuads.h in Headers */,
-				AAC4A8031BAF2EA00032A0CF /* Rect_common.h in Headers */,
-				AAC4A8041BAF2EA00032A0CF /* RectBuffers.h in Headers */,
-				AAC4A8051BAF2EA00032A0CF /* Rects.h in Headers */,
-				AAC4A8001BAF2E970032A0CF /* Line_common.h in Headers */,
-				AAC4A8011BAF2E970032A0CF /* LineBuffers.h in Headers */,
-				AAC4A8021BAF2E970032A0CF /* Lines.h in Headers */,
-				AAC4A8111BAF34C90032A0CF /* Point_common.h in Headers */,
-				AAC4A8121BAF34C90032A0CF /* PointBuffers.h in Headers */,
-				AAC4A8131BAF34C90032A0CF /* Points.h in Headers */,
-				AAC4A80B1BAF2F2E0032A0CF /* MCKit.h in Headers */,
+				AAC4A87E1BAFE3020032A0CF /* Buffers.h in Headers */,
+				AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */,
+				AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */,
+				AAC4A86B1BAFE3020032A0CF /* chart_common.h in Headers */,
+				AAC4A8781BAFE3020032A0CF /* FMRestrictions.h in Headers */,
+				AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */,
+				AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */,
+				AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */,
+				AAC4A8831BAFE3020032A0CF /* Protocols.h in Headers */,
+				AAC4A8821BAFE3020032A0CF /* Engine_common.h in Headers */,
+				AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */,
+				AAC4A88F1BAFE3020032A0CF /* Point_common.h in Headers */,
+				AAC4A8931BAFE3020032A0CF /* Points.h in Headers */,
+				AAC4A8761BAFE3020032A0CF /* FMRenderables.h in Headers */,
+				AAC4A8991BAFE3020032A0CF /* Rects.h in Headers */,
+				AAC4A8841BAFE3020032A0CF /* Series.h in Headers */,
+				AAC4A8871BAFE3020032A0CF /* Line_common.h in Headers */,
+				AAC4A8801BAFE3020032A0CF /* Engine.h in Headers */,
+				AAC4A8721BAFE3020032A0CF /* FMInteractive.h in Headers */,
+				AAC4A89E1BAFE3020032A0CF /* TextureQuads.h in Headers */,
+				AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */,
+				AAC4A89B1BAFE3020032A0CF /* TextureQuad_common.h in Headers */,
+				AAC4A8A11BAFE3020032A0CF /* DeviceResource.h in Headers */,
+				AAC4A8701BAFE3020032A0CF /* FMAxisLabel.h in Headers */,
+				AAC4A86E1BAFE3020032A0CF /* FMAxis.h in Headers */,
+				AAC4A87A1BAFE3020032A0CF /* FMUtility.h in Headers */,
+				AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */,
+				AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */,
+				AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */,
+				AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		AA5861901B95FA9800956E42 /* MCKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AA58619D1B95FA9800956E42 /* Build configuration list for PBXNativeTarget "MCKit" */;
-			buildPhases = (
-				AA58618C1B95FA9800956E42 /* Sources */,
-				AA58618D1B95FA9800956E42 /* Frameworks */,
-				AA58618E1B95FA9800956E42 /* Headers */,
-				AA58618F1B95FA9800956E42 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MCKit;
-			productName = MCKit;
-			productReference = AA5861911B95FA9800956E42 /* MCKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		AAB584DA1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAB585031B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDev" */;
@@ -477,12 +435,30 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAC4A7E21BAF2C910032A0CF /* PBXTargetDependency */,
+				AAC4A8231BAFE2960032A0CF /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
 			productReference = AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */;
 			productType = "com.apple.product-type.application";
+		};
+		AAC4A81C1BAFE2960032A0CF /* FMChart */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAC4A8261BAFE2960032A0CF /* Build configuration list for PBXNativeTarget "FMChart" */;
+			buildPhases = (
+				AAC4A8181BAFE2960032A0CF /* Sources */,
+				AAC4A8191BAFE2960032A0CF /* Frameworks */,
+				AAC4A81A1BAFE2960032A0CF /* Headers */,
+				AAC4A81B1BAFE2960032A0CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FMChart;
+			productName = FMChart;
+			productReference = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -494,11 +470,11 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = freaks;
 				TargetAttributes = {
-					AA5861901B95FA9800956E42 = {
-						CreatedOnToolsVersion = 7.0;
-					};
 					AAB584DA1B6F0D8C00480AAE = {
 						CreatedOnToolsVersion = 7.0;
+					};
+					AAC4A81C1BAFE2960032A0CF = {
+						CreatedOnToolsVersion = 7.1;
 					};
 				};
 			};
@@ -515,20 +491,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AA5861901B95FA9800956E42 /* MCKit */,
+				AAC4A81C1BAFE2960032A0CF /* FMChart */,
 				AAB584DA1B6F0D8C00480AAE /* MetalChartDev */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		AA58618F1B95FA9800956E42 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AAB584D91B6F0D8C00480AAE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -540,43 +509,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		AA58618C1B95FA9800956E42 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		AAC4A81B1BAFE2960032A0CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC4A7D61BAF2C750032A0CF /* MCInteractive.m in Sources */,
-				AAC4A7B81BAF2C690032A0CF /* TextureQuads.m in Sources */,
-				AAC4A7D01BAF2C750032A0CF /* MCAnimator.m in Sources */,
-				AAC4A7A11BAF2C690032A0CF /* LineEngineShader.metal in Sources */,
-				AAC4A7E91BAF2D180032A0CF /* DeviceResource.m in Sources */,
-				AAC4A7D21BAF2C750032A0CF /* MCAxis.m in Sources */,
-				AAC4A7FD1BAF2E1E0032A0CF /* Series.m in Sources */,
-				AAC4A7A21BAF2C690032A0CF /* LineEngineShaderAux.metal in Sources */,
-				AAC4A7A71BAF2C690032A0CF /* PointBuffers.m in Sources */,
-				AAC4A7B61BAF2C690032A0CF /* TextureQuadBuffers.m in Sources */,
-				AAC4A7B01BAF2C690032A0CF /* Rects.m in Sources */,
-				AAC4A7DE1BAF2C750032A0CF /* MCUtility.m in Sources */,
-				AAC4A7AD1BAF2C690032A0CF /* RectBuffers.m in Sources */,
-				AAC4A7DA1BAF2C750032A0CF /* MCRenderables.m in Sources */,
-				AAC4A7D41BAF2C750032A0CF /* MCAxisLabel.m in Sources */,
-				AAC4A7EB1BAF2D180032A0CF /* NSArray+Utility.m in Sources */,
-				AAC4A7AA1BAF2C690032A0CF /* Points.m in Sources */,
-				AAC4A7DC1BAF2C750032A0CF /* MCRestrictions.m in Sources */,
-				AAC4A7981BAF2C690032A0CF /* Buffers.mm in Sources */,
-				AAC4A7AE1BAF2C690032A0CF /* RectEngineShader.metal in Sources */,
-				AAC4A7B91BAF2C690032A0CF /* TextureQuadShader.metal in Sources */,
-				AAC4A7A41BAF2C690032A0CF /* Lines.m in Sources */,
-				AAC4A79A1BAF2C690032A0CF /* Engine.m in Sources */,
-				AAC4A79F1BAF2C690032A0CF /* LineBuffers.m in Sources */,
-				AAC4A7D81BAF2C750032A0CF /* MCProjectionUpdater.m in Sources */,
-				AAC4A7E01BAF2C750032A0CF /* MetalChart.m in Sources */,
-				AAC4A7A81BAF2C690032A0CF /* PointEngineShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		AAB584D71B6F0D8C00480AAE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -586,13 +528,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AAC4A8181BAFE2960032A0CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
+				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
+				AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */,
+				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
+				AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */,
+				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,
+				AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */,
+				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
+				AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */,
+				AAC4A87B1BAFE3020032A0CF /* FMUtility.m in Sources */,
+				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
+				AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */,
+				AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */,
+				AAC4A8851BAFE3020032A0CF /* Series.m in Sources */,
+				AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */,
+				AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */,
+				AAC4A86F1BAFE3020032A0CF /* FMAxis.m in Sources */,
+				AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */,
+				AAC4A89F1BAFE3020032A0CF /* TextureQuads.m in Sources */,
+				AAC4A8811BAFE3020032A0CF /* Engine.m in Sources */,
+				AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */,
+				AAC4A8941BAFE3020032A0CF /* Points.m in Sources */,
+				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
+				AAC4A8711BAFE3020032A0CF /* FMAxisLabel.m in Sources */,
+				AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */,
+				AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */,
+				AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AAC4A7E21BAF2C910032A0CF /* PBXTargetDependency */ = {
+		AAC4A8231BAFE2960032A0CF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA5861901B95FA9800956E42 /* MCKit */;
-			targetProxy = AAC4A7E11BAF2C910032A0CF /* PBXContainerItemProxy */;
+			target = AAC4A81C1BAFE2960032A0CF /* FMChart */;
+			targetProxy = AAC4A8221BAFE2960032A0CF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -616,53 +592,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		AA58619B1B95FA9800956E42 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MCKit/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MCKit;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SYMROOT = build;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		AA58619C1B95FA9800956E42 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = NO;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MCKit/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LINK_WITH_STANDARD_LIBRARIES = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MCKit;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SYMROOT = build;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		AAB585011B6F0D8C00480AAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -771,18 +700,51 @@
 			};
 			name = Release;
 		};
+		AAC4A8271BAFE2960032A0CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FMChart/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AAC4A8281BAFE2960032A0CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FMChart/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA58619D1B95FA9800956E42 /* Build configuration list for PBXNativeTarget "MCKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA58619B1B95FA9800956E42 /* Debug */,
-				AA58619C1B95FA9800956E42 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		AAB584D61B6F0D8C00480AAE /* Build configuration list for PBXProject "MetalChartDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -800,6 +762,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		AAC4A8261BAFE2960032A0CF /* Build configuration list for PBXNativeTarget "FMChart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAC4A8271BAFE2960032A0CF /* Debug */,
+				AAC4A8281BAFE2960032A0CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,5 +1,5 @@
 //
-//  MCUtility.h
+//  FMUtility.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/09/20.
@@ -13,27 +13,27 @@
 // そのあたりの不満を解消するためのルーチン集がここに集められる.
 // また、クラス関係を理解するためのエントリポイントとしての意味もある.
 
-#import "MCAxisLabel.h"
+#import "FMAxisLabel.h"
 
 @class MetalChart;
-@class MCDimensionalProjection;
-@class MCSpatialProjection;
-@class MCProjectionUpdater;
-@class MCAxis;
-@class MCAxisLabel;
-@class MCPlotArea;
-@class MCGestureInterpreter;
+@class FMDimensionalProjection;
+@class FMSpatialProjection;
+@class FMProjectionUpdater;
+@class FMAxis;
+@class FMAxisLabel;
+@class FMPlotArea;
+@class FMGestureInterpreter;
 @class Engine;
 
-@protocol MCInteraction;
-@protocol MCAxisConfigurator;
-@protocol MCInterpreterStateRestriction;
+@protocol FMInteraction;
+@protocol FMAxisConfigurator;
+@protocol FMInterpreterStateRestriction;
 
-@interface MCUtility : NSObject
+@interface FMUtility : NSObject
 
 @end
 
-typedef MCProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dimensionID);
+typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dimensionID);
 
 // Chartに対しての設定を簡潔にするためのオブジェクト.
 // ただし、効率性や柔軟性を重視するなら、このクラスを使わずに手で設定することをお勧めする.
@@ -42,11 +42,11 @@ typedef MCProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 // 迷わずより低いレベルのクラスを直接使う事をお勧めする(綺麗により細かいコントロールができる魔法のクラスなんて存在しないし、
 // 文字数より細かい制御など原理的にできる訳がない)
 
-@interface MCConfigurator : NSObject
+@interface FMConfigurator : NSObject
 
-@property (readonly, nonatomic) NSArray<MCDimensionalProjection*> * _Nonnull dimensions;
-@property (readonly, nonatomic) NSArray<MCProjectionUpdater*> * _Nonnull updaters;
-@property (readonly, nonatomic) NSArray<MCSpatialProjection*> * _Nonnull space;
+@property (readonly, nonatomic) NSArray<FMDimensionalProjection*> * _Nonnull dimensions;
+@property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
+@property (readonly, nonatomic) NSArray<FMSpatialProjection*> * _Nonnull space;
 @property (readonly, nonatomic) MetalChart * _Nonnull chart;
 @property (readonly, nonatomic) MTKView * _Nullable view;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
@@ -61,30 +61,30 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
-// もしもidに対応するMCDimensionalProjectionがなければ、作成してblockを呼び出す. 
+// もしもidに対応するFMDimensionalProjectionがなければ、作成してblockを呼び出す. 
 // 逆にすでに作成済みの場合はそれを使い、blockは呼ばれない.
 // blockの戻り値でNonnullを返した場合は登録され、connectSpace:メソッドで自動的に使用される.
-- (MCSpatialProjection * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
+- (FMSpatialProjection * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
 										 configureBlock:(DimensionConfigureBlock _Nullable)block
 ;
 
-- (MCProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
+- (FMProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
 
-- (id<MCInteraction> _Nullable)connectSpace:(NSArray<MCSpatialProjection*>* _Nonnull)space
-							  toInterpreter:(MCGestureInterpreter * _Nonnull)interpreter
+- (id<FMInteraction> _Nullable)connectSpace:(NSArray<FMSpatialProjection*>* _Nonnull)space
+							  toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
 ;
 
-- (MCAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
+- (FMAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
 								   belowSeries:(BOOL)below
-								  configurator:(id<MCAxisConfigurator> _Nonnull)configurator
-										 label:(MCAxisLabelDelegateBlock _Nullable)block
+								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
+										 label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
-- (MCPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
+- (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
 
-- (MCGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan
+- (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan
 												 pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
-												stateRestriction:(id<MCInterpreterStateRestriction> _Nonnull)restriction
+												stateRestriction:(id<FMInterpreterStateRestriction> _Nonnull)restriction
 ;
 
 @end

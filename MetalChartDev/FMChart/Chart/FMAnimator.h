@@ -1,5 +1,5 @@
 //
-//  MCAnimator.h
+//  FMAnimator.h
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2015/09/01.
@@ -9,33 +9,33 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@protocol MCAnimation
+@protocol FMAnimation
 
 - (BOOL)requestCancel;
 - (void)addedToPendingQueue:(NSTimeInterval)timestamp;
-- (BOOL)shouldStartAnimating:(NSArray<id<MCAnimation>> * _Nonnull)currentAnimations timestamp:(NSTimeInterval)timestamp;
+- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> * _Nonnull)currentAnimations timestamp:(NSTimeInterval)timestamp;
 - (BOOL)animate:(id<MTLCommandBuffer> _Nonnull)buffer timestamp:(NSTimeInterval)timestamp;
  
 @end
 
 
 
-@interface MCAnimator : NSObject <MCCommandBufferHook>
+@interface FMAnimator : NSObject <FMCommandBufferHook>
 
-- (void)addAnimation:(id<MCAnimation> _Nonnull)animation;
+- (void)addAnimation:(id<FMAnimation> _Nonnull)animation;
 
 @end
 
-typedef void (^MCAnimationBlock)(float progress);
+typedef void (^FMAnimationBlock)(float progress);
 
-@interface MCBlockAnimation : NSObject <MCAnimation>
+@interface FMBlockAnimation : NSObject <FMAnimation>
 
 @property (readonly, nonatomic) NSTimeInterval duration;
 @property (readonly, nonatomic) NSTimeInterval delay;
 
 - (instancetype _Nonnull)initWithDuration:(NSTimeInterval)duration
                                              delay:(NSTimeInterval)delay
-                                             Block:(MCAnimationBlock _Nonnull)block
+                                             Block:(FMAnimationBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
