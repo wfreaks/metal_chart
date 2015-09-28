@@ -34,8 +34,8 @@ typedef void (^FMAnimationBlock)(float progress);
 @property (readonly, nonatomic) NSTimeInterval delay;
 
 - (instancetype _Nonnull)initWithDuration:(NSTimeInterval)duration
-                                             delay:(NSTimeInterval)delay
-                                             Block:(FMAnimationBlock _Nonnull)block
+									delay:(NSTimeInterval)delay
+									Block:(FMAnimationBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
