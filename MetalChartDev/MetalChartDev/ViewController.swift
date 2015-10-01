@@ -130,7 +130,8 @@ class ViewController: UIViewController {
 			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
 			barSeries.attributes.setBarWidth(10)
 			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
-			barSeries.bar.series()?.addPoint(CGPointMake(0.5, 1.0))
+			barSeries.bar.series()?.addPoint(CGPointMake(0.5, 0.75))
+			barSeries.bar.series()?.addPoint(CGPointMake(0.75, 0.5))
 			
 			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
 			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> NSMutableAttributedString in

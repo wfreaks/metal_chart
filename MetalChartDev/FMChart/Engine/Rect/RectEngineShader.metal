@@ -117,10 +117,10 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
                                         uint v_id [[ vertex_id ]]
                                         )
 {
-    const uint vid = (v_id / 4) % info.vertex_capacity;
-    const uchar spec = v_id % 4;
+    const uint vid = (v_id / 6) % info.vertex_capacity;
+    const uchar spec = v_id % 6;
     const bool is_right = ((spec % 2) == 1); // spec = [0,2] -> true
-    const bool is_top = ((spec / 2) == 0); // spec = [0,1] -> true
+    const bool is_top = (spec%2 == 0) ^ (spec%5 == 0); // spec = [0,1] -> true
     // dirが(0,0)の場合は考えない. そんなやつの事は知らん. ちなみに面倒な事に、dirはview空間、anchorはデータ空間となる（rangeによって方向変わるとか許されない）
     const float2 size = proj.physical_size / 2;
     const float  w = bar.width / 2;

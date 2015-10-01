@@ -125,7 +125,7 @@
 		
 		const NSUInteger offset = [self vertexOffsetWithOffset:[series info].offset];
 		const NSUInteger count = [self vertexCountWithCount:[series info].count];
-		[encoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:offset vertexCount:count];
+		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 		
 		[encoder popDebugGroup];
 	}
@@ -136,9 +136,9 @@
     return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"GeneralBar_Fragment"];
 }
 
-- (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 4 * count; }
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 6 * count; }
 
-- (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return 4 * offset; }
+- (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return 6 * offset; }
 
 - (NSString *)vertexFunctionName { return @""; }
 
