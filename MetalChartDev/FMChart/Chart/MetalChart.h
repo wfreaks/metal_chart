@@ -124,6 +124,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
 @property (strong , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
+@property (assign , nonatomic) CGFloat clearDepth;
 
 - (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
 

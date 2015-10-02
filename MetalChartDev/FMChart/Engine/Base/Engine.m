@@ -14,8 +14,9 @@
 
 @property (strong, nonatomic) DeviceResource *resource;
 
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_writeDepth;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthGreater;
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState_noDepth;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthAny;
 
 @end
 
@@ -26,8 +27,9 @@
 	self = [super init];
 	if(self) {
 		self.resource = [DeviceResource defaultResource];
-        self.depthState_writeDepth = [self.class depthStencilStateWithResource:resource writeDepth:YES];
-        self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO];
+        self.depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
+        self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO depthFunc:MTLCompareFunctionAlways];
+        self.depthState_depthAny = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionAlways];
 	}
 	return self;
 }
@@ -71,9 +73,10 @@
 
 + (id<MTLDepthStencilState>)depthStencilStateWithResource:(DeviceResource *)resource
                                                writeDepth:(BOOL)writeDepth
+                                                depthFunc:(MTLCompareFunction)func
 {
 	MTLDepthStencilDescriptor *desc = [[MTLDepthStencilDescriptor alloc] init];
-    desc.depthCompareFunction = (writeDepth) ? MTLCompareFunctionGreater : MTLCompareFunctionAlways;
+    desc.depthCompareFunction = func;
 	desc.depthWriteEnabled = writeDepth;
 	
 	return [resource.device newDepthStencilStateWithDescriptor:desc];

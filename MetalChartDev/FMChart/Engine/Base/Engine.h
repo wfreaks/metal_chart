@@ -15,8 +15,9 @@
 @interface Engine : NSObject
 
 @property (readonly, nonatomic) DeviceResource * _Nonnull resource;
-@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_writeDepth;
+@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthGreater;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
+@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthAny;
 
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull) resource
 ;

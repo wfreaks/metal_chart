@@ -33,8 +33,6 @@
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *postRenderables;
 
-@property (strong, nonatomic) NSArray<id<FMDepthClient>> *depthClients;
-
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
 @end
@@ -156,8 +154,8 @@
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
-        _depthClients = [NSArray array];
 		_semaphore = dispatch_semaphore_create(2);
+        _clearDepth = 0;
 	}
 	return self;
 }
@@ -174,6 +172,7 @@
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
 - (void)drawInMTKView:(MTKView *)view
 {
+    view.clearDepth = self.clearDepth;
 	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
 	if(willDraw != nil) willDraw(self);
 	
@@ -367,30 +366,26 @@
 	}
 }
 
-// このメソッドはprivateメソッドなので、synchronizedブロックを使っていない. 呼び出す側で管理する事.
-- (void)reconstructDepthClients
+- (void)setClearDepth:(CGFloat)clearDepth
 {
-    // 複数のarrayから描画順にFMDepthClientを実装するオブジェクトを並べる必要があるので、
-    // 単純なadd/removeでは管理できない。
-    NSMutableArray<id<FMDepthClient>> *newClients = [NSMutableArray array];
-    [self.class addDepthClientsIn:_preRenderables to:newClients];
-    [self.class addDepthClientsIn:_series to:newClients];
-    [self.class addDepthClientsIn:_postRenderables to:newClients];
-    _depthClients = [newClients copy];
-    
-    CGFloat currentBase = 0.01; // 0だとclearValueと重なる可能性が高い.
-    for(id<FMDepthClient> client in _depthClients) {
-        currentBase += MAX(0, [client requestDepthRangeFrom:currentBase]);
+    if(_clearDepth != clearDepth) {
+        @synchronized(self) {
+            _clearDepth = clearDepth;
+            [self reconstructDepthClients];
+        }
     }
 }
 
-+ (void)addDepthClientsIn:(NSArray *)from to:(NSMutableArray<id<FMDepthClient>> *)to
+// このメソッドはprivateメソッドなので、synchronizedブロックを使っていない. 呼び出す側で管理する事.
+- (void)reconstructDepthClients
 {
-    for(id object in from) {
-        if([object conformsToProtocol:@protocol(FMDepthClient)]) {
-            [to addObject:object];
-        }
-    }
+    NSMutableArray<id> *objects = [NSMutableArray array];
+    [objects addObjectsFromArray:_preRenderables];
+    [objects addObjectsFromArray:_series];
+    [objects addObjectsFromArray:_postRenderables];
+    
+    CGFloat currentBase = self.clearDepth + 0.001; // 0だとclearValueと重なる可能性が高い.
+    for()
 }
 
 @end

@@ -32,6 +32,7 @@ class ViewController: UIViewController {
         let alpha : Double = 1
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
         metalView.addGestureRecognizer(tapRecognizer)
+        chart.clearDepth = 1;
 		
 		setupChart()
 	}

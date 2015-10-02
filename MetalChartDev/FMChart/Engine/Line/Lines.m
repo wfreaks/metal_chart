@@ -54,7 +54,7 @@
 
 - (id<MTLDepthStencilState>)depthState
 {
-	return _attributes.enableOverlay ? _engine.depthState_noDepth : _engine.depthState_writeDepth;
+	return _attributes.enableOverlay ? _engine.depthState_noDepth : _engine.depthState_depthGreater;
 }
 
 - (NSString *)vertexFunctionName

@@ -29,21 +29,10 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
     id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment"];
-    id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+    id<MTLDepthStencilState> depthState = _engine.depthState_depthAny;
     [encoder pushDebugGroup:@"DrawPlotRect"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
-    
-    const CGSize ps = projection.physicalSize;
-    const RectPadding pr = projection.padding;
-    const CGFloat scale = projection.screenScale;
-    if(projection.enableScissor) {
-        MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-        [encoder setScissorRect:rect];
-    } else {
-        MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-        [encoder setScissorRect:rect];
-    }
     
     id<MTLBuffer> const rectBuffer = _attributes.buffer;
     id<MTLBuffer> const projBuffer = projection.buffer;
@@ -93,21 +82,10 @@
 	id<Series> const series = [self series];
 	if(series) {
 		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
-		id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+		id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
 		[encoder pushDebugGroup:@"DrawBar"];
 		[encoder setRenderPipelineState:renderState];
 		[encoder setDepthStencilState:depthState];
-		
-		const CGSize ps = projection.physicalSize;
-		const RectPadding pr = projection.padding;
-		const CGFloat scale = projection.screenScale;
-		if(projection.enableScissor) {
-			MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-			[encoder setScissorRect:rect];
-		} else {
-			MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-			[encoder setScissorRect:rect];
-		}
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const indexBuffer = [self indexBuffer];
