@@ -54,7 +54,7 @@
 
 - (id<MTLDepthStencilState>)depthState
 {
-	return _attributes.enableOverlay ? _engine.depthState_noDepth : _engine.depthState_depthGreater;
+	return _engine.depthState_depthGreater;
 }
 
 - (NSString *)vertexFunctionName
@@ -64,7 +64,7 @@
 
 - (NSString *)fragmentFunctionName
 {
-	return _attributes.enableOverlay ? @"LineEngineFragment_NoDepth" : @"LineEngineFragment_WriteDepth";
+	return _attributes.enableOverlay ? @"LineEngineFragment_Overlay" : @"LineEngineFragment_NoOverlay";
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count

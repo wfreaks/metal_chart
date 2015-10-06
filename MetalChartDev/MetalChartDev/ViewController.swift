@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = false
+	let asChart = true
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		let engine = Engine(resource: resource)
-		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 0)
+		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 60)
 		
 		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
@@ -51,47 +51,40 @@ class ViewController: UIViewController {
 		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 		
 		if (asChart) {
-			let yRange : CGFloat = CGFloat(5)
-			let dimX = FMDimensionalProjection(dimensionId: 1, minValue: -1, maxValue: 1)
-			let dimY = FMDimensionalProjection(dimensionId: 2, minValue: -yRange, maxValue: yRange)
-			let space = FMSpatialProjection(dimensions: [dimX, dimY])
-			
-			let vertCapacity : UInt = 1<<9
-			let vertLength = 1 << 8
-			let vertOffset = 1 << 4
-			let series = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
-			let line = OrderedPolyLinePrimitive(engine: engine, orderedSeries: series, attributes:nil)
             
-            let overlaySeries = OrderedSeries(resource: resource, vertexCapacity: vertCapacity)
-            let overlayLine = OrderedPolyLinePrimitive(engine: engine, orderedSeries: overlaySeries, attributes:nil)
-            overlayLine.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
-            overlayLine.attributes.setWidth(3)
-			
-			let xAxisConf = FMBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
-				uniform.majorTickInterval = CFloat(1<<6)
-				uniform.axisAnchorValue = 0
-				uniform.tickAnchorValue = 0
-			}
-			
-			let yAxisConf = FMBlockAxisConfigurator() { (uniform, dimension, orthogonal, isFirst) -> Void in
-				let l = dimension.length()
-				uniform.majorTickInterval = CFloat(l / 4)
-				uniform.axisAnchorValue = CFloat(orthogonal.min)
-				uniform.tickAnchorValue = 0
-			}
-			
-			let xAxis = FMAxis(engine: engine, projection: space, dimension: 1, configuration:xAxisConf)
-			let yAxis = FMAxis(engine: engine, projection: space, dimension: 2, configuration:yAxisConf)
+            let vertCapacity : UInt = 1<<9
+            let vertLength = 1 << 8
+            let vertOffset = 1 << 4
+            let yRange : CGFloat = CGFloat(5)
             
-            xAxis.setMinorTickCountPerMajor(4)
+            let space = configurator.spaceWithDimensionIds([1,2]) { (dimId) -> FMProjectionUpdater? in
+                let updater : FMProjectionUpdater = FMProjectionUpdater()
+                if(dimId == 1) {
+                    updater.addRestrictionToLast(FMSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
+                    updater.addRestrictionToLast(FMLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
+                } else {
+                    updater.addRestrictionToLast(FMSourceRestriction( minValue: -yRange, maxValue: yRange, expandMin: true, expandMax: true))
+                }
+                return updater
+            }
+            
+            let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: CGFloat(1<<6), minorTicksFreq: 4)
+            let yAxisConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: 1, minorTicksFreq: 0)
+            configurator.addAxisToDimensionWithId(2, belowSeries: false, configurator: yAxisConf, label: nil)
+            configurator.addAxisToDimensionWithId(1, belowSeries: false, configurator: xAxisConf, label: nil)
+            
+            let lineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
+            let overlayLineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
+            overlayLineSeries.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
+            overlayLineSeries.attributes.setWidth(3)
+            overlayLineSeries.attributes.enableOverlay = true
 			
-			let xUpdater = FMProjectionUpdater(target: dimX)
-            xUpdater.addRestrictionToLast(FMSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
-			xUpdater.addRestrictionToLast(FMLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
-			
-			chart.padding = RectPadding(left: 30, top: 60, right: 30, bottom: 60)
+            let xUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(1)!
+            let yUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(2)!
 			
 			chart.willDraw = { (FM : MetalChart) -> Void in
+                let line : OrderedPolyLinePrimitive = lineSeries.line as! OrderedPolyLinePrimitive
+                let overlayLine : OrderedPolyLinePrimitive = overlayLineSeries.line as! OrderedPolyLinePrimitive
                 line.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
@@ -99,17 +92,14 @@ class ViewController: UIViewController {
                     xUpdater.addSourceValue(CGFloat(x), update: false)
                 }
 				xUpdater.updateTarget()
+                yUpdater.updateTarget()
 			}
-			
-			let lineSeries = FMLineSeries(line: line)
-            let overlayLineSeries = FMLineSeries(line: overlayLine)
             
+            configurator.addPlotAreaWithColor(UIColor.whiteColor())
 			chart.addSeries(lineSeries, projection: space)
             chart.addSeries(overlayLineSeries, projection: space)
-			chart.addPostRenderable(yAxis)
-			chart.addPostRenderable(xAxis)
             
-            firstLineAttributes = line.attributes
+            firstLineAttributes = lineSeries.attributes
             chart.bufferHook = animator
 			
 		} else {
@@ -125,7 +115,8 @@ class ViewController: UIViewController {
 			for idx in 0 ..< 4  {
 				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
 			}
-			lineSeries.series?.info().count = 5;
+			lineSeries.series?.info().count = 5
+            lineSeries.attributes.enableOverlay = true
 			
 			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
 			barSeries.attributes.setBarWidth(10)

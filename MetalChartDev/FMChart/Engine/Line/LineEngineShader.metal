@@ -27,6 +27,7 @@ vertex out_vertex PolyLineEngineVertexIndexed(
 	const uchar spec = v_id % 6;
     out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
     out.depth = attr.depth;
+    out.depth_add = (vid-info.offset) * 0.1 / (vcap*2);
     return out;
 }
 
@@ -47,6 +48,7 @@ vertex out_vertex PolyLineEngineVertexOrdered(
     const uchar spec = v_id % 6;
     out_vertex out = LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, proj.physical_size);
     out.depth = attr.depth;
+    out.depth_add = (vid-info.offset) * 0.1 / (vcap*2);
     return out;
 }
 
@@ -76,13 +78,13 @@ vertex out_vertex SeparatedLineEngineVertexOrdered(
 	return LineEngineVertexCore<out_vertex>(p_current, p_next, spec, attr.width, physical_size);
 }
 
-fragment out_fragment LineEngineFragment_WriteDepth(
+fragment out_fragment_depthGreater LineEngineFragment_NoOverlay(
                                                     const out_vertex input [[ stage_in ]],
                                                     constant uniform_projection& proj [[ buffer(0) ]],
                                                     constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {
     const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
-    out_fragment out;
+    out_fragment_depthGreater out;
     out.color = attr.color;
     out.color.a *= attr.alpha;
     if( core.is_same_dir ) {
@@ -93,20 +95,22 @@ fragment out_fragment LineEngineFragment_WriteDepth(
 	return out;
 }
 
-fragment float4 LineEngineFragment_NoDepth(
+fragment out_fragment_depthGreater LineEngineFragment_Overlay(
                                            const out_vertex input [[ stage_in ]],
                                            constant uniform_projection& proj [[ buffer(0) ]],
                                            constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {
     const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
-    float4 color = attr.color;
-    color.a *= attr.alpha;
+    out_fragment_depthGreater out;
+    out.color = attr.color;
+    out.color.a *= attr.alpha;
     if( core.is_same_dir ) {
-        color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : 0;
+        out.color.a *= (attr.modify_alpha_on_edge > 0) ? core.ratio : 0;
     }
+    out.depth = (out.color.a > 0) * (input.depth + input.depth_add);
 //    color.a *= saturate((!core.is_same_dir) + core.ratio ); // attr.modify_alpha_on_edge = 1 の場合に限り上の分岐の３行と等価.
     
-    return color;
+    return out;
 }
 
 

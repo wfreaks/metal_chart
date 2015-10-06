@@ -18,9 +18,10 @@ struct out_vertex {
     float2 pos;
     float  coef;
     float  depth [[ flat ]];
+    float  depth_add [[ flat ]];
 };
 
-struct out_fragment {
+struct out_fragment_depthGreater {
     float4 color [[ color(0) ]];
     float  depth [[ depth(greater) ]];
 };
