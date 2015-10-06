@@ -16,6 +16,7 @@
 @class UniformAxisConfiguration;
 @class UniformAxisAttributes;
 @class UniformPointAttributes;
+@class UniformGridAttributes;
 @class OrderedSeries;
 @class IndexedSeries;
 
@@ -98,4 +99,26 @@
 ;
 
 @end
+
+
+@interface GridLine : NSObject
+
+@property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
+
+@property (readonly, nonatomic) Engine * _Nonnull engine;
+
+- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+        projection:(UniformProjection * _Nonnull)projection
+          maxCount:(NSUInteger)maxCount
+;
+
+
+@end
+
+
 

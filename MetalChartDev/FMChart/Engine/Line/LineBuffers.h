@@ -85,4 +85,25 @@
 
 @end
 
+@interface UniformGridAttributes : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_grid_attributes * _Nonnull attributes;
+
+@property (assign  , nonatomic) float anchorValue;
+@property (assign  , nonatomic) float interval;
+@property (assign  , nonatomic) uint8_t dimensionIndex;
+
+- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+- (void)setWidth:(float)width;
+
+- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+
+- (void)setDepthValue:(float)depth;
+
+@end
 

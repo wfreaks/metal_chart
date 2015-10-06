@@ -298,11 +298,6 @@ static double gaussian(double mean, double variance) {
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
     
-    const CGSize ps = projection.physicalSize;
-    const CGFloat scale = projection.screenScale;
-    MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-    [encoder setScissorRect:rect];
-	
 	UniformAxisConfiguration *const conf = _configuration;
     id<MTLBuffer> attributesBuffer = _attributeBuffer;
     
@@ -316,6 +311,57 @@ static double gaussian(double mean, double variance) {
     const NSUInteger lineCount = (1 + ((1 + conf.minorTicksPerMajor) * maxCount));
     const NSUInteger vertCount = 6 * lineCount;
     conf.maxMajorTicks = maxCount;
+    [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
+    
+    [encoder popDebugGroup];
+}
+
+@end
+
+
+@implementation GridLine
+
+- (instancetype)initWithEngine:(Engine *)engine
+{
+    self = [super init];
+    if(self) {
+        _attributes = [[UniformGridAttributes alloc] initWithResource:engine.resource];
+        _engine = engine;
+        [_attributes setColorWithRed:0.5 green:0.5 blue:0.5 alpha:0.8];
+        [_attributes setWidth:0.5];
+        [_attributes setInterval:1];
+        [_attributes setAnchorValue:0];
+    }
+    return self;
+}
+
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+{
+    return [_engine pipelineStateWithProjection:projection
+                                       vertFunc:@"GridVertex"
+                                       fragFunc:@"GridFragment"];
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+        projection:(UniformProjection *)projection
+          maxCount:(NSUInteger)maxCount
+{
+    id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+    id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
+    [encoder pushDebugGroup:@"DrawGridLine"];
+    [encoder setRenderPipelineState:renderState];
+    [encoder setDepthStencilState:depthState];
+    
+    UniformGridAttributes *const attr = self.attributes;
+    id<MTLBuffer> attributesBuffer = attr.buffer;
+    
+    [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:0];
+    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:1];
+    
+    [encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
+    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
+    
+    const NSUInteger vertCount = 6 * maxCount;
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
     
     [encoder popDebugGroup];

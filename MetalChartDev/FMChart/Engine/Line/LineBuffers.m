@@ -174,3 +174,55 @@
 
 
 
+@implementation UniformGridAttributes
+
+- (instancetype)initWithResource:(DeviceResource *)resource
+{
+    self = [super init];
+    if(self) {
+        _buffer = [resource.device newBufferWithLength:sizeof(uniform_grid_attributes) options:MTLResourceOptionCPUCacheModeWriteCombined];
+    }
+    return self;
+}
+
+- (uniform_grid_attributes *)attributes { return (uniform_grid_attributes *)[_buffer contents]; }
+
+- (void)setWidth:(float)width
+{
+    self.attributes->width = width;
+}
+
+- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+{
+    self.attributes->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setAnchorValue:(float)anchorValue
+{
+    if(_anchorValue != anchorValue) {
+        _anchorValue = anchorValue;
+        self.attributes->anchor_value = anchorValue;
+    }
+}
+
+- (void)setInterval:(float)interval
+{
+    if(_interval != interval) {
+        _interval = interval;
+        self.attributes->interval = interval;
+    }
+}
+
+- (void)setDimensionIndex:(uint8_t)dimensionIndex
+{
+    _dimensionIndex = dimensionIndex;
+    self.attributes->dimIndex = dimensionIndex;
+}
+
+- (void)setDepthValue:(float)depth
+{
+    self.attributes->depth = depth;
+}
+
+@end
+

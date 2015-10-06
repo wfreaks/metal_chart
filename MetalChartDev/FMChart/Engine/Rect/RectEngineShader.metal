@@ -25,26 +25,6 @@ struct out_vertex_bar {
     float  l   [[ flat ]];
 };
 
-struct out_fragment {
-    float4 color [[ color(0) ]];
-};
-
-struct out_fragment_depthAny {
-    float4 color [[ color(0) ]];
-    float  depth [[ depth(any) ]];
-};
-
-struct out_fragment_depthGreater {
-    float4 color [[ color(0) ]];
-    float  depth [[ depth(greater) ]];
-};
-
-struct out_fragment_depthLess {
-    float4 color [[ color(0) ]];
-    float  depth [[ depth(less) ]];
-};
-
-
 struct uniform_plot_rect {
     float4 color;
     float4 corner_radius; // 解釈は(x, y, z, w) = (lt, rt, lb, rb);

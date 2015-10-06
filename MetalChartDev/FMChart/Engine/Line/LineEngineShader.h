@@ -21,11 +21,6 @@ struct out_vertex {
     float  depth_add [[ flat ]];
 };
 
-struct out_fragment_depthGreater {
-    float4 color [[ color(0) ]];
-    float  depth [[ depth(greater) ]];
-};
-
 struct uniform_line_attr {
     float4 color;
     float2 length_mod;
@@ -65,7 +60,7 @@ inline OutputType LineEngineVertexCore(const float2 current, const float2 next, 
 inline void modify_length(thread float2& start, thread float2& end, float2 modifier, float2 phy_size)
 {
     const float2 mid = (start + end) / 2;
-    const float2 v = normalize(start-end) / phy_size;
+    const float2 v = normalize(end-start) / phy_size;
     start = mid + (modifier.x * v);
     end = mid + (modifier.y * v);
 }

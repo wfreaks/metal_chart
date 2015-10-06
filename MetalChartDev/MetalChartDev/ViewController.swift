@@ -99,6 +99,10 @@ class ViewController: UIViewController {
 			chart.addSeries(lineSeries, projection: space)
             chart.addSeries(overlayLineSeries, projection: space)
             
+            let yGrid = FMGridLine(engine: engine, projection: space, dimension: 2)
+            yGrid.attributes.interval = 1
+            chart.addPreRenderable(yGrid)
+            
             firstLineAttributes = lineSeries.attributes
             chart.bufferHook = animator
 			
@@ -129,6 +133,13 @@ class ViewController: UIViewController {
 				let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
 				return str
 			}
+            
+            let xGrid = FMGridLine(engine: engine, projection: space, dimension: 1)
+            xGrid.attributes.interval = 0.5
+            chart.addPreRenderable(xGrid)
+            let yGrid = FMGridLine(engine: engine, projection: space, dimension: 2)
+            yGrid.attributes.interval = 0.25
+            chart.addPreRenderable(yGrid)
 			
 			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())
 			rect.attributes.setCornerRadius(10)

@@ -27,6 +27,16 @@ struct uniform_axis_attributes {
 	float  width;
 };
 
+struct uniform_grid_attributes {
+    float4 color;
+    float width;
+    
+    float anchor_value;
+    float interval;
+    float depth;
+    uchar dimIndex;
+};
+
 struct out_vertex_axis {
     float4 position [[ position ]];
     float2 mid_pos  [[ flat ]];
@@ -34,6 +44,15 @@ struct out_vertex_axis {
     float2 pos;
     float  coef;
     uchar  index    [[ flat ]];
+    bool   dropped  [[ flat ]];
+};
+
+struct out_vertex_grid {
+    float4 position [[ position ]];
+    float2 mid_pos  [[ flat ]];
+    float2 vec_dir  [[ flat ]];
+    float2 pos;
+    float  coef;
     bool   dropped  [[ flat ]];
 };
 
@@ -148,4 +167,62 @@ fragment float4 AxisFragment(
 	
 	return color;
 
+}
+
+inline float2 grid_mid_pos( uint vid, constant uniform_grid_attributes& grid, constant uniform_projection& proj )
+{
+    const uchar idx = grid.dimIndex;
+    float2 v = - proj.value_offset;
+    // tick_value = tick_anchor_value + (n * tick_interval_major) >= minとなる最小の整数nを求める.
+    const float v_min = (v - proj.value_scale)[idx];
+    const float interval = grid.interval;
+    const float grid_anchor = grid.anchor_value;
+    
+    const float n = ceil((v_min - grid_anchor) / interval);
+    const float grid_value = grid_anchor + ((n+vid) * interval);
+    v[idx] = grid_value;
+    return v;
+}
+
+inline float2 grid_vec_dir( constant uniform_grid_attributes& grid, constant uniform_projection& proj )
+{
+    const uchar idx = grid.dimIndex;
+    float2 v = proj.value_scale;
+    v[idx] = 0;
+    return v;
+}
+
+vertex out_vertex_grid GridVertex(
+                                  constant uniform_grid_attributes& attr [[ buffer(0) ]],
+                                  constant uniform_projection&      proj [[ buffer(1) ]],
+                                  uint v_id [[ vertex_id ]]
+                                  )
+{
+    const uint vid = v_id / 6;
+    const uchar spec = v_id % 6;
+    
+    const float2 mid_pos_data = grid_mid_pos(vid, attr, proj);
+    const float2 vec_dir_data = grid_vec_dir(attr, proj);
+    
+    const float2 start = data_to_ndc(mid_pos_data - vec_dir_data, proj);
+    const float2 end = data_to_ndc(mid_pos_data + vec_dir_data, proj);
+    out_vertex_grid out = LineEngineVertexCore<out_vertex_grid>(start, end, spec, attr.width, proj.physical_size);
+    out.dropped = is_dropped(mid_pos_data, attr.dimIndex, proj);
+    
+    return out;
+}
+
+
+fragment out_fragment_depthGreater GridFragment(
+                             const out_vertex_grid             in   [[ stage_in ]],
+                             constant uniform_grid_attributes& attr [[ buffer(0) ]],
+                             constant uniform_projection&      proj [[ buffer(1) ]])
+{
+    const out_frag_core core = LineEngineFragmentCore_ratio(in, proj, attr.width);
+    out_fragment_depthGreater out;
+    out.color = (!in.dropped) * attr.color;
+    out.color.a *= saturate((!core.is_same_dir) + core.ratio );
+    out.depth = attr.depth;
+    
+    return out;
 }

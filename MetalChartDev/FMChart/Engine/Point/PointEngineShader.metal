@@ -15,10 +15,6 @@ struct out_vertex {
     float  psize    [[ flat ]];
 };
 
-struct out_fragment {
-    float4 color [[ color(0) ]];
-};
-
 struct uniform_point {
     float4 color_inner;
     float4 color_outer;

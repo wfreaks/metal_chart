@@ -23,10 +23,6 @@ struct out_vertex {
     float2 uv;
 };
 
-struct out_fragment {
-    float4 color [[ color(0) ]];
-};
-
 inline float2 spec_to_coef(const uint spec) {
     const float is_right = ((spec%2) == 1);
     const float is_top = (spec%2 == 0) ^ (spec%5 == 0);

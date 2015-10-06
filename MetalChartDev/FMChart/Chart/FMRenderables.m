@@ -211,3 +211,71 @@
 }
 
 @end
+
+@interface FMGridLine()
+
+@property (readonly, nonatomic) FMDimensionalProjection *dimension;
+
+@end
+
+@implementation FMGridLine
+
+- (instancetype)initWithGridLine:(GridLine *)gridLine
+                      Projection:(FMSpatialProjection *)projection
+                       dimension:(NSInteger)dimensionId
+{
+    self = [super init];
+    if(self) {
+        _gridLine = gridLine;
+        _projection = projection;
+        _dimension = [projection dimensionWithId:dimensionId];
+        
+        if(_dimension == nil) {
+            abort();
+        }
+        
+        const NSUInteger dimIndex = [projection.dimensions indexOfObject:_dimension];
+        [_gridLine.attributes setDimensionIndex:dimIndex];
+    }
+    return self;
+}
+
+- (UniformGridAttributes *)attributes {
+    return self.gridLine.attributes;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+             chart:(MetalChart *)chart
+              view:(MTKView *)view
+{
+    const CGFloat len = _dimension.max - _dimension.min;
+    const NSUInteger maxCount = floor(len/_gridLine.attributes.interval) + 1;
+    [_gridLine encodeWith:encoder projection:_projection.projection maxCount:maxCount];
+}
+
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
+{
+    for(id obj in objects) {
+        if([obj isKindOfClass:[FMPlotArea class]]) {
+            return 0;
+        }
+    }
+    [self.attributes setDepthValue:min+0.05];
+    return 0.1;
+}
+
+- (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
+{
+    [self.attributes setDepthValue:min+0.05];
+    return 0.1;
+}
+
++ (instancetype)gridLineWithEngine:(Engine *)engine
+                        projection:(FMSpatialProjection *)projection
+                         dimension:(NSInteger)dimensionId
+{
+    GridLine *line = [[GridLine alloc] initWithEngine:engine];
+    return [[self alloc] initWithGridLine:line Projection:projection dimension:dimensionId];
+}
+
+@end

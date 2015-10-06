@@ -17,6 +17,7 @@
 @class UniformBarAttributes;
 @class UniformPointAttributes;
 @class UniformPlotRectAttributes;
+@class UniformGridAttributes;
 @class FMPlotArea;
 
 @protocol Series;
@@ -97,5 +98,27 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)rectWithEngine:(Engine *_Nonnull)engine;
+
+@end
+
+@class GridLine;
+
+@interface FMGridLine : NSObject<FMAttachment, FMPlotAreaClient>
+
+@property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) GridLine * _Nonnull gridLine;
+@property (readonly, nonatomic) FMSpatialProjection * _Nonnull projection;
+
+- (_Nonnull instancetype)initWithGridLine:(GridLine * _Nonnull)gridLine
+                               Projection:(FMSpatialProjection * _Nonnull)projection
+                                dimension:(NSInteger)dimensionId
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype _Nonnull)gridLineWithEngine:(Engine * _Nonnull)engine
+                                 projection:(FMSpatialProjection * _Nonnull)projection
+                                  dimension:(NSInteger)dimensionId;
+;
 
 @end
