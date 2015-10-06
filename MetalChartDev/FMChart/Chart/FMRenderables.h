@@ -17,10 +17,19 @@
 @class UniformBarAttributes;
 @class UniformPointAttributes;
 @class UniformPlotRectAttributes;
+@class FMPlotArea;
 
 @protocol Series;
 
-@interface FMLineSeries : NSObject<FMRenderable, FMDepthClient>
+@protocol FMPlotAreaClient<FMDepthClient>
+
+- (CGFloat)allocateRangeInPlotArea:(FMPlotArea *_Nonnull)area
+                          minValue:(CGFloat)min
+;
+
+@end
+
+@interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
@@ -38,7 +47,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface FMBarSeries : NSObject<FMRenderable>
+@interface FMBarSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
@@ -76,7 +85,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @class PlotRect;
 
-@interface FMPlotArea : NSObject<FMAttachment>
+@interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;

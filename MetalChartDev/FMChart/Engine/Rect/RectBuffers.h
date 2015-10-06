@@ -23,6 +23,7 @@
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 - (void)setCornerRadius:(float)radius;
+- (void)setDepthValue:(float)value;
 
 @end
 
@@ -37,6 +38,7 @@
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setCornerRadius:(float)radius;
 - (void)setBarWidth:(float)width;
+- (void)setDepthValue:(float)value;
 - (void)setAnchorPoint:(CGPoint)point;
 - (void)setBarDirection:(CGPoint)dir;
 

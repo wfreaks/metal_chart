@@ -43,6 +43,11 @@
     self.rect->corner_radius = vector4(radius, radius, radius, radius);
 }
 
+- (void)setDepthValue:(float)value
+{
+    self.rect->depth_value = value;
+}
+
 @end
 
 
@@ -96,6 +101,11 @@
 
 {
     self.bar->dir = vector2((float)dir.x, (float)dir.y);
+}
+
+- (void)setDepthValue:(float)value
+{
+    self.bar->depth_value = value;
 }
 
 @end

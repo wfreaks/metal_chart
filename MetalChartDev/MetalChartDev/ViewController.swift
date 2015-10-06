@@ -32,7 +32,6 @@ class ViewController: UIViewController {
         let alpha : Double = 1
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
         metalView.addGestureRecognizer(tapRecognizer)
-        chart.clearDepth = 1;
 		
 		setupChart()
 	}
@@ -44,7 +43,7 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		let engine = Engine(resource: resource)
-		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 60)
+		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 0)
 		
 		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
@@ -141,7 +140,7 @@ class ViewController: UIViewController {
 			}
 			
 			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())
-			rect.attributes.setCornerRadius(5, rt: 5, lb: 5, rb: 5)
+			rect.attributes.setCornerRadius(10)
 			
 			chart.addSeriesArray([lineSeries, barSeries], projections: [space, space])
 		}

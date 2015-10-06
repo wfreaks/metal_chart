@@ -14,9 +14,10 @@
 
 @property (strong, nonatomic) DeviceResource *resource;
 
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthGreater;
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState_noDepth;
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthAny;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthGreater;
+@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthLess;
 
 @end
 
@@ -27,9 +28,10 @@
 	self = [super init];
 	if(self) {
 		self.resource = [DeviceResource defaultResource];
-        self.depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
         self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO depthFunc:MTLCompareFunctionAlways];
         self.depthState_depthAny = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionAlways];
+        self.depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
+        self.depthState_depthLess = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionLess];
 	}
 	return self;
 }

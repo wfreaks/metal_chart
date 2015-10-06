@@ -15,6 +15,7 @@
 #import "Rects.h"
 #import "Points.h"
 #import "LineBuffers.h"
+#import "RectBuffers.h"
 
 @interface FMLineSeries()
 
@@ -41,9 +42,20 @@
 	[_line encodeWith:encoder projection:projection];
 }
 
-- (CGFloat)requestDepthRangeFrom:(CGFloat)min
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    [_line.attributes setDepthValue:min];
+    for(id obj in objects) {
+        if([obj isKindOfClass:[FMPlotArea class]]) {
+            return 0;
+        }
+    }
+    [self.attributes setDepthValue:min+0.05];
+    return 0.1;
+}
+
+- (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
+{
+    [self.attributes setDepthValue:min+0.05];
     return 0.1;
 }
 
@@ -60,8 +72,6 @@
 
 @end
 
-
-
 @implementation FMBarSeries
 
 - (instancetype)initWithBar:(BarPrimitive *)bar
@@ -71,6 +81,23 @@
         _bar = bar;
     }
     return self;
+}
+
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
+{
+    for(id obj in objects) {
+        if([obj isKindOfClass:[FMPlotArea class]]) {
+            return 0;
+        }
+    }
+    [self.attributes setDepthValue:min+0.05];
+    return 0.1;
+}
+
+- (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
+{
+    [self.attributes setDepthValue:min+0.05];
+    return 0.1;
 }
 
 - (UniformBarAttributes *)attributes { return _bar.attributes; }
@@ -162,6 +189,19 @@
     [_projection setPadding:chart.padding];
     
     [_rect encodeWith:encoder projection:_projection];
+}
+
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
+{
+    CGFloat currentValue = 0;
+    for(id obj in objects) {
+        if([obj conformsToProtocol:@protocol(FMPlotAreaClient)]) {
+            CGFloat v = [(id<FMPlotAreaClient>)obj allocateRangeInPlotArea:self minValue:(min+currentValue)];
+            currentValue += fabs(v);
+        }
+    }
+    [self.attributes setDepthValue:min];
+    return -currentValue;
 }
 
 + (instancetype)rectWithEngine:(Engine *)engine

@@ -39,9 +39,16 @@ struct out_fragment_depthGreater {
     float  depth [[ depth(greater) ]];
 };
 
+struct out_fragment_depthLess {
+    float4 color [[ color(0) ]];
+    float  depth [[ depth(less) ]];
+};
+
+
 struct uniform_plot_rect {
     float4 color;
     float4 corner_radius; // 解釈は(x, y, z, w) = (lt, rt, lb, rb);
+    float  depth_value;
 };
 
 struct uniform_bar {
@@ -52,6 +59,7 @@ struct uniform_bar {
     float2 anchor_point;
     
     float  width;
+    float  depth_value;
 };
 
 
@@ -97,7 +105,7 @@ inline float RoundRectFragment_core(const float2 pos, const float4 rect, const f
     return ratio;
 }
 
-fragment out_fragment_depthAny PlotRect_Fragment(
+fragment out_fragment_depthLess PlotRect_Fragment(
 										const out_vertex_plot in [[ stage_in ]],
 										constant uniform_plot_rect& rect  [[ buffer(0) ]],
 										constant uniform_projection& proj [[ buffer(1) ]]
@@ -112,10 +120,10 @@ fragment out_fragment_depthAny PlotRect_Fragment(
     const float4 rectangle = float4(padding.x - size.x, size.x - padding.z, padding.w - size.y, size.y - padding.y);
     const float ratio = RoundRectFragment_core(in.pos, rectangle, r, proj.screen_scale);
 	
-    out_fragment_depthAny out;
+    out_fragment_depthLess out;
     out.color = rect.color;
 	out.color.a *= ratio;
-    out.depth = (ratio == 0);
+    out.depth = ((ratio > 0) * rect.depth_value) + ((ratio <= 0) * 10);
 	
     return out;
 }
@@ -186,7 +194,7 @@ fragment out_fragment_depthGreater GeneralBar_Fragment(
     out_fragment_depthGreater out;
     out.color = bar.color;
     out.color.a *= ratio;
-    out.depth = 0.1;
+    out.depth = ((ratio > 0) * bar.depth_value);
     
     return out;
 }

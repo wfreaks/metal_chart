@@ -28,8 +28,10 @@
  * Renderable/AttachmentがDepthTestを必要とする場合、このプロトコルを実装する. 
  * 複数のドローコールが発行される関係上、Depthバッファの値の取りうる範囲（領域ではない）のうち、
  * どの範囲をどれが使用するかを把握していないと描画上の不整合を起こすため. 強制力は無い.
- * clientが使用可能な値は, 戻り値 R を用いて (minDepth <= v < minDepth + R) を満たすvである.
- * 負値は0として解釈される. このメソッドは描画オブジェクト配列に変更が加えられた時にコールされる.
+ * clientが使用可能な値は, 戻り値 R を用いて (minDepth < v <= minDepth + |R|) を満たすvである.
+ * Rの絶対値を取るのは、R < 0 の場合はclearDepthよりも小さい値をデプスバッファに書き込む事を意味し、
+ * かつdepthテストでは負値を使えないようなので逆にclearDepthを上げる事で対処するためのものである.
+ * ちなみに、この「掘り下げる」のはプロット領域を角丸にしつつ、そこでマスクをするなどの機能で使う.
  *
  * MetalChartの想定は、MTKView の clearDepthの値が0となっている事, depthが浮動小数点である事である.
  * また, 少なくともデフォルト実装では depthTestはMTLCompareFunctionGreaterを使う.
@@ -40,7 +42,8 @@
  */
 @protocol FMDepthClient <NSObject>
 
-- (CGFloat)requestDepthRangeFrom:(CGFloat)min;
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min
+                         objects:(NSArray * _Nonnull)objects;
 
 @end
 
@@ -124,7 +127,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
 @property (strong , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
-@property (assign , nonatomic) CGFloat clearDepth;
+@property (readonly, nonatomic) CGFloat clearDepth;
 
 - (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
 

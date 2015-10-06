@@ -29,7 +29,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
     id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment"];
-    id<MTLDepthStencilState> depthState = _engine.depthState_depthAny;
+    id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
     [encoder pushDebugGroup:@"DrawPlotRect"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];

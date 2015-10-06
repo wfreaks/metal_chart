@@ -14,6 +14,7 @@
 typedef struct uniform_plot_rect {
     vector_float4 color;
     vector_float4 corner_radius;
+    float depth_value;
 } uniform_plot_rect;
 
 typedef struct uniform_bar {
@@ -23,6 +24,7 @@ typedef struct uniform_bar {
     vector_float2 dir;
     vector_float2 anchor_point;
     float         width;
+    float         depth_value;
 } uniform_bar;
 
 

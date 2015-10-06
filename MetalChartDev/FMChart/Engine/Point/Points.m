@@ -43,17 +43,6 @@ projection:(UniformProjection *)projection
 		[encoder setRenderPipelineState:renderState];
 		[encoder setDepthStencilState:depthState];
 		
-		const CGSize ps = projection.physicalSize;
-		const RectPadding pr = projection.padding;
-		const CGFloat scale = projection.screenScale;
-		if(projection.enableScissor) {
-			MTLScissorRect rect = {pr.left*scale, pr.top*scale, (ps.width-(pr.left+pr.right))*scale, (ps.height-(pr.bottom+pr.top))*scale};
-			[encoder setScissorRect:rect];
-		} else {
-			MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-			[encoder setScissorRect:rect];
-		}
-		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const indexBuffer = [self indexBuffer];
 		id<MTLBuffer> const pointBuffer = _attributes.buffer;

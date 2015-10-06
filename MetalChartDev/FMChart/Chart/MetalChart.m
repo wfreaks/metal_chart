@@ -384,8 +384,16 @@
     [objects addObjectsFromArray:_series];
     [objects addObjectsFromArray:_postRenderables];
     
-    CGFloat currentBase = self.clearDepth + 0.001; // 0だとclearValueと重なる可能性が高い.
-    for()
+    CGFloat currentBase = 0;
+    CGFloat clearVal = 0;
+    for(id obj in objects) {
+        if([obj conformsToProtocol:@protocol(FMDepthClient)]) {
+            CGFloat v = [(id<FMDepthClient>)obj requestDepthRangeFrom:currentBase objects:objects];
+            currentBase += fabs(v);
+            clearVal += fabs(MIN(0, v));
+        }
+    }
+    _clearDepth = clearVal;
 }
 
 @end
