@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = false
+	let asChart = true
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
