@@ -225,34 +225,6 @@ static double gaussian(double mean, double variance) {
 
 @end
 
-@implementation IndexedPolyLinePrimitive
-
-- (instancetype)initWithEngine:(Engine *)engine
-				 indexedSeries:(IndexedSeries *)series
-					attributes:(UniformLineAttributes * _Nullable)attributes
-{
-	self = [super initWithEngine:engine attributes:attributes];
-	if(self) {
-		_series = series;
-	}
-	return self;
-}
-
-- (id<MTLBuffer>)indexBuffer
-{
-	return _series.indices.buffer;
-}
-
-- (NSString *)vertexFunctionName { return @"PolyLineEngineVertexIndexed"; }
-
-- (void)setSeries:(IndexedSeries *)series
-{
-	_series = series;
-	self.point.series = series;
-}
-
-@end
-
 @interface Axis()
 
 @property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;

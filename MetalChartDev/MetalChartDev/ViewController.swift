@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = true
+	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -119,7 +119,8 @@ class ViewController: UIViewController {
 			for idx in 0 ..< 4  {
 				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
 			}
-			lineSeries.series?.info().count = 5
+//            lineSeries.series?.addPoint(CGPointMake(CGFloat(-0.5), CGFloat(-0.5)))
+//            lineSeries.series?.addPoint(CGPointMake(CGFloat(+0.5), CGFloat(+0.5)))
             lineSeries.attributes.enableOverlay = true
 			
 			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)

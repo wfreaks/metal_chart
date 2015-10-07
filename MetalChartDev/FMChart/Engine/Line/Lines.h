@@ -69,18 +69,6 @@
 @end
 
 
-@interface IndexedPolyLinePrimitive : PolyLinePrimitive
-
-@property (strong, nonatomic) IndexedSeries * _Nullable series;
-
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
-								   indexedSeries:(IndexedSeries * _Nullable)series
-									  attributes:(UniformLineAttributes * _Nullable)attributes
-;
-
-@end
-
-
 @interface Axis : NSObject
 
 @property (readonly, nonatomic) UniformAxisConfiguration * _Nonnull configuration;

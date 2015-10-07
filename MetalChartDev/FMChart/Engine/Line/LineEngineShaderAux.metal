@@ -38,22 +38,21 @@ struct uniform_grid_attributes {
 };
 
 struct out_vertex_axis {
-    float4 position [[ position ]];
-    float2 mid_pos  [[ flat ]];
-    float2 vec_dir  [[ flat ]];
-    float2 pos;
-    float  coef;
+    float4 position_ndc [[ position ]];
+    float2 position_scaled;
+    float  l_scaled  [[ flat ]];
+    float  scale     [[ flat ]];
     uchar  index    [[ flat ]];
     bool   dropped  [[ flat ]];
 };
 
 struct out_vertex_grid {
-    float4 position [[ position ]];
-    float2 mid_pos  [[ flat ]];
-    float2 vec_dir  [[ flat ]];
-    float2 pos;
-    float  coef;
-    bool   dropped  [[ flat ]];
+    float4 position_ndc [[ position ]];
+    float2 position_scaled;
+    float  l_scaled  [[ flat ]];
+    float  scale     [[ flat ]];
+    float  depth     [[ flat ]];
+    bool   dropped   [[ flat ]];
 };
 
 inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection& proj )
@@ -147,7 +146,7 @@ vertex out_vertex_axis AxisVertex(
 	
 	modify_length(start, end, modifier, physical_size);
 	
-	out_vertex_axis out = LineEngineVertexCore<out_vertex_axis>(start, end, spec, attr.width, physical_size);
+	out_vertex_axis out = LineDashVertexCore<out_vertex_axis>(start, end, spec, attr.width, proj);
 	out.index = type;
     out.dropped = is_dropped(mid, dimIndex, proj);
 	
@@ -161,9 +160,9 @@ fragment float4 AxisFragment(
 							 )
 {
 	constant uniform_axis_attributes& attr = attr_ptr[input.index];
-	const out_frag_core core = LineEngineFragmentCore_ratio(input, proj, attr.width);
+	const float ratio = LineDashFragmentCore(input);
 	float4 color = (!input.dropped) * attr.color;
-	color.a *= saturate((!core.is_same_dir) + core.ratio );
+	color.a *= ratio;
 	
 	return color;
 
@@ -206,7 +205,7 @@ vertex out_vertex_grid GridVertex(
     
     const float2 start = data_to_ndc(mid_pos_data - vec_dir_data, proj);
     const float2 end = data_to_ndc(mid_pos_data + vec_dir_data, proj);
-    out_vertex_grid out = LineEngineVertexCore<out_vertex_grid>(start, end, spec, attr.width, proj.physical_size);
+    out_vertex_grid out = LineDashVertexCore<out_vertex_grid>(start, end, spec, attr.width, proj);
     out.dropped = is_dropped(mid_pos_data, attr.dimIndex, proj);
     
     return out;
@@ -214,14 +213,14 @@ vertex out_vertex_grid GridVertex(
 
 
 fragment out_fragment_depthGreater GridFragment(
-                             const out_vertex_grid             in   [[ stage_in ]],
-                             constant uniform_grid_attributes& attr [[ buffer(0) ]],
-                             constant uniform_projection&      proj [[ buffer(1) ]])
+                                                const out_vertex_grid             in   [[ stage_in ]],
+                                                constant uniform_grid_attributes& attr [[ buffer(0) ]],
+                                                constant uniform_projection&      proj [[ buffer(1) ]])
 {
-    const out_frag_core core = LineEngineFragmentCore_ratio(in, proj, attr.width);
+    const float ratio = LineDashFragmentCore(in);
     out_fragment_depthGreater out;
     out.color = (!in.dropped) * attr.color;
-    out.color.a *= saturate((!core.is_same_dir) + core.ratio );
+    out.color.a *= ratio;
     out.depth = attr.depth;
     
     return out;
