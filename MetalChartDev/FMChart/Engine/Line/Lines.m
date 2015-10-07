@@ -64,7 +64,9 @@
 
 - (NSString *)fragmentFunctionName
 {
-	return _attributes.enableOverlay ? @"LineEngineFragment_Overlay" : @"LineEngineFragment_NoOverlay";
+    static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
+    NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.attributes.enableOverlay ? 0 : 1);
+    return names[index];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count

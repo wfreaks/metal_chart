@@ -34,7 +34,7 @@
 
 
 
-
+// 使い所がなくてメンテが滞っている、正常動作しない可能性が高い.
 @interface OrderedSeparatedLinePrimitive : LinePrimitive
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
@@ -48,6 +48,7 @@
 
 
 @interface PolyLinePrimitive : LinePrimitive
+
 @end
 
 @interface OrderedPolyLinePrimitive : PolyLinePrimitive

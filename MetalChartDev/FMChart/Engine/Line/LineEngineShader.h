@@ -17,6 +17,10 @@ struct uniform_line_attr {
     float width;
     float depth;
     float alpha;
+    float length_repeat;
+    float length_space;
+    float repeat_anchor_line;
+    float repeat_anchor_dash;
     uchar modify_alpha_on_edge;
 };
 
@@ -79,6 +83,5 @@ inline float LineDashFragmentCore(thread const InputType input)
     const float distance_from_circle_in_px = (input.scale * (length(position) - 1)) + 0.5;
     return saturate(1.0 - distance_from_circle_in_px);
 }
-
 
 #endif /* LineEngineShader_h */

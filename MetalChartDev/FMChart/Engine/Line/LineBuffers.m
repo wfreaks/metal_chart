@@ -69,6 +69,26 @@
     [self attributes]->depth = depth;
 }
 
+- (void)setDashLineLength:(float)length
+{
+    self.attributes->length_repeat = length;
+}
+
+- (void)setDashSpaceLength:(float)length
+{
+    self.attributes->length_space = length;
+}
+
+- (void)setDashLineAnchor:(float)anchor
+{
+    self.attributes->repeat_anchor_line = anchor;
+}
+
+- (void)setDashRepeatAnchor:(float)anchor
+{
+    self.attributes->repeat_anchor_dash = anchor;
+}
+
 @end
 
 

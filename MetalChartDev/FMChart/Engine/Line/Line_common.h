@@ -19,6 +19,10 @@ typedef struct uniform_line_attr {
 	float width;
     float depth;
     float alpha;
+    float length_repeat;
+    float length_space;
+    float repeat_anchor_line;
+    float repeat_anchor_dash;
     uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
 

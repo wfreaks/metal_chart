@@ -17,7 +17,12 @@
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_line_attr * _Nonnull attributes;
+
 @property (assign, nonatomic) BOOL enableOverlay;
+
+// 破線処理を考慮したシェーダは考慮しないものと比較するとGPU負荷が1.5倍程度になるので、
+// 明示的に切り替え用のフラグを用意する.
+@property (assign, nonatomic) BOOL enableDash;
 
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
@@ -30,6 +35,14 @@
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
 
 - (void)setDepthValue:(float)depth;
+
+- (void)setDashLineLength:(float)length;
+
+- (void)setDashSpaceLength:(float)length;
+
+- (void)setDashLineAnchor:(float)anchor;
+
+- (void)setDashRepeatAnchor:(float)anchor;
 
 @end
 

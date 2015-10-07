@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = true
+	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -52,9 +52,10 @@ class ViewController: UIViewController {
 		
 		if (asChart) {
             
-            let vertCapacity : UInt = 1<<9
-            let vertLength = 1 << 8
-            let vertOffset = 1 << 4
+            let N : UInt = 12;
+            let vertCapacity : UInt = 1 << N
+            let vertLength = 1 << (N-1);
+            let vertOffset = 1 << (N-5);
             let yRange : CGFloat = CGFloat(5)
             
             let space = configurator.spaceWithDimensionIds([1,2]) { (dimId) -> FMProjectionUpdater? in
@@ -68,7 +69,7 @@ class ViewController: UIViewController {
                 return updater
             }
             
-            let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: CGFloat(1<<6), minorTicksFreq: 4)
+            let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: CGFloat(1<<(N-3)), minorTicksFreq: 4)
             let yAxisConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: 1, minorTicksFreq: 0)
             configurator.addAxisToDimensionWithId(2, belowSeries: false, configurator: yAxisConf, label: nil)
             configurator.addAxisToDimensionWithId(1, belowSeries: false, configurator: xAxisConf, label: nil)
@@ -85,10 +86,10 @@ class ViewController: UIViewController {
 			chart.willDraw = { (FM : MetalChart) -> Void in
                 let line : OrderedPolyLinePrimitive = lineSeries.line as! OrderedPolyLinePrimitive
                 let overlayLine : OrderedPolyLinePrimitive = overlayLineSeries.line as! OrderedPolyLinePrimitive
-                line.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
+                line.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
-                overlayLine.appendSampleData((1<<0), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
+                overlayLine.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
                     xUpdater.addSourceValue(CGFloat(x), update: false)
                 }
 				xUpdater.updateTarget()
@@ -115,13 +116,14 @@ class ViewController: UIViewController {
 			configurator.connectSpace([space], toInterpreter: interpreter)
 			
 			let lineSeries = FMLineSeries.orderedSeriesWithCapacity(4, engine: engine)
-			lineSeries.attributes.setWidth(10)
 			for idx in 0 ..< 4  {
 				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
 			}
-//            lineSeries.series?.addPoint(CGPointMake(CGFloat(-0.5), CGFloat(-0.5)))
-//            lineSeries.series?.addPoint(CGPointMake(CGFloat(+0.5), CGFloat(+0.5)))
+            lineSeries.attributes.setWidth(2)
             lineSeries.attributes.enableOverlay = true
+            lineSeries.attributes.enableDash = true;
+            lineSeries.attributes.setDashLineLength(2);
+            lineSeries.attributes.setDashSpaceLength(2);
 			
 			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
 			barSeries.attributes.setBarWidth(10)
