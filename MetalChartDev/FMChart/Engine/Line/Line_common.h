@@ -50,6 +50,10 @@ typedef struct uniform_grid_attributes {
     float anchor_value;
     float interval;
     float depth;
+    float length_repeat;
+    float length_space;
+    float repeat_anchor_line;
+    float repeat_anchor_dash;
     uint8_t dimIndex;
 } uniform_grid_attributes;
 

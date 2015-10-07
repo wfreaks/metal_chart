@@ -118,5 +118,14 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setDepthValue:(float)depth;
 
+- (void)setDashLineLength:(float)length;
+
+- (void)setDashSpaceLength:(float)length;
+
+- (void)setDashLineAnchor:(float)anchor;
+
+- (void)setDashRepeatAnchor:(float)anchor;
+
+
 @end
 

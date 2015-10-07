@@ -55,25 +55,6 @@ vertex out_vertex_LineDash SeparatedLineEngineVertexOrdered(
 	return LineDashVertexCore<out_vertex_LineDash>(p_current, p_next, spec, attr.width, proj);
 }
 
-template <typename InputType, typename ParamType>
-inline float LineDashFragmentExtra(thread const InputType input, constant ParamType& conf)
-{
-    const float _w = 1/conf.width;
-    const float _lr = conf.length_repeat * _w; // 実際のスケールとしては、座標変換的には1/2倍のものになる.
-    const float lr = ((_lr > 0) * _lr) + ((_lr <= 0) * input.l_scaled);
-    const float l = lr + (conf.length_space * _w) + 1;
-    const float offset_dash = l * conf.repeat_anchor_dash; // %をとる前に引く値、スケールがリピートサイズになる.
-    const float offset_line = input.l_scaled * conf.repeat_anchor_line; // 同上、ただしスケールは線全体.
-    float2 pos = input.position_scaled;
-    const float y2 = ((pos.y + offset_dash - offset_line) / (2*l)) + 0.5;
-    const float y3 = (2*l) * ((y2 - floor(y2)) - 0.5);
-    const float y4 = ((y3 >= lr) * (y3 - lr)) + ((y3 <= -lr) * (y3 + lr));
-    pos.y = y4;
-    
-    const float distance_from_circle_in_px = (input.scale * (length(pos) - 1)) + 0.5;
-    return saturate(1.0 - distance_from_circle_in_px);
-}
-
 fragment out_fragment_depthGreater LineEngineFragment_NoOverlay(
                                                                 const out_vertex_LineDash input [[ stage_in ]],
                                                                 constant uniform_projection& proj [[ buffer(0) ]],

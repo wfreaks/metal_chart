@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = false
+	let asChart = true
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 		
 		if (asChart) {
             
-            let N : UInt = 12;
+            let N : UInt = 9;
             let vertCapacity : UInt = 1 << N
             let vertLength = 1 << (N-1);
             let vertOffset = 1 << (N-5);
@@ -77,8 +77,10 @@ class ViewController: UIViewController {
             let lineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
             let overlayLineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
             overlayLineSeries.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
-            overlayLineSeries.attributes.setWidth(3)
             overlayLineSeries.attributes.enableOverlay = true
+            
+            lineSeries.attributes.setWidth(3)
+            overlayLineSeries.attributes.setWidth(3)
 			
             let xUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(1)!
             let yUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(2)!
@@ -102,6 +104,8 @@ class ViewController: UIViewController {
             
             let yGrid = FMGridLine(engine: engine, projection: space, dimension: 2)
             yGrid.attributes.interval = 1
+            yGrid.attributes.setDashLineLength(5)
+            yGrid.attributes.setDashSpaceLength(5)
             chart.addPreRenderable(yGrid)
             
             firstLineAttributes = lineSeries.attributes

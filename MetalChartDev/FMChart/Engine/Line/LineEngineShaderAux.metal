@@ -34,6 +34,10 @@ struct uniform_grid_attributes {
     float anchor_value;
     float interval;
     float depth;
+    float length_repeat;
+    float length_space;
+    float repeat_anchor_line;
+    float repeat_anchor_dash;
     uchar dimIndex;
 };
 
@@ -217,7 +221,7 @@ fragment out_fragment_depthGreater GridFragment(
                                                 constant uniform_grid_attributes& attr [[ buffer(0) ]],
                                                 constant uniform_projection&      proj [[ buffer(1) ]])
 {
-    const float ratio = LineDashFragmentCore(in);
+    const float ratio = min(LineDashFragmentCore(in), LineDashFragmentExtra(in, attr));
     out_fragment_depthGreater out;
     out.color = (!in.dropped) * attr.color;
     out.color.a *= ratio;
