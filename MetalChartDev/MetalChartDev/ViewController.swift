@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 		
 		if (asChart) {
             
-            let N : UInt = 9;
+            let N : UInt = 12;
             let vertCapacity : UInt = 1 << N
             let vertLength = 1 << (N-1);
             let vertOffset = 1 << (N-5);
