@@ -154,7 +154,7 @@
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
-		_semaphore = dispatch_semaphore_create(2);
+		_semaphore = dispatch_semaphore_create(1);
         _clearDepth = 0;
 	}
 	return self;
@@ -173,6 +173,9 @@
 - (void)drawInMTKView:(MTKView *)view
 {
     view.clearDepth = self.clearDepth;
+    
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    
 	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
 	if(willDraw != nil) willDraw(self);
 	
@@ -197,8 +200,6 @@
 	
 	id<MTLCommandBuffer> buffer = nil;
 	id<MTLDrawable> drawable = nil;
-	
-	dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
 	
 	MTLRenderPassDescriptor *pass = view.currentRenderPassDescriptor;
 	if(pass) {
@@ -231,6 +232,9 @@
 		}
 	}
 	
+    void (^didDraw)(MetalChart * _Nonnull) = _didDraw;
+    if(didDraw != nil) didDraw(self);
+    
 	if(drawable) {
 		__block dispatch_semaphore_t semaphore = _semaphore;
 		[buffer addCompletedHandler:^(id<MTLCommandBuffer> _Nonnull buffer) {
@@ -241,9 +245,6 @@
 	} else {
 		dispatch_semaphore_signal(_semaphore);
 	}
-	
-	void (^didDraw)(MetalChart * _Nonnull) = _didDraw;
-	if(didDraw != nil) didDraw(self);
 	
 }
 
