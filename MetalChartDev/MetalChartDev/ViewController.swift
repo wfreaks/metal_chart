@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = true
+	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -74,8 +74,8 @@ class ViewController: UIViewController {
             configurator.addAxisToDimensionWithId(2, belowSeries: false, configurator: yAxisConf, label: nil)
             configurator.addAxisToDimensionWithId(1, belowSeries: false, configurator: xAxisConf, label: nil)
             
-            let lineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
-            let overlayLineSeries = FMLineSeries.orderedSeriesWithCapacity(vertCapacity, engine: engine)
+            let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
+            let overlayLineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
             overlayLineSeries.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLineSeries.attributes.enableOverlay = true
             
@@ -99,14 +99,10 @@ class ViewController: UIViewController {
 			}
             
             configurator.addPlotAreaWithColor(UIColor.whiteColor())
-			chart.addSeries(lineSeries, projection: space)
-            chart.addSeries(overlayLineSeries, projection: space)
             
-            let yGrid = FMGridLine(engine: engine, projection: space, dimension: 2)
-            yGrid.attributes.interval = 1
+            let yGrid = configurator.addGridLineToDimensionWithId(2, belowSeries: true, anchor: 0, interval:1)!
             yGrid.attributes.setDashLineLength(5)
             yGrid.attributes.setDashSpaceLength(5)
-            chart.addPreRenderable(yGrid)
             
             firstLineAttributes = lineSeries.attributes
             chart.bufferHook = animator
@@ -119,21 +115,16 @@ class ViewController: UIViewController {
 			}
 			configurator.connectSpace([space], toInterpreter: interpreter)
 			
-			let lineSeries = FMLineSeries.orderedSeriesWithCapacity(4, engine: engine)
-			for idx in 0 ..< 4  {
-				lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
-			}
+            let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(4))
             lineSeries.attributes.setWidth(2)
             lineSeries.attributes.enableOverlay = true
             lineSeries.attributes.enableDash = true;
             lineSeries.attributes.setDashLineLength(2);
             lineSeries.attributes.setDashSpaceLength(2);
 			
-			let barSeries = FMBarSeries.orderedSeriesWithCapacity((1<<4), engine: engine)
+			let barSeries = configurator.addBarToSpace(space, series: configurator.createSeries(1<<4))
 			barSeries.attributes.setBarWidth(10)
 			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
-			barSeries.bar.series()?.addPoint(CGPointMake(0.5, 0.75))
-			barSeries.bar.series()?.addPoint(CGPointMake(0.75, 0.5))
 			
 			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
 			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> NSMutableAttributedString in
@@ -141,17 +132,17 @@ class ViewController: UIViewController {
 				return str
 			}
             
-            let xGrid = FMGridLine(engine: engine, projection: space, dimension: 1)
-            xGrid.attributes.interval = 0.5
-            chart.addPreRenderable(xGrid)
-            let yGrid = FMGridLine(engine: engine, projection: space, dimension: 2)
-            yGrid.attributes.interval = 0.25
-            chart.addPreRenderable(yGrid)
+            configurator.addGridLineToDimensionWithId(1, belowSeries: true, anchor: 0, interval: 0.5)
+            configurator.addGridLineToDimensionWithId(2, belowSeries: true, anchor: 0, interval: 0.25)
 			
 			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())
 			rect.attributes.setCornerRadius(10)
 			
-			chart.addSeriesArray([lineSeries, barSeries], projections: [space, space])
+            barSeries.bar.series()?.addPoint(CGPointMake(0.5, 0.75))
+            barSeries.bar.series()?.addPoint(CGPointMake(0.75, 0.5))
+            for idx in 0 ..< 4  {
+                lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
+            }
 		}
 	}
     

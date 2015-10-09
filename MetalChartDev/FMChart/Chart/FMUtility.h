@@ -24,7 +24,13 @@
 @class FMPlotArea;
 @class FMGestureInterpreter;
 @class Engine;
+@class FMGridLine;
+@class FMLineSeries;
+@class FMBarSeries;
+@class FMPointSeries;
+@class OrderedSeries;
 
+@protocol Series;
 @protocol FMInteraction;
 @protocol FMAxisConfigurator;
 @protocol FMInterpreterStateRestriction;
@@ -87,4 +93,28 @@ NS_DESIGNATED_INITIALIZER;
 												stateRestriction:(id<FMInterpreterStateRestriction> _Nonnull)restriction
 ;
 
+- (FMGridLine * _Nullable)addGridLineToDimensionWithId:(NSInteger)dimensionId
+                                           belowSeries:(BOOL)below
+                                                anchor:(CGFloat)anchorValue
+                                              interval:(CGFloat)interval
+;
+
+- (FMLineSeries * _Nonnull)addLineToSpace:(FMSpatialProjection *_Nonnull)space
+                                   series:(OrderedSeries * _Nonnull)series
+;
+
+- (FMBarSeries * _Nonnull)addBarToSpace:(FMSpatialProjection *_Nonnull)space
+                                 series:(OrderedSeries * _Nonnull)series
+;
+
+- (FMPointSeries * _Nonnull)addPointToSpace:(FMSpatialProjection *_Nonnull)space
+                                 series:(OrderedSeries * _Nonnull)series
+;
+
+- (OrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
+;
+
 @end
+
+
+

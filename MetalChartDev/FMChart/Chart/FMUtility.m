@@ -17,6 +17,11 @@
 #import "DeviceResource.h"
 #import "Rects.h"
 #import "RectBuffers.h"
+#import "LineBuffers.h"
+#import "Lines.h"
+#import "Rects.h"
+#import "Points.h"
+#import "Series.h"
 
 @implementation FMUtility
 
@@ -152,6 +157,20 @@
 	return r;
 }
 
+- (FMSpatialProjection *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
+{
+    FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
+    if(dim) {
+        NSArray<FMSpatialProjection*> *space = self.space;
+        for(FMSpatialProjection *s in space) {
+            if([s.dimensions containsObject:dim]) {
+                return s;
+            }
+        }
+    }
+    return nil;
+}
+
 - (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
 						 belowSeries:(BOOL)below
 						configurator:(id<FMAxisConfigurator>)configurator
@@ -159,16 +178,8 @@
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
-		FMSpatialProjection *targetSpace;
-		NSArray<FMSpatialProjection*> *space = self.space;
-		NSUInteger dimIndex = 0;
-		for(FMSpatialProjection *s in space) {
-			if([s.dimensions containsObject:dim]) {
-				dimIndex = [s.dimensions indexOfObject:dim];
-				targetSpace = s;
-				break;
-			}
-		}
+		FMSpatialProjection *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
+		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim];
 		if(targetSpace) {
 			FMAxis *axis = [[FMAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
 			if(below) {
@@ -220,5 +231,58 @@
 	return interpreter;
 }
 
+- (FMGridLine *)addGridLineToDimensionWithId:(NSInteger)dimensionId
+                                 belowSeries:(BOOL)below
+                                      anchor:(CGFloat)anchorValue
+                                    interval:(CGFloat)interval
+{
+    FMSpatialProjection *space = [self firstSpaceContainingDimensionWithId:dimensionId];
+    if(space) {
+        FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
+        [line.attributes setAnchorValue:anchorValue];
+        [line.attributes setInterval:interval];
+        if(below) {
+            [_chart addPreRenderable:line];
+        } else {
+            [_chart addPostRenderable:line];
+        }
+        return line;
+    }
+    return nil;
+}
+
+- (FMLineSeries *)addLineToSpace:(FMSpatialProjection *)space
+                          series:(OrderedSeries *)series
+{
+    LinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
+    FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line];
+    [_chart addSeries:ls projection:space];
+    return ls;
+}
+
+- (FMBarSeries *)addBarToSpace:(FMSpatialProjection *)space
+                        series:(OrderedSeries *)series
+{
+    BarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
+    FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar];
+    [_chart addSeries:bs projection:space];
+    return bs;
+}
+
+- (FMPointSeries *)addPointToSpace:(FMSpatialProjection *)space series:(OrderedSeries *)series
+{
+    PointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
+    FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point];
+    [_chart addSeries:ps projection:space];
+    return ps;
+}
+
+- (OrderedSeries *)createSeries:(NSUInteger)capacity
+{
+    return [[OrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
+}
+
 @end
+
+
 
