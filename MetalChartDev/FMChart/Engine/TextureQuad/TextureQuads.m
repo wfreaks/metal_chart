@@ -41,11 +41,6 @@
         [encoder setRenderPipelineState:renderState];
         [encoder setDepthStencilState:depthState];
         
-        const CGSize ps = projection.physicalSize;
-        const CGFloat scale = projection.screenScale;
-        MTLScissorRect rect = {0, 0, ps.width * scale, ps.height * scale};
-        [encoder setScissorRect:rect];
-        
         [encoder setVertexBuffer:_dataRegion.buffer offset:0 atIndex:0];
         [encoder setVertexBuffer:_texRegion.buffer offset:0 atIndex:1];
         [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];

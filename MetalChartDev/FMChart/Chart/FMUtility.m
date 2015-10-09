@@ -190,7 +190,7 @@
 			if(block) {
 				FMAxisLabelBlockDelegate *delegate = [[FMAxisLabelBlockDelegate alloc] initWithBlock:block];
 				FMAxisLabel *label = [[FMAxisLabel alloc] initWithEngine:_engine
-															   frameSize:CGSizeMake(45, 15)
+															   frameSize:CGSizeMake(45, 30)
 														  bufferCapacity:12
 														   labelDelegate:delegate];
 				[label setFrameAnchorPoint:((dimIndex == 0) ? CGPointMake(0.5, 0) : CGPointMake(1.0, 0.5))];

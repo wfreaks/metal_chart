@@ -81,7 +81,6 @@
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
 @property (assign, nonatomic) CGSize physicalSize;
 @property (assign, nonatomic) RectPadding padding;
-@property (assign, nonatomic) BOOL enableScissor;
 
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 

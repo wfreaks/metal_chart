@@ -171,7 +171,6 @@
     if(self) {
         DeviceResource *res = rect.engine.resource;
         _projection = [[UniformProjection alloc] initWithResource:res];
-        _projection.enableScissor = NO;
         _rect = rect;
     }
     return self;

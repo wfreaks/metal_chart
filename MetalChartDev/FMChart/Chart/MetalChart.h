@@ -82,6 +82,8 @@
 @property (readonly, nonatomic) NSInteger dimensionId;
 @property (assign  , nonatomic) CGFloat     min;
 @property (assign  , nonatomic) CGFloat     max;
+@property (readonly, nonatomic) CGFloat     mid;
+@property (readonly, nonatomic) CGFloat     length;
 @property (copy    , nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
 - (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
@@ -93,7 +95,10 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setMin:(CGFloat)min max:(CGFloat)max;
 
-- (CGFloat)length;
+// 画面上での位置が重なるような値を算出する.
+- (CGFloat)convertValue:(CGFloat)value
+                     to:(FMDimensionalProjection * _Nonnull)to
+;
 
 @end
 

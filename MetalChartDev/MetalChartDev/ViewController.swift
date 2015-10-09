@@ -127,9 +127,10 @@ class ViewController: UIViewController {
 			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			
 			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
-			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> NSMutableAttributedString in
-				let str = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
-				return str
+			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
+				let str_a = NSMutableAttributedString(string: String(format: "%.1fab", Float(value)))
+                let str_b = NSMutableAttributedString(string: String(format: "abc", Float(value)))
+				return [str_a, str_b]
 			}
             
             configurator.addGridLineToDimensionWithId(1, belowSeries: true, anchor: 0, interval: 0.5)

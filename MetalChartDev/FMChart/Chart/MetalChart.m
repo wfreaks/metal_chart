@@ -80,6 +80,15 @@
 
 - (CGFloat)length { return _max - _min; }
 
+- (CGFloat)mid { return 0.5 * (_min + _max); }
+
+- (CGFloat)convertValue:(CGFloat)value
+                     to:(FMDimensionalProjection *)to
+{
+    const CGFloat v = (value - _min) / self.length;
+    return (to.length * v) + to.min;
+}
+
 @end
 
 
@@ -91,7 +100,6 @@
 	if(self) {
 		_dimensions = [NSArray arrayWithArray:dimensions];
 		_projection = [[UniformProjection alloc] initWithResource:[DeviceResource defaultResource]];
-		_projection.enableScissor = YES;
 	}
 	return self;
 }

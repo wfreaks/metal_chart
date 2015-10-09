@@ -18,31 +18,40 @@
 
 @protocol FMAxisLabelDelegate<NSObject>
 
-- (NSMutableAttributedString * _Nonnull)attributedStringForValue:(CGFloat)value
+- (NSArray<NSMutableAttributedString*> * _Nonnull)attributedStringForValue:(CGFloat)value
 													   dimension:(FMDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
 
-typedef MTLRegion (^FMTextDrawConfBlock)(CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
+typedef void (^FMLineConfBlock)(NSUInteger idx, CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
 // Class that manages CGBitmapContext and draw text to it, then copy its contents to MTLTexture.
 // It's not a class that you have to use, but you may do so if you know what it does.
 
-@interface FMTextRenderer : NSObject
+@interface FMLineRenderer : NSObject
 
-@property (readonly, nonatomic) CGSize bufferSize;
+@property (readonly, nonatomic) CGSize bufferPixelSize;
+@property (readonly, nonatomic) CGSize  bufferSize;
 @property (strong  , nonatomic) UIFont * _Nullable font;
 
-- (instancetype _Nonnull)initWithBufferSize:(CGSize)size
+- (instancetype _Nonnull)initWithPixelWidth:(NSUInteger)width
+                                     height:(NSUInteger)height
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 
-- (void)drawString:(NSMutableAttributedString * _Nonnull)string
-         toTexture:(id<MTLTexture> _Nonnull)texture
-         confBlock:(FMTextDrawConfBlock _Nonnull)block;
+- (void)drawLine:(NSMutableAttributedString * _Nonnull)line
+       toTexture:(id<MTLTexture> _Nonnull)texture
+          region:(MTLRegion)region
+       confBlock:(FMLineConfBlock _Nonnull)block
+;
+
+- (void)drawLines:(NSArray<NSMutableAttributedString*> * _Nonnull)lines
+        toTexture:(id<MTLTexture> _Nonnull)texture
+           region:(MTLRegion)region
+        confBlock:(FMLineConfBlock _Nonnull)block
 ;
 
 @end
@@ -56,6 +65,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
 @property (readonly, nonatomic) id<FMAxisLabelDelegate> _Nonnull delegate;
+@property (assign  , nonatomic) CGFloat lineSpace;
 
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
@@ -76,7 +86,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef NSMutableAttributedString *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, FMDimensionalProjection *_Nonnull dimension);
+typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, FMDimensionalProjection *_Nonnull dimension);
 
 @interface FMAxisLabelBlockDelegate : NSObject<FMAxisLabelDelegate>
 
