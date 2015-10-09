@@ -215,12 +215,24 @@
 				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
+            const RectPadding pad = _padding;
+            const CGFloat scale = [UIScreen mainScreen].scale;
+            const CGSize size = view.bounds.size;
+            const NSUInteger w  = size.width * scale, h = size.height * scale;
+            const NSUInteger l = pad.left * scale, r = pad.right * scale;
+            const NSUInteger t = pad.top * scale, b = pad.bottom * scale;
+            
+            const MTLScissorRect padRect = {l, t, w-(l+r), h-(t+b)};
+            [encoder setScissorRect:padRect];
+            
 			const NSUInteger count = seriesArray.count;
 			for(NSUInteger i = 0; i < count; ++i) {
 				id<FMRenderable> series = seriesArray[i];
 				FMSpatialProjection *projection = projectionArray[i];
 				[series encodeWith:encoder projection:projection.projection];
 			}
+            const MTLScissorRect orgRect = {0, 0, w, h};
+            [encoder setScissorRect:orgRect];
 			
 			for(id<FMAttachment> renderable in postRenderables) {
 				[renderable encodeWith:encoder chart:self view:view];
