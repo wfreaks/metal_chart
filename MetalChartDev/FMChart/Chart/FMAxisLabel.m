@@ -109,9 +109,10 @@
     CGContextClearRect(context, CGRectMake(0, 0, bufPxSize.width, bufPxSize.height));
     CGContextScaleCTM(context, _scale, _scale);
     const CTFontRef font = _ctFont;
-    for( NSUInteger i = 0; i < lines.count; ++i ) {
+    const NSUInteger count = lines.count;
+    for( NSUInteger i = 0; i < count; ++i ) {
         CGContextSaveGState(context);
-        NSMutableAttributedString *line = lines[i];
+        NSMutableAttributedString *line = lines[count-i-1];
         if(font) {
             [line addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)font range:NSMakeRange(0, line.length)];
         }
@@ -168,7 +169,7 @@
         _idxMin = 1;
         _idxMax = -1;
         _textAlignment = CGPointMake(0.5, 0.5);
-        _lineSpace = 3;
+        _lineSpace = 2;
         
         [_quad.dataRegion setSize:frameSize];
         [_quad.dataRegion setAnchorPoint:CGPointMake(0.5, 0.5)];
@@ -242,7 +243,6 @@
             const MTLRegion region = MTLRegionMake2D(0, (wrapped_idx * bufPixels.height), bufPixels.width, bufPixels.height);
             const NSUInteger count = str.count;
             [_buffer drawLines:str toTexture:_quad.texture region:region confBlock:^(NSUInteger idx, CGSize lineSize, CGSize bufSize, CGRect * _Nonnull drawRect) {
-                // この下の2はどうやらscreenScaleらしい、要修正.
                 const CGFloat w = lineSize.width;
                 const CGFloat h = lineSize.height;
                 const CGFloat space = self.lineSpace;

@@ -113,7 +113,14 @@ class ViewController: UIViewController {
 				updater.addRestrictionToLast(FMLengthRestriction(length: 2, anchor: 0, offset: 0))
 				return updater
 			}
-			configurator.connectSpace([space], toInterpreter: interpreter)
+            
+            let dummySpace = configurator.spaceWithDimensionIds([3, 2]) { (dimensionID) -> FMProjectionUpdater? in
+                let updater = FMProjectionUpdater()
+                updater.addRestrictionToLast(FMLengthRestriction(length: 20, anchor: 0, offset: 0))
+                return updater
+            }
+            configurator.connectSpace([space, dummySpace], toInterpreter: interpreter)
+            let dummyDim : FMDimensionalProjection = configurator.dimensionWithId(3)!
 			
             let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(4))
             lineSeries.attributes.setWidth(2)
@@ -128,8 +135,9 @@ class ViewController: UIViewController {
 			
 			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
 			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
-				let str_a = NSMutableAttributedString(string: String(format: "%.1fab", Float(value)))
-                let str_b = NSMutableAttributedString(string: String(format: "abc", Float(value)))
+                let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
+                let v = dimension.convertValue(value, to: dummyDim)
+                let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)))
 				return [str_a, str_b]
 			}
             

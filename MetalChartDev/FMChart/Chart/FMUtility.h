@@ -67,6 +67,12 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+- (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
+
+- (FMDimensionalProjection * _Nonnull)dimensionWithId:(NSInteger)dimensionId
+                                   confBlock:(DimensionConfigureBlock _Nonnull)block
+;
+
 // もしもidに対応するFMDimensionalProjectionがなければ、作成してblockを呼び出す. 
 // 逆にすでに作成済みの場合はそれを使い、blockは呼ばれない.
 // blockの戻り値でNonnullを返した場合は登録され、connectSpace:メソッドで自動的に使用される.

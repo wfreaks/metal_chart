@@ -103,6 +103,7 @@
 			if(updater) {
 				_updaters = [_updaters arrayByAddingObject:updater];
 				updater.target = r;
+                [updater updateTarget];
 			}
 		}
 		_dimensions = [_dimensions arrayByAddingObject:r];
