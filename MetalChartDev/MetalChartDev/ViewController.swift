@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = false
+	let asChart = true
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 		
 		if (asChart) {
             
-            let N : UInt = 12;
+            let N : UInt = 9;
             let vertCapacity : UInt = 1 << N
             let vertLength = 1 << (N-1);
             let vertOffset = 1 << (N-5);
@@ -91,7 +91,7 @@ class ViewController: UIViewController {
                 line.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}
-                overlayLine.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 1) { (Float x, Float y) in
+                overlayLine.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 0.3) { (Float x, Float y) in
                     xUpdater.addSourceValue(CGFloat(x), update: false)
                 }
 				xUpdater.updateTarget()

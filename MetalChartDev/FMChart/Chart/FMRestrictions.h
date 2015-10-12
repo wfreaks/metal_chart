@@ -27,7 +27,7 @@
 
 
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
-// つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=1ならば中央値を固定してmin,maxを動かす.
+// つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=0ならば中央値を固定してmin,maxを動かす.
 // offsetはlengthによらない移動を提供する.
 @interface FMLengthRestriction : NSObject<FMRestriction>
 
@@ -48,7 +48,7 @@ NS_DESIGNATED_INITIALIZER;
 // updaterのsource{Min,Max}Valueがnilの時、あるいは代替値に達しなかった場合には代替値で、
 // それ以外の場合にはsourceの値でmin/maxを更新する. このクラスはmin/maxの現在地を「完全に」無視する.
 // sourceの値が代替値に達していなくてもsourceの値を使いたい場合はexpand{Min,Max}をNOにする.
-// 優先度的に低い方に来るのが普通の使い方だろう.
+// 優先度的に低い方(入力側)に来るのが普通の使い方だろう.
 @interface FMSourceRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat min;
