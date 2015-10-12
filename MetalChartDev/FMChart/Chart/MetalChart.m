@@ -180,9 +180,14 @@
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
 - (void)drawInMTKView:(MTKView *)view
 {
-    view.clearDepth = self.clearDepth;
+    const CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
+    const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);
+    if(timeout != 0) {
+        NSLog(@"timeout occurred.");
+        return;
+    }
     
-    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
+    view.clearDepth = self.clearDepth;
     
 	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
 	if(willDraw != nil) willDraw(self);
@@ -264,8 +269,12 @@
 		[buffer commit];
 	} else {
 		dispatch_semaphore_signal(_semaphore);
+        NSLog(@"drawable was not available.");
 	}
-	
+    const CFAbsoluteTime interval = (CFAbsoluteTimeGetCurrent() - startTime) * 1000;
+    if(interval > 4) {
+        NSLog(@"frame time was %.1f", interval);
+    }
 }
 
 - (void)addSeries:(id<FMRenderable>)series projection:(FMSpatialProjection *)projection

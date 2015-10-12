@@ -133,11 +133,11 @@ class ViewController: UIViewController {
 			barSeries.attributes.setBarWidth(10)
 			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			
-			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.5, minorTicksFreq: 5)
+			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
 			configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
-                let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)))
+                let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)), attributes: [kCTForegroundColorAttributeName as String : UIColor.redColor()])
                 let v = dimension.convertValue(value, to: dummyDim)
-                let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)))
+                let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)), attributes: [kCTForegroundColorAttributeName as String : UIColor.blueColor()])
 				return [str_a, str_b]
 			}
             
