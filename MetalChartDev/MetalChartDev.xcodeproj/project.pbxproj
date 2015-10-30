@@ -13,16 +13,76 @@
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
 		AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
-		AA32A9851BE382BA00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A9841BE382BA00ABDC1E /* chart_common.swift */; };
+		AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A98C1BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */; };
+		AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
+		AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; };
+		AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
+		AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */; };
+		AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
+		AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
+		AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
+		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
+		AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; };
+		AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */; };
+		AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMUtility.m */; };
+		AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; };
+		AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
+		AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */; };
+		AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8461BAFE3020032A0CF /* Series.m */; };
+		AA32A9A31BE3B5FA00ABDC1E /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* MetalChart.m */; };
+		AA32A9A41BE3B5FA00ABDC1E /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
+		AA32A9A51BE3B5FA00ABDC1E /* FMAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82E1BAFE3020032A0CF /* FMAxis.m */; };
+		AA32A9A71BE3B5FA00ABDC1E /* FMAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */; };
+		AA32A9A81BE3B5FA00ABDC1E /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8641BAFE3020032A0CF /* TextureQuads.m */; };
+		AA32A9A91BE3B5FA00ABDC1E /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8421BAFE3020032A0CF /* Engine.m */; };
+		AA32A9AA1BE3B5FA00ABDC1E /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8501BAFE3020032A0CF /* Lines.m */; };
+		AA32A9AB1BE3B5FA00ABDC1E /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
+		AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; };
+		AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */; };
+		AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
+		AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
+		AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; };
+		AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B61BE3B5FA00ABDC1E /* FMRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B71BE3B5FA00ABDC1E /* FMProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B81BE3B5FA00ABDC1E /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B91BE3B5FA00ABDC1E /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84F1BAFE3020032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BA1BE3B5FA00ABDC1E /* Protocols.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8441BAFE3020032A0CF /* Protocols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BB1BE3B5FA00ABDC1E /* Engine_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8431BAFE3020032A0CF /* Engine_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BC1BE3B5FA00ABDC1E /* FMAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BD1BE3B5FA00ABDC1E /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8521BAFE3020032A0CF /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BE1BE3B5FA00ABDC1E /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8561BAFE3020032A0CF /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9BF1BE3B5FA00ABDC1E /* FMRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8351BAFE3020032A0CF /* FMRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C01BE3B5FA00ABDC1E /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85D1BAFE3020032A0CF /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C11BE3B5FA00ABDC1E /* Series.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8451BAFE3020032A0CF /* Series.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C21BE3B5FA00ABDC1E /* Line_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8491BAFE3020032A0CF /* Line_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C31BE3B5FA00ABDC1E /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8411BAFE3020032A0CF /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C41BE3B5FA00ABDC1E /* FMInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8311BAFE3020032A0CF /* FMInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C51BE3B5FA00ABDC1E /* TextureQuads.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8631BAFE3020032A0CF /* TextureQuads.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C61BE3B5FA00ABDC1E /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C71BE3B5FA00ABDC1E /* TextureQuad_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8671BAFE3020032A0CF /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C91BE3B5FA00ABDC1E /* FMAxisLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82F1BAFE3020032A0CF /* FMAxisLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CA1BE3B5FA00ABDC1E /* FMAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82D1BAFE3020032A0CF /* FMAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CB1BE3B5FA00ABDC1E /* FMUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8391BAFE3020032A0CF /* FMUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CC1BE3B5FA00ABDC1E /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8531BAFE3020032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CE1BE3B5FA00ABDC1E /* TextureQuadBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9CF1BE3B5FA00ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
+		AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9E01BE3B87C00ABDC1E /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
+		AA32A9E11BE3B87C00ABDC1E /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
 		AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E51B6F0D8C00480AAE /* Assets.xcassets */; };
 		AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */; };
 		AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A81F1BAFE2960032A0CF /* FMChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8241BAFE2960032A0CF /* FMChart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; };
-		AAC4A8251BAFE2960032A0CF /* FMChart.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		AAC4A86B1BAFE3020032A0CF /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82A1BAFE3020032A0CF /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */; };
 		AAC4A86E1BAFE3020032A0CF /* FMAxis.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82D1BAFE3020032A0CF /* FMAxis.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,16 +138,15 @@
 		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
-		AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AADC1AC21B8F2002002F455D /* MetalKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AAC4A8221BAFE2960032A0CF /* PBXContainerItemProxy */ = {
+		AA32A9DC1BE3B85900ABDC1E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AAC4A81C1BAFE2960032A0CF;
-			remoteInfo = FMChart;
+			remoteGlobalIDString = AA32A9921BE3B5FA00ABDC1E;
+			remoteInfo = FMChartSupport;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -98,7 +157,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AAC4A8251BAFE2960032A0CF /* FMChart.framework in Embed Frameworks */,
+				AA32A9E11BE3B87C00ABDC1E /* FMChartSupport.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,7 +171,14 @@
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AA32A97E1BE3439600ABDC1E /* FMMetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalView.h; sourceTree = "<group>"; };
 		AA32A97F1BE3439600ABDC1E /* FMMetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalView.m; sourceTree = "<group>"; };
-		AA32A9841BE382BA00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
+		AA32A9891BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
+		AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
+		AA32A98C1BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
+		AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
+		AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChartSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA32A9D71BE3B5FA00ABDC1E /* FMChart copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FMChart copy-Info.plist"; path = "/Users/kei/workspace/metal_chart/MetalChartDev/FMChart copy-Info.plist"; sourceTree = "<absolute>"; };
+		AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMChartSupport.h; sourceTree = "<group>"; };
+		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +190,6 @@
 		AAC4A81D1BAFE2960032A0CF /* FMChart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC4A81F1BAFE2960032A0CF /* FMChart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMChart.h; sourceTree = "<group>"; };
 		AAC4A8211BAFE2960032A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAC4A82A1BAFE3020032A0CF /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
 		AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMAnimator.h; sourceTree = "<group>"; };
 		AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMAnimator.m; sourceTree = "<group>"; };
 		AAC4A82D1BAFE3020032A0CF /* FMAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMAxis.h; sourceTree = "<group>"; };
@@ -187,15 +252,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA32A9B11BE3B5FA00ABDC1E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D81B6F0D8C00480AAE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
-				AADC1AC31B8F2002002F455D /* MetalKit.framework in Frameworks */,
-				AAC4A8241BAFE2960032A0CF /* FMChart.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
+				AA32A9E01BE3B87C00ABDC1E /* FMChartSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +280,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA32A9871BE3B53E00ABDC1E /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				AA32A9881BE3B53E00ABDC1E /* ios8 */,
+				AA32A98B1BE3B53E00ABDC1E /* ios9 */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		AA32A9881BE3B53E00ABDC1E /* ios8 */ = {
+			isa = PBXGroup;
+			children = (
+				AA32A9891BE3B53E00ABDC1E /* chart_common.h */,
+				AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */,
+			);
+			path = ios8;
+			sourceTree = "<group>";
+		};
+		AA32A98B1BE3B53E00ABDC1E /* ios9 */ = {
+			isa = PBXGroup;
+			children = (
+				AA32A98C1BE3B53E00ABDC1E /* chart_common.h */,
+				AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */,
+			);
+			path = ios9;
+			sourceTree = "<group>";
+		};
 		AAB584D21B6F0D8C00480AAE = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +314,7 @@
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
 				AAB584DC1B6F0D8C00480AAE /* Products */,
 				AADC1AC41B8F20D8002F455D /* Frameworks */,
+				AA32A9D71BE3B5FA00ABDC1E /* FMChart copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,6 +323,7 @@
 			children = (
 				AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */,
 				AAC4A81D1BAFE2960032A0CF /* FMChart.framework */,
+				AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -247,11 +347,14 @@
 		AAC4A81E1BAFE2960032A0CF /* FMChart */ = {
 			isa = PBXGroup;
 			children = (
+				AA32A9871BE3B53E00ABDC1E /* Headers */,
 				AAC4A8291BAFE3020032A0CF /* Chart */,
 				AAC4A83D1BAFE3020032A0CF /* Engine */,
 				AAC4A8661BAFE3020032A0CF /* Utilities */,
 				AAC4A81F1BAFE2960032A0CF /* FMChart.h */,
+				AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */,
 				AAC4A8211BAFE2960032A0CF /* Info.plist */,
+				AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */,
 			);
 			path = FMChart;
 			sourceTree = "<group>";
@@ -259,8 +362,6 @@
 		AAC4A8291BAFE3020032A0CF /* Chart */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A82A1BAFE3020032A0CF /* chart_common.h */,
-				AA32A9841BE382BA00ABDC1E /* chart_common.swift */,
 				AAC4A83B1BAFE3020032A0CF /* MetalChart.h */,
 				AAC4A83C1BAFE3020032A0CF /* MetalChart.m */,
 				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
@@ -392,6 +493,44 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		AA32A9B21BE3B5FA00ABDC1E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */,
+				AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */,
+				AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */,
+				AA32A9B61BE3B5FA00ABDC1E /* FMRestrictions.h in Headers */,
+				AA32A9B71BE3B5FA00ABDC1E /* FMProjectionUpdater.h in Headers */,
+				AA32A9B81BE3B5FA00ABDC1E /* LineBuffers.h in Headers */,
+				AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */,
+				AA32A9B91BE3B5FA00ABDC1E /* Lines.h in Headers */,
+				AA32A9BA1BE3B5FA00ABDC1E /* Protocols.h in Headers */,
+				AA32A9BB1BE3B5FA00ABDC1E /* Engine_common.h in Headers */,
+				AA32A9BC1BE3B5FA00ABDC1E /* FMAnimator.h in Headers */,
+				AA32A9BD1BE3B5FA00ABDC1E /* Point_common.h in Headers */,
+				AA32A9BE1BE3B5FA00ABDC1E /* Points.h in Headers */,
+				AA32A9BF1BE3B5FA00ABDC1E /* FMRenderables.h in Headers */,
+				AA32A9C01BE3B5FA00ABDC1E /* Rects.h in Headers */,
+				AA32A9C11BE3B5FA00ABDC1E /* Series.h in Headers */,
+				AA32A9C21BE3B5FA00ABDC1E /* Line_common.h in Headers */,
+				AA32A9C31BE3B5FA00ABDC1E /* Engine.h in Headers */,
+				AA32A9C41BE3B5FA00ABDC1E /* FMInteractive.h in Headers */,
+				AA32A9C51BE3B5FA00ABDC1E /* TextureQuads.h in Headers */,
+				AA32A9C61BE3B5FA00ABDC1E /* MetalChart.h in Headers */,
+				AA32A9C71BE3B5FA00ABDC1E /* TextureQuad_common.h in Headers */,
+				AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */,
+				AA32A9C91BE3B5FA00ABDC1E /* FMAxisLabel.h in Headers */,
+				AA32A9CA1BE3B5FA00ABDC1E /* FMAxis.h in Headers */,
+				AA32A9CB1BE3B5FA00ABDC1E /* FMUtility.h in Headers */,
+				AA32A9CC1BE3B5FA00ABDC1E /* RectBuffers.h in Headers */,
+				AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */,
+				AA32A9CE1BE3B5FA00ABDC1E /* TextureQuadBuffers.h in Headers */,
+				AA32A9CF1BE3B5FA00ABDC1E /* FMMetalView.h in Headers */,
+				AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAC4A81A1BAFE2960032A0CF /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -399,7 +538,6 @@
 				AAC4A87E1BAFE3020032A0CF /* Buffers.h in Headers */,
 				AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */,
 				AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */,
-				AAC4A86B1BAFE3020032A0CF /* chart_common.h in Headers */,
 				AAC4A8781BAFE3020032A0CF /* FMRestrictions.h in Headers */,
 				AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */,
 				AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */,
@@ -426,6 +564,7 @@
 				AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */,
 				AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */,
 				AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */,
+				AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */,
 				AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,6 +572,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA32A9D31BE3B5FA00ABDC1E /* Build configuration list for PBXNativeTarget "FMChartSupport" */;
+			buildPhases = (
+				AA32A9931BE3B5FA00ABDC1E /* Sources */,
+				AA32A9B11BE3B5FA00ABDC1E /* Frameworks */,
+				AA32A9B21BE3B5FA00ABDC1E /* Headers */,
+				AA32A9D21BE3B5FA00ABDC1E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FMChartSupport;
+			productName = FMChart;
+			productReference = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		AAB584DA1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAB585031B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDev" */;
@@ -445,7 +602,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAC4A8231BAFE2960032A0CF /* PBXTargetDependency */,
+				AA32A9DD1BE3B85900ABDC1E /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
@@ -502,12 +659,20 @@
 			projectRoot = "";
 			targets = (
 				AAC4A81C1BAFE2960032A0CF /* FMChart */,
+				AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */,
 				AAB584DA1B6F0D8C00480AAE /* MetalChartDev */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA32A9D21BE3B5FA00ABDC1E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D91B6F0D8C00480AAE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,6 +694,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA32A9931BE3B5FA00ABDC1E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */,
+				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
+				AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */,
+				AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */,
+				AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */,
+				AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */,
+				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
+				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */,
+				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
+				AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */,
+				AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */,
+				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
+				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
+				AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */,
+				AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */,
+				AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */,
+				AA32A9A31BE3B5FA00ABDC1E /* MetalChart.m in Sources */,
+				AA32A9A41BE3B5FA00ABDC1E /* NSArray+Utility.m in Sources */,
+				AA32A9A51BE3B5FA00ABDC1E /* FMAxis.m in Sources */,
+				AA32A9A71BE3B5FA00ABDC1E /* FMAnimator.m in Sources */,
+				AA32A9A81BE3B5FA00ABDC1E /* TextureQuads.m in Sources */,
+				AA32A9A91BE3B5FA00ABDC1E /* Engine.m in Sources */,
+				AA32A9AA1BE3B5FA00ABDC1E /* Lines.m in Sources */,
+				AA32A9AB1BE3B5FA00ABDC1E /* Points.m in Sources */,
+				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
+				AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */,
+				AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */,
+				AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */,
+				AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAB584D71B6F0D8C00480AAE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -560,10 +761,10 @@
 				AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */,
 				AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */,
 				AAC4A86F1BAFE3020032A0CF /* FMAxis.m in Sources */,
+				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */,
 				AAC4A89F1BAFE3020032A0CF /* TextureQuads.m in Sources */,
 				AAC4A8811BAFE3020032A0CF /* Engine.m in Sources */,
-				AA32A9851BE382BA00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */,
 				AAC4A8941BAFE3020032A0CF /* Points.m in Sources */,
 				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
@@ -577,10 +778,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AAC4A8231BAFE2960032A0CF /* PBXTargetDependency */ = {
+		AA32A9DD1BE3B85900ABDC1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAC4A81C1BAFE2960032A0CF /* FMChart */;
-			targetProxy = AAC4A8221BAFE2960032A0CF /* PBXContainerItemProxy */;
+			target = AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */;
+			targetProxy = AA32A9DC1BE3B85900ABDC1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -604,6 +805,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		AA32A9D41BE3B5FA00ABDC1E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "FMChart/Info-Support.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AA32A9D51BE3B5FA00ABDC1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "FMChart/Info-Support.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_CFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		AAB585011B6F0D8C00480AAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -697,6 +952,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDev;
@@ -715,6 +971,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDev;
@@ -779,6 +1036,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA32A9D31BE3B5FA00ABDC1E /* Build configuration list for PBXNativeTarget "FMChartSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA32A9D41BE3B5FA00ABDC1E /* Debug */,
+				AA32A9D51BE3B5FA00ABDC1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AAB584D61B6F0D8C00480AAE /* Build configuration list for PBXProject "MetalChartDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

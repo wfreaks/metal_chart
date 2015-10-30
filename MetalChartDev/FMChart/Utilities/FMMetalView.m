@@ -63,6 +63,7 @@
     _screenScale = [[UIScreen mainScreen] scale];
     _runloop = [NSRunLoop mainRunLoop];
     _sampleCount = 1;
+    _autoResizeDrawable = YES;
 }
 
 - (void)setPreferredFramesPerSecond:(NSInteger)fps
@@ -113,6 +114,7 @@
     const CGSize prev = self.metalLayer.drawableSize;
     if(!CGSizeEqualToSize(drawableSize, prev)) {
         self.metalLayer.drawableSize = drawableSize;
+        drawableSize = self.metalLayer.drawableSize;
         _depthStencilTexture = nil;
         _multisampleColorTexture = nil;
     }

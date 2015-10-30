@@ -8,10 +8,5 @@
 
 import Foundation
 
-#if __METALKIT_AVAILABLE__
-    import MetalKit
-    public typealias MetalView = MTKView;
-#else
-    public typealias MetalView = FMMetalView;
-#endif
-
+import MetalKit
+public typealias MetalView = MTKView;

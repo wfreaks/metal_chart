@@ -8,8 +8,7 @@
 
 import UIKit
 import Metal
-import FMChart
-import MetalKit
+import FMChartSupport
 
 class ViewController: UIViewController {
 

@@ -229,9 +229,9 @@
 			}
 			
             const RectPadding pad = _padding;
+            const CGSize size = view.drawableSize;
             const CGFloat scale = [UIScreen mainScreen].scale;
-            const CGSize size = view.bounds.size;
-            const NSUInteger w  = size.width * scale, h = size.height * scale;
+            const NSUInteger w  = size.width, h = size.height;
             const NSUInteger l = pad.left * scale, r = pad.right * scale;
             const NSUInteger t = pad.top * scale, b = pad.bottom * scale;
             
