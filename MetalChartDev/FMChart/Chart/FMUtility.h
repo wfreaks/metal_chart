@@ -54,14 +54,14 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 @property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
 @property (readonly, nonatomic) NSArray<FMSpatialProjection*> * _Nonnull space;
 @property (readonly, nonatomic) MetalChart * _Nonnull chart;
-@property (readonly, nonatomic) MTKView * _Nullable view;
+@property (readonly, nonatomic) MetalView * _Nullable view;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
 - (instancetype _Nonnull)initWithChart:(MetalChart * _Nonnull)chart
 								engine:(Engine * _Nullable)engine
-								  view:(MTKView * _Nullable)view
+								  view:(MetalView * _Nullable)view
 						  preferredFps:(NSInteger)fps
 NS_DESIGNATED_INITIALIZER;
 

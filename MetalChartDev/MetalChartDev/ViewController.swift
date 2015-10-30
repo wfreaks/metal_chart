@@ -8,12 +8,12 @@
 
 import UIKit
 import Metal
-import MetalKit
 import FMChart
+import MetalKit
 
 class ViewController: UIViewController {
 
-	@IBOutlet var metalView: MTKView!
+	@IBOutlet var metalView: MetalView!
     @IBOutlet var panRecognizer: UIPanGestureRecognizer!
     @IBOutlet var pinchRecognizer: UIPinchGestureRecognizer!
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = true
+	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil
     
 	override func viewDidLoad() {

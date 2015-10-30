@@ -125,7 +125,7 @@
 	return nil;
 }
 
-- (void)configure:(MTKView *)view padding:(RectPadding)padding
+- (void)configure:(MetalView *)view padding:(RectPadding)padding
 {
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setSampleCount:view.sampleCount];
@@ -168,7 +168,7 @@
 	return self;
 }
 
-- (void)mtkView:(MTKView *)view drawableSizeWillChange:(CGSize)size
+- (void)mtkView:(MetalView *)view drawableSizeWillChange:(CGSize)size
 {
 	// 描画前にバッファへ書き込むのでここは無視する.
 }
@@ -178,7 +178,7 @@
 // ・semaphore_wait 内では preRenderable / series / postRenderable を描画
 // ・semaphore_signale 後は レンダリング結果をキューに入れてコミット
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
-- (void)drawInMTKView:(MTKView *)view
+- (void)drawInMTKView:(MetalView *)view
 {
     const CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
     const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);

@@ -29,6 +29,7 @@ FOUNDATION_EXPORT const unsigned char FMChartVersionString[];
 #import <FMChart/FMAxisLabel.h>
 #import <FMChart/FMAnimator.h>
 #import <FMChart/FMUtility.h>
+#import <FMChart/FMMetalView.h>
 
 #import <FMChart/Engine_common.h>
 #import <FMChart/Protocols.h>
@@ -51,3 +52,4 @@ FOUNDATION_EXPORT const unsigned char FMChartVersionString[];
 #import <FMChart/TextureQuad_common.h>
 #import <FMChart/TextureQuadBuffers.h>
 #import <FMChart/TextureQuads.h>
+

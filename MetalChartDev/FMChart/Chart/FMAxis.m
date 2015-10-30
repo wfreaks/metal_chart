@@ -59,7 +59,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart
-              view:(MTKView *)view
+              view:(MetalChart *)view
 {
 	[_conf configureUniform:_axis.configuration withDimension:_dimension orthogonal:_orthogonal];
     const CGFloat len = _dimension.max - _dimension.min;

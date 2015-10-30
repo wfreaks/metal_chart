@@ -36,7 +36,7 @@
 
 - (instancetype)initWithChart:(MetalChart *)chart
 					   engine:(Engine *)engine
-						view:(MTKView *)view
+						view:(MetalView *)view
 				 preferredFps:(NSInteger)fps
 {
 	self = [super init];
@@ -149,7 +149,7 @@
 										 orientations:orientations];
 		const BOOL setNeedsDisplay = (_preferredFps <= 0);
 		if(setNeedsDisplay) {
-			MTKView *view = _view;
+			typeof(_view) view = _view;
 			[interpreter addInteraction:[[FMSimpleBlockInteraction alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull _interpreter) {
 				[view setNeedsDisplay];
 			}]];

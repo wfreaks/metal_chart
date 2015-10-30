@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MetalKit/MetalKit.h>
+#import "chart_common.h"
 #import "Engine_common.h"
 
 /*
@@ -63,7 +63,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
              chart:(MetalChart * _Nonnull)chart
-              view:(MTKView * _Nonnull)view
+              view:(MetalView * _Nonnull)view
 ;
 
 @end
@@ -117,7 +117,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)writeToBuffer;
 
-- (void)configure:(MTKView * _Nonnull)view padding:(RectPadding)padding;
+- (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
 
 - (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
@@ -126,7 +126,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface MetalChart : NSObject<MTKViewDelegate>
+@interface MetalChart : NSObject<MetalViewDelegate>
 
 @property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);

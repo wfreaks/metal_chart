@@ -9,6 +9,8 @@
 #ifndef Engine_common_h
 #define Engine_common_h
 
+#import <simd/simd.h>
+
 typedef struct RectPadding {
     CGFloat left;
     CGFloat top;

@@ -180,7 +180,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart
-              view:(MTKView *)view
+              view:(MetalView *)view
 {
     [_projection setPhysicalSize:view.bounds.size];
     [_projection setSampleCount:view.sampleCount];
@@ -245,7 +245,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart
-              view:(MTKView *)view
+              view:(MetalChart *)view
 {
     const CGFloat len = _dimension.max - _dimension.min;
     const NSUInteger maxCount = floor(len/_gridLine.attributes.interval) + 1;
