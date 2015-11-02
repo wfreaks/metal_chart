@@ -21,6 +21,7 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setColor:(vector_float4 *_Nonnull)color;
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 - (void)setCornerRadius:(float)radius;
 - (void)setDepthValue:(float)value;
@@ -36,6 +37,7 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setColor:(vector_float4 *_Nonnull)color;
 - (void)setCornerRadius:(float)radius;
 - (void)setBarWidth:(float)width;
 - (void)setDepthValue:(float)value;

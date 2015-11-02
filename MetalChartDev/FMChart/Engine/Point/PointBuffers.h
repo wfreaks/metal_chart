@@ -21,7 +21,9 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
 - (void)setInnerColor:(float)r green:(float)g blue:(float)b alpha:(float)a;
+- (void)setInnerColor:(vector_float4 * _Nonnull)color;
 - (void)setOuterColor:(float)r green:(float)g blue:(float)b alpha:(float)a;
+- (void)setOuterColor:(vector_float4 * _Nonnull)color;
 
 - (void)setInnerRadius:(float)r;
 - (void)setOuterRadius:(float)r;

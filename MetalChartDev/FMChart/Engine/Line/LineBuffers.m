@@ -43,6 +43,11 @@
     [self attributes]->color = vector4(red, green, blue, alpha);
 }
 
+- (void)setColor:(vector_float4 *)color
+{
+    [self attributes]->color = *color;
+}
+
 - (void)setAlpha:(float)alpha
 {
     [self attributes]->alpha = MIN(1.0f, MAX(0, alpha));
@@ -112,6 +117,11 @@
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     _attributes->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setColor:(vector_float4 *)color
+{
+    _attributes->color = *color;
 }
 
 - (void)setLengthModifierStart:(float)start end:(float)end
@@ -215,6 +225,11 @@
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     self.attributes->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setColor:(vector_float4 *)color
+{
+    self.attributes->color = *color;
 }
 
 - (void)setAnchorValue:(float)anchorValue

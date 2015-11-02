@@ -34,9 +34,19 @@
     self.point->color_inner = vector4(r,g,b,a);
 }
 
+- (void)setInnerColor:(vector_float4 *)color
+{
+    self.point->color_inner = *color;
+}
+
 - (void)setOuterColor:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
     self.point->color_outer = vector4(r,g,b,a);
+}
+
+- (void)setOuterColor:(vector_float4 *)color
+{
+    self.point->color_outer = *color;
 }
 
 - (void)setInnerRadius:(float)r

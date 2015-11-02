@@ -1,0 +1,18 @@
+//
+//  UIColor+Utility.h
+//  MetalChartDev
+//
+//  Created by Keisuke Mori on 2015/11/03.
+//  Copyright © 2015年 freaks. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import <simd/simd.h>
+
+@interface UIColor (Utility)
+
+- (vector_float4)toVector;
+
++ (UIColor *)fromVector:(vector_float4)vector;
+
+@end

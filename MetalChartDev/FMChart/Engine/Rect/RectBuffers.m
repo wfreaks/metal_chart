@@ -33,6 +33,11 @@
     self.rect->color = vector4(red, green, blue, alpha);
 }
 
+- (void)setColor:(vector_float4 *)color
+{
+    self.rect->color = *color;
+}
+
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
 {
     self.rect->corner_radius = vector4(lt, rt, lb, rb);
@@ -75,6 +80,11 @@
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     self.bar->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setColor:(vector_float4 *)color
+{
+    self.bar->color = *color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
