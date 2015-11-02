@@ -83,6 +83,7 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setFont:(UIFont * _Nonnull)font;
 - (void)setFrameOffset:(CGPoint)offset;
 - (void)setFrameAnchorPoint:(CGPoint)point;
+- (void)clearCache;
 
 @end
 

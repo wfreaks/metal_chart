@@ -200,6 +200,12 @@
 	[_quad encodeWith:encoder projection:projection count:count];
 }
 
+- (void)clearCache
+{
+    _idxMax = -1;
+    _idxMin = 0;
+}
+
 - (void)configure:(FMAxis *)axis
 {
     FMDimensionalProjection *dimension = axis.dimension;
@@ -220,8 +226,7 @@
         [texRegion setIterationVector:CGPointMake(0, normHeight)];
         [texRegion setSize:CGSizeMake(1, normHeight)];
         [dataRegion setIterationVector:(conf.dimensionIndex == 0) ? CGPointMake(interval, 0) : CGPointMake(0, interval)];
-        _idxMax = -1;
-        _idxMin = 0;
+        [self clearCache];
         return YES;
     }];
     [texRegion setIterationOffset:newMin];
