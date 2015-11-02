@@ -29,7 +29,7 @@
 - (void)setWidth:(CGFloat)width;
 
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 * _Nonnull)color;
+- (void)setColor:(vector_float4 const * _Nonnull)color;
 
 - (void)setAlpha:(float)alpha;
 
@@ -58,7 +58,7 @@
 - (void)setWidth:(float)width;
 
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 * _Nonnull)color;
+- (void)setColor:(vector_float4 const * _Nonnull)color;
 
 - (void)setLineLength:(float)length;
 
@@ -117,7 +117,7 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setWidth:(float)width;
 
 - (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 * _Nonnull)color;
+- (void)setColor:(vector_float4 const * _Nonnull)color;
 
 - (void)setDepthValue:(float)depth;
 

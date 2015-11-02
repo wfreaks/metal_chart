@@ -34,7 +34,7 @@
     self.point->color_inner = vector4(r,g,b,a);
 }
 
-- (void)setInnerColor:(vector_float4 *)color
+- (void)setInnerColor:(vector_float4 const *)color
 {
     self.point->color_inner = *color;
 }
@@ -44,7 +44,7 @@
     self.point->color_outer = vector4(r,g,b,a);
 }
 
-- (void)setOuterColor:(vector_float4 *)color
+- (void)setOuterColor:(vector_float4 const *)color
 {
     self.point->color_outer = *color;
 }

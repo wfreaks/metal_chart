@@ -33,7 +33,7 @@
     self.rect->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 *)color
+- (void)setColor:(vector_float4 const *)color
 {
     self.rect->color = *color;
 }
@@ -82,7 +82,7 @@
     self.bar->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 *)color
+- (void)setColor:(vector_float4 const *)color
 {
     self.bar->color = *color;
 }

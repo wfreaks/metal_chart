@@ -43,7 +43,7 @@
     [self attributes]->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 *)color
+- (void)setColor:(vector_float4 const *)color
 {
     [self attributes]->color = *color;
 }
@@ -119,7 +119,7 @@
     _attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 *)color
+- (void)setColor:(vector_float4 const *)color
 {
     _attributes->color = *color;
 }
@@ -227,7 +227,7 @@
     self.attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 *)color
+- (void)setColor:(vector_float4 const *)color
 {
     self.attributes->color = *color;
 }
