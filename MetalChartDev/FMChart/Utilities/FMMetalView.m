@@ -23,6 +23,8 @@
 @property (nonatomic, readwrite) id<MTLTexture>      depthStencilTexture;
 @property (nonatomic, readwrite) id<MTLTexture>      multisampleColorTexture;
 
+@property (nonatomic, assign) BOOL needsRedraw;
+
 @end
 
 @implementation FMMetalView
@@ -60,6 +62,7 @@
 
 - (void)_postInit
 {
+    _needsRedraw = YES;
     _screenScale = [[UIScreen mainScreen] scale];
     _runloop = [NSRunLoop mainRunLoop];
     _sampleCount = 1;
@@ -69,6 +72,10 @@
 - (void)setPreferredFramesPerSecond:(NSInteger)fps
 {
     _preferredFramesPerSecond = fps;
+    if(fps > 0) {
+        _paused = NO;
+        _enableSetNeedsDisplay = NO;
+    }
     [self _updateDisplayLink];
 }
 
@@ -78,13 +85,20 @@
     [self _updateDisplayLink];
 }
 
+- (void)setEnableSetNeedsDisplay:(BOOL)enableSetNeedsDisplay
+{
+    _enableSetNeedsDisplay = enableSetNeedsDisplay;
+    [self _updateDisplayLink];
+}
+
 - (void)_updateDisplayLink
 {
     if(_display) {
-        const NSInteger fps = _preferredFramesPerSecond;
+        const BOOL enabled = (_paused && _enableSetNeedsDisplay);
+        const NSInteger fps = (enabled) ? 60 : _preferredFramesPerSecond;
         const CFTimeInterval duration = _display.duration;
         const CFTimeInterval spf = (fps > 0) ? 1.0/fps : 0;
-        _display.paused = self.paused | (spf <= 0);
+        _display.paused = self.paused & (spf <= 0);
         
         if(spf > 0) {
             const NSInteger n = ceil(spf / (duration > 0 ? duration : 0.1666));
@@ -147,23 +161,25 @@
 
 - (void)draw
 {
-    id<FMMetalViewDelegate> delegate = _delegate;
-    if(delegate && self.device) {
-        [delegate drawInMTKView:self];
-        _currentDrawable = nil;
-        _currentRenderPassDescriptor = nil;
+    const BOOL needsRedraw = _needsRedraw;
+    const BOOL enableDisplay = _enableSetNeedsDisplay;
+    if(needsRedraw | (!enableDisplay)) {
+        id<FMMetalViewDelegate> delegate = _delegate;
+        if(delegate && self.device) {
+            [delegate drawInMTKView:self];
+            _currentDrawable = nil;
+            _currentRenderPassDescriptor = nil;
+        } else {
+            [self drawRect:self.bounds];
+        }
     }
-}
-
-- (void)drawRect:(CGRect)rect
-{
-    [self draw];
+    _needsRedraw = NO;
 }
 
 - (void)setNeedsDisplay
 {
     if(self.enableSetNeedsDisplay) {
-        [self.metalLayer setNeedsDisplay];
+        _needsRedraw = YES;
     }
 }
 

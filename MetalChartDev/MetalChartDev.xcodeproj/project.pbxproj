@@ -74,9 +74,9 @@
 		AA32A9CF1BE3B5FA00ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32A9E01BE3B87C00ABDC1E /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
-		AA32A9E11BE3B87C00ABDC1E /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
+		AA32AACC1BE7B87D00ABDC1E /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -141,7 +141,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA32A9DC1BE3B85900ABDC1E /* PBXContainerItemProxy */ = {
+		AA32AACD1BE7B87D00ABDC1E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
 			proxyType = 1;
@@ -151,13 +151,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AAC4A8101BAF32C80032A0CF /* Embed Frameworks */ = {
+		AA32AACF1BE7B87D00ABDC1E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AA32A9E11BE3B87C00ABDC1E /* FMChartSupport.framework in Embed Frameworks */,
+				AA32AACC1BE7B87D00ABDC1E /* FMChartSupport.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,8 +265,8 @@
 			files = (
 				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
+				AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
-				AA32A9E01BE3B87C00ABDC1E /* FMChartSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,8 +367,8 @@
 				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
 				AAC4A8361BAFE3020032A0CF /* FMRenderables.m */,
 				AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */,
-				AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */,
 				AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */,
+				AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */,
 				AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */,
 				AAC4A8311BAFE3020032A0CF /* FMInteractive.h */,
 				AAC4A8321BAFE3020032A0CF /* FMInteractive.m */,
@@ -597,12 +597,12 @@
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
-				AAC4A8101BAF32C80032A0CF /* Embed Frameworks */,
+				AA32AACF1BE7B87D00ABDC1E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AA32A9DD1BE3B85900ABDC1E /* PBXTargetDependency */,
+				AA32AACE1BE7B87D00ABDC1E /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
@@ -778,10 +778,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA32A9DD1BE3B85900ABDC1E /* PBXTargetDependency */ = {
+		AA32AACE1BE7B87D00ABDC1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */;
-			targetProxy = AA32A9DC1BE3B85900ABDC1E /* PBXContainerItemProxy */;
+			targetProxy = AA32AACD1BE7B87D00ABDC1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
