@@ -160,6 +160,8 @@ NS_DESIGNATED_INITIALIZER;
 - (void)addPostRenderables:(NSArray<id<FMAttachment>> * _Nonnull)array;
 - (void)removePostRenderable:(id<FMAttachment> _Nonnull)object;
 
+- (void)removeAll;
+
 - (NSArray<id<FMRenderable>> * _Nonnull)series;
 
 - (NSArray<FMSpatialProjection *> * _Nonnull)projections;

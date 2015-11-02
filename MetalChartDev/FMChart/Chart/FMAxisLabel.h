@@ -19,7 +19,8 @@
 @protocol FMAxisLabelDelegate<NSObject>
 
 - (NSArray<NSMutableAttributedString*> * _Nonnull)attributedStringForValue:(CGFloat)value
-													   dimension:(FMDimensionalProjection * _Nonnull)dimension
+                                                                     index:(NSInteger)index
+                                                                 dimension:(FMDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
@@ -64,7 +65,7 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMAxisLabel : NSObject<FMAxisDecoration>
 
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
-@property (readonly, nonatomic) id<FMAxisLabelDelegate> _Nonnull delegate;
+@property (readonly, nonatomic, weak) id<FMAxisLabelDelegate> _Nullable delegate;
 @property (assign  , nonatomic) CGFloat lineSpace;
 
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
@@ -87,7 +88,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, FMDimensionalProjection *_Nonnull dimension);
+typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, NSInteger index, FMDimensionalProjection *_Nonnull dimension);
 
 @interface FMAxisLabelBlockDelegate : NSObject<FMAxisLabelDelegate>
 

@@ -396,6 +396,18 @@
 	}
 }
 
+- (void)removeAll
+{
+    @synchronized(self) {
+        _series = [NSArray array];
+        _projections = [NSArray array];
+        _projectionSet = [NSSet set];
+        _preRenderables = [NSArray array];
+        _postRenderables = [NSArray array];
+        [self reconstructDepthClients];
+    }
+}
+
 - (void)setClearDepth:(CGFloat)clearDepth
 {
     if(_clearDepth != clearDepth) {

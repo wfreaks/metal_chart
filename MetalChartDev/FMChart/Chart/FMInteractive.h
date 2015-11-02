@@ -32,7 +32,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @property (strong, nonatomic) UIPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
-@property (strong, nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
+@property (weak  , nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
 
 @property (assign, nonatomic) CGFloat orientationStep;
 @property (assign, nonatomic) CGFloat orientationStepDegree;

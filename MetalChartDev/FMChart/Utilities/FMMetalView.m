@@ -148,7 +148,7 @@
 - (void)draw
 {
     id<FMMetalViewDelegate> delegate = _delegate;
-    if(delegate) {
+    if(delegate && self.device) {
         [delegate drawInMTKView:self];
         _currentDrawable = nil;
         _currentRenderPassDescriptor = nil;
@@ -163,7 +163,7 @@
 - (void)setNeedsDisplay
 {
     if(self.enableSetNeedsDisplay) {
-        [super setNeedsDisplay];
+        [self.metalLayer setNeedsDisplay];
     }
 }
 
@@ -227,24 +227,29 @@
     }
 }
 
+- (void)prepareDepthStencilTexture
+{
+    const MTLPixelFormat format = _depthStencilPixelFormat;
+    const BOOL isValid = (format == MTLPixelFormatDepth32Float || format == MTLPixelFormatDepth32Float_Stencil8);
+    const NSUInteger count = _sampleCount;
+    if(isValid) {
+        const CGSize size = self.metalLayer.drawableSize;
+        MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:format
+                                                                                        width:size.width
+                                                                                       height:size.height
+                                                                                    mipmapped:NO];
+        if(count > 1) {
+            desc.textureType = MTLTextureType2DMultisample;
+            desc.sampleCount = _sampleCount;
+        }
+        _depthStencilTexture = [_device newTextureWithDescriptor:desc];
+    }
+}
+
 - (id<MTLTexture>)depthStencilTexture
 {
     if(_depthStencilTexture == nil) {
-        const MTLPixelFormat format = _depthStencilPixelFormat;
-        const BOOL isValid = (format == MTLPixelFormatDepth32Float || format == MTLPixelFormatDepth32Float_Stencil8);
-        const NSUInteger count = _sampleCount;
-        if(isValid) {
-            const CGSize size = self.metalLayer.drawableSize;
-            MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:format
-                                                                                            width:size.width
-                                                                                           height:size.height
-                                                                                        mipmapped:NO];
-            if(count) {
-                desc.textureType = MTLTextureType2DMultisample;
-                desc.sampleCount = _sampleCount;
-            }
-            _depthStencilTexture = [_device newTextureWithDescriptor:desc];
-        }
+        [self prepareDepthStencilTexture];
     }
     return _depthStencilTexture;
 }
@@ -258,26 +263,31 @@
     }
 }
 
+- (void)prepareMultisamplingColorTexture
+{
+    const MTLPixelFormat format = self.colorPixelFormat;
+    const BOOL isValid = (format == MTLPixelFormatBGRA8Unorm        ||
+                          format == MTLPixelFormatBGRA8Unorm_sRGB   ||
+                          format == MTLPixelFormatRGBA16Float
+                          );
+    const NSUInteger count = _sampleCount;
+    if(isValid && count > 1) {
+        const CGSize size = self.metalLayer.drawableSize;
+        MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:self.colorPixelFormat
+                                                                                        width:size.width
+                                                                                       height:size.height
+                                                                                    mipmapped:NO];
+        desc.textureType = MTLTextureType2DMultisample;
+        desc.sampleCount = count;
+        
+        _multisampleColorTexture = [_device newTextureWithDescriptor:desc];
+    }
+}
+
 - (id<MTLTexture>)multisampleColorTexture
 {
     if(_depthStencilTexture == nil) {
-        const MTLPixelFormat format = self.colorPixelFormat;
-        const BOOL isValid = (format == MTLPixelFormatBGRA8Unorm        ||
-                              format == MTLPixelFormatBGRA8Unorm_sRGB   ||
-                              format == MTLPixelFormatRGBA16Float
-                              );
-        if(isValid && _sampleCount > 1) {
-            const CGSize size = self.metalLayer.drawableSize;
-            const NSUInteger count = _sampleCount;
-            MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:self.colorPixelFormat
-                                                                                            width:size.width
-                                                                                           height:size.height
-                                                                                        mipmapped:NO];
-            desc.textureType = MTLTextureType2DMultisample;
-            desc.sampleCount = count;
-            
-            _multisampleColorTexture = [_device newTextureWithDescriptor:desc];
-        }
+        [self prepareMultisamplingColorTexture];
     }
     return _multisampleColorTexture;
 }

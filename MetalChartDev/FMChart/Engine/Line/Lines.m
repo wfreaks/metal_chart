@@ -101,7 +101,6 @@
 		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
 		[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
 		
-	//	const NSUInteger count = 6 * MAX(0, ((NSInteger)(separated ? (info.count/2) : info.count-1))); // 折れ線でない場合、線数は半分になる、それ以外は-1.４点を結んだ場合を想像するとわかる. この線数に６倍すると頂点数.
 		NSUInteger count = [self vertexCountWithCount:info.count];
 		if(count > 0) {
 			const NSUInteger offset = 6 * (info.offset); // オフセットは折れ線かそうでないかに関係なく奇数を指定できると使いかたに幅が持たせられる.
