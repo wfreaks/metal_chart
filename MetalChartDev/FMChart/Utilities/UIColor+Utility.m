@@ -10,14 +10,14 @@
 
 @implementation UIColor (Utility)
 
-- (vector_float4)toVector
+- (vector_float4)vector
 {
     CGFloat r, g, b, a;
     [self getRed:&r green:&g blue:&b alpha:&a];
     return vector4((float)r, (float)g, (float)b, (float)a);
 }
 
-+ (UIColor *)fromVector:(vector_float4)vector
++ (instancetype)colorWithVector:(vector_float4)vector
 {
     return [UIColor colorWithRed:vector[0]
                            green:vector[1]

@@ -20,6 +20,7 @@
 
 - (NSArray<NSMutableAttributedString*> * _Nonnull)attributedStringForValue:(CGFloat)value
                                                                      index:(NSInteger)index
+                                                                      last:(NSInteger)lastIndex
                                                                  dimension:(FMDimensionalProjection * _Nonnull)dimension
 ;
 
@@ -88,7 +89,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value, NSInteger index, FMDimensionalProjection *_Nonnull dimension);
+typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value,
+                                                                                  NSInteger index,
+                                                                                  NSInteger lastIndex,
+                                                                                  FMDimensionalProjection *_Nonnull dimension);
 
 @interface FMAxisLabelBlockDelegate : NSObject<FMAxisLabelDelegate>
 

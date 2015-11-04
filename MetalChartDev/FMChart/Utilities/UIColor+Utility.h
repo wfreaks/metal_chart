@@ -11,8 +11,8 @@
 
 @interface UIColor (Utility)
 
-- (vector_float4)toVector;
+- (vector_float4)vector;
 
-+ (UIColor *)fromVector:(vector_float4)vector;
++ (instancetype)colorWithVector:(vector_float4)vector;
 
 @end

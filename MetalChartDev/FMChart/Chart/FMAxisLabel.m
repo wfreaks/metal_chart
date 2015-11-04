@@ -242,7 +242,7 @@
     for(NSInteger idx = newMin; idx <= newMax; ++idx) {
         if(!(oldMin <= idx && idx <= oldMax)) {
             const CGFloat value = anchor + (idx * interval);
-            NSArray<NSMutableAttributedString*> *str = [_delegate attributedStringForValue:value index:newMin-idx dimension:dimension];
+            NSArray<NSMutableAttributedString*> *str = [_delegate attributedStringForValue:value index:idx-newMin last:newMax-newMin dimension:dimension];
             NSInteger wrapped_idx = (idx % capacity);
             if(wrapped_idx < 0) wrapped_idx += capacity;
             const MTLRegion region = MTLRegionMake2D(0, (wrapped_idx * bufPixels.height), bufPixels.width, bufPixels.height);
@@ -285,9 +285,10 @@
 
 - (NSArray<NSMutableAttributedString*> *)attributedStringForValue:(CGFloat)value
                                                             index:(NSInteger)index
-                                       dimension:(FMDimensionalProjection *)dimension
+                                                             last:(NSInteger)lastIndex
+                                                        dimension:(FMDimensionalProjection * _Nonnull)dimension
 {
-    return _block(value, index, dimension);
+    return _block(value, index, lastIndex, dimension);
 }
 
 @end
