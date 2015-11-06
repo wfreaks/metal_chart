@@ -67,7 +67,7 @@ projection:(UniformProjection *)projection
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
 {
-    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"Point_Fragment"];
+    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"Point_Fragment" writeDepth:YES];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return count; }

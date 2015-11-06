@@ -10,6 +10,8 @@
 #import "chart_common.h"
 #import "Engine_common.h"
 
+MTLPixelFormat determineDepthPixelFormat();
+
 /*
  * このヘッダファイル内で宣言されたクラスは代替の利かないコアなコンポーネントの「全て」である.
  * その目的と興味はプロットエリアにおける座標変換のみに絞られている.

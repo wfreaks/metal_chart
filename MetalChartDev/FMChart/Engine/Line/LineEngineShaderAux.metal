@@ -46,8 +46,8 @@ struct out_vertex_axis {
     float2 position_scaled;
     float  l_scaled  [[ flat ]];
     float  scale     [[ flat ]];
-    uchar  index    [[ flat ]];
-    bool   dropped  [[ flat ]];
+	float  dropped   [[ flat ]];
+    uint   attr_idx  [[ flat ]];
 };
 
 struct out_vertex_grid {
@@ -56,7 +56,7 @@ struct out_vertex_grid {
     float  l_scaled  [[ flat ]];
     float  scale     [[ flat ]];
     float  depth     [[ flat ]];
-    bool   dropped   [[ flat ]];
+    float  dropped   [[ flat ]];
 };
 
 inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection& proj )
@@ -151,25 +151,25 @@ vertex out_vertex_axis AxisVertex(
 	modify_length(start, end, modifier, physical_size);
 	
 	out_vertex_axis out = LineDashVertexCore<out_vertex_axis>(start, end, spec, attr.width, proj);
-	out.index = type;
-    out.dropped = is_dropped(mid, dimIndex, proj);
+	out.attr_idx = uint(type);
+	out.dropped = is_dropped(mid, dimIndex, proj);
 	
 	return out;
 }
 
 fragment float4 AxisFragment(
 							 const out_vertex_axis input [[ stage_in ]],
-							 constant uniform_axis_attributes *attr_ptr [[ buffer(0) ]],
+							 constant uniform_axis_attributes* attr_ptr[[ buffer(0) ]],
 							 constant uniform_projection& proj [[ buffer(1) ]]
 							 )
 {
-	constant uniform_axis_attributes& attr = attr_ptr[input.index];
-	const float ratio = LineDashFragmentCore(input);
+	const uint index = input.attr_idx;
+	constant uniform_axis_attributes& attr = attr_ptr[index];
 	float4 color = (!input.dropped) * attr.color;
+	const float ratio = LineDashFragmentCore(input);
 	color.a *= ratio;
 	
 	return color;
-
 }
 
 inline float2 grid_mid_pos( uint vid, constant uniform_grid_attributes& grid, constant uniform_projection& proj )
@@ -210,9 +210,9 @@ vertex out_vertex_grid GridVertex(
     const float2 start = data_to_ndc(mid_pos_data - vec_dir_data, proj);
     const float2 end = data_to_ndc(mid_pos_data + vec_dir_data, proj);
     out_vertex_grid out = LineDashVertexCore<out_vertex_grid>(start, end, spec, attr.width, proj);
-    out.dropped = is_dropped(mid_pos_data, attr.dimIndex, proj);
-    
-    return out;
+	out.dropped = is_dropped(mid_pos_data, attr.dimIndex, proj);
+	
+	return out;
 }
 
 
@@ -221,11 +221,11 @@ fragment out_fragment_depthGreater GridFragment(
                                                 constant uniform_grid_attributes& attr [[ buffer(0) ]],
                                                 constant uniform_projection&      proj [[ buffer(1) ]])
 {
-    const float ratio = min(LineDashFragmentCore(in), LineDashFragmentExtra(in, attr));
-    out_fragment_depthGreater out;
-    out.color = (!in.dropped) * attr.color;
-    out.color.a *= ratio;
-    out.depth = attr.depth;
-    
-    return out;
+	const float ratio = min(LineDashFragmentCore(in), LineDashFragmentExtra(in, attr));
+	out_fragment_depthGreater out;
+	out.color = (!in.dropped) * attr.color;
+	out.color.a *= ratio;
+	out.depth = attr.depth;
+	
+	return out;
 }

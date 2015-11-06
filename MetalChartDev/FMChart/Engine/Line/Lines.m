@@ -49,7 +49,7 @@
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
 {
-	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName]];
+	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
 }
 
 - (id<MTLDepthStencilState>)depthState
@@ -258,7 +258,8 @@ static double gaussian(double mean, double variance) {
 {
     return [_engine pipelineStateWithProjection:projection
                                        vertFunc:@"AxisVertex"
-                                       fragFunc:@"AxisFragment"];
+                                       fragFunc:@"AxisFragment"
+                                     writeDepth:NO];
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -267,6 +268,10 @@ static double gaussian(double mean, double variance) {
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
     id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+    if(renderState == nil){
+        NSLog(@"render state is nil, returning...");
+        return;
+    }
     [encoder pushDebugGroup:@"DrawAxis"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
@@ -312,7 +317,9 @@ static double gaussian(double mean, double variance) {
 {
     return [_engine pipelineStateWithProjection:projection
                                        vertFunc:@"GridVertex"
-                                       fragFunc:@"GridFragment"];
+                                       fragFunc:@"GridFragment"
+                                     writeDepth:YES
+            ];
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -321,6 +328,10 @@ static double gaussian(double mean, double variance) {
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
     id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
+    if(renderState == nil){
+        NSLog(@"render state is nil, returning...");
+        return;
+    }
     [encoder pushDebugGroup:@"DrawGridLine"];
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];

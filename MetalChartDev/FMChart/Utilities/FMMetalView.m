@@ -221,8 +221,8 @@
             if(depthTex) {
                 pass.depthAttachment.texture = depthTex;
                 pass.depthAttachment.loadAction = MTLLoadActionClear;
-                pass.depthAttachment.clearDepth = _clearDepth;
-                if(_depthStencilPixelFormat == MTLPixelFormatDepth32Float_Stencil8) {
+                MTLPixelFormat depthFormat = _depthStencilPixelFormat;
+                if(depthFormat == MTLPixelFormatDepth32Float_Stencil8) {
                     pass.stencilAttachment.texture = depthTex;
                     pass.stencilAttachment.loadAction = MTLLoadActionClear;
                     pass.stencilAttachment.clearStencil = _clearStencil;

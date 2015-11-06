@@ -28,7 +28,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
 {
-    id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment"];
+    id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment" writeDepth:YES];
     id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
     [encoder pushDebugGroup:@"DrawPlotRect"];
     [encoder setRenderPipelineState:renderState];
@@ -111,7 +111,7 @@
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
 {
-    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"GeneralBar_Fragment"];
+    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"GeneralBar_Fragment" writeDepth:YES];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 6 * count; }

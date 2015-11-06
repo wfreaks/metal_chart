@@ -9,6 +9,7 @@
 #import "Engine.h"
 #import "DeviceResource.h"
 #import "Buffers.h"
+#import "MetalChart.h"
 
 @interface Engine()
 
@@ -39,6 +40,7 @@
 - (id<MTLRenderPipelineState>)pipelineStateWithProjection:(UniformProjection *)projection
 												 vertFunc:(NSString *)vertFuncName
 												 fragFunc:(NSString *)fragFuncName
+                                               writeDepth:(BOOL)writeDepth
 {
 	const NSUInteger sampleCount = projection.sampleCount;
 	const MTLPixelFormat pixelFormat = projection.colorPixelFormat;
@@ -60,8 +62,9 @@
         cd.destinationRGBBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
         cd.destinationAlphaBlendFactor = MTLBlendFactorOneMinusSourceAlpha;
 		
-        desc.depthAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
-        desc.stencilAttachmentPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+        const MTLPixelFormat depthFormat = determineDepthPixelFormat();
+        desc.depthAttachmentPixelFormat = depthFormat;
+        desc.stencilAttachmentPixelFormat = (depthFormat == MTLPixelFormatDepth32Float_Stencil8) ? depthFormat : MTLPixelFormatInvalid;
         
 		NSError *err = nil;
 		state = [_resource.device newRenderPipelineStateWithDescriptor:desc error:&err];

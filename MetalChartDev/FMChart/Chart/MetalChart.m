@@ -10,6 +10,13 @@
 #import "Buffers.h"
 #import "NSArray+Utility.h"
 
+MTLPixelFormat determineDepthPixelFormat()
+{
+    return ([UIDevice currentDevice].systemVersion.floatValue >= 9) ?
+    MTLPixelFormatDepth32Float_Stencil8 :
+    MTLPixelFormatDepth32Float;
+}
+
 @interface FMDimensionalProjection()
 
 

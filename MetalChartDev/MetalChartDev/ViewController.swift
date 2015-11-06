@@ -20,9 +20,9 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	let resource : DeviceResource = DeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
-	let asChart = false
+	let asChart = true
     var firstLineAttributes : UniformLineAttributes? = nil
-    
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
         metalView.device = resource.device
@@ -42,7 +42,8 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		let engine = Engine(resource: resource)
-		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: 0)
+		let fps = asChart ? 60 : 0;
+		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 
         
 		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))

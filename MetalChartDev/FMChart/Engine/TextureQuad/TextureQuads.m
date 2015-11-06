@@ -56,7 +56,7 @@
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
 {
-	return [_engine pipelineStateWithProjection:projection vertFunc:@"TextureQuad_vertex" fragFunc:@"TextureQuad_fragment"];
+	return [_engine pipelineStateWithProjection:projection vertFunc:@"TextureQuad_vertex" fragFunc:@"TextureQuad_fragment" writeDepth:NO];
 }
 
 @end

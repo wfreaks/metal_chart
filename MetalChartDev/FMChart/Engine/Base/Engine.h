@@ -24,8 +24,10 @@
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjection * _Nonnull)projection
-												 vertFunc:(NSString * _Nonnull)vertFuncName
-												 fragFunc:(NSString * _Nonnull)fragFuncName;
+                                                          vertFunc:(NSString * _Nonnull)vertFuncName
+                                                          fragFunc:(NSString * _Nonnull)fragFuncName
+                                                        writeDepth:(BOOL)writeDepth
+;
 											
 
 

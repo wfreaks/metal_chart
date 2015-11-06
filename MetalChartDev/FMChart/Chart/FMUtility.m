@@ -56,7 +56,7 @@
 		_view.preferredFramesPerSecond = fps;
 		_view.delegate = chart;
 		_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
-		_view.depthStencilPixelFormat = MTLPixelFormatDepth32Float_Stencil8;
+		_view.depthStencilPixelFormat = determineDepthPixelFormat();
 		_view.clearDepth = 0;
 	}
 	return self;
