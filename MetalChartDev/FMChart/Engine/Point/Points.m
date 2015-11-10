@@ -33,7 +33,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-projection:(UniformProjection *)projection
+projection:(UniformProjectionCartesian2D *)projection
 {
 	id<Series> const series = self.series;
 	if(series) {
@@ -65,7 +65,7 @@ projection:(UniformProjection *)projection
 	}
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
 {
     return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"Point_Fragment" writeDepth:YES];
 }

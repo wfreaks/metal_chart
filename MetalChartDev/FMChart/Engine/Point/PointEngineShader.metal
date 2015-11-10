@@ -26,7 +26,7 @@ struct uniform_point {
 vertex out_vertex Point_VertexOrdered(
                                       device vertex_coord *vertices [[ buffer(0) ]],
                                       constant uniform_point& point [[ buffer(2) ]],
-                                      constant uniform_projection& proj [[ buffer(3) ]],
+                                      constant uniform_projection_cart2d& proj [[ buffer(3) ]],
                                       constant uniform_series_info& info [[ buffer(4) ]],
                                       const uint vid [[ vertex_id ]]
                                       )
@@ -46,7 +46,7 @@ vertex out_vertex Point_VertexIndexed(
 									  device vertex_coord *vertices [[ buffer(0) ]],
 									  device vertex_index *indices  [[ buffer(1) ]],
 									  constant uniform_point& point [[ buffer(2) ]],
-									  constant uniform_projection& proj [[ buffer(3) ]],
+									  constant uniform_projection_cart2d& proj [[ buffer(3) ]],
 									  constant uniform_series_info& info [[ buffer(4) ]],
 									  const uint vid [[ vertex_id ]]
 									  )
@@ -70,7 +70,7 @@ fragment out_fragment Point_Fragment(
                                      const out_vertex in [[ stage_in ]],
                                      const float2 pos_coord [[ point_coord ]],
                                      constant uniform_point& point [[ buffer(0) ]],
-                                     constant uniform_projection& proj [[ buffer(1) ]]
+                                     constant uniform_projection_cart2d& proj [[ buffer(1) ]]
                                      )
 {
     const float2 pos_view = in.psize * ( (2 * pos_coord) - 1 );

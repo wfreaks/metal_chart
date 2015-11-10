@@ -35,17 +35,17 @@
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
-@property (nonatomic)			FMSpatialProjection * _Nullable projection;
+@property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithLine:(LinePrimitive * _Nonnull)line
-						   projection:(FMSpatialProjection * _Nullable)projection
+						   projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
-										projection:(FMSpatialProjection * _Nonnull)projection
+										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
@@ -56,17 +56,17 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
-@property (nonatomic)			FMSpatialProjection * _Nullable projection;
+@property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithBar:(BarPrimitive * _Nonnull)bar
-						  projection:(FMSpatialProjection * _Nullable)projection
+						  projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
-										projection:(FMSpatialProjection * _Nonnull)projection
+										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
@@ -77,17 +77,17 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
-@property (nonatomic)			FMSpatialProjection * _Nullable projection;
+@property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithPoint:(PointPrimitive * _Nonnull)point
-							projection:(FMSpatialProjection * _Nullable)projection
+							projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
-										projection:(FMSpatialProjection * _Nonnull)projection
+										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
@@ -97,7 +97,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
-@property (readonly, nonatomic) UniformProjection * _Nonnull projection;
+@property (readonly, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;
 @property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
 
@@ -116,17 +116,17 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) GridLine * _Nonnull gridLine;
-@property (readonly, nonatomic) FMSpatialProjection * _Nonnull projection;
+@property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
 
 - (_Nonnull instancetype)initWithGridLine:(GridLine * _Nonnull)gridLine
-                               Projection:(FMSpatialProjection * _Nonnull)projection
+                               Projection:(FMProjectionCartesian2D * _Nonnull)projection
                                 dimension:(NSInteger)dimensionId
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)gridLineWithEngine:(Engine * _Nonnull)engine
-                                 projection:(FMSpatialProjection * _Nonnull)projection
+                                 projection:(FMProjectionCartesian2D * _Nonnull)projection
                                   dimension:(NSInteger)dimensionId;
 ;
 

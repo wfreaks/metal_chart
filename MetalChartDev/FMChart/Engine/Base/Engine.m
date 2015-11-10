@@ -37,7 +37,7 @@
 	return self;
 }
 
-- (id<MTLRenderPipelineState>)pipelineStateWithProjection:(UniformProjection *)projection
+- (id<MTLRenderPipelineState>)pipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
 												 vertFunc:(NSString *)vertFuncName
 												 fragFunc:(NSString *)fragFuncName
                                                writeDepth:(BOOL)writeDepth

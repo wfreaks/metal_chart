@@ -30,7 +30,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(UniformProjection *)projection
+        projection:(UniformProjectionCartesian2D *)projection
              count:(NSUInteger)count
 {
     id<MTLTexture> texture = _texture;
@@ -54,7 +54,7 @@
     }
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjection *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
 {
 	return [_engine pipelineStateWithProjection:projection vertFunc:@"TextureQuad_vertex" fragFunc:@"TextureQuad_fragment" writeDepth:NO];
 }

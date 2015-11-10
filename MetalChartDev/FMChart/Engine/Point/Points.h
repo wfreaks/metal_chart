@@ -10,7 +10,7 @@
 #import "Protocols.h"
 
 @class Engine;
-@class UniformProjection;
+@class UniformProjectionCartesian2D;
 @class UniformPlotRectAttributes;
 @class UniformPointAttributes;
 @class OrderedSeries;

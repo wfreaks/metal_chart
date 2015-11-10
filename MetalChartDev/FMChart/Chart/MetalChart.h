@@ -18,11 +18,9 @@ MTLPixelFormat determineDepthPixelFormat();
  * 軸・メモリ・レンジの制御・UI操作フィードバックなどはデフォルト実装を提供しているが、すべて独自定義クラスで代替可能.
  * 描画エンジンもFMRenderableを通して利用しているため、これらも独自定義可能である.
  * もちろんコード量と煩雑さはそこそこなのでオススメはできない.
- * (ただしUniformProjectionクラスだけは座標変換の仕組みに組み込まれているため、代替不可能.
- *  細かいハンドリングはFMRenderableが担当するためプロトコル化する事はできない)
  */
 
-@class UniformProjection;
+@class UniformProjectionCartesian2D;
 @class MetalChart;
 
 
@@ -112,10 +110,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@interface FMSpatialProjection : NSObject<FMProjection>
+@interface FMProjectionCartesian2D : NSObject<FMProjection>
 
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
-@property (readonly, nonatomic) UniformProjection * _Nonnull projection;
+@property (readonly, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
 
 - (instancetype _Nonnull)initWithDimensions:(NSArray<FMDimensionalProjection *> * _Nonnull)dimensions
 NS_DESIGNATED_INITIALIZER;

@@ -59,7 +59,7 @@ struct out_vertex_grid {
     float  dropped   [[ flat ]];
 };
 
-inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection& proj )
+inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection_cart2d& proj )
 {
 	const uchar idx = axis.dimIndex;
 	const uchar idx_orth = idx ^ 0x01;
@@ -114,7 +114,7 @@ inline float get_iter_coef(const uchar type, const uint iter_idx, const uchar mi
     return coef_step - ((denom-1)/denom); // minorTickのみ係数が負(基準点よりも小さい座標)となる事がありえる。
 }
 
-inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_projection& proj)
+inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_projection_cart2d& proj)
 {
     const float a = (mid - (-proj.value_scale - proj.value_offset))[dimIndex]; // mid - min
     const float b = ((+proj.value_scale - proj.value_offset) - mid)[dimIndex]; // max - mid
@@ -124,7 +124,7 @@ inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_
 vertex out_vertex_axis AxisVertex(
 								  constant uniform_axis_conf& axis [[ buffer(0) ]],
 								  constant uniform_axis_attributes *attr_ptr [[ buffer(1) ]],
-								  constant uniform_projection& proj [[ buffer(2) ]],
+								  constant uniform_projection_cart2d& proj [[ buffer(2) ]],
 								  uint v_id [[ vertex_id ]]
 								  )
 {
@@ -160,7 +160,7 @@ vertex out_vertex_axis AxisVertex(
 fragment float4 AxisFragment(
 							 const out_vertex_axis input [[ stage_in ]],
 							 constant uniform_axis_attributes* attr_ptr[[ buffer(0) ]],
-							 constant uniform_projection& proj [[ buffer(1) ]]
+							 constant uniform_projection_cart2d& proj [[ buffer(1) ]]
 							 )
 {
 	const uint index = input.attr_idx;
@@ -172,7 +172,7 @@ fragment float4 AxisFragment(
 	return color;
 }
 
-inline float2 grid_mid_pos( uint vid, constant uniform_grid_attributes& grid, constant uniform_projection& proj )
+inline float2 grid_mid_pos( uint vid, constant uniform_grid_attributes& grid, constant uniform_projection_cart2d& proj )
 {
     const uchar idx = grid.dimIndex;
     float2 v = - proj.value_offset;
@@ -187,7 +187,7 @@ inline float2 grid_mid_pos( uint vid, constant uniform_grid_attributes& grid, co
     return v;
 }
 
-inline float2 grid_vec_dir( constant uniform_grid_attributes& grid, constant uniform_projection& proj )
+inline float2 grid_vec_dir( constant uniform_grid_attributes& grid, constant uniform_projection_cart2d& proj )
 {
     const uchar idx = grid.dimIndex;
     float2 v = proj.value_scale;
@@ -197,7 +197,7 @@ inline float2 grid_vec_dir( constant uniform_grid_attributes& grid, constant uni
 
 vertex out_vertex_grid GridVertex(
                                   constant uniform_grid_attributes& attr [[ buffer(0) ]],
-                                  constant uniform_projection&      proj [[ buffer(1) ]],
+                                  constant uniform_projection_cart2d&      proj [[ buffer(1) ]],
                                   uint v_id [[ vertex_id ]]
                                   )
 {
@@ -219,7 +219,7 @@ vertex out_vertex_grid GridVertex(
 fragment out_fragment_depthGreater GridFragment(
                                                 const out_vertex_grid             in   [[ stage_in ]],
                                                 constant uniform_grid_attributes& attr [[ buffer(0) ]],
-                                                constant uniform_projection&      proj [[ buffer(1) ]])
+                                                constant uniform_projection_cart2d&      proj [[ buffer(1) ]])
 {
 	const float ratio = min(LineDashFragmentCore(in), LineDashFragmentExtra(in, attr));
 	out_fragment_depthGreater out;

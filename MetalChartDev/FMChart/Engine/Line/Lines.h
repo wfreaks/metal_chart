@@ -11,7 +11,7 @@
 #import "Protocols.h"
 
 @class Engine;
-@class UniformProjection;
+@class UniformProjectionCartesian2D;
 @class UniformLineAttributes;
 @class UniformAxisConfiguration;
 @class UniformAxisAttributes;
@@ -83,7 +83,7 @@
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjection * _Nonnull)projection
+        projection:(UniformProjectionCartesian2D * _Nonnull)projection
      maxMajorTicks:(NSUInteger)maxCount
 ;
 
@@ -102,7 +102,7 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjection * _Nonnull)projection
+        projection:(UniformProjectionCartesian2D * _Nonnull)projection
           maxCount:(NSUInteger)maxCount
 ;
 

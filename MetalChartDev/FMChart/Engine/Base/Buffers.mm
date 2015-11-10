@@ -30,7 +30,7 @@
 
 
 
-@interface UniformProjection()
+@interface UniformProjectionCartesian2D()
 
 @property (strong, nonatomic) id<MTLBuffer> buffer;
 
@@ -113,13 +113,13 @@
 
 
 
-@implementation UniformProjection
+@implementation UniformProjectionCartesian2D
 
 - (id)initWithResource:(DeviceResource *)resource
 {
     self = [super init];
     if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection) options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection_cart2d) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		_screenScale = [UIScreen mainScreen].scale;
         [self projection]->screen_scale = _screenScale;
         [self projection]->value_scale = vector2(1.0f, 1.0f);
@@ -127,22 +127,22 @@
     return self;
 }
 
-- (uniform_projection *)projection
+- (uniform_projection_cart2d *)projection
 {
-    return (uniform_projection *)([self.buffer contents]);
+    return (uniform_projection_cart2d *)([self.buffer contents]);
 }
 
 - (void)setPhysicalSize:(CGSize)size
 {
 	_physicalSize = size;
-    uniform_projection *ptr = [self projection];
+    uniform_projection_cart2d *ptr = [self projection];
     ptr->physical_size = vector2((float)size.width, (float)size.height);
 }
 
 - (void)setPixelSize:(CGSize)size
 {
     const CGFloat scale = [UIScreen mainScreen].scale;
-    uniform_projection *ptr = [self projection];
+    uniform_projection_cart2d *ptr = [self projection];
 	const CGFloat w = (size.width/scale);
 	const CGFloat h = (size.height/scale);
 	_physicalSize.width = w;
@@ -152,26 +152,26 @@
 
 - (void)setValueScale:(CGSize)scale
 {
-    uniform_projection *ptr = [self projection];
+    uniform_projection_cart2d *ptr = [self projection];
     ptr->value_scale = vector2((float)scale.width, (float)scale.height);
 }
 
 - (void)setOrigin:(CGPoint)origin
 {
-    uniform_projection *ptr = [self projection];
+    uniform_projection_cart2d *ptr = [self projection];
     ptr->origin = vector2((float)origin.x, (float)origin.y);
 }
 
 - (void)setValueOffset:(CGSize)offset
 {
-    uniform_projection *ptr = [self projection];
+    uniform_projection_cart2d *ptr = [self projection];
     ptr->value_offset = vector2((float)offset.width, (float)offset.height);
 }
 
 - (void)setPadding:(RectPadding)padding
 {
 	_padding = padding;
-	uniform_projection *ptr = [self projection];
+	uniform_projection_cart2d *ptr = [self projection];
 	ptr->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
 }
 

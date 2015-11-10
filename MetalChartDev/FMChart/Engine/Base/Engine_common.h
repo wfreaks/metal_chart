@@ -18,7 +18,7 @@ typedef struct RectPadding {
     CGFloat bottom;
 } RectPadding;
 
-typedef struct uniform_projection {
+typedef struct uniform_projection_cart2d {
     vector_float2 origin;
     vector_float2 value_scale;
     vector_float2 value_offset;
@@ -26,7 +26,7 @@ typedef struct uniform_projection {
     vector_float2 physical_size;
     vector_float4 rect_padding;
     float screen_scale;
-} uniform_projection;
+} uniform_projection_cart2d;
 
 typedef struct uniform_series_info {
     uint32_t vertex_capacity;

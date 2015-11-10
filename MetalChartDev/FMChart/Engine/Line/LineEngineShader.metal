@@ -10,7 +10,7 @@
 
 vertex out_vertex_LineDash PolyLineEngineVertexOrdered(
                                                        device vertex_coord* coords [[ buffer(0) ]],
-                                                       constant uniform_projection& proj [[ buffer(2) ]],
+                                                       constant uniform_projection_cart2d& proj [[ buffer(2) ]],
                                                        constant uniform_line_attr& attr [[ buffer(3) ]],
                                                        constant uniform_series_info& info [[ buffer(4) ]],
                                                        uint v_id [[ vertex_id ]]
@@ -31,7 +31,7 @@ vertex out_vertex_LineDash PolyLineEngineVertexOrdered(
 
 vertex out_vertex_LineDash SeparatedLineEngineVertexOrdered(
                                                             device vertex_coord* coords [[ buffer(0) ]],
-                                                            constant uniform_projection& proj [[ buffer(1) ]],
+                                                            constant uniform_projection_cart2d& proj [[ buffer(1) ]],
                                                             constant uniform_line_attr& attr [[ buffer(2) ]],
                                                             constant uniform_series_info& info [[ buffer(3) ]],
                                                             uint v_id [[ vertex_id ]]
@@ -57,7 +57,7 @@ vertex out_vertex_LineDash SeparatedLineEngineVertexOrdered(
 
 fragment out_fragment_depthGreater LineEngineFragment_NoOverlay(
                                                                 const out_vertex_LineDash input [[ stage_in ]],
-                                                                constant uniform_projection& proj [[ buffer(0) ]],
+                                                                constant uniform_projection_cart2d& proj [[ buffer(0) ]],
                                                                 constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {
     const float ratio = LineDashFragmentCore(input);
@@ -71,7 +71,7 @@ fragment out_fragment_depthGreater LineEngineFragment_NoOverlay(
 
 fragment out_fragment_depthGreater LineEngineFragment_Overlay(
                                                               const out_vertex_LineDash input [[ stage_in ]],
-                                                              constant uniform_projection& proj [[ buffer(0) ]],
+                                                              constant uniform_projection_cart2d& proj [[ buffer(0) ]],
                                                               constant uniform_line_attr& attr [[ buffer(1) ]]
 ) {
     const float ratio = LineDashFragmentCore(input);
@@ -85,7 +85,7 @@ fragment out_fragment_depthGreater LineEngineFragment_Overlay(
 
 fragment out_fragment_depthGreater DashedLineFragment_NoOverlay(
                                                                 const out_vertex_LineDash input [[ stage_in ]],
-                                                                constant uniform_projection& proj [[ buffer(0) ]],
+                                                                constant uniform_projection_cart2d& proj [[ buffer(0) ]],
                                                                 constant uniform_line_attr& attr [[ buffer(1) ]]
                                                                 ) {
     const float ratio = LineDashFragmentCore(input);
@@ -100,7 +100,7 @@ fragment out_fragment_depthGreater DashedLineFragment_NoOverlay(
 
 fragment out_fragment_depthGreater DashedLineFragment_Overlay(
                                                               const out_vertex_LineDash input [[ stage_in ]],
-                                                              constant uniform_projection& proj [[ buffer(0) ]],
+                                                              constant uniform_projection_cart2d& proj [[ buffer(0) ]],
                                                               constant uniform_line_attr& attr [[ buffer(1) ]]
                                                               ) {
     const float ratio = LineDashFragmentCore(input);

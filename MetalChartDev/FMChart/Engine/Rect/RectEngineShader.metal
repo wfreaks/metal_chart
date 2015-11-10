@@ -45,7 +45,7 @@ struct uniform_bar {
 
 vertex out_vertex_plot PlotRect_Vertex(
                                        constant uniform_plot_rect&  rect [[ buffer(0) ]],
-                                       constant uniform_projection& proj [[ buffer(1) ]],
+                                       constant uniform_projection_cart2d& proj [[ buffer(1) ]],
                                        uint v_id [[ vertex_id ]]
                                        )
 {
@@ -88,7 +88,7 @@ inline float RoundRectFragment_core(const float2 pos, const float4 rect, const f
 fragment out_fragment_depthLess PlotRect_Fragment(
 										const out_vertex_plot in [[ stage_in ]],
 										constant uniform_plot_rect& rect  [[ buffer(0) ]],
-										constant uniform_projection& proj [[ buffer(1) ]]
+										constant uniform_projection_cart2d& proj [[ buffer(1) ]]
 										)
 {
 	const float2 size = proj.physical_size / 2;
@@ -111,7 +111,7 @@ fragment out_fragment_depthLess PlotRect_Fragment(
 vertex out_vertex_bar GeneralBar_VertexOrdered(
                                         device vertex_coord *vertices [[ buffer(0) ]],
                                         constant uniform_bar& bar [[ buffer(2) ]],
-                                        constant uniform_projection& proj [[ buffer(3) ]],
+                                        constant uniform_projection_cart2d& proj [[ buffer(3) ]],
                                         constant uniform_series_info& info [[ buffer(4) ]],
                                         uint v_id [[ vertex_id ]]
                                         )
@@ -152,7 +152,7 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
 fragment out_fragment_depthGreater GeneralBar_Fragment(
                                           const out_vertex_bar in [[ stage_in ]],
                                           constant uniform_bar& bar [[ buffer(0) ]],
-                                          constant uniform_projection& proj [[ buffer(1) ]]
+                                          constant uniform_projection_cart2d& proj [[ buffer(1) ]]
                                           )
 {
     // 手順をまとめてみる. pos及びcenterはデバイス上の位置となっている. dirも同じ座標に従い、かつnormalizeされているものとする.

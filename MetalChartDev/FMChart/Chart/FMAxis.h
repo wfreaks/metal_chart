@@ -35,7 +35,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
 			  axis:(FMAxis * _Nonnull)axis
-		projection:(UniformProjection * _Nonnull)projection
+		projection:(UniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
@@ -43,7 +43,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 
 @interface FMAxis : NSObject<FMAttachment>
 
-@property (readonly, nonatomic) FMSpatialProjection *		_Nonnull  projection;
+@property (readonly, nonatomic) FMProjectionCartesian2D *		_Nonnull  projection;
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
 
 @property (readonly, nonatomic) Axis *						_Nonnull  axis;
@@ -51,7 +51,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 @property (strong  , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 
 - (_Nonnull instancetype)initWithEngine:(Engine * _Nonnull)engine
-							 Projection:(FMSpatialProjection * _Nonnull)projection
+							 Projection:(FMProjectionCartesian2D * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
 						  configuration:(id<FMAxisConfigurator> _Nonnull)conf
 NS_DESIGNATED_INITIALIZER;

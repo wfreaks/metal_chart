@@ -17,7 +17,7 @@
 
 @class MetalChart;
 @class FMDimensionalProjection;
-@class FMSpatialProjection;
+@class FMProjectionCartesian2D;
 @class FMProjectionUpdater;
 @class FMAxis;
 @class FMAxisLabel;
@@ -52,7 +52,7 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection*> * _Nonnull dimensions;
 @property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
-@property (readonly, nonatomic) NSArray<FMSpatialProjection*> * _Nonnull space;
+@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> * _Nonnull space;
 @property (readonly, nonatomic) MetalChart * _Nonnull chart;
 @property (readonly, nonatomic) MetalView * _Nullable view;
 @property (readonly, nonatomic) Engine * _Nonnull engine;
@@ -76,13 +76,13 @@ NS_DESIGNATED_INITIALIZER;
 // もしもidに対応するFMDimensionalProjectionがなければ、作成してblockを呼び出す. 
 // 逆にすでに作成済みの場合はそれを使い、blockは呼ばれない.
 // blockの戻り値でNonnullを返した場合は登録され、connectSpace:メソッドで自動的に使用される.
-- (FMSpatialProjection * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
+- (FMProjectionCartesian2D * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
 										 configureBlock:(DimensionConfigureBlock _Nullable)block
 ;
 
 - (FMProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
 
-- (id<FMInteraction> _Nullable)connectSpace:(NSArray<FMSpatialProjection*>* _Nonnull)space
+- (id<FMInteraction> _Nullable)connectSpace:(NSArray<FMProjectionCartesian2D*>* _Nonnull)space
 							  toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
 ;
 
@@ -105,15 +105,15 @@ NS_DESIGNATED_INITIALIZER;
                                               interval:(CGFloat)interval
 ;
 
-- (FMLineSeries * _Nonnull)addLineToSpace:(FMSpatialProjection *_Nonnull)space
+- (FMLineSeries * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
                                    series:(OrderedSeries * _Nonnull)series
 ;
 
-- (FMBarSeries * _Nonnull)addBarToSpace:(FMSpatialProjection *_Nonnull)space
+- (FMBarSeries * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
                                  series:(OrderedSeries * _Nonnull)series
 ;
 
-- (FMPointSeries * _Nonnull)addPointToSpace:(FMSpatialProjection *_Nonnull)space
+- (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
                                  series:(OrderedSeries * _Nonnull)series
 ;
 

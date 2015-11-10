@@ -73,7 +73,7 @@
 // このクラスだけScissorRectやらscreenScaleやらを考慮した上でvalueOffsetとかsizeとvalueScaleを
 // 設定しなければいけないので煩雑になる。
 
-@interface UniformProjection : NSObject
+@interface UniformProjectionCartesian2D : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) CGFloat screenScale;
@@ -84,7 +84,7 @@
 
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
 
-- (uniform_projection * _Nonnull)projection;
+- (uniform_projection_cart2d * _Nonnull)projection;
 
 - (void)setPixelSize:(CGSize)size;
 

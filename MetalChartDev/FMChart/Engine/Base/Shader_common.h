@@ -40,7 +40,7 @@ struct vertex_index {
     uint index;
 };
 
-struct uniform_projection {
+struct uniform_projection_cart2d {
     float2 origin;
     float2 value_scale;
     float2 value_offset;
@@ -57,7 +57,7 @@ struct uniform_series_info {
 };
 
 
-inline float2 data_to_ndc(float2 value, constant uniform_projection& proj)
+inline float2 data_to_ndc(float2 value, constant uniform_projection_cart2d& proj)
 {
 	const float2 ps = proj.physical_size;
 	const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
@@ -66,7 +66,7 @@ inline float2 data_to_ndc(float2 value, constant uniform_projection& proj)
 	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
-inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, constant uniform_projection& proj) {
+inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, constant uniform_projection_cart2d& proj) {
     const float2 psize = proj.physical_size;
     const float y_coef = (2 * bottom_to_top) - 1;
     const float fixed_y_view = ((!bottom_to_top) * proj.physical_size.y) + (y_coef * pos_view.y);
@@ -74,7 +74,7 @@ inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, const
     return (fixed_pos_view - (0.5 * psize)) / psize;
 }
 
-inline float2 view_diff_to_data_diff(float2 diff_view, const bool bottom_to_top, constant uniform_projection& proj)
+inline float2 view_diff_to_data_diff(float2 diff_view, const bool bottom_to_top, constant uniform_projection_cart2d& proj)
 {
     const float2 ps = proj.physical_size;
     const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}

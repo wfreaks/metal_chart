@@ -32,7 +32,7 @@
 @implementation FMAxis
 
 - (instancetype)initWithEngine:(Engine *)engine
-					Projection:(FMSpatialProjection *)projection
+					Projection:(FMProjectionCartesian2D *)projection
 					 dimension:(NSInteger)dimensionId
 				 configuration:(id<FMAxisConfigurator>)conf
 {

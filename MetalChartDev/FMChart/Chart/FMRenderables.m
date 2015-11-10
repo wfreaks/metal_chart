@@ -24,7 +24,7 @@
 @implementation FMLineSeries
 
 - (instancetype)initWithLine:(LinePrimitive *)line
-				  projection:(FMSpatialProjection *)projection
+				  projection:(FMProjectionCartesian2D *)projection
 {
 	self = [super init];
 	if(self) {
@@ -41,7 +41,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjection *projection = _projection.projection;
+	UniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_line encodeWith:encoder projection:projection];
 	}
@@ -66,7 +66,7 @@
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
-							   projection:(FMSpatialProjection *)projection
+							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
@@ -81,7 +81,7 @@
 @implementation FMBarSeries
 
 - (instancetype)initWithBar:(BarPrimitive *)bar
-				 projection:(FMSpatialProjection *)projection
+				 projection:(FMProjectionCartesian2D *)projection
 {
     self = [super init];
     if(self) {
@@ -115,7 +115,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjection *projection = _projection.projection;
+	UniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_bar encodeWith:encoder projection:projection];
 	}
@@ -123,7 +123,7 @@
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
-							   projection:(FMSpatialProjection *)projection
+							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
@@ -143,7 +143,7 @@
 @implementation FMPointSeries
 
 - (instancetype)initWithPoint:(PointPrimitive *)point
-				   projection:(FMSpatialProjection *)projection
+				   projection:(FMProjectionCartesian2D *)projection
 {
     self = [super init];
     if(self) {
@@ -159,7 +159,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjection *projection = _projection.projection;
+	UniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_point encodeWith:encoder projection:projection];
 	}
@@ -167,7 +167,7 @@
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
-							   projection:(FMSpatialProjection *)projection
+							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
@@ -190,7 +190,7 @@
     self = [super init];
     if(self) {
         DeviceResource *res = rect.engine.resource;
-        _projection = [[UniformProjection alloc] initWithResource:res];
+        _projection = [[UniformProjectionCartesian2D alloc] initWithResource:res];
         _rect = rect;
     }
     return self;
@@ -240,7 +240,7 @@
 @implementation FMGridLine
 
 - (instancetype)initWithGridLine:(GridLine *)gridLine
-                      Projection:(FMSpatialProjection *)projection
+                      Projection:(FMProjectionCartesian2D *)projection
                        dimension:(NSInteger)dimensionId
 {
     self = [super init];
@@ -290,7 +290,7 @@
 }
 
 + (instancetype)gridLineWithEngine:(Engine *)engine
-                        projection:(FMSpatialProjection *)projection
+                        projection:(FMProjectionCartesian2D *)projection
                          dimension:(NSInteger)dimensionId
 {
     GridLine *line = [[GridLine alloc] initWithEngine:engine];

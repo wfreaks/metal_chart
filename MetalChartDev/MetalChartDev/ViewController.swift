@@ -109,7 +109,7 @@ class ViewController: UIViewController {
             chart.bufferHook = animator
 			
 		} else {
-			let space : FMSpatialProjection = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> FMProjectionUpdater? in
+			let space : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> FMProjectionUpdater? in
 				let updater = FMProjectionUpdater()
 				updater.addRestrictionToLast(FMLengthRestriction(length: 2, anchor: 0, offset: 0))
 				return updater

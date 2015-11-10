@@ -38,7 +38,7 @@ inline float2 position_with_region(const uint qid, const uint spec, constant uni
     return pos;
 }
 
-inline float2 position_with_region_view_sized(const uint qid, const uint spec, constant uniform_region& region, constant uniform_projection& proj)
+inline float2 position_with_region_view_sized(const uint qid, const uint spec, constant uniform_region& region, constant uniform_projection_cart2d& proj)
 {
     const float2 base = region.base_pos + ((qid + region.iter_offset) * region.iter_vec);
     const float2 diff_data = view_diff_to_data_diff(0.5 * region.size, false, proj);
@@ -51,7 +51,7 @@ inline float2 position_with_region_view_sized(const uint qid, const uint spec, c
 vertex out_vertex TextureQuad_vertex(
                                      constant uniform_region& region_data [[ buffer(0) ]],
                                      constant uniform_region& region_uv   [[ buffer(1) ]],
-                                     constant uniform_projection& proj    [[ buffer(2) ]],
+                                     constant uniform_projection_cart2d& proj    [[ buffer(2) ]],
                                      const uint vid_raw [[ vertex_id ]]
                                      )
 {

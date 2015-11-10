@@ -23,10 +23,10 @@ MTLPixelFormat determineDepthPixelFormat()
 @end
 
 
-@interface FMSpatialProjection()
+@interface FMProjectionCartesian2D()
 
 @property (strong, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
-@property (strong, nonatomic) UniformProjection * _Nonnull projection;
+@property (strong, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
 
 @end
 
@@ -98,14 +98,14 @@ MTLPixelFormat determineDepthPixelFormat()
 @end
 
 
-@implementation FMSpatialProjection
+@implementation FMProjectionCartesian2D
 
 - (instancetype)initWithDimensions:(NSArray<FMDimensionalProjection *> *)dimensions
 {
 	self = [super init];
 	if(self) {
 		_dimensions = [NSArray arrayWithArray:dimensions];
-		_projection = [[UniformProjection alloc] initWithResource:[DeviceResource defaultResource]];
+		_projection = [[UniformProjectionCartesian2D alloc] initWithResource:[DeviceResource defaultResource]];
 	}
 	return self;
 }

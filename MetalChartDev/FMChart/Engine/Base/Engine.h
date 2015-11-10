@@ -10,7 +10,7 @@
 #import <Metal/Metal.h>
 
 @class DeviceResource;
-@class UniformProjection;
+@class UniformProjectionCartesian2D;
 
 @interface Engine : NSObject
 
@@ -23,7 +23,7 @@
 - (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull) resource
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjection * _Nonnull)projection
+- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjectionCartesian2D * _Nonnull)projection
                                                           vertFunc:(NSString * _Nonnull)vertFuncName
                                                           fragFunc:(NSString * _Nonnull)fragFuncName
                                                         writeDepth:(BOOL)writeDepth

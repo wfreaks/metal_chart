@@ -62,10 +62,10 @@
 	return self;
 }
 
-- (FMSpatialProjection *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
+- (FMProjectionCartesian2D *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
 								configureBlock:(DimensionConfigureBlock)block
 {
-	for(FMSpatialProjection *s in self.space) {
+	for(FMProjectionCartesian2D *s in self.space) {
 		if([s matchesDimensionIds:ids]) {
 			return s;
 		}
@@ -75,7 +75,7 @@
 		FMDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
 		[dims addObject:dim];
 	}
-	FMSpatialProjection *space = [[FMSpatialProjection alloc] initWithDimensions:dims];
+	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensions:dims];
 	_space = [_space arrayByAddingObject:space];
 	return space;
 }
@@ -122,13 +122,13 @@
 	return nil;
 }
 
-- (id<FMInteraction>)connectSpace:(NSArray<FMSpatialProjection *> *)space
+- (id<FMInteraction>)connectSpace:(NSArray<FMProjectionCartesian2D *> *)space
 					toInterpreter:(FMGestureInterpreter *)interpreter
 {
-	NSArray<FMSpatialProjection *> *ar = self.space;
+	NSArray<FMProjectionCartesian2D *> *ar = self.space;
 	NSMutableArray<NSNumber*> * orientations = [NSMutableArray array];
 	NSMutableArray<FMProjectionUpdater*> *updaters = [NSMutableArray array];
-	for(FMSpatialProjection *s in space) {
+	for(FMProjectionCartesian2D *s in space) {
 		if([ar containsObject:s]) {
 			FMProjectionUpdater *x = [self updaterWithDimensionId:s.dimensions[0].dimensionId];
 			FMProjectionUpdater *y = [self updaterWithDimensionId:s.dimensions[1].dimensionId];
@@ -158,12 +158,12 @@
 	return r;
 }
 
-- (FMSpatialProjection *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
+- (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
 {
     FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
     if(dim) {
-        NSArray<FMSpatialProjection*> *space = self.space;
-        for(FMSpatialProjection *s in space) {
+        NSArray<FMProjectionCartesian2D*> *space = self.space;
+        for(FMProjectionCartesian2D *s in space) {
             if([s.dimensions containsObject:dim]) {
                 return s;
             }
@@ -179,7 +179,7 @@
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
-		FMSpatialProjection *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
+		FMProjectionCartesian2D *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
 		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim];
 		if(targetSpace) {
 			FMAxis *axis = [[FMAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
@@ -237,7 +237,7 @@
                                       anchor:(CGFloat)anchorValue
                                     interval:(CGFloat)interval
 {
-    FMSpatialProjection *space = [self firstSpaceContainingDimensionWithId:dimensionId];
+    FMProjectionCartesian2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
     if(space) {
         FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
         [line.attributes setAnchorValue:anchorValue];
@@ -252,7 +252,7 @@
     return nil;
 }
 
-- (FMLineSeries *)addLineToSpace:(FMSpatialProjection *)space
+- (FMLineSeries *)addLineToSpace:(FMProjectionCartesian2D *)space
                           series:(OrderedSeries *)series
 {
     LinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
@@ -262,7 +262,7 @@
     return ls;
 }
 
-- (FMBarSeries *)addBarToSpace:(FMSpatialProjection *)space
+- (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
                         series:(OrderedSeries *)series
 {
     BarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
@@ -272,7 +272,7 @@
     return bs;
 }
 
-- (FMPointSeries *)addPointToSpace:(FMSpatialProjection *)space series:(OrderedSeries *)series
+- (FMPointSeries *)addPointToSpace:(FMProjectionCartesian2D *)space series:(OrderedSeries *)series
 {
     PointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];

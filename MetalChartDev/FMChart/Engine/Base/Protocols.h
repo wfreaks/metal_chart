@@ -10,12 +10,12 @@
 
 @protocol MTLRenderCommandEncoder;
 
-@class UniformProjection;
+@class UniformProjectionCartesian2D;
 
 @protocol Primitive <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-		projection:(UniformProjection * _Nonnull)projection
+		projection:(UniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end

@@ -193,7 +193,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			  axis:(FMAxis *)axis projection:(UniformProjection *)projection
+			  axis:(FMAxis *)axis projection:(UniformProjectionCartesian2D *)projection
 {
     [self configure:axis];
     const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);

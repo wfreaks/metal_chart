@@ -48,7 +48,7 @@ struct out_vertex_LineDash {
 
 
 template <typename OutputType>
-inline OutputType LineDashVertexCore(const float2 start_ndc, const float2 end_ndc, const uchar spec, const float line_width, constant uniform_projection& projection)
+inline OutputType LineDashVertexCore(const float2 start_ndc, const float2 end_ndc, const uchar spec, const float line_width, constant uniform_projection_cart2d& projection)
 {
     const float coef_along = (2 * (spec % 2)) -1;
     const float coef_perp = (2 * ((spec % 2 == 0) ^ (spec % 5 == 0))) - 1;
