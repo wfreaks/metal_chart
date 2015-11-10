@@ -31,7 +31,7 @@
 
 @implementation FMAxis
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 					Projection:(FMProjectionCartesian2D *)projection
 					 dimension:(NSInteger)dimensionId
 				 configuration:(id<FMAxisConfigurator>)conf

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@class Engine;
+@class FMEngine;
 @class UniformLineAttributes;
 @class Axis;
 @class UniformAxisConfiguration;
@@ -50,7 +50,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
 @property (strong  , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 
-- (_Nonnull instancetype)initWithEngine:(Engine * _Nonnull)engine
+- (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
 							 Projection:(FMProjectionCartesian2D * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
 						  configuration:(id<FMAxisConfigurator> _Nonnull)conf

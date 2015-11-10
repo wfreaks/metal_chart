@@ -151,7 +151,7 @@
 
 @implementation FMAxisLabel
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
                      frameSize:(CGSize)frameSize
                 bufferCapacity:(NSUInteger)capacity
                  labelDelegate:(id<FMAxisLabelDelegate> _Nonnull)delegate

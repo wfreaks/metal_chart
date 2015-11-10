@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) DynamicPointPrimitive * _Nullable point;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
@@ -35,7 +35,7 @@
 
 @implementation LinePrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 					attributes:(UniformLineAttributes *)attributes
 {
     self = [super init];
@@ -134,7 +134,7 @@
 
 @implementation OrderedSeparatedLinePrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 				orderedSeries:(OrderedSeries *)series
 					attributes:(UniformLineAttributes * _Nullable)attributes
 {
@@ -170,7 +170,7 @@
 
 @implementation OrderedPolyLinePrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 				 orderedSeries:(OrderedSeries *)series
 					attributes:(UniformLineAttributes * _Nullable)attributes
 {
@@ -234,7 +234,7 @@ static double gaussian(double mean, double variance) {
 
 @implementation Axis
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 {
     self = [super init];
     if(self) {
@@ -299,7 +299,7 @@ static double gaussian(double mean, double variance) {
 
 @implementation GridLine
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 {
     self = [super init];
     if(self) {

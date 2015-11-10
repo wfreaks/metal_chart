@@ -15,7 +15,7 @@
 
 @implementation PlotRect
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 {
     self = [super init];
     if(self) {
@@ -50,7 +50,7 @@
 
 @interface BarPrimitive()
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 									  attributes:(UniformBarAttributes * _Nullable)attributes
 ;
 
@@ -64,7 +64,7 @@
 
 @implementation BarPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 					attributes:(UniformBarAttributes * _Nullable)attributes
 {
     self = [super init];
@@ -129,7 +129,7 @@
 
 @implementation OrderedBarPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 						series:(OrderedSeries *)series
 					attributes:(UniformBarAttributes * _Nullable)attributes
 {

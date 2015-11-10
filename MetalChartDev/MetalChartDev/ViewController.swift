@@ -41,7 +41,7 @@ class ViewController: UIViewController {
 	}
 	
 	func setupChart() {
-		let engine = Engine(resource: resource)
+		let engine = FMEngine(resource: resource)
 		let fps = asChart ? 60 : 0;
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 

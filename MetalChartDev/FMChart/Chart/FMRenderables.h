@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@class Engine;
+@class FMEngine;
 @class LinePrimitive;
 @class BarPrimitive;
 @class PointPrimitive;
@@ -44,7 +44,7 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
-											engine:(Engine * _Nonnull)engine
+											engine:(FMEngine * _Nonnull)engine
 										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
@@ -65,7 +65,7 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
-											engine:(Engine * _Nonnull)engine
+											engine:(FMEngine * _Nonnull)engine
 										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
@@ -86,7 +86,7 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
-											engine:(Engine * _Nonnull)engine
+											engine:(FMEngine * _Nonnull)engine
 										projection:(FMProjectionCartesian2D * _Nonnull)projection
 ;
 
@@ -106,7 +106,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
-+ (instancetype _Nonnull)rectWithEngine:(Engine *_Nonnull)engine;
++ (instancetype _Nonnull)rectWithEngine:(FMEngine *_Nonnull)engine;
 
 @end
 
@@ -125,7 +125,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
-+ (instancetype _Nonnull)gridLineWithEngine:(Engine * _Nonnull)engine
++ (instancetype _Nonnull)gridLineWithEngine:(FMEngine * _Nonnull)engine
                                  projection:(FMProjectionCartesian2D * _Nonnull)projection
                                   dimension:(NSInteger)dimensionId;
 ;

@@ -15,7 +15,7 @@
 
 @implementation TextureQuad
 
-- (instancetype _Nonnull)initWithEngine:(Engine *)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine *)engine
                                          texture:(id<MTLTexture>)texture
 {
     self = [super init];

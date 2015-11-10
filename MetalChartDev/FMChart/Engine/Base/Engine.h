@@ -12,7 +12,7 @@
 @class DeviceResource;
 @class UniformProjectionCartesian2D;
 
-@interface Engine : NSObject
+@interface FMEngine : NSObject
 
 @property (readonly, nonatomic) DeviceResource * _Nonnull resource;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;

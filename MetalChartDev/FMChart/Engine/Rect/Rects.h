@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 
-@class Engine;
+@class FMEngine;
 @class UniformProjectionCartesian2D;
 @class UniformPlotRectAttributes;
 @class UniformBarAttributes;
@@ -20,10 +20,10 @@
 
 @interface PlotRect : NSObject
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine;
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
         projection:(UniformProjectionCartesian2D * _Nonnull)projection
@@ -34,7 +34,7 @@
 
 @interface BarPrimitive : NSObject<Primitive>
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
@@ -45,7 +45,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(OrderedSeries * _Nullable)series
 							 attributes:(UniformBarAttributes * _Nullable)attributes
 ;

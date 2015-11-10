@@ -11,7 +11,7 @@
 #import "Buffers.h"
 #import "MetalChart.h"
 
-@interface Engine()
+@interface FMEngine()
 
 @property (strong, nonatomic) DeviceResource *resource;
 
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation Engine
+@implementation FMEngine
 
 - (instancetype)initWithResource:(DeviceResource *)resource
 {

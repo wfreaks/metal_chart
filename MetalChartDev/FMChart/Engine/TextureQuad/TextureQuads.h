@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 
-@class Engine;
+@class FMEngine;
 @class UniformProjectionCartesian2D;
 @class UniformRegion;
 
@@ -18,12 +18,12 @@
 
 @interface TextureQuad : NSObject
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) UniformRegion * _Nonnull dataRegion;
 @property (readonly, nonatomic) UniformRegion * _Nonnull texRegion;
 @property (strong  , nonatomic) id<MTLTexture> _Nullable texture;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
                                          texture:(id<MTLTexture> _Nullable)texture;
 ;
 

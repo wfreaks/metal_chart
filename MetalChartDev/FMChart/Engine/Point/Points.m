@@ -21,7 +21,7 @@
 
 @implementation PointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine attributes:(UniformPointAttributes * _Nullable)attributes
+- (instancetype)initWithEngine:(FMEngine *)engine attributes:(UniformPointAttributes * _Nullable)attributes
 {
     self = [super init];
     if(self) {
@@ -86,7 +86,7 @@ projection:(UniformProjectionCartesian2D *)projection
 
 @implementation OrderedPointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 						series:(OrderedSeries *)series
 					attributes:(UniformPointAttributes * _Nullable)attributes
 {
@@ -105,7 +105,7 @@ projection:(UniformProjectionCartesian2D *)projection
 
 @implementation IndexedPointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 						series:(IndexedSeries *)series
 					attributes:(UniformPointAttributes * _Nullable)attributes
 {
@@ -126,7 +126,7 @@ projection:(UniformProjectionCartesian2D *)projection
 
 @implementation DynamicPointPrimitive
 
-- (instancetype)initWithEngine:(Engine *)engine
+- (instancetype)initWithEngine:(FMEngine *)engine
 						series:(id<Series> _Nullable)series
 					attributes:(UniformPointAttributes * _Nullable)attributes
 {

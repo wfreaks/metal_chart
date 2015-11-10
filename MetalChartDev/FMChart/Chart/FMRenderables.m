@@ -65,7 +65,7 @@
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
-								   engine:(Engine *)engine
+								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
@@ -122,7 +122,7 @@
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
-								   engine:(Engine *)engine
+								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
@@ -166,7 +166,7 @@
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
-								   engine:(Engine *)engine
+								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
@@ -223,7 +223,7 @@
     return -currentValue;
 }
 
-+ (instancetype)rectWithEngine:(Engine *)engine
++ (instancetype)rectWithEngine:(FMEngine *)engine
 {
 	PlotRect *rect = [[PlotRect alloc] initWithEngine:engine];
 	return [[self alloc] initWithPlotRect:rect];
@@ -289,7 +289,7 @@
     return 0.1;
 }
 
-+ (instancetype)gridLineWithEngine:(Engine *)engine
++ (instancetype)gridLineWithEngine:(FMEngine *)engine
                         projection:(FMProjectionCartesian2D *)projection
                          dimension:(NSInteger)dimensionId
 {

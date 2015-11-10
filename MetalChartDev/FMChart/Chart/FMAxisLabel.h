@@ -13,7 +13,7 @@
 @protocol MTLTexture;
 
 @class DeviceResource;
-@class Engine;
+@class FMEngine;
 @class TextureQuad;
 
 @protocol FMAxisLabelDelegate<NSObject>
@@ -73,7 +73,7 @@ NS_DESIGNATED_INITIALIZER;
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
 @property (assign  , nonatomic) CGPoint textAlignment;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize
 						 bufferCapacity:(NSUInteger)capacity
 						  labelDelegate:(id<FMAxisLabelDelegate> _Nonnull)delegate

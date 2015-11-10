@@ -35,7 +35,7 @@
 @implementation FMConfigurator
 
 - (instancetype)initWithChart:(MetalChart *)chart
-					   engine:(Engine *)engine
+					   engine:(FMEngine *)engine
 						view:(MetalView *)view
 				 preferredFps:(NSInteger)fps
 {
@@ -47,7 +47,7 @@
 		_updaters = array;
 		_space = array;
 		DeviceResource *res = [DeviceResource defaultResource];
-		_engine = (engine) ? engine : [[Engine alloc] initWithResource:res];
+		_engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
 		_view = view;
 		_preferredFps = fps;
 		

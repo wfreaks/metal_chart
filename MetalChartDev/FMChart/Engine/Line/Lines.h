@@ -10,7 +10,7 @@
 #import <CoreGraphics/CGGeometry.h>
 #import "Protocols.h"
 
-@class Engine;
+@class FMEngine;
 @class UniformProjectionCartesian2D;
 @class UniformLineAttributes;
 @class UniformAxisConfiguration;
@@ -26,7 +26,7 @@
 
 @property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
 @property (strong  , nonatomic) UniformPointAttributes * _Nullable pointAttributes;
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
 - (id<Series> _Nullable)series;
 
@@ -39,7 +39,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
@@ -55,7 +55,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
@@ -77,9 +77,9 @@
 @property (readonly, nonatomic) UniformAxisAttributes * _Nonnull majorTickAttributes;
 @property (readonly, nonatomic) UniformAxisAttributes * _Nonnull minorTickAttributes;
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
@@ -94,9 +94,9 @@
 
 @property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;

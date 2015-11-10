@@ -23,7 +23,7 @@
 @class FMAxisLabel;
 @class FMPlotArea;
 @class FMGestureInterpreter;
-@class Engine;
+@class FMEngine;
 @class FMGridLine;
 @class FMLineSeries;
 @class FMBarSeries;
@@ -55,12 +55,12 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 @property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> * _Nonnull space;
 @property (readonly, nonatomic) MetalChart * _Nonnull chart;
 @property (readonly, nonatomic) MetalView * _Nullable view;
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
 - (instancetype _Nonnull)initWithChart:(MetalChart * _Nonnull)chart
-								engine:(Engine * _Nullable)engine
+								engine:(FMEngine * _Nullable)engine
 								  view:(MetalView * _Nullable)view
 						  preferredFps:(NSInteger)fps
 NS_DESIGNATED_INITIALIZER;

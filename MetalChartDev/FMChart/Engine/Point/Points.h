@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
 
-@class Engine;
+@class FMEngine;
 @class UniformProjectionCartesian2D;
 @class UniformPlotRectAttributes;
 @class UniformPointAttributes;
@@ -21,7 +21,7 @@
 
 @interface PointPrimitive : NSObject<Primitive>
 
-@property (readonly, nonatomic) Engine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
@@ -32,7 +32,7 @@
 
 @property (strong, nonatomic) OrderedSeries * _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
                                           series:(OrderedSeries * _Nullable)series
 									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
@@ -42,7 +42,7 @@
 
 @property (strong, nonatomic) IndexedSeries * _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 										  series:(IndexedSeries * _Nullable)series
 									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
@@ -53,7 +53,7 @@
 
 @property (strong, nonatomic) id<Series> _Nullable series;
 
-- (instancetype _Nonnull)initWithEngine:(Engine * _Nonnull)engine
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 										  series:(id<Series> _Nullable)series
 									  attributes:(UniformPointAttributes * _Nullable)attributes
 ;
