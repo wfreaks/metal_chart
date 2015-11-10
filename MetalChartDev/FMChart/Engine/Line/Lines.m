@@ -135,7 +135,7 @@
 @implementation OrderedSeparatedLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-				orderedSeries:(OrderedSeries *)series
+				orderedSeries:(FMOrderedSeries *)series
 					attributes:(FMUniformLineAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
@@ -171,7 +171,7 @@
 @implementation OrderedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-				 orderedSeries:(OrderedSeries *)series
+				 orderedSeries:(FMOrderedSeries *)series
 					attributes:(FMUniformLineAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
@@ -218,7 +218,7 @@ static double gaussian(double mean, double variance) {
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrdered"; }
 
-- (void)setSeries:(OrderedSeries *)series
+- (void)setSeries:(FMOrderedSeries *)series
 {
 	_series = series;
 	self.point.series = series;

@@ -22,7 +22,7 @@
 
 @end
 
-@interface OrderedSeries : NSObject<Series>
+@interface FMOrderedSeries : NSObject<Series>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
@@ -33,7 +33,7 @@
 
 @end
 
-@interface IndexedSeries : NSObject<Series>
+@interface FMIndexedSeries : NSObject<Series>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) IndexBuffer * _Nonnull indices;

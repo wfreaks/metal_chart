@@ -28,7 +28,7 @@
 @class FMLineSeries;
 @class FMBarSeries;
 @class FMPointSeries;
-@class OrderedSeries;
+@class FMOrderedSeries;
 
 @protocol Series;
 @protocol FMInteraction;
@@ -106,18 +106,18 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 - (FMLineSeries * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                   series:(OrderedSeries * _Nonnull)series
+                                   series:(FMOrderedSeries * _Nonnull)series
 ;
 
 - (FMBarSeries * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                 series:(OrderedSeries * _Nonnull)series
+                                 series:(FMOrderedSeries * _Nonnull)series
 ;
 
 - (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                 series:(OrderedSeries * _Nonnull)series
+                                 series:(FMOrderedSeries * _Nonnull)series
 ;
 
-- (OrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
+- (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
 ;
 
 @end

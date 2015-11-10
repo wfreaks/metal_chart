@@ -68,7 +68,7 @@
 								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
-	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
 	OrderedPolyLinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:engine
 																		orderedSeries:series
@@ -125,7 +125,7 @@
 								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
-	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
 	OrderedBarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:engine
 																	 series:series
@@ -169,7 +169,7 @@
 								   engine:(FMEngine *)engine
 							   projection:(FMProjectionCartesian2D *)projection
 {
-	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
+	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
 	OrderedPointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:engine
 																		  series:series

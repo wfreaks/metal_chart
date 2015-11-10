@@ -13,13 +13,13 @@
 @class FMUniformProjectionCartesian2D;
 @class FMUniformPlotRectAttributes;
 @class FMUniformPointAttributes;
-@class OrderedSeries;
-@class IndexedSeries;
+@class FMOrderedSeries;
+@class FMIndexedSeries;
 
 @protocol MTLRenderCommandEncoder;
 @protocol Series;
 
-@interface PointPrimitive : NSObject<Primitive>
+@interface PointPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
@@ -30,20 +30,20 @@
 
 @interface OrderedPointPrimitive : PointPrimitive
 
-@property (strong, nonatomic) OrderedSeries * _Nullable series;
+@property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-                                          series:(OrderedSeries * _Nullable)series
+                                          series:(FMOrderedSeries * _Nullable)series
 									  attributes:(FMUniformPointAttributes * _Nullable)attributes
 ;
 @end
 
 @interface IndexedPointPrimitive : PointPrimitive
 
-@property (strong, nonatomic) IndexedSeries * _Nullable series;
+@property (strong, nonatomic) FMIndexedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-										  series:(IndexedSeries * _Nullable)series
+										  series:(FMIndexedSeries * _Nullable)series
 									  attributes:(FMUniformPointAttributes * _Nullable)attributes
 ;
 @end

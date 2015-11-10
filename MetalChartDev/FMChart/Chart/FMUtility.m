@@ -255,7 +255,7 @@
 }
 
 - (FMLineSeries *)addLineToSpace:(FMProjectionCartesian2D *)space
-                          series:(OrderedSeries *)series
+                          series:(FMOrderedSeries *)series
 {
     LinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
     FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
@@ -265,7 +265,7 @@
 }
 
 - (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
-                        series:(OrderedSeries *)series
+                        series:(FMOrderedSeries *)series
 {
     BarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
@@ -274,7 +274,7 @@
     return bs;
 }
 
-- (FMPointSeries *)addPointToSpace:(FMProjectionCartesian2D *)space series:(OrderedSeries *)series
+- (FMPointSeries *)addPointToSpace:(FMProjectionCartesian2D *)space series:(FMOrderedSeries *)series
 {
     PointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
@@ -283,9 +283,9 @@
     return ps;
 }
 
-- (OrderedSeries *)createSeries:(NSUInteger)capacity
+- (FMOrderedSeries *)createSeries:(NSUInteger)capacity
 {
-    return [[OrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
+    return [[FMOrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
 }
 
 @end

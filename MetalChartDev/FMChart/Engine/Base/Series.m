@@ -8,11 +8,11 @@
 
 #import "Series.h"
 
-@interface OrderedSeries()
+@interface FMOrderedSeries()
 
 @end
 
-@implementation OrderedSeries
+@implementation FMOrderedSeries
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 				  vertexCapacity:(NSUInteger)vertCapacity
@@ -51,7 +51,7 @@
 
 @end
 
-@implementation IndexedSeries
+@implementation FMIndexedSeries
 
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource

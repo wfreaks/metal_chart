@@ -87,7 +87,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 @implementation OrderedPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-						series:(OrderedSeries *)series
+						series:(FMOrderedSeries *)series
 					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
     self = [super initWithEngine:engine attributes:attributes];
@@ -106,7 +106,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 @implementation IndexedPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-						series:(IndexedSeries *)series
+						series:(FMIndexedSeries *)series
 					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
@@ -144,8 +144,8 @@ projection:(FMUniformProjectionCartesian2D *)projection
 - (id<MTLBuffer>)indexBuffer
 {
 	id<Series> series = _series;
-	if([series isKindOfClass:[IndexedSeries class]]) {
-		return ((IndexedSeries *)series).indices.buffer;
+	if([series isKindOfClass:[FMIndexedSeries class]]) {
+		return ((FMIndexedSeries *)series).indices.buffer;
 	}
 	return nil;
 }

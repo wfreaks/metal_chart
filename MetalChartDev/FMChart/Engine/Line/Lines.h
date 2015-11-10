@@ -17,12 +17,12 @@
 @class FMUniformAxisAttributes;
 @class FMUniformPointAttributes;
 @class FMUniformGridAttributes;
-@class OrderedSeries;
-@class IndexedSeries;
+@class FMOrderedSeries;
+@class FMIndexedSeries;
 
 @protocol Series;
 
-@interface LinePrimitive : NSObject<Primitive>
+@interface LinePrimitive : NSObject<FMPrimitive>
 
 @property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
@@ -37,10 +37,10 @@
 // 使い所がなくてメンテが滞っている、正常動作しない可能性が高い.
 @interface OrderedSeparatedLinePrimitive : LinePrimitive
 
-@property (strong, nonatomic) OrderedSeries * _Nullable series;
+@property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-								   orderedSeries:(OrderedSeries * _Nullable)series
+								   orderedSeries:(FMOrderedSeries * _Nullable)series
 									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
@@ -53,10 +53,10 @@
 
 @interface OrderedPolyLinePrimitive : PolyLinePrimitive
 
-@property (strong, nonatomic) OrderedSeries * _Nullable series;
+@property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-								   orderedSeries:(OrderedSeries * _Nullable)series
+								   orderedSeries:(FMOrderedSeries * _Nullable)series
 									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 

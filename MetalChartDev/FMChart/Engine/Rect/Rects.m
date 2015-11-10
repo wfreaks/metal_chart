@@ -130,7 +130,7 @@
 @implementation OrderedBarPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-						series:(OrderedSeries *)series
+						series:(FMOrderedSeries *)series
 					attributes:(FMUniformBarAttributes * _Nullable)attributes
 {
     self = [super initWithEngine:engine attributes:attributes];
