@@ -41,7 +41,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjectionCartesian2D *projection = _projection.projection;
+	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_line encodeWith:encoder projection:projection];
 	}
@@ -115,7 +115,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjectionCartesian2D *projection = _projection.projection;
+	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_bar encodeWith:encoder projection:projection];
 	}
@@ -159,7 +159,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
 {
-	UniformProjectionCartesian2D *projection = _projection.projection;
+	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
 		[_point encodeWith:encoder projection:projection];
 	}
@@ -190,7 +190,7 @@
     self = [super init];
     if(self) {
         FMDeviceResource *res = rect.engine.resource;
-        _projection = [[UniformProjectionCartesian2D alloc] initWithResource:res];
+        _projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:res];
         _rect = rect;
     }
     return self;

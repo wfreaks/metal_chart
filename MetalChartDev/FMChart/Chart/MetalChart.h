@@ -20,7 +20,7 @@ MTLPixelFormat determineDepthPixelFormat();
  * もちろんコード量と煩雑さはそこそこなのでオススメはできない.
  */
 
-@class UniformProjectionCartesian2D;
+@class FMUniformProjectionCartesian2D;
 @class MetalChart;
 
 
@@ -114,7 +114,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMDimensionalProjection * _Nonnull dimX;
 @property (readonly, nonatomic) FMDimensionalProjection * _Nonnull dimY;
-@property (readonly, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
+@property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 
 - (instancetype _Nonnull)initWithDimensionX:(FMDimensionalProjection * _Nonnull)x

@@ -22,7 +22,7 @@
 									  attributes:(UniformLineAttributes * _Nullable)attributes
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjectionCartesian2D * _Nonnull)projection;
+- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
 - (id<MTLBuffer> _Nullable)indexBuffer;
 - (NSString *)vertexFunctionName;
@@ -47,7 +47,7 @@
     return self;
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
 	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
 }
@@ -77,7 +77,7 @@
 - (id<MTLBuffer>)indexBuffer { return nil; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-		projection:(UniformProjectionCartesian2D *)projection
+		projection:(FMUniformProjectionCartesian2D *)projection
 {
 	id<Series> const series = [self series];
 	if(series) {
@@ -90,7 +90,7 @@
 		id<MTLBuffer> vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> indexBuffer = [self indexBuffer];
 		UniformLineAttributes *attributes = _attributes;
-		UniformSeriesInfo *info = series.info;
+		FMUniformSeriesInfo *info = series.info;
 
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
 		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
@@ -254,7 +254,7 @@ static double gaussian(double mean, double variance) {
 }
 
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
     return [_engine pipelineStateWithProjection:projection
                                        vertFunc:@"AxisVertex"
@@ -263,7 +263,7 @@ static double gaussian(double mean, double variance) {
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(UniformProjectionCartesian2D *)projection
+        projection:(FMUniformProjectionCartesian2D *)projection
      maxMajorTicks:(NSUInteger)maxCount
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
@@ -313,7 +313,7 @@ static double gaussian(double mean, double variance) {
     return self;
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
     return [_engine pipelineStateWithProjection:projection
                                        vertFunc:@"GridVertex"
@@ -323,7 +323,7 @@ static double gaussian(double mean, double variance) {
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(UniformProjectionCartesian2D *)projection
+        projection:(FMUniformProjectionCartesian2D *)projection
           maxCount:(NSUInteger)maxCount
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];

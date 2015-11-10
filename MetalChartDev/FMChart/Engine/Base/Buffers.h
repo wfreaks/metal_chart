@@ -73,7 +73,7 @@
 // このクラスだけScissorRectやらscreenScaleやらを考慮した上でvalueOffsetとかsizeとvalueScaleを
 // 設定しなければいけないので煩雑になる。
 
-@interface UniformProjectionCartesian2D : NSObject
+@interface FMUniformProjectionCartesian2D : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) CGFloat screenScale;
@@ -100,7 +100,7 @@
 
 
 
-@interface UniformSeriesInfo : NSObject
+@interface FMUniformSeriesInfo : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (assign, nonatomic) NSUInteger count;

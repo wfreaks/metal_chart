@@ -97,7 +97,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
-@property (readonly, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
+@property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;
 @property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
 

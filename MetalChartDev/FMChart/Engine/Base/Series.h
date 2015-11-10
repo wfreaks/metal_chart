@@ -15,7 +15,7 @@
 @protocol Series<NSObject>
 
 - (id<MTLBuffer> _Nonnull)vertexBuffer;
-- (UniformSeriesInfo * _Nonnull)info;
+- (FMUniformSeriesInfo * _Nonnull)info;
 
 - (void)addPoint:(CGPoint)point; // increment count.
 - (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
@@ -25,7 +25,7 @@
 @interface OrderedSeries : NSObject<Series>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
-@property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
+@property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 									vertexCapacity:(NSUInteger)vertCapacity
@@ -37,7 +37,7 @@
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) IndexBuffer * _Nonnull indices;
-@property (readonly, nonatomic) UniformSeriesInfo * _Nonnull info;
+@property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 									vertexCapacity:(NSUInteger)vertCapacity

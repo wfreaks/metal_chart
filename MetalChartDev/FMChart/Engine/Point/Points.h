@@ -10,7 +10,7 @@
 #import "Protocols.h"
 
 @class FMEngine;
-@class UniformProjectionCartesian2D;
+@class FMUniformProjectionCartesian2D;
 @class UniformPlotRectAttributes;
 @class UniformPointAttributes;
 @class OrderedSeries;

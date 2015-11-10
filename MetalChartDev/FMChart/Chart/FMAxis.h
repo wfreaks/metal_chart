@@ -35,7 +35,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
 			  axis:(FMAxis * _Nonnull)axis
-		projection:(UniformProjectionCartesian2D * _Nonnull)projection
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end

@@ -26,7 +26,7 @@
     return self;
 }
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjectionCartesian2D *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(FMUniformProjectionCartesian2D *)projection
 {
     id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment" writeDepth:YES];
     id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
@@ -54,7 +54,7 @@
 									  attributes:(UniformBarAttributes * _Nullable)attributes
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(UniformProjectionCartesian2D * _Nonnull)projection;
+- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset;
 - (id<MTLBuffer> _Nullable)indexBuffer;
@@ -77,7 +77,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(UniformProjectionCartesian2D *)projection
+        projection:(FMUniformProjectionCartesian2D *)projection
 {
 	id<Series> const series = [self series];
 	if(series) {
@@ -109,7 +109,7 @@
 	}
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(UniformProjectionCartesian2D *)projection
+- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
     return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"GeneralBar_Fragment" writeDepth:YES];
 }

@@ -10,7 +10,7 @@
 #import "Protocols.h"
 
 @class FMEngine;
-@class UniformProjectionCartesian2D;
+@class FMUniformProjectionCartesian2D;
 @class UniformRegion;
 
 @protocol MTLRenderCommandEncoder;
@@ -28,7 +28,7 @@
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjectionCartesian2D * _Nonnull)projection
+        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
              count:(NSUInteger)count;
 ;
 

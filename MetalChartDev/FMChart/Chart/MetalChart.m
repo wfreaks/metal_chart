@@ -104,7 +104,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	if(self) {
 		_dimX = x;
 		_dimY = y;
-		_projection = [[UniformProjectionCartesian2D alloc] initWithResource:[FMDeviceResource defaultResource]];
+		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:[FMDeviceResource defaultResource]];
 		_dimensions = @[x, y];
 	}
 	return self;

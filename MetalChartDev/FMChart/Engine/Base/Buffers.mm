@@ -30,7 +30,7 @@
 
 
 
-@interface UniformProjectionCartesian2D()
+@interface FMUniformProjectionCartesian2D()
 
 @property (strong, nonatomic) id<MTLBuffer> buffer;
 
@@ -39,7 +39,7 @@
 
 
 
-@interface UniformSeriesInfo()
+@interface FMUniformSeriesInfo()
 
 @property (strong, nonatomic) id<MTLBuffer> buffer;
 
@@ -113,7 +113,7 @@
 
 
 
-@implementation UniformProjectionCartesian2D
+@implementation FMUniformProjectionCartesian2D
 
 - (id)initWithResource:(FMDeviceResource *)resource
 {
@@ -178,7 +178,7 @@
 @end
 
 
-@implementation UniformSeriesInfo
+@implementation FMUniformSeriesInfo
 
 - (id)initWithResource:(FMDeviceResource *)resource
 {

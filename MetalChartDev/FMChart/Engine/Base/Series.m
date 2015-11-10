@@ -20,7 +20,7 @@
 	self = [super init];
 	if(self) {
 		_vertices = [[VertexBuffer alloc] initWithResource:resource capacity:vertCapacity];
-		_info = [[UniformSeriesInfo alloc] initWithResource:resource];
+		_info = [[FMUniformSeriesInfo alloc] initWithResource:resource];
 		
 		[_info info]->vertex_capacity = (uint32_t)vertCapacity;
 	}
@@ -62,7 +62,7 @@
 	if(self) {
 		_vertices = [[VertexBuffer alloc] initWithResource:resource capacity:vertCapacity];
 		_indices = [[IndexBuffer alloc] initWithResource:resource capacity:idxCapacity];
-		_info = [[UniformSeriesInfo alloc] initWithResource:resource];
+		_info = [[FMUniformSeriesInfo alloc] initWithResource:resource];
 		
 		[_info info]->vertex_capacity = (uint32_t)vertCapacity;
 		[_info info]->index_capacity = (uint32_t)idxCapacity;

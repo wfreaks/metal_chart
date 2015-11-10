@@ -10,7 +10,7 @@
 #import "Protocols.h"
 
 @class FMEngine;
-@class UniformProjectionCartesian2D;
+@class FMUniformProjectionCartesian2D;
 @class UniformPlotRectAttributes;
 @class UniformBarAttributes;
 @class OrderedSeries;
@@ -26,7 +26,7 @@
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(UniformProjectionCartesian2D * _Nonnull)projection
+        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
