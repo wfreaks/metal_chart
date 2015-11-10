@@ -25,9 +25,6 @@ MTLPixelFormat determineDepthPixelFormat()
 
 @interface FMProjectionCartesian2D()
 
-@property (strong, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
-@property (strong, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
-
 @end
 
 
@@ -100,34 +97,31 @@ MTLPixelFormat determineDepthPixelFormat()
 
 @implementation FMProjectionCartesian2D
 
-- (instancetype)initWithDimensions:(NSArray<FMDimensionalProjection *> *)dimensions
+- (instancetype)initWithDimensionX:(FMDimensionalProjection *)x
+								 Y:(FMDimensionalProjection *)y
 {
 	self = [super init];
 	if(self) {
-		_dimensions = [NSArray arrayWithArray:dimensions];
+		_dimX = x;
+		_dimY = y;
 		_projection = [[UniformProjectionCartesian2D alloc] initWithResource:[DeviceResource defaultResource]];
+		_dimensions = @[x, y];
 	}
 	return self;
 }
 
-- (NSUInteger)rank
-{
-	return _dimensions.count;
-}
-
 - (void)writeToBuffer
 {
-	FMDimensionalProjection *xDim = _dimensions[0];
-	FMDimensionalProjection *yDim = _dimensions[1];
+	FMDimensionalProjection *xDim = _dimX;
+	FMDimensionalProjection *yDim = _dimY;
 	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
 	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
 
 - (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
 {
-	for(FMDimensionalProjection *p in _dimensions) {
-		if(p.dimensionId == dimensionId) return p;
-	}
+	if(_dimX.dimensionId == dimensionId) return _dimX;
+	if(_dimY.dimensionId == dimensionId) return _dimY;
 	return nil;
 }
 
@@ -141,17 +135,8 @@ MTLPixelFormat determineDepthPixelFormat()
 
 - (BOOL)matchesDimensionIds:(NSArray<NSNumber *> *)ids
 {
-	const NSInteger count = _dimensions.count;
-	BOOL r = NO;
-	if(count == ids.count) {
-		for(NSInteger i = 0; i < count; ++i) {
-			if(_dimensions[i].dimensionId != ids[i].integerValue) {
-				return NO;
-			}
-		}
-		r = YES;
-	}
-	return r;
+	const NSInteger count = ids.count;
+	return (count == 2 && ids[0].integerValue == _dimX.dimensionId && ids[1].integerValue == _dimY.dimensionId);
 }
 
 @end

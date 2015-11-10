@@ -112,15 +112,16 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMProjectionCartesian2D : NSObject<FMProjection>
 
-@property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
+@property (readonly, nonatomic) FMDimensionalProjection * _Nonnull dimX;
+@property (readonly, nonatomic) FMDimensionalProjection * _Nonnull dimY;
 @property (readonly, nonatomic) UniformProjectionCartesian2D * _Nonnull projection;
+@property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 
-- (instancetype _Nonnull)initWithDimensions:(NSArray<FMDimensionalProjection *> * _Nonnull)dimensions
+- (instancetype _Nonnull)initWithDimensionX:(FMDimensionalProjection * _Nonnull)x
+										  Y:(FMDimensionalProjection * _Nonnull)y
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-- (NSUInteger)rank;
 
 - (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 

@@ -65,6 +65,8 @@
 - (FMProjectionCartesian2D *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
 								configureBlock:(DimensionConfigureBlock)block
 {
+	if(ids.count != 2) return nil;
+	
 	for(FMProjectionCartesian2D *s in self.space) {
 		if([s matchesDimensionIds:ids]) {
 			return s;
@@ -75,7 +77,7 @@
 		FMDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
 		[dims addObject:dim];
 	}
-	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensions:dims];
+	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1]];
 	_space = [_space arrayByAddingObject:space];
 	return space;
 }
