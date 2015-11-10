@@ -51,10 +51,10 @@ MTLPixelFormat determineDepthPixelFormat();
 
 
 
-@protocol FMRenderable <NSObject>
+@protocol FMRenderable<NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-		projection:(UniformProjection * _Nonnull)projection
+			 chart:(MetalChart * _Nonnull)chart
 ;
 
 @end
@@ -79,6 +79,14 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
+@protocol FMProjection <NSObject>
+
+- (void)writeToBuffer;
+
+- (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
+
+@end
+
 @interface FMDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
@@ -89,8 +97,8 @@ MTLPixelFormat determineDepthPixelFormat();
 @property (copy    , nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
 - (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
-											 minValue:(CGFloat)min
-											 maxValue:(CGFloat)max
+									minValue:(CGFloat)min
+									maxValue:(CGFloat)max
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -99,13 +107,12 @@ NS_DESIGNATED_INITIALIZER;
 
 // 画面上での位置が重なるような値を算出する.
 - (CGFloat)convertValue:(CGFloat)value
-                     to:(FMDimensionalProjection * _Nonnull)to
+					 to:(FMDimensionalProjection * _Nonnull)to
 ;
 
 @end
 
-
-@interface FMSpatialProjection : NSObject
+@interface FMSpatialProjection : NSObject<FMProjection>
 
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 @property (readonly, nonatomic) UniformProjection * _Nonnull projection;
@@ -116,10 +123,6 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (NSUInteger)rank;
-
-- (void)writeToBuffer;
-
-- (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
 
 - (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
@@ -144,14 +147,13 @@ NS_DESIGNATED_INITIALIZER;
 // また、すでに追加されているものを再度追加しようとした場合、あるいは追加されていないものを除こうとした場合、
 // そのメソッドは何もしない. 他の条件が不正な呼び出しもそれに準ずる.
 
-- (void)addSeries:(id<FMRenderable> _Nonnull)series
-	   projection:(FMSpatialProjection * _Nonnull)projection
-;
-- (void)addSeriesArray:(NSArray<id<FMRenderable>> *_Nonnull)series
-		   projections:(NSArray<FMSpatialProjection*> *_Nonnull)projections
-;
-
+- (void)addSeries:(id<FMRenderable> _Nonnull)series;
+- (void)addSeriesArray:(NSArray<id<FMRenderable>> *_Nonnull)series;
 - (void)removeSeries:(id<FMRenderable> _Nonnull)series;
+
+- (void)addProjection:(id<FMProjection> _Nonnull)projection;
+- (void)addProjections:(NSArray<id<FMProjection>> *_Nonnull)projections;
+- (void)removeProjection:(id<FMProjection> _Nonnull)projection;
 
 - (void)addPreRenderable:(id<FMAttachment> _Nonnull)object;
 - (void)insertPreRenderable:(id<FMAttachment> _Nonnull)object atIndex:(NSUInteger)index;
@@ -166,6 +168,9 @@ NS_DESIGNATED_INITIALIZER;
 
 - (NSArray<id<FMRenderable>> * _Nonnull)series;
 
-- (NSArray<FMSpatialProjection *> * _Nonnull)projections;
+- (NSSet<id<FMProjection>> * _Nonnull)projectionSet;
 
 @end
+
+
+

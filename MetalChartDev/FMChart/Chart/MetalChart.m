@@ -34,8 +34,7 @@ MTLPixelFormat determineDepthPixelFormat()
 @interface MetalChart()
 
 @property (strong, nonatomic) NSArray<id<FMRenderable>> *series;
-@property (strong, nonatomic) NSArray<FMSpatialProjection *> *projections;
-@property (strong, nonatomic) NSSet<FMSpatialProjection *> *projectionSet;
+@property (strong, nonatomic) NSSet<id<FMProjection>> *projectionSet;
 
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *postRenderables;
@@ -165,7 +164,6 @@ MTLPixelFormat determineDepthPixelFormat()
 	self = [super init];
 	if(self) {
 		_series = [NSArray array];
-		_projections = [NSArray array];
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
@@ -200,20 +198,20 @@ MTLPixelFormat determineDepthPixelFormat()
 	if(willDraw != nil) willDraw(self);
 	
 	NSArray<id<FMRenderable>> *seriesArray = nil;
-	NSArray<FMSpatialProjection *> *projectionArray = nil;
 	NSArray<id<FMAttachment>> *preRenderables = nil;
 	NSArray<id<FMAttachment>> *postRenderables = nil;
+	NSSet<id<FMProjection>> *projections = nil;
     id<FMCommandBufferHook> hook = nil;
 	
 	@synchronized(self) {
 		seriesArray = _series;
-		projectionArray = _projections;
 		preRenderables = _preRenderables;
 		postRenderables = _postRenderables;
+		projections = _projectionSet;
         hook = _bufferHook;
 	}
 	
-	for(FMSpatialProjection *projection in _projectionSet) {
+	for(id<FMProjection> projection in projections) {
 		[projection configure:view padding:_padding];
 		[projection writeToBuffer];
 	}
@@ -248,8 +246,7 @@ MTLPixelFormat determineDepthPixelFormat()
 			const NSUInteger count = seriesArray.count;
 			for(NSUInteger i = 0; i < count; ++i) {
 				id<FMRenderable> series = seriesArray[i];
-				FMSpatialProjection *projection = projectionArray[i];
-				[series encodeWith:encoder projection:projection.projection];
+				[series encodeWith:encoder chart:self];
 			}
             const MTLScissorRect orgRect = {0, 0, w, h};
             [encoder setScissorRect:orgRect];
@@ -284,12 +281,10 @@ MTLPixelFormat determineDepthPixelFormat()
     }
 }
 
-- (void)addSeries:(id<FMRenderable>)series projection:(FMSpatialProjection *)projection
+- (void)addSeries:(id<FMRenderable>)series
 {
 	@synchronized(self) {
 		if(![_series containsObject:series]) {
-			_projectionSet = [_projectionSet setByAddingObject:projection];
-			_projections = [_projections arrayByAddingObject:projection];
 			_series = [_series arrayByAddingObject:series];
             if([series conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
@@ -299,14 +294,11 @@ MTLPixelFormat determineDepthPixelFormat()
 }
 
 - (void)addSeriesArray:(NSArray<id<FMRenderable>> *)series
-		   projections:(NSArray<FMSpatialProjection *> *)projections
 {
-	if(series.count == projections.count) {
-		const NSInteger count = series.count;
-		@synchronized(self) {
-			for(NSInteger i = 0; i < count; ++i) {
-				[self addSeries:series[i] projection:projections[i]];
-			}
+	const NSInteger count = series.count;
+	@synchronized(self) {
+		for(NSInteger i = 0; i < count; ++i) {
+			[self addSeries:series[i]];
 		}
 	}
 }
@@ -318,18 +310,32 @@ MTLPixelFormat determineDepthPixelFormat()
 	@synchronized(self) {
 		const NSUInteger idx = [_series indexOfObject:series];
 		if(idx != NSNotFound) {
-			FMSpatialProjection *proj = _projections[idx];
 			_series = [_series arrayByRemovingObjectAtIndex:idx];
-			_projections = [_projections arrayByRemovingObjectAtIndex:idx];
-			
-			if(![_projections containsObject:proj]) {
-				NSMutableSet * newProjSet = [_projectionSet mutableCopy];
-				[newProjSet removeObject:proj];
-				_projectionSet = [newProjSet copy];
-			}
             if([series conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
             }
+		}
+	}
+}
+
+- (void)addProjection:(id<FMProjection>)projection {
+	@synchronized(self) {
+		_projectionSet = [_projectionSet setByAddingObject:projection];
+	}
+}
+
+- (void)addProjections:(NSArray<id<FMProjection>> *)projections {
+	@synchronized(self) {
+		_projectionSet = [_projectionSet setByAddingObjectsFromArray:projections];
+	}
+}
+
+- (void)removeProjection:(id<FMProjection>)projection {
+	@synchronized(self) {
+		if([_projectionSet containsObject:projection]) {
+			NSMutableSet *set = [_projectionSet mutableCopy];
+			[set removeObject:projection];
+			_projectionSet = [set copy];
 		}
 	}
 }
@@ -407,7 +413,6 @@ MTLPixelFormat determineDepthPixelFormat()
 {
     @synchronized(self) {
         _series = [NSArray array];
-        _projections = [NSArray array];
         _projectionSet = [NSSet set];
         _preRenderables = [NSArray array];
         _postRenderables = [NSArray array];

@@ -256,8 +256,9 @@
                           series:(OrderedSeries *)series
 {
     LinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
-    FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line];
-    [_chart addSeries:ls projection:space];
+    FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
+    [_chart addSeries:ls];
+	[_chart addProjection:space];
     return ls;
 }
 
@@ -265,16 +266,18 @@
                         series:(OrderedSeries *)series
 {
     BarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
-    FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar];
-    [_chart addSeries:bs projection:space];
+    FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
+    [_chart addSeries:bs];
+	[_chart addProjection:space];
     return bs;
 }
 
 - (FMPointSeries *)addPointToSpace:(FMSpatialProjection *)space series:(OrderedSeries *)series
 {
     PointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
-    FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point];
-    [_chart addSeries:ps projection:space];
+    FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
+    [_chart addSeries:ps];
+	[_chart addProjection:space];
     return ps;
 }
 

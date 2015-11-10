@@ -24,10 +24,12 @@
 @implementation FMLineSeries
 
 - (instancetype)initWithLine:(LinePrimitive *)line
+				  projection:(FMSpatialProjection *)projection
 {
 	self = [super init];
 	if(self) {
 		_line = line;
+		_projection = projection;
 	}
 	return self;
 }
@@ -37,9 +39,12 @@
 - (id<Series>)series { return [_line series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-		projection:(UniformProjection *)projection
+			 chart:(MetalChart * _Nonnull)chart
 {
-	[_line encodeWith:encoder projection:projection];
+	UniformProjection *projection = _projection.projection;
+	if(projection) {
+		[_line encodeWith:encoder projection:projection];
+	}
 }
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
@@ -61,13 +66,14 @@
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
+							   projection:(FMSpatialProjection *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
 	OrderedPolyLinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:engine
 																		orderedSeries:series
 																		   attributes:nil];
-	return [[self alloc] initWithLine:line];
+	return [[self alloc] initWithLine:line projection:projection];
 }
 
 @end
@@ -75,10 +81,12 @@
 @implementation FMBarSeries
 
 - (instancetype)initWithBar:(BarPrimitive *)bar
+				 projection:(FMSpatialProjection *)projection
 {
     self = [super init];
     if(self) {
         _bar = bar;
+		_projection = projection;
     }
     return self;
 }
@@ -104,13 +112,18 @@
 
 - (id<Series>)series { return [_bar series]; }
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+			 chart:(MetalChart * _Nonnull)chart
 {
-    [_bar encodeWith:encoder projection:projection];
+	UniformProjection *projection = _projection.projection;
+	if(projection) {
+		[_bar encodeWith:encoder projection:projection];
+	}
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
+							   projection:(FMSpatialProjection *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
@@ -118,7 +131,7 @@
 																	 series:series
 																 attributes:nil];
 	
-	return [[self alloc] initWithBar:bar];
+	return [[self alloc] initWithBar:bar projection:projection];
 }
 
 
@@ -130,10 +143,12 @@
 @implementation FMPointSeries
 
 - (instancetype)initWithPoint:(PointPrimitive *)point
+				   projection:(FMSpatialProjection *)projection
 {
     self = [super init];
     if(self) {
         _point = point;
+		_projection = projection;
     }
     return self;
 }
@@ -141,13 +156,18 @@
 - (UniformPointAttributes *)attributes { return _point.attributes; }
 - (id<Series>)series { return [_point series]; }
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(UniformProjection *)projection
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+			 chart:(MetalChart * _Nonnull)chart
 {
-    [_point encodeWith:encoder projection:projection];
+	UniformProjection *projection = _projection.projection;
+	if(projection) {
+		[_point encodeWith:encoder projection:projection];
+	}
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
 								   engine:(Engine *)engine
+							   projection:(FMSpatialProjection *)projection
 {
 	OrderedSeries *series = [[OrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
@@ -155,7 +175,7 @@
 																		  series:series
 																	  attributes:nil];
 	
-	return [[self alloc] initWithPoint:point];
+	return [[self alloc] initWithPoint:point projection:projection];
 }
 
 @end

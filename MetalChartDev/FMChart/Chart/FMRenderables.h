@@ -35,14 +35,17 @@
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
+@property (nonatomic)			FMSpatialProjection * _Nullable projection;
 
 - (instancetype _Nonnull)initWithLine:(LinePrimitive * _Nonnull)line
+						   projection:(FMSpatialProjection * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
+										projection:(FMSpatialProjection * _Nonnull)projection
 ;
 
 @end
@@ -53,14 +56,17 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
+@property (nonatomic)			FMSpatialProjection * _Nullable projection;
 
 - (instancetype _Nonnull)initWithBar:(BarPrimitive * _Nonnull)bar
+						  projection:(FMSpatialProjection * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
+										projection:(FMSpatialProjection * _Nonnull)projection
 ;
 
 @end
@@ -71,14 +77,17 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
+@property (nonatomic)			FMSpatialProjection * _Nullable projection;
 
 - (instancetype _Nonnull)initWithPoint:(PointPrimitive * _Nonnull)point
+							projection:(FMSpatialProjection * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(Engine * _Nonnull)engine
+										projection:(FMSpatialProjection * _Nonnull)projection
 ;
 
 @end
