@@ -76,9 +76,9 @@
 
 - (void)setupDefaultAttributes
 {
-	UniformAxisAttributes *axis = _axis.axisAttributes;
-	UniformAxisAttributes *major = _axis.majorTickAttributes;
-	UniformAxisAttributes *minor = _axis.minorTickAttributes;
+	FMUniformAxisAttributes *axis = _axis.axisAttributes;
+	FMUniformAxisAttributes *major = _axis.majorTickAttributes;
+	FMUniformAxisAttributes *minor = _axis.minorTickAttributes;
 	
     const float v = 0.4;
 	[axis setColorWithRed:v green:v blue:v alpha:1.0];
@@ -111,7 +111,7 @@
 	return self;
 }
 
-- (void)configureUniform:(UniformAxisConfiguration *)uniform
+- (void)configureUniform:(FMUniformAxisConfiguration *)uniform
 		   withDimension:(FMDimensionalProjection *)dimension
 			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
 {
@@ -124,7 +124,7 @@
                                   fixedInterval:(CGFloat)tickInterval
                                  minorTicksFreq:(uint8_t)minorPerMajor
 {
-    FMAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+    FMAxisConfiguratorBlock block = ^(FMUniformAxisConfiguration *conf,
                                       FMDimensionalProjection *dim,
                                       FMDimensionalProjection *orth,
                                       BOOL isFirst) {
@@ -144,7 +144,7 @@
                                    fixedInterval:(CGFloat)tickInterval
                                   minorTicksFreq:(uint8_t)minorPerMajor
 {
-    FMAxisConfiguratorBlock block = ^(UniformAxisConfiguration *conf,
+    FMAxisConfiguratorBlock block = ^(FMUniformAxisConfiguration *conf,
                                       FMDimensionalProjection *dim,
                                       FMDimensionalProjection *orth,
                                       BOOL isFirst) {

@@ -13,7 +13,7 @@
 @protocol MTLBuffer;
 @class FMDeviceResource;
 
-@interface UniformLineAttributes : NSObject
+@interface FMUniformLineAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_line_attr * _Nonnull attributes;
@@ -49,7 +49,7 @@
 
 
 
-@interface UniformAxisAttributes : NSObject
+@interface FMUniformAxisAttributes : NSObject
 
 @property (readonly, nonatomic) uniform_axis_attributes * _Nonnull attributes;
 
@@ -70,7 +70,7 @@
 // Attributeと違い設定はCPU側で参照される事が多いためである。
 // CPU/GPU共有バッファは出来れば書き込み専用にしたいので、プロパティへのミラリングをしている.
 
-@interface UniformAxisConfiguration : NSObject
+@interface FMUniformAxisConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_axis_configuration * _Nonnull configuration;
@@ -96,11 +96,11 @@
 
 // if majorTickValueModified is YES, then ifModified will be invoked, and clear the flag when YES is returned from it.
 // return value of this method is identical to majorTickValueModified.
-- (BOOL)checkIfMajorTickValueModified:(BOOL (^_Nonnull)(UniformAxisConfiguration *_Nonnull))ifModified;
+- (BOOL)checkIfMajorTickValueModified:(BOOL (^_Nonnull)(FMUniformAxisConfiguration *_Nonnull))ifModified;
 
 @end
 
-@interface UniformGridAttributes : NSObject
+@interface FMUniformGridAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_grid_attributes * _Nonnull attributes;

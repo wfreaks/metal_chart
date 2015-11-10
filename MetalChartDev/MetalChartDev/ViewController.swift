@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
 	let asChart = false
-    var firstLineAttributes : UniformLineAttributes? = nil
+    var firstLineAttributes : FMUniformLineAttributes? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

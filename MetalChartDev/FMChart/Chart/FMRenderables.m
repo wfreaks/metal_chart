@@ -34,7 +34,7 @@
 	return self;
 }
 
-- (UniformLineAttributes *)attributes { return _line.attributes; }
+- (FMUniformLineAttributes *)attributes { return _line.attributes; }
 
 - (id<Series>)series { return [_line series]; }
 
@@ -259,7 +259,7 @@
     return self;
 }
 
-- (UniformGridAttributes *)attributes {
+- (FMUniformGridAttributes *)attributes {
     return self.gridLine.attributes;
 }
 

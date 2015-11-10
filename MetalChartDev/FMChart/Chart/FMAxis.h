@@ -10,12 +10,12 @@
 #import "MetalChart.h"
 
 @class FMEngine;
-@class UniformLineAttributes;
+@class FMUniformLineAttributes;
 @class Axis;
-@class UniformAxisConfiguration;
+@class FMUniformAxisConfiguration;
 @class FMAxis;
 
-typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
+typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
 										FMDimensionalProjection *_Nonnull dimension,
 										FMDimensionalProjection *_Nonnull orthogonal,
                                         BOOL isFirst
@@ -23,7 +23,7 @@ typedef void (^FMAxisConfiguratorBlock)(UniformAxisConfiguration *_Nonnull axis,
 
 @protocol FMAxisConfigurator<NSObject>
 
-- (void)configureUniform:(UniformAxisConfiguration * _Nonnull)uniform
+- (void)configureUniform:(FMUniformAxisConfiguration * _Nonnull)uniform
 		   withDimension:(FMDimensionalProjection * _Nonnull)dimension
 			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
 ;

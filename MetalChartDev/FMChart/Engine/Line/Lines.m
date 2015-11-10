@@ -19,7 +19,7 @@
 @property (strong, nonatomic) DynamicPointPrimitive * _Nullable point;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-									  attributes:(UniformLineAttributes * _Nullable)attributes
+									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
@@ -36,13 +36,13 @@
 @implementation LinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-					attributes:(UniformLineAttributes *)attributes
+					attributes:(FMUniformLineAttributes *)attributes
 {
     self = [super init];
     if(self) {
 		FMDeviceResource *resource = engine.resource;
 		_engine = engine;
-		_attributes = (attributes) ? attributes : [[UniformLineAttributes alloc] initWithResource:resource];
+		_attributes = (attributes) ? attributes : [[FMUniformLineAttributes alloc] initWithResource:resource];
     }
     return self;
 }
@@ -89,7 +89,7 @@
 		
 		id<MTLBuffer> vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> indexBuffer = [self indexBuffer];
-		UniformLineAttributes *attributes = _attributes;
+		FMUniformLineAttributes *attributes = _attributes;
 		FMUniformSeriesInfo *info = series.info;
 
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
@@ -136,7 +136,7 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				orderedSeries:(OrderedSeries *)series
-					attributes:(UniformLineAttributes * _Nullable)attributes
+					attributes:(FMUniformLineAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
@@ -172,7 +172,7 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				 orderedSeries:(OrderedSeries *)series
-					attributes:(UniformLineAttributes * _Nullable)attributes
+					attributes:(FMUniformLineAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
@@ -239,11 +239,11 @@ static double gaussian(double mean, double variance) {
     self = [super init];
     if(self) {
         _engine = engine;
-        _configuration = [[UniformAxisConfiguration alloc] initWithResource:engine.resource];
+        _configuration = [[FMUniformAxisConfiguration alloc] initWithResource:engine.resource];
         _attributeBuffer = [engine.resource.device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _axisAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
-        _majorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
-        _minorTickAttributes = [[UniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
+        _axisAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
+        _majorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
+        _minorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
     }
     return self;
 }
@@ -276,7 +276,7 @@ static double gaussian(double mean, double variance) {
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
     
-	UniformAxisConfiguration *const conf = _configuration;
+	FMUniformAxisConfiguration *const conf = _configuration;
     id<MTLBuffer> attributesBuffer = _attributeBuffer;
     
     [encoder setVertexBuffer:conf.buffer offset:0 atIndex:0];
@@ -303,7 +303,7 @@ static double gaussian(double mean, double variance) {
 {
     self = [super init];
     if(self) {
-        _attributes = [[UniformGridAttributes alloc] initWithResource:engine.resource];
+        _attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
         _engine = engine;
         [_attributes setColorWithRed:0.5 green:0.5 blue:0.5 alpha:0.8];
         [_attributes setWidth:0.5];
@@ -336,7 +336,7 @@ static double gaussian(double mean, double variance) {
     [encoder setRenderPipelineState:renderState];
     [encoder setDepthStencilState:depthState];
     
-    UniformGridAttributes *const attr = self.attributes;
+    FMUniformGridAttributes *const attr = self.attributes;
     id<MTLBuffer> attributesBuffer = attr.buffer;
     
     [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:0];

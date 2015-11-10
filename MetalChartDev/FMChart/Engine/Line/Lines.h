@@ -12,11 +12,11 @@
 
 @class FMEngine;
 @class FMUniformProjectionCartesian2D;
-@class UniformLineAttributes;
-@class UniformAxisConfiguration;
-@class UniformAxisAttributes;
+@class FMUniformLineAttributes;
+@class FMUniformAxisConfiguration;
+@class FMUniformAxisAttributes;
 @class UniformPointAttributes;
-@class UniformGridAttributes;
+@class FMUniformGridAttributes;
 @class OrderedSeries;
 @class IndexedSeries;
 
@@ -24,7 +24,7 @@
 
 @interface LinePrimitive : NSObject<Primitive>
 
-@property (strong  , nonatomic) UniformLineAttributes * _Nonnull attributes;
+@property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (strong  , nonatomic) UniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
@@ -41,7 +41,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
-									  attributes:(UniformLineAttributes * _Nullable)attributes
+									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
 @end
@@ -57,7 +57,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								   orderedSeries:(OrderedSeries * _Nullable)series
-									  attributes:(UniformLineAttributes * _Nullable)attributes
+									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
 - (void)appendSampleData:(NSUInteger)count
@@ -72,10 +72,10 @@
 
 @interface Axis : NSObject
 
-@property (readonly, nonatomic) UniformAxisConfiguration * _Nonnull configuration;
-@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull axisAttributes;
-@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull majorTickAttributes;
-@property (readonly, nonatomic) UniformAxisAttributes * _Nonnull minorTickAttributes;
+@property (readonly, nonatomic) FMUniformAxisConfiguration * _Nonnull configuration;
+@property (readonly, nonatomic) FMUniformAxisAttributes * _Nonnull axisAttributes;
+@property (readonly, nonatomic) FMUniformAxisAttributes * _Nonnull majorTickAttributes;
+@property (readonly, nonatomic) FMUniformAxisAttributes * _Nonnull minorTickAttributes;
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
@@ -92,7 +92,7 @@
 
 @interface GridLine : NSObject
 
-@property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 

@@ -211,7 +211,7 @@
     FMDimensionalProjection *dimension = axis.dimension;
     const CGFloat min = dimension.min;
     const CGFloat max = dimension.max;
-    UniformAxisConfiguration *conf = axis.axis.configuration;
+    FMUniformAxisConfiguration *conf = axis.axis.configuration;
     const CGFloat anchor = conf.tickAnchorValue;
     const CGFloat interval = conf.majorTickInterval;
     const NSInteger newMin = ceil((min-anchor)/interval);
@@ -221,7 +221,7 @@
     UniformRegion *dataRegion = _quad.dataRegion;
     const CGFloat aVal = conf.axisAnchorValue;
     const CGFloat tVal = conf.tickAnchorValue;
-    [conf checkIfMajorTickValueModified:^BOOL(UniformAxisConfiguration *conf) {
+    [conf checkIfMajorTickValueModified:^BOOL(FMUniformAxisConfiguration *conf) {
         const CGFloat normHeight = 1 / (CGFloat)self.capacity;
         [texRegion setIterationVector:CGPointMake(0, normHeight)];
         [texRegion setSize:CGSizeMake(1, normHeight)];

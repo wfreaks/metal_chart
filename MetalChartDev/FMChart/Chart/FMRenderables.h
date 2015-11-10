@@ -13,11 +13,11 @@
 @class LinePrimitive;
 @class BarPrimitive;
 @class PointPrimitive;
-@class UniformLineAttributes;
+@class FMUniformLineAttributes;
 @class UniformBarAttributes;
 @class UniformPointAttributes;
 @class UniformPlotRectAttributes;
-@class UniformGridAttributes;
+@class FMUniformGridAttributes;
 @class FMPlotArea;
 
 @protocol Series;
@@ -33,7 +33,7 @@
 @interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) LinePrimitive * _Nonnull line;
-@property (readonly, nonatomic) UniformLineAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
@@ -114,7 +114,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMGridLine : NSObject<FMAttachment, FMPlotAreaClient>
 
-@property (readonly, nonatomic) UniformGridAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) GridLine * _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
 

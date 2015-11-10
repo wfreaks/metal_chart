@@ -10,13 +10,13 @@
 #import "Buffers.h"
 
 
-@interface UniformLineAttributes()
+@interface FMUniformLineAttributes()
 
 @property (strong, nonatomic) id<MTLBuffer> buffer;
 
 @end
 
-@implementation UniformLineAttributes
+@implementation FMUniformLineAttributes
 
 - (id)initWithResource:(FMDeviceResource *)resource
 {
@@ -98,7 +98,7 @@
 
 
 
-@implementation UniformAxisAttributes
+@implementation FMUniformAxisAttributes
 
 - (instancetype)initWithAttributes:(uniform_axis_attributes *)attr
 {
@@ -131,7 +131,7 @@
 
 @end
 
-@implementation UniformAxisConfiguration
+@implementation FMUniformAxisConfiguration
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
@@ -191,7 +191,7 @@
     self.configuration->max_major_ticks = count;
 }
 
-- (BOOL)checkIfMajorTickValueModified:(BOOL (^)(UniformAxisConfiguration *))ifModified
+- (BOOL)checkIfMajorTickValueModified:(BOOL (^)(FMUniformAxisConfiguration *))ifModified
 {
     const BOOL isModified = _majorTickValueModified;
     if(isModified) {
@@ -204,7 +204,7 @@
 
 
 
-@implementation UniformGridAttributes
+@implementation FMUniformGridAttributes
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
