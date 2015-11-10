@@ -30,6 +30,8 @@
 
 @interface FMConfigurator()
 
+@property (nonatomic, readonly) NSMutableArray *retained;
+
 @end
 
 @implementation FMConfigurator
@@ -46,6 +48,7 @@
 		_dimensions = array;
 		_updaters = array;
 		_space = array;
+		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		_engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
 		_view = view;
@@ -192,6 +195,7 @@
 			}
 			if(block) {
 				FMAxisLabelBlockDelegate *delegate = [[FMAxisLabelBlockDelegate alloc] initWithBlock:block];
+				[_retained addObject:delegate];
 				FMAxisLabel *label = [[FMAxisLabel alloc] initWithEngine:_engine
 															   frameSize:CGSizeMake(45, 30)
 														  bufferCapacity:12

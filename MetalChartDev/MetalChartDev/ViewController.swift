@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     
 	var chart : MetalChart = MetalChart()
+	var chartConf : FMConfigurator? = nil
 	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
 	let asChart = false
@@ -44,7 +45,7 @@ class ViewController: UIViewController {
 		let engine = FMEngine(resource: resource)
 		let fps = asChart ? 60 : 0;
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
-
+		chartConf = configurator
         
 		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
