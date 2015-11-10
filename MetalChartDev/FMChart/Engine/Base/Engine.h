@@ -9,18 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
 
-@class DeviceResource;
+@class FMDeviceResource;
 @class UniformProjectionCartesian2D;
 
 @interface FMEngine : NSObject
 
-@property (readonly, nonatomic) DeviceResource * _Nonnull resource;
+@property (readonly, nonatomic) FMDeviceResource * _Nonnull resource;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthAny;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthGreater;
 @property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthLess;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull) resource
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull) resource
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(UniformProjectionCartesian2D * _Nonnull)projection

@@ -12,7 +12,7 @@
 #import <Metal/MTLRenderPipeline.h>
 #import <Metal/MTLSampler.h>
 
-@interface DeviceResource : NSObject
+@interface FMDeviceResource : NSObject
 
 @property (readonly, nonatomic) id<MTLDevice> _Nonnull device;
 @property (readonly, nonatomic) id<MTLLibrary> _Nonnull library;

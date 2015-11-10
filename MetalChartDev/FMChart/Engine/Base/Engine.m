@@ -13,7 +13,7 @@
 
 @interface FMEngine()
 
-@property (strong, nonatomic) DeviceResource *resource;
+@property (strong, nonatomic) FMDeviceResource *resource;
 
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState_noDepth;
 @property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthAny;
@@ -24,11 +24,11 @@
 
 @implementation FMEngine
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
 	self = [super init];
 	if(self) {
-		self.resource = [DeviceResource defaultResource];
+		self.resource = [FMDeviceResource defaultResource];
         self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO depthFunc:MTLCompareFunctionAlways];
         self.depthState_depthAny = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionAlways];
         self.depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
@@ -76,7 +76,7 @@
 	return state;
 }
 
-+ (id<MTLDepthStencilState>)depthStencilStateWithResource:(DeviceResource *)resource
++ (id<MTLDepthStencilState>)depthStencilStateWithResource:(FMDeviceResource *)resource
                                                writeDepth:(BOOL)writeDepth
                                                 depthFunc:(MTLCompareFunction)func
 {

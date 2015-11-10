@@ -11,7 +11,7 @@
 #import "Line_common.h"
 
 @protocol MTLBuffer;
-@class DeviceResource;
+@class FMDeviceResource;
 
 @interface UniformLineAttributes : NSObject
 
@@ -24,7 +24,7 @@
 // 明示的に切り替え用のフラグを用意する.
 @property (assign, nonatomic) BOOL enableDash;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (void)setWidth:(CGFloat)width;
 
@@ -92,7 +92,7 @@
 // buffer updates.
 @property (readonly, nonatomic) BOOL majorTickValueModified;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 // if majorTickValueModified is YES, then ifModified will be invoked, and clear the flag when YES is returned from it.
 // return value of this method is identical to majorTickValueModified.
@@ -109,7 +109,7 @@
 @property (assign  , nonatomic) float interval;
 @property (assign  , nonatomic) uint8_t dimensionIndex;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;

@@ -10,7 +10,7 @@
 
 #import "Point_common.h"
 
-@class DeviceResource;
+@class FMDeviceResource;
 @protocol MTLBuffer;
 
 @interface UniformPointAttributes : NSObject
@@ -18,7 +18,7 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_point * _Nonnull point;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (void)setInnerColor:(float)r green:(float)g blue:(float)b alpha:(float)a;
 - (void)setInnerColor:(vector_float4 const * _Nonnull)color;

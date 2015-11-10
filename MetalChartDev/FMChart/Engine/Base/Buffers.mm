@@ -50,7 +50,7 @@
 
 @implementation VertexBuffer
 
-- (id)initWithResource:(DeviceResource *)resource capacity:(NSUInteger)capacity
+- (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
     self = [super init];
     if(self) {
@@ -82,7 +82,7 @@
 
 @implementation IndexBuffer
 
-- (id)initWithResource:(DeviceResource *)resource capacity:(NSUInteger)capacity
+- (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
     self = [super init];
     if(self) {
@@ -115,7 +115,7 @@
 
 @implementation UniformProjectionCartesian2D
 
-- (id)initWithResource:(DeviceResource *)resource
+- (id)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {
@@ -180,7 +180,7 @@
 
 @implementation UniformSeriesInfo
 
-- (id)initWithResource:(DeviceResource *)resource
+- (id)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {

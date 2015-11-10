@@ -32,7 +32,7 @@
 
 @property (assign, nonatomic) CGSize scale;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
 - (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
@@ -54,7 +54,7 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) NSUInteger capacity;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
 - (index_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
@@ -82,7 +82,7 @@
 @property (assign, nonatomic) CGSize physicalSize;
 @property (assign, nonatomic) RectPadding padding;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (uniform_projection_cart2d * _Nonnull)projection;
 
@@ -106,7 +106,7 @@
 @property (assign, nonatomic) NSUInteger count;
 @property (assign, nonatomic) NSUInteger offset;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (uniform_series_info * _Nonnull)info;
 

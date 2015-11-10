@@ -14,7 +14,7 @@
 
 @implementation OrderedSeries
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 				  vertexCapacity:(NSUInteger)vertCapacity
 {
 	self = [super init];
@@ -54,7 +54,7 @@
 @implementation IndexedSeries
 
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 				  vertexCapacity:(NSUInteger)vertCapacity
 				   indexCapacity:(NSUInteger)idxCapacity
 {

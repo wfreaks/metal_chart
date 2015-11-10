@@ -189,7 +189,7 @@
 {
     self = [super init];
     if(self) {
-        DeviceResource *res = rect.engine.resource;
+        FMDeviceResource *res = rect.engine.resource;
         _projection = [[UniformProjectionCartesian2D alloc] initWithResource:res];
         _rect = rect;
     }

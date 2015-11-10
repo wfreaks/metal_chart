@@ -12,7 +12,7 @@
 
 @protocol MTLTexture;
 
-@class DeviceResource;
+@class FMDeviceResource;
 @class FMEngine;
 @class TextureQuad;
 

@@ -26,7 +26,7 @@
     self = [super init];
     if(self) {
         _engine = engine;
-        DeviceResource *res = engine.resource;
+        FMDeviceResource *res = engine.resource;
         _attributes = (attributes) ? attributes : [[UniformPointAttributes alloc] initWithResource:res];
     }
     return self;

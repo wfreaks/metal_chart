@@ -8,7 +8,7 @@
 
 #import "DeviceResource.h"
 
-@implementation DeviceResource
+@implementation FMDeviceResource
 {
 	NSMutableDictionary *_renderStates;
 	NSMutableDictionary *_computeStates;
@@ -71,9 +71,9 @@
 
 + (instancetype _Nullable)defaultResource
 {
-	static DeviceResource* res = nil;
+	static FMDeviceResource* res = nil;
 	if( res == nil ) {
-		res = [[DeviceResource alloc] initWithDevice:nil];
+		res = [[FMDeviceResource alloc] initWithDevice:nil];
 	}
 	return res;
 }

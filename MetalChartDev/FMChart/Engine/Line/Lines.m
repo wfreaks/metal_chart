@@ -40,7 +40,7 @@
 {
     self = [super init];
     if(self) {
-		DeviceResource *resource = engine.resource;
+		FMDeviceResource *resource = engine.resource;
 		_engine = engine;
 		_attributes = (attributes) ? attributes : [[UniformLineAttributes alloc] initWithResource:resource];
     }

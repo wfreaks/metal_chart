@@ -14,7 +14,7 @@
 
 @dynamic rect;
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {
@@ -60,7 +60,7 @@
 
 @dynamic bar;
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {

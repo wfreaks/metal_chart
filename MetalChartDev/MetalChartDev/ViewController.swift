@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     
 	var chart : MetalChart = MetalChart()
-	let resource : DeviceResource = DeviceResource.defaultResource()!
+	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
     let animator : FMAnimator = FMAnimator();
 	let asChart = false
     var firstLineAttributes : UniformLineAttributes? = nil

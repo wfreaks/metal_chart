@@ -14,7 +14,7 @@
 
 @dynamic point;
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {

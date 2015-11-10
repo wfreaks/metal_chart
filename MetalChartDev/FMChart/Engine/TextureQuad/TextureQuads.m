@@ -20,7 +20,7 @@
 {
     self = [super init];
     if(self) {
-        DeviceResource *resource = engine.resource;
+        FMDeviceResource *resource = engine.resource;
         _engine = engine;
         _dataRegion = [[UniformRegion alloc] initWithResource:resource];
         _texRegion = [[UniformRegion alloc] initWithResource:resource];

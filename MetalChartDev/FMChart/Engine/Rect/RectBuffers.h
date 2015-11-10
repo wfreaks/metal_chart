@@ -11,14 +11,14 @@
 #import "Rect_common.h"
 
 @protocol MTLBuffer;
-@class DeviceResource;
+@class FMDeviceResource;
 
 @interface UniformPlotRectAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_plot_rect * _Nonnull rect;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setColor:(vector_float4 const *_Nonnull)color;
@@ -34,7 +34,7 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_bar * _Nonnull bar;
 
-- (instancetype _Nonnull)initWithResource:(DeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setColor:(vector_float4 const *_Nonnull)color;

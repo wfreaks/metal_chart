@@ -104,7 +104,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	if(self) {
 		_dimX = x;
 		_dimY = y;
-		_projection = [[UniformProjectionCartesian2D alloc] initWithResource:[DeviceResource defaultResource]];
+		_projection = [[UniformProjectionCartesian2D alloc] initWithResource:[FMDeviceResource defaultResource]];
 		_dimensions = @[x, y];
 	}
 	return self;
@@ -208,7 +208,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	if(pass) {
 		drawable = view.currentDrawable;
 		if(drawable) {
-			buffer = [[DeviceResource defaultResource].queue commandBuffer];
+			buffer = [[FMDeviceResource defaultResource].queue commandBuffer];
             
             [hook chart:self willStartEncodingToBuffer:buffer];
             

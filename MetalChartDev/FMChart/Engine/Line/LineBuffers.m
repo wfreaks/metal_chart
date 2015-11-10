@@ -18,7 +18,7 @@
 
 @implementation UniformLineAttributes
 
-- (id)initWithResource:(DeviceResource *)resource
+- (id)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {
@@ -133,7 +133,7 @@
 
 @implementation UniformAxisConfiguration
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {
@@ -206,7 +206,7 @@
 
 @implementation UniformGridAttributes
 
-- (instancetype)initWithResource:(DeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {

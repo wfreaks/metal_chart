@@ -46,7 +46,7 @@
 		_dimensions = array;
 		_updaters = array;
 		_space = array;
-		DeviceResource *res = [DeviceResource defaultResource];
+		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		_engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
 		_view = view;
 		_preferredFps = fps;

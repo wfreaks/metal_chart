@@ -20,7 +20,7 @@
     self = [super init];
     if(self) {
         _engine = engine;
-        DeviceResource *res = engine.resource;
+        FMDeviceResource *res = engine.resource;
         _attributes = [[UniformPlotRectAttributes alloc] initWithResource:res];
     }
     return self;
@@ -70,7 +70,7 @@
     self = [super init];
     if(self) {
         _engine = engine;
-        DeviceResource *res = engine.resource;
+        FMDeviceResource *res = engine.resource;
         _attributes = (attributes) ? attributes : [[UniformBarAttributes alloc] initWithResource:res];
     }
     return self;
