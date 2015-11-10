@@ -14,9 +14,9 @@
 #import "LineBuffers.h"
 #import "Points.h"
 
-@interface LinePrimitive()
+@interface FMLinePrimitive()
 
-@property (strong, nonatomic) DynamicPointPrimitive * _Nullable point;
+@property (strong, nonatomic) FMDynamicPointPrimitive * _Nullable point;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 									  attributes:(FMUniformLineAttributes * _Nullable)attributes
@@ -33,7 +33,7 @@
 
 
 
-@implementation LinePrimitive
+@implementation FMLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 					attributes:(FMUniformLineAttributes *)attributes
@@ -107,7 +107,7 @@
 			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 		}
 		
-		PointPrimitive *point = [self point];
+		FMPointPrimitive *point = [self point];
 		if(point) {
 			[point encodeWith:encoder projection:projection];
 		}
@@ -123,7 +123,7 @@
 	if(_pointAttributes != pointAttributes) {
 		_pointAttributes = pointAttributes;
 		if(pointAttributes) {
-			_point = [[DynamicPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
+			_point = [[FMDynamicPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
 		} else {
 			_point = nil;
 		}
@@ -132,7 +132,7 @@
 
 @end
 
-@implementation OrderedSeparatedLinePrimitive
+@implementation FMOrderedSeparatedLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				orderedSeries:(FMOrderedSeries *)series
@@ -152,14 +152,14 @@
 
 - (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
 
-- (PointPrimitive *)createPointPrimitiveWithAttributes:(FMUniformPointAttributes *)attributes
+- (FMPointPrimitive *)createPointPrimitiveWithAttributes:(FMUniformPointAttributes *)attributes
 {
-	return [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
+	return [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
 }
 
 @end
 
-@implementation PolyLinePrimitive
+@implementation FMPolyLinePrimitive
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count
 {
@@ -168,7 +168,7 @@
 
 @end
 
-@implementation OrderedPolyLinePrimitive
+@implementation FMOrderedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				 orderedSeries:(FMOrderedSeries *)series
@@ -226,13 +226,13 @@ static double gaussian(double mean, double variance) {
 
 @end
 
-@interface Axis()
+@interface FMAxisPrimitive()
 
 @property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
 
 @end
 
-@implementation Axis
+@implementation FMAxisPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {
@@ -297,7 +297,7 @@ static double gaussian(double mean, double variance) {
 @end
 
 
-@implementation GridLine
+@implementation FMGridLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {

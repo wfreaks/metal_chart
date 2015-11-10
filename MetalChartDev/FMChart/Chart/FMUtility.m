@@ -207,7 +207,7 @@
 
 - (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color
 {
-	PlotRect *rect = [[PlotRect alloc] initWithEngine:_engine];
+	FMPlotRectPrimitive *rect = [[FMPlotRectPrimitive alloc] initWithEngine:_engine];
 	FMPlotArea *area = [[FMPlotArea alloc] initWithPlotRect:rect];
 	CGFloat r, g, b, a;
 	if([color getRed:&r green:&g blue:&b alpha:&a]) {
@@ -257,7 +257,7 @@
 - (FMLineSeries *)addLineToSpace:(FMProjectionCartesian2D *)space
                           series:(FMOrderedSeries *)series
 {
-    LinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
+    FMLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
     FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
     [_chart addSeries:ls];
 	[_chart addProjection:space];
@@ -267,7 +267,7 @@
 - (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
                         series:(FMOrderedSeries *)series
 {
-    BarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
+    FMBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
     [_chart addSeries:bs];
 	[_chart addProjection:space];
@@ -276,7 +276,7 @@
 
 - (FMPointSeries *)addPointToSpace:(FMProjectionCartesian2D *)space series:(FMOrderedSeries *)series
 {
-    PointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
+    FMPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
     [_chart addSeries:ps];
 	[_chart addProjection:space];

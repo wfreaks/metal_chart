@@ -39,7 +39,7 @@
 	self = [super init];
 	if(self) {
 		_projection = projection;
-        _axis = [[Axis alloc] initWithEngine:engine];
+        _axis = [[FMAxisPrimitive alloc] initWithEngine:engine];
 		_conf = conf;
 		_dimension = [projection dimensionWithId:dimensionId];
 		

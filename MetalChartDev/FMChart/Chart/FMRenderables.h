@@ -10,9 +10,9 @@
 #import "MetalChart.h"
 
 @class FMEngine;
-@class LinePrimitive;
-@class BarPrimitive;
-@class PointPrimitive;
+@class FMLinePrimitive;
+@class FMBarPrimitive;
+@class FMPointPrimitive;
 @class FMUniformLineAttributes;
 @class FMUniformBarAttributes;
 @class FMUniformPointAttributes;
@@ -32,12 +32,12 @@
 
 @interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
-@property (readonly, nonatomic) LinePrimitive * _Nonnull line;
+@property (readonly, nonatomic) FMLinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithLine:(LinePrimitive * _Nonnull)line
+- (instancetype _Nonnull)initWithLine:(FMLinePrimitive * _Nonnull)line
 						   projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
@@ -53,12 +53,12 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMBarSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
-@property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
+@property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithBar:(BarPrimitive * _Nonnull)bar
+- (instancetype _Nonnull)initWithBar:(FMBarPrimitive * _Nonnull)bar
 						  projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
@@ -74,12 +74,12 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMPointSeries : NSObject<FMRenderable>
 
-@property (readonly, nonatomic) PointPrimitive * _Nonnull point;
+@property (readonly, nonatomic) FMPointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithPoint:(PointPrimitive * _Nonnull)point
+- (instancetype _Nonnull)initWithPoint:(FMPointPrimitive * _Nonnull)point
 							projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
@@ -93,15 +93,15 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@class PlotRect;
+@class FMPlotRectPrimitive;
 
 @interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
 @property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
-@property (readonly, nonatomic) PlotRect * _Nonnull rect;
+@property (readonly, nonatomic) FMPlotRectPrimitive * _Nonnull rect;
 @property (readonly, nonatomic) FMUniformPlotRectAttributes * _Nonnull attributes;
 
-- (instancetype _Nonnull)initWithPlotRect:(PlotRect * _Nonnull)rect
+- (instancetype _Nonnull)initWithPlotRect:(FMPlotRectPrimitive * _Nonnull)rect
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -110,15 +110,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@class GridLine;
+@class FMGridLinePrimitive;
 
 @interface FMGridLine : NSObject<FMAttachment, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
-@property (readonly, nonatomic) GridLine * _Nonnull gridLine;
+@property (readonly, nonatomic) FMGridLinePrimitive * _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
 
-- (_Nonnull instancetype)initWithGridLine:(GridLine * _Nonnull)gridLine
+- (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine
                                Projection:(FMProjectionCartesian2D * _Nonnull)projection
                                 dimension:(NSInteger)dimensionId
 NS_DESIGNATED_INITIALIZER;

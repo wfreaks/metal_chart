@@ -87,8 +87,8 @@ class ViewController: UIViewController {
             let yUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(2)!
 			
 			chart.willDraw = { (FM : MetalChart) -> Void in
-                let line : OrderedPolyLinePrimitive = lineSeries.line as! OrderedPolyLinePrimitive
-                let overlayLine : OrderedPolyLinePrimitive = overlayLineSeries.line as! OrderedPolyLinePrimitive
+                let line : FMOrderedPolyLinePrimitive = lineSeries.line as! FMOrderedPolyLinePrimitive
+                let overlayLine : FMOrderedPolyLinePrimitive = overlayLineSeries.line as! FMOrderedPolyLinePrimitive
                 line.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
 					xUpdater.addSourceValue(CGFloat(x), update: false)
 				}

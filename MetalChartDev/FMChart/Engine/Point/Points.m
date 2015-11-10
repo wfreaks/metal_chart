@@ -13,13 +13,13 @@
 #import "PointBuffers.h"
 #import "Series.h"
 
-@interface PointPrimitive()
+@interface FMPointPrimitive()
 
 - (id<MTLBuffer>)indexBuffer;
 
 @end
 
-@implementation PointPrimitive
+@implementation FMPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
@@ -84,7 +84,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 
 
-@implementation OrderedPointPrimitive
+@implementation FMOrderedPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMOrderedSeries *)series
@@ -103,7 +103,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 
 
-@implementation IndexedPointPrimitive
+@implementation FMIndexedPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMIndexedSeries *)series
@@ -124,7 +124,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 
 
-@implementation DynamicPointPrimitive
+@implementation FMDynamicPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(id<Series> _Nullable)series

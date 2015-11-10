@@ -11,7 +11,7 @@
 
 @class FMEngine;
 @class FMUniformLineAttributes;
-@class Axis;
+@class FMAxisPrimitive;
 @class FMUniformAxisConfiguration;
 @class FMAxis;
 
@@ -43,10 +43,10 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 
 @interface FMAxis : NSObject<FMAttachment>
 
-@property (readonly, nonatomic) FMProjectionCartesian2D *		_Nonnull  projection;
+@property (readonly, nonatomic) FMProjectionCartesian2D *	_Nonnull  projection;
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
 
-@property (readonly, nonatomic) Axis *						_Nonnull  axis;
+@property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
 @property (strong  , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 

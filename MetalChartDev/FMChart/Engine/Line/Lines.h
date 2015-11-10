@@ -22,7 +22,7 @@
 
 @protocol Series;
 
-@interface LinePrimitive : NSObject<FMPrimitive>
+@interface FMLinePrimitive : NSObject<FMPrimitive>
 
 @property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
@@ -35,7 +35,7 @@
 
 
 // 使い所がなくてメンテが滞っている、正常動作しない可能性が高い.
-@interface OrderedSeparatedLinePrimitive : LinePrimitive
+@interface FMOrderedSeparatedLinePrimitive : FMLinePrimitive
 
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
@@ -47,11 +47,11 @@
 @end
 
 
-@interface PolyLinePrimitive : LinePrimitive
+@interface FMPolyLinePrimitive : FMLinePrimitive
 
 @end
 
-@interface OrderedPolyLinePrimitive : PolyLinePrimitive
+@interface FMOrderedPolyLinePrimitive : FMPolyLinePrimitive
 
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
@@ -70,7 +70,7 @@
 @end
 
 
-@interface Axis : NSObject
+@interface FMAxisPrimitive : NSObject
 
 @property (readonly, nonatomic) FMUniformAxisConfiguration * _Nonnull configuration;
 @property (readonly, nonatomic) FMUniformAxisAttributes * _Nonnull axisAttributes;
@@ -90,7 +90,7 @@
 @end
 
 
-@interface GridLine : NSObject
+@interface FMGridLinePrimitive : NSObject
 
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 

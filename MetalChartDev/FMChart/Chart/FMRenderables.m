@@ -23,7 +23,7 @@
 
 @implementation FMLineSeries
 
-- (instancetype)initWithLine:(LinePrimitive *)line
+- (instancetype)initWithLine:(FMLinePrimitive *)line
 				  projection:(FMProjectionCartesian2D *)projection
 {
 	self = [super init];
@@ -70,7 +70,7 @@
 {
 	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
-	OrderedPolyLinePrimitive *line = [[OrderedPolyLinePrimitive alloc] initWithEngine:engine
+	FMOrderedPolyLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:engine
 																		orderedSeries:series
 																		   attributes:nil];
 	return [[self alloc] initWithLine:line projection:projection];
@@ -80,7 +80,7 @@
 
 @implementation FMBarSeries
 
-- (instancetype)initWithBar:(BarPrimitive *)bar
+- (instancetype)initWithBar:(FMBarPrimitive *)bar
 				 projection:(FMProjectionCartesian2D *)projection
 {
     self = [super init];
@@ -127,7 +127,7 @@
 {
 	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
-	OrderedBarPrimitive *bar = [[OrderedBarPrimitive alloc] initWithEngine:engine
+	FMOrderedBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:engine
 																	 series:series
 																 attributes:nil];
 	
@@ -142,7 +142,7 @@
 
 @implementation FMPointSeries
 
-- (instancetype)initWithPoint:(PointPrimitive *)point
+- (instancetype)initWithPoint:(FMPointPrimitive *)point
 				   projection:(FMProjectionCartesian2D *)projection
 {
     self = [super init];
@@ -171,7 +171,7 @@
 {
 	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
 													 vertexCapacity:capacity];
-	OrderedPointPrimitive *point = [[OrderedPointPrimitive alloc] initWithEngine:engine
+	FMOrderedPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:engine
 																		  series:series
 																	  attributes:nil];
 	
@@ -185,7 +185,7 @@
 
 @implementation FMPlotArea
 
-- (instancetype)initWithPlotRect:(PlotRect *)rect
+- (instancetype)initWithPlotRect:(FMPlotRectPrimitive *)rect
 {
     self = [super init];
     if(self) {
@@ -225,7 +225,7 @@
 
 + (instancetype)rectWithEngine:(FMEngine *)engine
 {
-	PlotRect *rect = [[PlotRect alloc] initWithEngine:engine];
+	FMPlotRectPrimitive *rect = [[FMPlotRectPrimitive alloc] initWithEngine:engine];
 	return [[self alloc] initWithPlotRect:rect];
 }
 
@@ -239,7 +239,7 @@
 
 @implementation FMGridLine
 
-- (instancetype)initWithGridLine:(GridLine *)gridLine
+- (instancetype)initWithGridLine:(FMGridLinePrimitive *)gridLine
                       Projection:(FMProjectionCartesian2D *)projection
                        dimension:(NSInteger)dimensionId
 {
@@ -293,7 +293,7 @@
                         projection:(FMProjectionCartesian2D *)projection
                          dimension:(NSInteger)dimensionId
 {
-    GridLine *line = [[GridLine alloc] initWithEngine:engine];
+    FMGridLinePrimitive *line = [[FMGridLinePrimitive alloc] initWithEngine:engine];
     return [[self alloc] initWithGridLine:line Projection:projection dimension:dimensionId];
 }
 

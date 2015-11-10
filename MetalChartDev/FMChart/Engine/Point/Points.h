@@ -19,7 +19,7 @@
 @protocol MTLRenderCommandEncoder;
 @protocol Series;
 
-@interface PointPrimitive : NSObject<FMPrimitive>
+@interface FMPointPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
@@ -28,7 +28,7 @@
 
 @end
 
-@interface OrderedPointPrimitive : PointPrimitive
+@interface FMOrderedPointPrimitive : FMPointPrimitive
 
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
@@ -38,7 +38,7 @@
 ;
 @end
 
-@interface IndexedPointPrimitive : PointPrimitive
+@interface FMIndexedPointPrimitive : FMPointPrimitive
 
 @property (strong, nonatomic) FMIndexedSeries * _Nullable series;
 
@@ -49,7 +49,7 @@
 @end
 
 
-@interface DynamicPointPrimitive : PointPrimitive
+@interface FMDynamicPointPrimitive : FMPointPrimitive
 
 @property (strong, nonatomic) id<Series> _Nullable series;
 

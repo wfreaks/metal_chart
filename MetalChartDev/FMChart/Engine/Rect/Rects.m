@@ -13,7 +13,7 @@
 #import "RectBuffers.h"
 #import "Series.h"
 
-@implementation PlotRect
+@implementation FMPlotRectPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {
@@ -48,7 +48,7 @@
 
 @end
 
-@interface BarPrimitive()
+@interface FMBarPrimitive()
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 									  attributes:(FMUniformBarAttributes * _Nullable)attributes
@@ -62,7 +62,7 @@
 
 @end
 
-@implementation BarPrimitive
+@implementation FMBarPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 					attributes:(FMUniformBarAttributes * _Nullable)attributes
@@ -127,7 +127,7 @@
 @end
 
 
-@implementation OrderedBarPrimitive
+@implementation FMOrderedBarPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMOrderedSeries *)series

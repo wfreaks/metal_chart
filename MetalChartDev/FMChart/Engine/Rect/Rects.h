@@ -18,7 +18,7 @@
 @protocol MTLRenderCommandEncoder;
 @protocol Series;
 
-@interface PlotRect : NSObject
+@interface FMPlotRectPrimitive : NSObject
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPlotRectAttributes * _Nonnull attributes;
@@ -32,7 +32,7 @@
 @end
 
 
-@interface BarPrimitive : NSObject<FMPrimitive>
+@interface FMBarPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
@@ -41,7 +41,7 @@
 
 @end
 
-@interface OrderedBarPrimitive : BarPrimitive
+@interface FMOrderedBarPrimitive : FMBarPrimitive
 
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
