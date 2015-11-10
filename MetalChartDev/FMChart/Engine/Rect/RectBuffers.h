@@ -13,7 +13,7 @@
 @protocol MTLBuffer;
 @class FMDeviceResource;
 
-@interface UniformPlotRectAttributes : NSObject
+@interface FMUniformPlotRectAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_plot_rect * _Nonnull rect;
@@ -29,7 +29,7 @@
 @end
 
 
-@interface UniformBarAttributes : NSObject
+@interface FMUniformBarAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_bar * _Nonnull bar;

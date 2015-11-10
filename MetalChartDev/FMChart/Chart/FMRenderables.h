@@ -14,9 +14,9 @@
 @class BarPrimitive;
 @class PointPrimitive;
 @class FMUniformLineAttributes;
-@class UniformBarAttributes;
-@class UniformPointAttributes;
-@class UniformPlotRectAttributes;
+@class FMUniformBarAttributes;
+@class FMUniformPointAttributes;
+@class FMUniformPlotRectAttributes;
 @class FMUniformGridAttributes;
 @class FMPlotArea;
 
@@ -54,7 +54,7 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMBarSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) BarPrimitive * _Nonnull bar;
-@property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
@@ -75,7 +75,7 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMPointSeries : NSObject<FMRenderable>
 
 @property (readonly, nonatomic) PointPrimitive * _Nonnull point;
-@property (readonly, nonatomic) UniformPointAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<Series> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
@@ -99,7 +99,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
 @property (readonly, nonatomic) PlotRect * _Nonnull rect;
-@property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformPlotRectAttributes * _Nonnull attributes;
 
 - (instancetype _Nonnull)initWithPlotRect:(PlotRect * _Nonnull)rect
 NS_DESIGNATED_INITIALIZER;

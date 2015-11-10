@@ -217,8 +217,8 @@
     const NSInteger newMin = ceil((min-anchor)/interval);
     const NSInteger newMax = floor((max-anchor)/interval);
     
-    UniformRegion *texRegion = _quad.texRegion;
-    UniformRegion *dataRegion = _quad.dataRegion;
+    FMUniformRegion *texRegion = _quad.texRegion;
+    FMUniformRegion *dataRegion = _quad.dataRegion;
     const CGFloat aVal = conf.axisAnchorValue;
     const CGFloat tVal = conf.tickAnchorValue;
     [conf checkIfMajorTickValueModified:^BOOL(FMUniformAxisConfiguration *conf) {

@@ -118,7 +118,7 @@
 
 - (id<Series>)series { return nil; }
 
-- (void)setPointAttributes:(UniformPointAttributes *)pointAttributes
+- (void)setPointAttributes:(FMUniformPointAttributes *)pointAttributes
 {
 	if(_pointAttributes != pointAttributes) {
 		_pointAttributes = pointAttributes;
@@ -152,7 +152,7 @@
 
 - (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
 
-- (PointPrimitive *)createPointPrimitiveWithAttributes:(UniformPointAttributes *)attributes
+- (PointPrimitive *)createPointPrimitiveWithAttributes:(FMUniformPointAttributes *)attributes
 {
 	return [[OrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
 }

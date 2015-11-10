@@ -21,13 +21,13 @@
 
 @implementation PointPrimitive
 
-- (instancetype)initWithEngine:(FMEngine *)engine attributes:(UniformPointAttributes * _Nullable)attributes
+- (instancetype)initWithEngine:(FMEngine *)engine attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
     self = [super init];
     if(self) {
         _engine = engine;
         FMDeviceResource *res = engine.resource;
-        _attributes = (attributes) ? attributes : [[UniformPointAttributes alloc] initWithResource:res];
+        _attributes = (attributes) ? attributes : [[FMUniformPointAttributes alloc] initWithResource:res];
     }
     return self;
 }
@@ -88,7 +88,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(OrderedSeries *)series
-					attributes:(UniformPointAttributes * _Nullable)attributes
+					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
     self = [super initWithEngine:engine attributes:attributes];
     if(self) {
@@ -107,7 +107,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(IndexedSeries *)series
-					attributes:(UniformPointAttributes * _Nullable)attributes
+					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {
@@ -128,7 +128,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(id<Series> _Nullable)series
-					attributes:(UniformPointAttributes * _Nullable)attributes
+					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
 	if(self) {

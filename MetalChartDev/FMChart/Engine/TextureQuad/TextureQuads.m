@@ -22,8 +22,8 @@
     if(self) {
         FMDeviceResource *resource = engine.resource;
         _engine = engine;
-        _dataRegion = [[UniformRegion alloc] initWithResource:resource];
-        _texRegion = [[UniformRegion alloc] initWithResource:resource];
+        _dataRegion = [[FMUniformRegion alloc] initWithResource:resource];
+        _texRegion = [[FMUniformRegion alloc] initWithResource:resource];
         _texture = texture;
     }
     return self;

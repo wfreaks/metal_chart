@@ -15,7 +15,7 @@
 @class FMUniformLineAttributes;
 @class FMUniformAxisConfiguration;
 @class FMUniformAxisAttributes;
-@class UniformPointAttributes;
+@class FMUniformPointAttributes;
 @class FMUniformGridAttributes;
 @class OrderedSeries;
 @class IndexedSeries;
@@ -25,7 +25,7 @@
 @interface LinePrimitive : NSObject<Primitive>
 
 @property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
-@property (strong  , nonatomic) UniformPointAttributes * _Nullable pointAttributes;
+@property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
 - (id<Series> _Nullable)series;

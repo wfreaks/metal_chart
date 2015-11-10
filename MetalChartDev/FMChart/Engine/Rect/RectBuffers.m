@@ -10,7 +10,7 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 
-@implementation UniformPlotRectAttributes
+@implementation FMUniformPlotRectAttributes
 
 @dynamic rect;
 
@@ -56,7 +56,7 @@
 @end
 
 
-@implementation UniformBarAttributes
+@implementation FMUniformBarAttributes
 
 @dynamic bar;
 

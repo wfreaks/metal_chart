@@ -11,7 +11,7 @@
 
 @class FMEngine;
 @class FMUniformProjectionCartesian2D;
-@class UniformRegion;
+@class FMUniformRegion;
 
 @protocol MTLRenderCommandEncoder;
 @protocol MTLTexture;
@@ -19,8 +19,8 @@
 @interface TextureQuad : NSObject
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
-@property (readonly, nonatomic) UniformRegion * _Nonnull dataRegion;
-@property (readonly, nonatomic) UniformRegion * _Nonnull texRegion;
+@property (readonly, nonatomic) FMUniformRegion * _Nonnull dataRegion;
+@property (readonly, nonatomic) FMUniformRegion * _Nonnull texRegion;
 @property (strong  , nonatomic) id<MTLTexture> _Nullable texture;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine

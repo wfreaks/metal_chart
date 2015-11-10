@@ -11,8 +11,8 @@
 
 @class FMEngine;
 @class FMUniformProjectionCartesian2D;
-@class UniformPlotRectAttributes;
-@class UniformBarAttributes;
+@class FMUniformPlotRectAttributes;
+@class FMUniformBarAttributes;
 @class OrderedSeries;
 
 @protocol MTLRenderCommandEncoder;
@@ -21,7 +21,7 @@
 @interface PlotRect : NSObject
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
-@property (readonly, nonatomic) UniformPlotRectAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformPlotRectAttributes * _Nonnull attributes;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine;
 
@@ -35,7 +35,7 @@
 @interface BarPrimitive : NSObject<Primitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
-@property (readonly, nonatomic) UniformBarAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 
 - (id<Series> _Nullable)series;
 
@@ -47,7 +47,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(OrderedSeries * _Nullable)series
-							 attributes:(UniformBarAttributes * _Nullable)attributes
+							 attributes:(FMUniformBarAttributes * _Nullable)attributes
 ;
 
 @end

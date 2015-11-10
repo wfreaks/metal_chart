@@ -10,7 +10,7 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 
-@implementation UniformPointAttributes
+@implementation FMUniformPointAttributes
 
 @dynamic point;
 
