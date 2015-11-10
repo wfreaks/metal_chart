@@ -16,7 +16,7 @@
 @class FMOrderedSeries;
 
 @protocol MTLRenderCommandEncoder;
-@protocol Series;
+@protocol FMSeries;
 
 @interface FMPlotRectPrimitive : NSObject
 
@@ -37,7 +37,7 @@
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 
-- (id<Series> _Nullable)series;
+- (id<FMSeries> _Nullable)series;
 
 @end
 

@@ -36,7 +36,7 @@
 
 - (FMUniformLineAttributes *)attributes { return _line.attributes; }
 
-- (id<Series>)series { return [_line series]; }
+- (id<FMSeries>)series { return [_line series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
@@ -110,7 +110,7 @@
 
 - (FMUniformBarAttributes *)attributes { return _bar.attributes; }
 
-- (id<Series>)series { return [_bar series]; }
+- (id<FMSeries>)series { return [_bar series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
@@ -154,7 +154,7 @@
 }
 
 - (FMUniformPointAttributes *)attributes { return _point.attributes; }
-- (id<Series>)series { return [_point series]; }
+- (id<FMSeries>)series { return [_point series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart

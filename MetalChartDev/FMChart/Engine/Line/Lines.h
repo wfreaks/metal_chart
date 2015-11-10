@@ -20,7 +20,7 @@
 @class FMOrderedSeries;
 @class FMIndexedSeries;
 
-@protocol Series;
+@protocol FMSeries;
 
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
@@ -28,7 +28,7 @@
 @property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
-- (id<Series> _Nullable)series;
+- (id<FMSeries> _Nullable)series;
 
 @end
 

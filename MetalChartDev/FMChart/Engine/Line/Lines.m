@@ -79,7 +79,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(FMUniformProjectionCartesian2D *)projection
 {
-	id<Series> const series = [self series];
+	id<FMSeries> const series = [self series];
 	if(series) {
 		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
 		id<MTLDepthStencilState> depthState = [self depthState];
@@ -116,7 +116,7 @@
 	}
 }
 
-- (id<Series>)series { return nil; }
+- (id<FMSeries>)series { return nil; }
 
 - (void)setPointAttributes:(FMUniformPointAttributes *)pointAttributes
 {

@@ -17,14 +17,14 @@
 @class FMIndexedSeries;
 
 @protocol MTLRenderCommandEncoder;
-@protocol Series;
+@protocol FMSeries;
 
 @interface FMPointPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
 
-- (id<Series> _Nullable)series;
+- (id<FMSeries> _Nullable)series;
 
 @end
 
@@ -51,10 +51,10 @@
 
 @interface FMDynamicPointPrimitive : FMPointPrimitive
 
-@property (strong, nonatomic) id<Series> _Nullable series;
+@property (strong, nonatomic) id<FMSeries> _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-										  series:(id<Series> _Nullable)series
+										  series:(id<FMSeries> _Nullable)series
 									  attributes:(FMUniformPointAttributes * _Nullable)attributes
 ;
 @end

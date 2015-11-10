@@ -35,7 +35,7 @@
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 projection:(FMUniformProjectionCartesian2D *)projection
 {
-	id<Series> const series = self.series;
+	id<FMSeries> const series = self.series;
 	if(series) {
 		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
 		id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
@@ -78,7 +78,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (id<MTLBuffer>)indexBuffer { return nil; }
 
-- (id<Series>)series { return nil; }
+- (id<FMSeries>)series { return nil; }
 
 @end
 
@@ -127,7 +127,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 @implementation FMDynamicPointPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-						series:(id<Series> _Nullable)series
+						series:(id<FMSeries> _Nullable)series
 					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
 	self = [super initWithEngine:engine attributes:attributes];
@@ -143,7 +143,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (id<MTLBuffer>)indexBuffer
 {
-	id<Series> series = _series;
+	id<FMSeries> series = _series;
 	if([series isKindOfClass:[FMIndexedSeries class]]) {
 		return ((FMIndexedSeries *)series).indices.buffer;
 	}

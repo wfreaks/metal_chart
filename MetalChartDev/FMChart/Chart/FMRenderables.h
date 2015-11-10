@@ -20,7 +20,7 @@
 @class FMUniformGridAttributes;
 @class FMPlotArea;
 
-@protocol Series;
+@protocol FMSeries;
 
 @protocol FMPlotAreaClient<FMDepthClient>
 
@@ -34,7 +34,7 @@
 
 @property (readonly, nonatomic) FMLinePrimitive * _Nonnull line;
 @property (readonly, nonatomic) FMUniformLineAttributes * _Nonnull attributes;
-@property (readonly, nonatomic) id<Series> _Nullable series;
+@property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithLine:(FMLinePrimitive * _Nonnull)line
@@ -55,7 +55,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
-@property (readonly, nonatomic) id<Series> _Nullable series;
+@property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithBar:(FMBarPrimitive * _Nonnull)bar
@@ -76,7 +76,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMPointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
-@property (readonly, nonatomic) id<Series> _Nullable series;
+@property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
 - (instancetype _Nonnull)initWithPoint:(FMPointPrimitive * _Nonnull)point

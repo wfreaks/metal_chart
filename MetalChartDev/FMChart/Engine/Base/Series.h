@@ -12,7 +12,7 @@
 #ifndef __Series_h__
 #define __Series_h__
 
-@protocol Series<NSObject>
+@protocol FMSeries<NSObject>
 
 - (id<MTLBuffer> _Nonnull)vertexBuffer;
 - (FMUniformSeriesInfo * _Nonnull)info;
@@ -22,7 +22,7 @@
 
 @end
 
-@interface FMOrderedSeries : NSObject<Series>
+@interface FMOrderedSeries : NSObject<FMSeries>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
@@ -33,7 +33,7 @@
 
 @end
 
-@interface FMIndexedSeries : NSObject<Series>
+@interface FMIndexedSeries : NSObject<FMSeries>
 
 @property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
 @property (readonly, nonatomic) IndexBuffer * _Nonnull indices;

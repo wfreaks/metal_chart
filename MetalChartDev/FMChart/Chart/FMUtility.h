@@ -30,7 +30,7 @@
 @class FMPointSeries;
 @class FMOrderedSeries;
 
-@protocol Series;
+@protocol FMSeries;
 @protocol FMInteraction;
 @protocol FMAxisConfigurator;
 @protocol FMInterpreterStateRestriction;
