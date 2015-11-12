@@ -12,7 +12,7 @@
 #include "../Base/Shader_common.h"
 
 struct uniform_line_attr {
-    float4 color;
+	float4 color;
     float2 length_mod;
     float width;
     float depth;

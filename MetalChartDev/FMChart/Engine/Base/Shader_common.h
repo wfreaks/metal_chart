@@ -10,11 +10,12 @@
 #define Shader_common_h
 
 #include <metal_stdlib>
+#include <simd/simd.h>
 
 using namespace metal;
 
 struct out_fragment {
-    float4 color [[ color(0) ]];
+	float4 color [[ color(0) ]];
 };
 
 struct out_fragment_depthGreater {
@@ -50,6 +51,17 @@ struct uniform_projection_cart2d {
     float  screen_scale;
 };
 
+struct uniform_projection_polar {
+	float2 origin_ndc;
+	float2 origin_offset;
+	float  radian_offset;
+	float  radius_scale;
+	
+	float2 physical_size;
+	float4 rect_padding;
+	float screen_scale;
+};
+
 struct uniform_series_info {
     uint vertex_capacity;
     uint index_capacity;
@@ -57,7 +69,7 @@ struct uniform_series_info {
 };
 
 
-inline float2 data_to_ndc(float2 value, constant uniform_projection_cart2d& proj)
+inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d& proj)
 {
 	const float2 ps = proj.physical_size;
 	const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
@@ -66,7 +78,19 @@ inline float2 data_to_ndc(float2 value, constant uniform_projection_cart2d& proj
 	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
-inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, constant uniform_projection_cart2d& proj) {
+// valueは[r,theta]の順を仮定している
+inline float2 polar_to_ndc(const float2 value, float2, constant uniform_projection_polar& proj)
+{
+	const float2 _ps = 2 / proj.physical_size;
+	const float4 pd = proj.rect_padding;
+	const float2 diff_pad = 0.5 * float2(pd.x - pd.z, pd.y - pd.w);
+	const float2 fixed_rs = proj.radius_scale * _ps;
+	const float2 diff = fixed_rs * value.x * float2(cos(value.y), sin(value.y));
+	return proj.origin_ndc + ((proj.origin_offset + diff + diff_pad) * _ps);
+}
+
+template <typename ProjectionType>
+inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, constant ProjectionType& proj) {
     const float2 psize = proj.physical_size;
     const float y_coef = (2 * bottom_to_top) - 1;
     const float fixed_y_view = ((!bottom_to_top) * proj.physical_size.y) + (y_coef * pos_view.y);
@@ -74,7 +98,8 @@ inline float2 view_to_ndc(const float2 pos_view, const bool bottom_to_top, const
     return (fixed_pos_view - (0.5 * psize)) / psize;
 }
 
-inline float2 view_diff_to_data_diff(float2 diff_view, const bool bottom_to_top, constant uniform_projection_cart2d& proj)
+template <typename ProjectionType>
+inline float2 view_diff_to_data_diff(float2 diff_view, const bool bottom_to_top, constant ProjectionType& proj)
 {
     const float2 ps = proj.physical_size;
     const float4 pd = proj.rect_padding; // {l, t, r, b} = {x, y, z, w}
