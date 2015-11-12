@@ -111,12 +111,14 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 @class FMGridLinePrimitive;
+@class FMAxis;
 
 @interface FMGridLine : NSObject<FMAttachment, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
-@property (readonly, nonatomic) FMGridLinePrimitive * _Nonnull gridLine;
+@property (readonly, nonatomic) FMGridLinePrimitive		* _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
+@property (nonatomic)			FMAxis					* _Nullable axis;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine
                                Projection:(FMProjectionCartesian2D * _Nonnull)projection

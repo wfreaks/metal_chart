@@ -121,6 +121,46 @@
 @end
 
 
+@implementation FMIntervalRestriction
+
+- (instancetype)initWithAnchor:(CGFloat)anchor
+					  interval:(CGFloat)interval
+					 shrinkMin:(BOOL)shrinkMin
+					 shrinkMax:(BOOL)shrinkMax
+{
+	self = [super init];
+	if(self) {
+		_anchor = anchor;
+		_interval = interval;
+		_shrinkMin = shrinkMin;
+		_shrinkMax = shrinkMax;
+	}
+	return self;
+}
+
+- (void)updater:(FMProjectionUpdater *)updater
+	   minValue:(CGFloat *)min
+	   maxValue:(CGFloat *)max
+{
+	const CGFloat anchor = _anchor;
+	const CGFloat interval = _interval;
+	
+	const CGFloat vMin = *min;
+	const CGFloat rMin = fmod((vMin - anchor), interval);
+	if(rMin != 0) {
+		*min = (vMin - rMin) + ((_shrinkMin) ? interval : 0);
+	}
+	
+	const CGFloat vMax = *max;
+	const CGFloat rMax = fmod((vMax - anchor), interval);
+	if(rMax != 0) {
+		*max = (vMax - rMax) + ((_shrinkMax) ? 0 : interval);
+	}
+}
+
+@end
+
+
 @interface FMBlockRestriction()
 
 @property (copy, nonatomic) RestrictionBlock _Nonnull block;

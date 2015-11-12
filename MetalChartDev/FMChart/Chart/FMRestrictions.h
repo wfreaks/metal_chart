@@ -90,6 +90,31 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+/*
+ * 両端を(anchor + (n*interval))に調整するためのクラス.
+ * アンカー、倍数、min/maxそれぞれをどちらへ調整するかのパラメータのみ.
+ * shrinkはYESならば範囲が狭くなる方向へ調整して揃える.
+ * このクラスは直接ソースの値を参照しない、そういう事は他のRestrictionと繋げて行う
+ */
+
+@interface FMIntervalRestriction : NSObject<FMRestriction>
+
+@property (readonly, nonatomic) CGFloat anchor;
+@property (readonly, nonatomic) CGFloat interval;
+@property (readonly, nonatomic) BOOL    shrinkMin;
+@property (readonly, nonatomic) BOOL    shrinkMax;
+
+- (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
+							   interval:(CGFloat)interval
+							  shrinkMin:(BOOL)shrinkMin
+							  shrinkMax:(BOOL)shrinkMax
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+@end
+
+
 
 typedef void (^RestrictionBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
 
