@@ -180,7 +180,6 @@
 		AA32A98C1BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
 		AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
 		AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChartSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA32A9D71BE3B5FA00ABDC1E /* FMChart copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FMChart copy-Info.plist"; path = "/Users/kei/workspace/metal_chart/MetalChartDev/FMChart copy-Info.plist"; sourceTree = "<absolute>"; };
 		AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMChartSupport.h; sourceTree = "<group>"; };
 		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
 		AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utility.h"; sourceTree = "<group>"; };
@@ -320,7 +319,6 @@
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
 				AAB584DC1B6F0D8C00480AAE /* Products */,
 				AADC1AC41B8F20D8002F455D /* Frameworks */,
-				AA32A9D71BE3B5FA00ABDC1E /* FMChart copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};

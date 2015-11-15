@@ -28,7 +28,7 @@
 
 @interface FMSimpleBlockInteraction()
 
-@property (copy, nonatomic) SimpleInterfactionBlock _Nonnull block;
+@property (copy, nonatomic) SimpleInteractionBlock _Nonnull block;
 
 @end
 
@@ -230,9 +230,38 @@
 
 @end
 
+
+@implementation FMInterpreterDetailedRestriction
+
+- (instancetype)initWithXRestriction:(id<FMInterpreterDimensionalRestroction>)x
+						yRestriction:(id<FMInterpreterDimensionalRestroction>)y
+{
+	self = [super init];
+	if(self) {
+		_x = x;
+		_y = y;
+	}
+	return self;
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
+{
+	[_x interpreter:interpreter willScaleChange:&(size->width)];
+	[_y interpreter:interpreter willScaleChange:&(size->height)];
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
+{
+	[_x interpreter:interpreter willTranslationChange:&(translation->x)];
+	[_y interpreter:interpreter willTranslationChange:&(translation->y)];
+}
+
+@end
+
+
 @implementation FMSimpleBlockInteraction
 
-- (instancetype)initWithBlock:(SimpleInterfactionBlock)block
+- (instancetype)initWithBlock:(SimpleInteractionBlock)block
 {
 	self = [super init];
 	if(self) {

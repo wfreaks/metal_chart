@@ -238,12 +238,19 @@
     [dataRegion setIterationOffset:newMin];
     [dataRegion setBasePosition:(conf.dimensionIndex == 0) ? CGPointMake(tVal, aVal) : CGPointMake(aVal, tVal)];
     
-    const NSInteger oldMin = _idxMin;
-    const NSInteger oldMax = _idxMax;
     const NSInteger capacity = _capacity;
     const CGSize bufPixels = _buffer.bufferPixelSize;
     const CGPoint align = _textAlignment;
-    
+	
+	NSInteger oldMin = _idxMin;
+	NSInteger oldMax = _idxMax;
+	const BOOL changed = (oldMin > newMin || oldMax < newMax);
+	
+	LabelCacheModifierBlock block = _cacheModifier;
+	if(block && changed) {
+		block(newMin, newMax, &oldMin, &oldMax);
+	}
+	
     for(NSInteger idx = newMin; idx <= newMax; ++idx) {
         if(!(oldMin <= idx && idx <= oldMax)) {
             const CGFloat value = anchor + (idx * interval);

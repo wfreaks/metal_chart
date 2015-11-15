@@ -131,6 +131,9 @@
         drawableSize = self.metalLayer.drawableSize;
         _depthStencilTexture = nil;
         _multisampleColorTexture = nil;
+		if(_enableSetNeedsDisplay) {
+			[self setNeedsDisplay];
+		}
     }
     [_delegate mtkView:self drawableSizeWillChange:drawableSize];
 }

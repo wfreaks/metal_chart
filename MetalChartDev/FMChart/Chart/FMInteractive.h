@@ -11,12 +11,20 @@
 @class FMGestureInterpreter;
 @class FMProjectionUpdater;
 
+
+
+
+
 @protocol FMInteraction <NSObject>
 
 - (void)didScaleChange:(FMGestureInterpreter * _Nonnull)interpreter;
 - (void)didTranslationChange:(FMGestureInterpreter * _Nonnull)interpreter;
 
 @end
+
+
+
+
 
 @protocol FMInterpreterStateRestriction<NSObject>
 
@@ -28,11 +36,15 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @end
 
+
+
+
+
 @interface FMGestureInterpreter : NSObject
 
 @property (strong, nonatomic) UIPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
-@property (weak  , nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
+@property (strong, nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
 
 @property (assign, nonatomic) CGFloat orientationStep;
 @property (assign, nonatomic) CGFloat orientationStepDegree;
@@ -56,6 +68,10 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+
+
+
+
 @interface FMDefaultInterpreterRestriction : NSObject<FMInterpreterStateRestriction>
 
 @property (readonly, nonatomic) CGSize minScale;
@@ -74,11 +90,45 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-typedef void (^SimpleInterfactionBlock)(FMGestureInterpreter * _Nonnull);
+
+
+
+// ２軸がくっついていると、正直細かいコントロールが効かないので分割して扱う事ができるようにする
+@protocol FMInterpreterDimensionalRestroction<NSObject>
+
+- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
+	willScaleChange:(CGFloat * _Nonnull)size;
+
+- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
+willTranslationChange:(CGFloat * _Nonnull)translation;
+
+@end
+
+
+
+
+@interface FMInterpreterDetailedRestriction : NSObject<FMInterpreterStateRestriction>
+
+@property (readonly, nonatomic) id<FMInterpreterDimensionalRestroction> _Nonnull x;
+@property (readonly, nonatomic) id<FMInterpreterDimensionalRestroction> _Nonnull y;
+
+- (instancetype _Nonnull)initWithXRestriction:(id<FMInterpreterDimensionalRestroction> _Nonnull)x
+								 yRestriction:(id<FMInterpreterDimensionalRestroction> _Nonnull)y
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+@end
+
+
+
+
+
+typedef void (^SimpleInteractionBlock)(FMGestureInterpreter * _Nonnull);
 
 @interface FMSimpleBlockInteraction : NSObject<FMInteraction>
 
-- (instancetype _Nonnull)initWithBlock:(SimpleInterfactionBlock _Nonnull)block
+- (instancetype _Nonnull)initWithBlock:(SimpleInteractionBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
