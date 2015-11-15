@@ -56,6 +56,32 @@
 - (CGFloat)orientationStepDegree { return _orientationStep * 180 / M_PI; }
 - (void)setOrientationStepDegree:(CGFloat)degree { _orientationStep = degree * M_PI / 180; }
 
+- (void)setStateRestriction:(id<FMInterpreterStateRestriction>)stateRestriction
+{
+	if(_stateRestriction != stateRestriction) {
+		BOOL changed = NO;
+		_stateRestriction = stateRestriction;
+		{
+			const CGPoint oldT = _translationCumulative;
+			self.translationCumulative = oldT;
+			const CGPoint newT = _translationCumulative;
+			changed |= (!CGPointEqualToPoint(oldT, newT));
+		}
+		{
+			const CGSize oldS = _scaleCumulative;
+			self.scaleCumulative = oldS;
+			const CGSize newS = _scaleCumulative;
+			changed |= (!CGSizeEqualToSize(oldS, newS));
+		}
+		if(changed) {
+			NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+			for(id<FMInteraction> object in cumulatives) {
+				[object didTranslationChange:self];
+			}
+		}
+	}
+}
+
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
 	const UIGestureRecognizerState state = recognizer.state;

@@ -29,6 +29,8 @@ NS_DESIGNATED_INITIALIZER;
 - (void)addRestrictionToLast:(id<FMRestriction> _Nonnull)object;
 - (void)addRestrictionToFirst:(id<FMRestriction> _Nonnull)object;
 - (void)removeRestriction:(id<FMRestriction> _Nonnull)object;
+- (void)replaceRestriction:(id<FMRestriction> _Nonnull)oldRestriction
+		   withRestriction:(id<FMRestriction> _Nonnull)newRestriction;
 
 - (void)updateTarget;
 
