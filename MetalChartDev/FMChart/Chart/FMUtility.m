@@ -180,6 +180,16 @@
 - (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
 						 belowSeries:(BOOL)below
 						configurator:(id<FMAxisConfigurator>)configurator
+							   label:(FMAxisLabelDelegateBlock)block
+{
+	return [self addAxisToDimensionWithId:dimensionId belowSeries:below configurator:configurator labelFrameSize:CGSizeMake(45, 30) labelBufferCount:8 label:block];
+}
+
+- (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
+						 belowSeries:(BOOL)below
+						configurator:(id<FMAxisConfigurator>)configurator
+					  labelFrameSize:(CGSize)size
+					labelBufferCount:(NSUInteger)count
 						 label:(FMAxisLabelDelegateBlock)block
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
@@ -197,8 +207,8 @@
 				FMAxisLabelBlockDelegate *delegate = [[FMAxisLabelBlockDelegate alloc] initWithBlock:block];
 				[_retained addObject:delegate];
 				FMAxisLabel *label = [[FMAxisLabel alloc] initWithEngine:_engine
-															   frameSize:CGSizeMake(45, 30)
-														  bufferCapacity:12
+															   frameSize:size
+														  bufferCapacity:count
 														   labelDelegate:delegate];
 				[label setFrameAnchorPoint:((dimIndex == 0) ? CGPointMake(0.5, 0) : CGPointMake(1.0, 0.5))];
 				axis.decoration = label;

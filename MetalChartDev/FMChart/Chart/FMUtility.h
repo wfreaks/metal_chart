@@ -92,6 +92,14 @@ NS_DESIGNATED_INITIALIZER;
 										 label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
+- (FMAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
+								   belowSeries:(BOOL)below
+								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
+								labelFrameSize:(CGSize)size
+							  labelBufferCount:(NSUInteger)count
+										 label:(FMAxisLabelDelegateBlock _Nullable)block
+;
+
 - (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
 
 - (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan

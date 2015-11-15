@@ -214,7 +214,7 @@
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    CGFloat currentValue = 0;
+    CGFloat currentValue = 0.1;
     for(id obj in objects) {
         if([obj conformsToProtocol:@protocol(FMPlotAreaClient)]) {
             CGFloat v = [(id<FMPlotAreaClient>)obj allocateRangeInPlotArea:self minValue:(min+currentValue)];
