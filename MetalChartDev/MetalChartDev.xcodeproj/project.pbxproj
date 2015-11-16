@@ -16,17 +16,17 @@
 		AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A98C1BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
-		AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; };
+		AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
 		AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */; };
 		AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
 		AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
-		AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; };
+		AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */; };
 		AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMUtility.m */; };
-		AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; };
+		AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
 		AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */; };
 		AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8461BAFE3020032A0CF /* Series.m */; };
@@ -38,11 +38,11 @@
 		AA32A9A91BE3B5FA00ABDC1E /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8421BAFE3020032A0CF /* Engine.m */; };
 		AA32A9AA1BE3B5FA00ABDC1E /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8501BAFE3020032A0CF /* Lines.m */; };
 		AA32A9AB1BE3B5FA00ABDC1E /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
-		AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; };
+		AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */; };
 		AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
 		AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
-		AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; };
+		AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -116,20 +116,20 @@
 		AAC4A8871BAFE3020032A0CF /* Line_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8491BAFE3020032A0CF /* Line_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
-		AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; };
-		AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; };
+		AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
+		AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84F1BAFE3020032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8501BAFE3020032A0CF /* Lines.m */; };
 		AAC4A88F1BAFE3020032A0CF /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8521BAFE3020032A0CF /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8531BAFE3020032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
-		AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; };
+		AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A8931BAFE3020032A0CF /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8561BAFE3020032A0CF /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8941BAFE3020032A0CF /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
 		AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
-		AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; };
+		AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A8991BAFE3020032A0CF /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85D1BAFE3020032A0CF /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
 		AAC4A89B1BAFE3020032A0CF /* TextureQuad_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -137,11 +137,13 @@
 		AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */; };
 		AAC4A89E1BAFE3020032A0CF /* TextureQuads.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8631BAFE3020032A0CF /* TextureQuads.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A89F1BAFE3020032A0CF /* TextureQuads.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8641BAFE3020032A0CF /* TextureQuads.m */; };
-		AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; };
+		AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A8A11BAFE3020032A0CF /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8671BAFE3020032A0CF /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
+		AAFB9A7A1BF1DE0900F966E7 /* Circle.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* Circle.metal */; };
+		AAFB9A7B1BF1DE0900F966E7 /* Circle.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* Circle.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +256,7 @@
 		AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		AAFB9A791BF1DE0900F966E7 /* Circle.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Circle.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -396,6 +399,7 @@
 				AAC4A8511BAFE3020032A0CF /* Point */,
 				AAC4A8581BAFE3020032A0CF /* Rect */,
 				AAC4A85F1BAFE3020032A0CF /* TextureQuad */,
+				AAFB9A781BF1DDF700F966E7 /* Circle */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -494,6 +498,14 @@
 				AACD43101B708EB300A83B69 /* Metal.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAFB9A781BF1DDF700F966E7 /* Circle */ = {
+			isa = PBXGroup;
+			children = (
+				AAFB9A791BF1DE0900F966E7 /* Circle.metal */,
+			);
+			path = Circle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -706,8 +718,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */,
+				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
 				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
+				AAFB9A7B1BF1DE0900F966E7 /* Circle.metal in Sources */,
+				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
+				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
+				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
+				AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */,
+				AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */,
 				AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */,
 				AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */,
 				AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */,
@@ -715,11 +733,8 @@
 				AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */,
 				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
 				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */,
-				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
 				AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */,
 				AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */,
-				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
-				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
 				AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */,
 				AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */,
 				AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */,
@@ -731,11 +746,9 @@
 				AA32A9A91BE3B5FA00ABDC1E /* Engine.m in Sources */,
 				AA32A9AA1BE3B5FA00ABDC1E /* Lines.m in Sources */,
 				AA32A9AB1BE3B5FA00ABDC1E /* Points.m in Sources */,
-				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
 				AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */,
 				AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */,
 				AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */,
-				AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,8 +765,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
+				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
+				AAFB9A7A1BF1DE0900F966E7 /* Circle.metal in Sources */,
+				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
+				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
+				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
+				AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */,
+				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
 				AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */,
 				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
@@ -761,27 +780,22 @@
 				AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */,
 				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,
 				AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */,
-				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
 				AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */,
 				AAC4A87B1BAFE3020032A0CF /* FMUtility.m in Sources */,
-				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
 				AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */,
 				AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */,
 				AAC4A8851BAFE3020032A0CF /* Series.m in Sources */,
 				AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */,
 				AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */,
 				AAC4A86F1BAFE3020032A0CF /* FMAxis.m in Sources */,
-				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */,
 				AAC4A89F1BAFE3020032A0CF /* TextureQuads.m in Sources */,
 				AAC4A8811BAFE3020032A0CF /* Engine.m in Sources */,
 				AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */,
 				AAC4A8941BAFE3020032A0CF /* Points.m in Sources */,
-				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
 				AAC4A8711BAFE3020032A0CF /* FMAxisLabel.m in Sources */,
 				AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */,
 				AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */,
-				AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,6 +847,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChartSupport;
@@ -859,6 +874,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChartSupport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1008,6 +1024,7 @@
 				INFOPLIST_FILE = FMChart/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
@@ -1033,6 +1050,7 @@
 				INFOPLIST_FILE = FMChart/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
