@@ -16,6 +16,8 @@
 #import "Points.h"
 #import "LineBuffers.h"
 #import "RectBuffers.h"
+#import "FMAxis.h"
+#import "LineBuffers.h"
 
 @interface FMLineSeries()
 
@@ -212,7 +214,7 @@
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    CGFloat currentValue = 0;
+    CGFloat currentValue = 0.1;
     for(id obj in objects) {
         if([obj conformsToProtocol:@protocol(FMPlotAreaClient)]) {
             CGFloat v = [(id<FMPlotAreaClient>)obj allocateRangeInPlotArea:self minValue:(min+currentValue)];
@@ -267,8 +269,16 @@
              chart:(MetalChart *)chart
               view:(MetalChart *)view
 {
+	FMUniformAxisConfiguration *conf = _axis.axis.configuration;
+	FMUniformGridAttributes *attr = _gridLine.attributes;
+	if(conf) {
+		const NSInteger minFreq = conf.minorTicksPerMajor;
+		attr.anchorValue = conf.tickAnchorValue;
+		attr.interval = (minFreq > 0) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
+	}
     const CGFloat len = _dimension.max - _dimension.min;
-    const NSUInteger maxCount = floor(len/_gridLine.attributes.interval) + 1;
+	const CGFloat interval = attr.interval;
+	const NSUInteger maxCount = (interval > 0) ? floor(len/attr.interval) + 1 : 0;
     [_gridLine encodeWith:encoder projection:_projection.projection maxCount:maxCount];
 }
 

@@ -131,6 +131,9 @@
         drawableSize = self.metalLayer.drawableSize;
         _depthStencilTexture = nil;
         _multisampleColorTexture = nil;
+		if(_enableSetNeedsDisplay) {
+			[self setNeedsDisplay];
+		}
     }
     [_delegate mtkView:self drawableSizeWillChange:drawableSize];
 }
@@ -180,6 +183,9 @@
 {
     if(self.enableSetNeedsDisplay) {
         _needsRedraw = YES;
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[self draw];
+		});
     }
 }
 
@@ -221,6 +227,7 @@
             if(depthTex) {
                 pass.depthAttachment.texture = depthTex;
                 pass.depthAttachment.loadAction = MTLLoadActionClear;
+				pass.depthAttachment.clearDepth = _clearDepth;
                 MTLPixelFormat depthFormat = _depthStencilPixelFormat;
                 if(depthFormat == MTLPixelFormatDepth32Float_Stencil8) {
                     pass.stencilAttachment.texture = depthTex;

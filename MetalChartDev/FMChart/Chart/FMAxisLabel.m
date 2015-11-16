@@ -105,8 +105,13 @@
 {
     const CGSize bufPxSize = _bufferPixelSize;
     const CGSize bufLogSize = _bufferSize;
+	{ // 手動で_dataをクリアしないと、CoreTextが明るい色の文字をうまく描画できなくなる。この問題は本質的には描画色を必要とするが、ひとまずこの状態にしておく.
+		const int32_t color = 0x00FFFFFF;
+		const int num = bufPxSize.width * bufPxSize.height;
+		int32_t * const ptr = (int32_t *)_data;
+		for(int i = 0; i < num; ++i) ptr[i] = color;
+	}
     CGContextRef context = CGBitmapContextCreate(_data, bufPxSize.width, bufPxSize.height, 8, 4 * bufPxSize.width, _cgSpace, kCGImageAlphaPremultipliedLast);
-    CGContextClearRect(context, CGRectMake(0, 0, bufPxSize.width, bufPxSize.height));
     CGContextScaleCTM(context, _scale, _scale);
     const CTFontRef font = _ctFont;
     const NSUInteger count = lines.count;
@@ -233,12 +238,19 @@
     [dataRegion setIterationOffset:newMin];
     [dataRegion setBasePosition:(conf.dimensionIndex == 0) ? CGPointMake(tVal, aVal) : CGPointMake(aVal, tVal)];
     
-    const NSInteger oldMin = _idxMin;
-    const NSInteger oldMax = _idxMax;
     const NSInteger capacity = _capacity;
     const CGSize bufPixels = _buffer.bufferPixelSize;
     const CGPoint align = _textAlignment;
-    
+	
+	NSInteger oldMin = _idxMin;
+	NSInteger oldMax = _idxMax;
+	const BOOL changed = (oldMin > newMin || oldMax < newMax);
+	
+	LabelCacheModifierBlock block = _cacheModifier;
+	if(block && changed) {
+		block(newMin, newMax, &oldMin, &oldMax);
+	}
+	
     for(NSInteger idx = newMin; idx <= newMax; ++idx) {
         if(!(oldMin <= idx && idx <= oldMax)) {
             const CGFloat value = anchor + (idx * interval);

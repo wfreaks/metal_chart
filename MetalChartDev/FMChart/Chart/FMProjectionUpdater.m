@@ -91,6 +91,19 @@
 	}
 }
 
+- (void)replaceRestriction:(id<FMRestriction>)oldRestriction
+		   withRestriction:(id<FMRestriction>)newRestriction
+{
+	@synchronized(self) {
+		if([_restrictions containsObject:oldRestriction]) {
+			NSMutableArray *newRestrictions = [_restrictions mutableCopy];
+			NSUInteger idx = [newRestrictions indexOfObject:oldRestriction];
+			[newRestrictions replaceObjectAtIndex:idx withObject:newRestriction];
+			_restrictions = [newRestrictions copy];
+		}
+	}
+}
+
 - (void)updateTarget
 {
 	FMDimensionalProjection *projection = _target;

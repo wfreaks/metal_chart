@@ -58,10 +58,18 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+// ラベルの位置がずれて描画処理が走る際に、デフォルトではこれまで表示されてなかった場所のみ、つまり
+// oldRangeになくてnewRangeに含まれるインデックスのみを書き換えるが、この挙動を変更するために
+// このブロックを用いる. 何をしているのか、理解した上で用いる事.
+typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
+										const NSInteger newMaxIdx,
+										NSInteger * _Nonnull oldMinIdx,
+										NSInteger * _Nonnull oldMaxIdx);
+
 
 // Label renderer for FMAxis.
 // This class manages its own drawing buffer(MTLTexture to be precise), 
-// and you should not use one instance from multiple Axis. 
+// and you should not use one instance from multiple Axis.
 
 @interface FMAxisLabel : NSObject<FMAxisDecoration>
 
@@ -72,6 +80,8 @@ NS_DESIGNATED_INITIALIZER;
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
 @property (assign  , nonatomic) CGPoint textAlignment;
+
+@property (copy    , nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize

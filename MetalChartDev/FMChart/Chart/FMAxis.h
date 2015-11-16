@@ -93,6 +93,22 @@ NS_DESIGNATED_INITIALIZER;
                                            minorTicksFreq:(uint8_t)minorPerMajor
 ;
 
+
+// ラベルなどの数を一定の範囲に抑えながら、その値が半端な値にならないように調整するためのクラス。
+// つまり範囲長が連続的に変化していく際、intervalがステップ上の変化をしつつラベルの数を一定範囲に
+// 抑える.
+// position, anchor, minorTicksは他のと変わらない.
+// max はちょっと注意が必要で、範囲長とintervalが決まっていてもanchorによっては
+// ラベル数が変化しうる事を考慮しない、ここでは可能な値のうち高い方、つまり両端にラベルが来る場合を取る.
+// maxの場合のintervalを逆算し、その値よりも大きくかつintervalOfIntervalの倍数となるものを取る.
+
++ (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
+											   tickAnchor:(CGFloat)tickAnchor
+										   minorTicksFreq:(uint8_t)minorPerMajor
+											 maxTickCount:(uint8_t)maxTick
+									   intervalOfInterval:(CGFloat)interval
+;
+
 @end
 
 

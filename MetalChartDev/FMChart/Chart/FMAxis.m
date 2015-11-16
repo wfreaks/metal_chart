@@ -161,6 +161,33 @@
     return [[self alloc] initWithBlock:block];
 }
 
++ (instancetype)configuratorWithRelativePosition:(CGFloat)axisPosition
+									  tickAnchor:(CGFloat)tickAnchor
+								  minorTicksFreq:(uint8_t)minorPerMajor
+									maxTickCount:(uint8_t)maxTick
+							  intervalOfInterval:(CGFloat)interval
+{
+	FMAxisConfiguratorBlock block = ^(FMUniformAxisConfiguration *conf,
+									  FMDimensionalProjection *dim,
+									  FMDimensionalProjection *orth,
+									  BOOL isFirst) {
+		if(isFirst) {
+			[conf setTickAnchorValue:tickAnchor];
+			[conf setMinorTicksPerMajor:minorPerMajor];
+			[conf setMaxMajorTicks:maxTick];
+		}
+		const CGFloat min = orth.min;
+		const CGFloat l = orth.max - min;
+		const CGFloat anchor = min + (axisPosition * l);
+		[conf setAxisAnchorValue:anchor];
+		const CGFloat vl = (dim.max - dim.min);
+		const CGFloat minInterval = (vl / (maxTick-1));
+		const CGFloat newInterval = interval * ceil(minInterval / interval);
+		[conf setMajorTickInterval:newInterval];
+	};
+	return [[self alloc] initWithBlock:block];
+}
+
 @end
 
 

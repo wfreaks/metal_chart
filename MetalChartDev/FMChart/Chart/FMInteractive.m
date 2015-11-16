@@ -28,7 +28,7 @@
 
 @interface FMSimpleBlockInteraction()
 
-@property (copy, nonatomic) SimpleInterfactionBlock _Nonnull block;
+@property (copy, nonatomic) SimpleInteractionBlock _Nonnull block;
 
 @end
 
@@ -55,6 +55,32 @@
 
 - (CGFloat)orientationStepDegree { return _orientationStep * 180 / M_PI; }
 - (void)setOrientationStepDegree:(CGFloat)degree { _orientationStep = degree * M_PI / 180; }
+
+- (void)setStateRestriction:(id<FMInterpreterStateRestriction>)stateRestriction
+{
+	if(_stateRestriction != stateRestriction) {
+		BOOL changed = NO;
+		_stateRestriction = stateRestriction;
+		{
+			const CGPoint oldT = _translationCumulative;
+			self.translationCumulative = oldT;
+			const CGPoint newT = _translationCumulative;
+			changed |= (!CGPointEqualToPoint(oldT, newT));
+		}
+		{
+			const CGSize oldS = _scaleCumulative;
+			self.scaleCumulative = oldS;
+			const CGSize newS = _scaleCumulative;
+			changed |= (!CGSizeEqualToSize(oldS, newS));
+		}
+		if(changed) {
+			NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+			for(id<FMInteraction> object in cumulatives) {
+				[object didTranslationChange:self];
+			}
+		}
+	}
+}
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
@@ -230,9 +256,38 @@
 
 @end
 
+
+@implementation FMInterpreterDetailedRestriction
+
+- (instancetype)initWithXRestriction:(id<FMInterpreterDimensionalRestroction>)x
+						yRestriction:(id<FMInterpreterDimensionalRestroction>)y
+{
+	self = [super init];
+	if(self) {
+		_x = x;
+		_y = y;
+	}
+	return self;
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
+{
+	[_x interpreter:interpreter willScaleChange:&(size->width)];
+	[_y interpreter:interpreter willScaleChange:&(size->height)];
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
+{
+	[_x interpreter:interpreter willTranslationChange:&(translation->x)];
+	[_y interpreter:interpreter willTranslationChange:&(translation->y)];
+}
+
+@end
+
+
 @implementation FMSimpleBlockInteraction
 
-- (instancetype)initWithBlock:(SimpleInterfactionBlock)block
+- (instancetype)initWithBlock:(SimpleInteractionBlock)block
 {
 	self = [super init];
 	if(self) {
