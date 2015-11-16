@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15C40a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Dev Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MetalChartDev" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="DevController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -36,10 +36,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="metalView" destination="ygm-Ew-ej8" id="4sl-Kd-39H"/>
-                        <outlet property="panRecognizer" destination="TAB-pm-xdG" id="bIr-nd-zFf"/>
-                        <outlet property="pinchRecognizer" destination="c54-rs-69b" id="o5M-Ko-EUg"/>
-                        <outlet property="tapRecognizer" destination="dOG-xX-0k0" id="Uqg-up-3Th"/>
+                        <outlet property="metalView" destination="ygm-Ew-ej8" id="Ec6-yL-nGu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -48,6 +45,53 @@
                 <tapGestureRecognizer id="dOG-xX-0k0">
                     <connections>
                         <action selector="chartTapped:" destination="BYZ-38-t0r" id="MjE-Vj-O0K"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="220" y="462"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="HnK-dl-Suv">
+            <objects>
+                <viewController id="dM4-em-aFZ" customClass="ViewController" customModule="MetalChartDev" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Vj-LR-na1"/>
+                        <viewControllerLayoutGuide type="bottom" id="VHy-0u-Gua"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="X2q-VG-j8U">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evS-Pu-3nH" customClass="FMMetalView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="evS-Pu-3nH" secondAttribute="height" multiplier="1:1" id="0B0-H5-HWP"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="evS-Pu-3nH" firstAttribute="centerX" secondItem="X2q-VG-j8U" secondAttribute="centerX" id="Mvs-8v-BrM"/>
+                            <constraint firstItem="evS-Pu-3nH" firstAttribute="width" secondItem="X2q-VG-j8U" secondAttribute="width" id="ZWG-xp-HFc"/>
+                            <constraint firstItem="evS-Pu-3nH" firstAttribute="centerY" secondItem="X2q-VG-j8U" secondAttribute="centerY" id="hWR-WK-KNQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="metalView" destination="evS-Pu-3nH" id="wLh-ao-s4i"/>
+                        <outlet property="panRecognizer" destination="TAB-pm-xdG" id="xfW-q3-LzL"/>
+                        <outlet property="pinchRecognizer" destination="c54-rs-69b" id="ou4-vf-1Mv"/>
+                        <outlet property="tapRecognizer" destination="dOG-xX-0k0" id="50b-91-aO5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOi-xM-qMu" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="K9U-Xh-yst"/>
+                <pinchGestureRecognizer id="QEL-UN-6PH"/>
+                <tapGestureRecognizer id="GPk-0Y-oxU">
+                    <connections>
+                        <action selector="chartTapped:" destination="dM4-em-aFZ" id="trR-4f-Wtt"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>

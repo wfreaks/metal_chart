@@ -81,6 +81,11 @@
 		AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA858A391BFA259700C419F2 /* DevController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA858A381BFA259700C419F2 /* DevController.mm */; };
+		AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
+		AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -186,6 +191,10 @@
 		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
 		AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utility.h"; sourceTree = "<group>"; };
 		AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utility.m"; sourceTree = "<group>"; };
+		AA858A371BFA259700C419F2 /* DevController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevController.h; sourceTree = "<group>"; };
+		AA858A381BFA259700C419F2 /* DevController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DevController.mm; sourceTree = "<group>"; };
+		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
+		AA858A3B1BFA4E8200C419F2 /* FMProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjections.m; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -342,6 +351,8 @@
 				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
 				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
 				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
+				AA858A371BFA259700C419F2 /* DevController.h */,
+				AA858A381BFA259700C419F2 /* DevController.mm */,
 				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
 				AAB584E21B6F0D8C00480AAE /* Main.storyboard */,
 				AAB584E51B6F0D8C00480AAE /* Assets.xcassets */,
@@ -371,6 +382,8 @@
 			children = (
 				AAC4A83B1BAFE3020032A0CF /* MetalChart.h */,
 				AAC4A83C1BAFE3020032A0CF /* MetalChart.m */,
+				AA858A3A1BFA4E8200C419F2 /* FMProjections.h */,
+				AA858A3B1BFA4E8200C419F2 /* FMProjections.m */,
 				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
 				AAC4A8361BAFE3020032A0CF /* FMRenderables.m */,
 				AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */,
@@ -528,6 +541,7 @@
 				AA32A9BB1BE3B5FA00ABDC1E /* Engine_common.h in Headers */,
 				AA32A9BC1BE3B5FA00ABDC1E /* FMAnimator.h in Headers */,
 				AA32A9BD1BE3B5FA00ABDC1E /* Point_common.h in Headers */,
+				AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */,
 				AA32A9BE1BE3B5FA00ABDC1E /* Points.h in Headers */,
 				AA32A9BF1BE3B5FA00ABDC1E /* FMRenderables.h in Headers */,
 				AA32A9C01BE3B5FA00ABDC1E /* Rects.h in Headers */,
@@ -567,6 +581,7 @@
 				AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */,
 				AAC4A88F1BAFE3020032A0CF /* Point_common.h in Headers */,
 				AAC4A8931BAFE3020032A0CF /* Points.h in Headers */,
+				AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */,
 				AAC4A8761BAFE3020032A0CF /* FMRenderables.h in Headers */,
 				AAC4A8991BAFE3020032A0CF /* Rects.h in Headers */,
 				AAC4A8841BAFE3020032A0CF /* Series.h in Headers */,
@@ -731,6 +746,7 @@
 				AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */,
 				AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */,
 				AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */,
+				AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
 				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */,
 				AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */,
@@ -757,6 +773,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
+				AA858A391BFA259700C419F2 /* DevController.mm in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -778,6 +795,7 @@
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
 				AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */,
 				AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */,
+				AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,
 				AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */,
 				AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */,

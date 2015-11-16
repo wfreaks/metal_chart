@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
+#import "FMProjections.h"
 
 @class FMEngine;
 @class FMLinePrimitive;
@@ -21,6 +22,22 @@
 @class FMPlotArea;
 
 @protocol FMSeries;
+
+
+typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, MetalChart *_Nonnull chart);
+
+@interface FMBlockRenderable : NSObject<FMRenderable>
+
+@property (nonatomic, copy, readonly) _Nonnull FMRenderBlock block;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype _Nonnull)initWithBlock:(FMRenderBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+@end
+
 
 @protocol FMPlotAreaClient<FMDepthClient>
 

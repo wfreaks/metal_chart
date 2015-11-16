@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
+#import "FMProjections.h"
 
 @class FMEngine;
 @class FMUniformLineAttributes;

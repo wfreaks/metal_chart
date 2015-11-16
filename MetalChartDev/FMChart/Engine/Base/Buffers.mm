@@ -178,6 +178,14 @@
 @end
 
 
+
+@implementation FMUniformProjectionPolar
+
+
+@end
+
+
+
 @implementation FMUniformSeriesInfo
 
 - (id)initWithResource:(FMDeviceResource *)resource

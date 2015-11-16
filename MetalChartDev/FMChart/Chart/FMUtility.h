@@ -122,7 +122,7 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 - (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                 series:(FMOrderedSeries * _Nonnull)series
+									 series:(FMOrderedSeries * _Nonnull)series
 ;
 
 - (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity

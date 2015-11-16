@@ -16,9 +16,36 @@
 #define __Buffers_h__
 
 #ifdef __cplusplus
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
 
 #include <memory>
 
+template <typename T>
+struct MTLObjectBuffer {
+	
+	MTLObjectBuffer(id<MTLDevice> _Nonnull device,
+					NSInteger capacity = 1,
+					MTLResourceOptions options = MTLResourceOptionCPUCacheModeWriteCombined)
+	: _capacity(capacity),
+	  _buffer([device newBufferWithLength:(sizeof(T)*capacity) options:options])
+	{
+	}
+	
+	T& operator[](std::size_t index) {
+		return (reinterpret_cast<T*>([_buffer contents]))[index];
+	}
+	
+	id<MTLBuffer> _Nonnull getBuffer() { return _buffer; }
+	
+private :
+	
+	id<MTLBuffer> _Nonnull _buffer;
+	const NSInteger _capacity;
+	
+};
+
+#pragma clang diagnostic pop
 #endif
 
 @interface VertexBuffer : NSObject
@@ -82,7 +109,11 @@
 @property (assign, nonatomic) CGSize physicalSize;
 @property (assign, nonatomic) RectPadding padding;
 
-- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
 
 - (uniform_projection_cart2d * _Nonnull)projection;
 
@@ -96,6 +127,20 @@
 
 @end
 
+
+
+
+@interface FMUniformProjectionPolar : NSObject
+
+@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+@end
 
 
 
