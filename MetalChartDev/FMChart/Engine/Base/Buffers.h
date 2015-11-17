@@ -103,6 +103,7 @@ private :
 @interface FMUniformProjectionCartesian2D : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_projection_cart2d * _Nonnull projection;
 @property (readonly, nonatomic) CGFloat screenScale;
 @property (assign, nonatomic) NSUInteger sampleCount;
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
@@ -114,8 +115,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
-
-- (uniform_projection_cart2d * _Nonnull)projection;
 
 - (void)setPixelSize:(CGSize)size;
 
@@ -133,6 +132,12 @@ UNAVAILABLE_ATTRIBUTE;
 @interface FMUniformProjectionPolar : NSObject
 
 @property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
+@property (nonatomic, readonly) uniform_projection_polar * _Nonnull projection;
+@property (nonatomic, readonly) CGFloat screenScale;
+@property (nonatomic) NSUInteger sampleCount;
+@property (nonatomic) MTLPixelFormat colorPixelFormat;
+@property (nonatomic) CGSize physicalSize;
+@property (nonatomic) RectPadding padding;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 NS_DESIGNATED_INITIALIZER;

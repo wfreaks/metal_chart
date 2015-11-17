@@ -124,7 +124,29 @@
 @end
 
 
+@implementation FMProjectionPolar
 
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		if(resource == nil) resource = [FMDeviceResource defaultResource];
+		_projection = [[FMUniformProjectionPolar alloc] initWithResource:resource];
+	}
+	return self;
+}
+
+- (void)configure:(FMMetalView *)view padding:(RectPadding)padding
+{
+	
+}
+
+- (void)writeToBuffer
+{
+	
+}
+
+@end
 
 
 

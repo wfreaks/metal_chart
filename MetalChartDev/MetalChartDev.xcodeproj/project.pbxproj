@@ -86,6 +86,8 @@
 		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
 		AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
+		AA85C75D1BFB533B0037253B /* base_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C75C1BFB533B0037253B /* base_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C75E1BFB533B0037253B /* base_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C75C1BFB533B0037253B /* base_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -195,6 +197,7 @@
 		AA858A381BFA259700C419F2 /* DevController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DevController.mm; sourceTree = "<group>"; };
 		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
 		AA858A3B1BFA4E8200C419F2 /* FMProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjections.m; sourceTree = "<group>"; };
+		AA85C75C1BFB533B0037253B /* base_shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base_shared.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -420,6 +423,7 @@
 		AAC4A83E1BAFE3020032A0CF /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				AA85C75C1BFB533B0037253B /* base_shared.h */,
 				AAC4A8471BAFE3020032A0CF /* Shader_common.h */,
 				AAC4A8431BAFE3020032A0CF /* Engine_common.h */,
 				AAC4A8441BAFE3020032A0CF /* Protocols.h */,
@@ -536,6 +540,7 @@
 				AA32A9B71BE3B5FA00ABDC1E /* FMProjectionUpdater.h in Headers */,
 				AA32A9B81BE3B5FA00ABDC1E /* LineBuffers.h in Headers */,
 				AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */,
+				AA85C75E1BFB533B0037253B /* base_shared.h in Headers */,
 				AA32A9B91BE3B5FA00ABDC1E /* Lines.h in Headers */,
 				AA32A9BA1BE3B5FA00ABDC1E /* Protocols.h in Headers */,
 				AA32A9BB1BE3B5FA00ABDC1E /* Engine_common.h in Headers */,
@@ -576,6 +581,7 @@
 				AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */,
 				AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */,
 				AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */,
+				AA85C75D1BFB533B0037253B /* base_shared.h in Headers */,
 				AAC4A8831BAFE3020032A0CF /* Protocols.h in Headers */,
 				AAC4A8821BAFE3020032A0CF /* Engine_common.h in Headers */,
 				AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */,

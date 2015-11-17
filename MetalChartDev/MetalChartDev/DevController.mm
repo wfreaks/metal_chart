@@ -16,8 +16,6 @@
 @property (nonatomic, readonly) FMEngine *engine;
 @property (nonatomic, readonly) FMConfigurator *configurator;
 
-//@property (nonatomic) std::shared_ptr<MTLObjectBuffer<<#typename T#>>>
-
 @end
 @implementation DevController
 
@@ -37,7 +35,6 @@
 
 - (void)configureChart
 {
-	
 }
 
 @end

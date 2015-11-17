@@ -61,6 +61,7 @@
 		_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
 		_view.depthStencilPixelFormat = determineDepthPixelFormat();
 		_view.clearDepth = 0;
+		_view.device = engine.resource.device;
 	}
 	return self;
 }
@@ -295,6 +296,14 @@
     [_chart addSeries:ps];
 	[_chart addProjection:space];
     return ps;
+}
+
+- (FMBlockRenderable *)addBlockRenderable:(FMRenderBlock)block
+{
+	FMBlockRenderable *renderable = [[FMBlockRenderable alloc] initWithBlock:block];
+	[_chart addSeries:renderable];
+	
+	return renderable;
 }
 
 - (FMOrderedSeries *)createSeries:(NSUInteger)capacity

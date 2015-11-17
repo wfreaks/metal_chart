@@ -60,7 +60,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface FMPolarProjection : NSObject<FMProjection>
+@interface FMProjectionPolar : NSObject<FMProjection>
 
 @property (nonatomic, readonly) FMUniformProjectionPolar * _Nonnull projection;
 

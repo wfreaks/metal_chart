@@ -9,7 +9,9 @@
 #ifndef Engine_common_h
 #define Engine_common_h
 
-#import <simd/simd.h>
+#import "base_shared.h"
+
+#define FM_INLINE static inline
 
 typedef struct RectPadding {
     CGFloat left;
@@ -18,42 +20,27 @@ typedef struct RectPadding {
     CGFloat bottom;
 } RectPadding;
 
-typedef struct uniform_projection_cart2d {
-    vector_float2 origin;
-    vector_float2 value_scale;
-    vector_float2 value_offset;
-    
-    vector_float2 physical_size;
-    vector_float4 rect_padding;
-    float screen_scale;
-} uniform_projection_cart2d;
+typedef struct vertex_coord vertex_buffer;
 
-// 角度表現はすべてradianで統一する.
-// r軸のスケールは、基本が1dip($(scale) pixels)が1に相当、そこにradius_scaleをかけたものとする.
-typedef struct uniform_projection_polar {
-	vector_float2 origin_ndc;
-	vector_float2 origin_offset;
-	float  radian_offset;
-	float  radius_scale;
-	
-	vector_float2 physical_size;
-	vector_float4 rect_padding;
-	float screen_size;
-} uniform_projection_polar;
+typedef struct vertex_index index_buffer;
 
-typedef struct uniform_series_info {
-    uint32_t vertex_capacity;
-    uint32_t index_capacity;
-    uint32_t offset;
-} uniform_series_info;
+typedef struct uniform_series_info uniform_series_info;
 
-typedef struct vertex_buffer {
-    vector_float2 position;
-} vertex_buffer;
+typedef struct uniform_projection_cart2d uniform_projection_cart2d;
 
-typedef struct index_buffer {
-    uint32_t index;
-} index_buffer;
+typedef struct uniform_projection_polar uniform_projection_polar;
+
+FM_INLINE bool __RectPaddingEqualsTo(RectPadding a, RectPadding b) {
+	return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
+}
+#define RectPaddingEqualsTo __RectPaddingEqualsTo
+
+FM_INLINE RectPadding __RectPaddingMake(CGFloat left, CGFloat right, CGFloat top, CGFloat bottom) {
+	RectPadding padding = {left, right, top, bottom};
+	return padding;
+}
+#define RectPaddingMake __RectPaddingMake
+
 
 #ifdef __cplusplus
 

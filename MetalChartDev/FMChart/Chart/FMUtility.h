@@ -14,6 +14,7 @@
 // また、クラス関係を理解するためのエントリポイントとしての意味もある.
 
 #import "FMAxisLabel.h"
+#import "FMRenderables.h"
 
 @class MetalChart;
 @class FMDimensionalProjection;
@@ -24,10 +25,6 @@
 @class FMPlotArea;
 @class FMGestureInterpreter;
 @class FMEngine;
-@class FMGridLine;
-@class FMLineSeries;
-@class FMBarSeries;
-@class FMPointSeries;
 @class FMOrderedSeries;
 
 @protocol FMSeries;
@@ -124,6 +121,8 @@ NS_DESIGNATED_INITIALIZER;
 - (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
 									 series:(FMOrderedSeries * _Nonnull)series
 ;
+
+- (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
 
 - (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
 ;

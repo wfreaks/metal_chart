@@ -10,7 +10,8 @@
 #define Shader_common_h
 
 #include <metal_stdlib>
-#include <simd/simd.h>
+
+#include "base_shared.h"
 
 using namespace metal;
 
@@ -32,42 +33,6 @@ struct out_fragment_depthAny {
     float4 color [[ color(0) ]];
     float  depth [[ depth(any) ]];
 };
-
-struct vertex_coord {
-    float2 position;
-};
-
-struct vertex_index {
-    uint index;
-};
-
-struct uniform_projection_cart2d {
-    float2 origin;
-    float2 value_scale;
-    float2 value_offset;
-    
-    float2 physical_size;
-    float4 rect_padding;
-    float  screen_scale;
-};
-
-struct uniform_projection_polar {
-	float2 origin_ndc;
-	float2 origin_offset;
-	float  radian_offset;
-	float  radius_scale;
-	
-	float2 physical_size;
-	float4 rect_padding;
-	float screen_scale;
-};
-
-struct uniform_series_info {
-    uint vertex_capacity;
-    uint index_capacity;
-    uint offset;
-};
-
 
 inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d& proj)
 {

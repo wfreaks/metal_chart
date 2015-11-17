@@ -134,45 +134,41 @@
 
 - (void)setPhysicalSize:(CGSize)size
 {
-	_physicalSize = size;
-    uniform_projection_cart2d *ptr = [self projection];
-    ptr->physical_size = vector2((float)size.width, (float)size.height);
+	if(!CGSizeEqualToSize(size, _physicalSize)) {
+		_physicalSize = size;
+		self.projection->physical_size = vector2((float)size.width, (float)size.height);
+	}
 }
 
 - (void)setPixelSize:(CGSize)size
 {
-    const CGFloat scale = [UIScreen mainScreen].scale;
-    uniform_projection_cart2d *ptr = [self projection];
+    const CGFloat scale = _screenScale;
 	const CGFloat w = (size.width/scale);
 	const CGFloat h = (size.height/scale);
-	_physicalSize.width = w;
-	_physicalSize.height = h;
-    ptr->physical_size = vector2((float)w, (float)h);
-}
-
-- (void)setValueScale:(CGSize)scale
-{
-    uniform_projection_cart2d *ptr = [self projection];
-    ptr->value_scale = vector2((float)scale.width, (float)scale.height);
-}
-
-- (void)setOrigin:(CGPoint)origin
-{
-    uniform_projection_cart2d *ptr = [self projection];
-    ptr->origin = vector2((float)origin.x, (float)origin.y);
-}
-
-- (void)setValueOffset:(CGSize)offset
-{
-    uniform_projection_cart2d *ptr = [self projection];
-    ptr->value_offset = vector2((float)offset.width, (float)offset.height);
+	self.physicalSize = CGSizeMake(w, h);
 }
 
 - (void)setPadding:(RectPadding)padding
 {
-	_padding = padding;
-	uniform_projection_cart2d *ptr = [self projection];
-	ptr->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
+	if(!RectPaddingEqualsTo(_padding, padding)) {
+		_padding = padding;
+		self.projection->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
+	}
+}
+
+- (void)setValueScale:(CGSize)scale
+{
+    self.projection->value_scale = vector2((float)scale.width, (float)scale.height);
+}
+
+- (void)setOrigin:(CGPoint)origin
+{
+    self.projection->origin = vector2((float)origin.x, (float)origin.y);
+}
+
+- (void)setValueOffset:(CGSize)offset
+{
+    self.projection->value_offset = vector2((float)offset.width, (float)offset.height);
 }
 
 @end
@@ -181,6 +177,45 @@
 
 @implementation FMUniformProjectionPolar
 
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		const NSInteger size = sizeof(uniform_projection_polar);
+		_buffer = [resource.device newBufferWithLength:size options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_screenScale = [UIScreen mainScreen].scale;
+		self.projection->screen_scale = _screenScale;
+	}
+	return self;
+}
+
+- (uniform_projection_polar *)projection {
+	return (uniform_projection_polar *)[_buffer contents];
+}
+
+- (void)setPhysicalSize:(CGSize)size
+{
+	if(!CGSizeEqualToSize(size, _physicalSize)) {
+		_physicalSize = size;
+		self.projection->physical_size = vector2((float)size.width, (float)size.height);
+	}
+}
+
+- (void)setPixelSize:(CGSize)size
+{
+	const CGFloat scale = _screenScale;
+	const CGFloat w = (size.width/scale);
+	const CGFloat h = (size.height/scale);
+	self.physicalSize = CGSizeMake(w, h);
+}
+
+- (void)setPadding:(RectPadding)padding
+{
+	if(!RectPaddingEqualsTo(_padding, padding)) {
+		_padding = padding;
+		self.projection->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
+	}
+}
 
 @end
 
