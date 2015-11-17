@@ -217,6 +217,26 @@
 	}
 }
 
+- (void)setOriginInNDC:(CGPoint)origin
+{
+	self.projection->origin_ndc = vector2((float)origin.x, (float)origin.y);
+}
+
+- (void)setOriginOffset:(CGPoint)offset
+{
+	self.projection->origin_offset = vector2((float)offset.x, (float)offset.y);
+}
+
+- (void)setAngularOffset:(CGFloat)offsetRad
+{
+	self.projection->radian_offset = offsetRad;
+}
+
+- (void)setRadiusScale:(CGFloat)scale
+{
+	self.projection->radius_scale = scale;
+}
+
 @end
 
 

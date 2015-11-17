@@ -145,6 +145,16 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
 
+- (void)setPixelSize:(CGSize)size;
+
+- (void)setOriginInNDC:(CGPoint)origin;
+
+- (void)setOriginOffset:(CGPoint)offset;
+
+- (void)setAngularOffset:(CGFloat)offsetRad;
+
+- (void)setRadiusScale:(CGFloat)scale;
+
 @end
 
 
