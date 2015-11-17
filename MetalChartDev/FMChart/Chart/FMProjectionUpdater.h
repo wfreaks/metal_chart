@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import <CoreGraphics/CGGeometry.h>
 
 @protocol FMRestriction;
+@class FMDimensionalProjection;
 
 @interface FMProjectionUpdater : NSObject
 

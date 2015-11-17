@@ -19,6 +19,26 @@
 #import "FMAxis.h"
 #import "LineBuffers.h"
 
+
+@implementation FMBlockRenderable
+
+- (instancetype)initWithBlock:(FMRenderBlock)block
+{
+	self = [super init];
+	if(self) {
+		_block = block;
+	}
+	return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder chart:(MetalChart *)chart
+{
+	_block(encoder, chart);
+}
+
+@end
+
+
 @interface FMLineSeries()
 
 @end
@@ -308,3 +328,4 @@
 }
 
 @end
+

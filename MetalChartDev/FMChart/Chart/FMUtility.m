@@ -80,7 +80,7 @@
 		FMDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
 		[dims addObject:dim];
 	}
-	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1]];
+	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1] resource:self.engine.resource];
 	_space = [_space arrayByAddingObject:space];
 	return space;
 }

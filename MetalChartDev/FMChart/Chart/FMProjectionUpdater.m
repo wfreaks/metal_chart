@@ -7,6 +7,7 @@
 //
 
 #import "FMProjectionUpdater.h"
+#import "FMProjections.h"
 #import "FMRestrictions.h"
 
 @interface FMProjectionUpdater()

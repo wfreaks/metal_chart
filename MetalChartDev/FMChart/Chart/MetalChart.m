@@ -7,8 +7,8 @@
 //
 
 #import "MetalChart.h"
-#import "Buffers.h"
 #import "NSArray+Utility.h"
+#import "DeviceResource.h"
 
 MTLPixelFormat determineDepthPixelFormat()
 {
@@ -16,17 +16,6 @@ MTLPixelFormat determineDepthPixelFormat()
     MTLPixelFormatDepth32Float_Stencil8 :
     MTLPixelFormatDepth32Float;
 }
-
-@interface FMDimensionalProjection()
-
-
-@end
-
-
-@interface FMProjectionCartesian2D()
-
-@end
-
 
 @interface MetalChart()
 
@@ -39,108 +28,6 @@ MTLPixelFormat determineDepthPixelFormat()
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
 @end
-
-@implementation FMDimensionalProjection
-
-- (instancetype)initWithDimensionId:(NSInteger)dimId minValue:(CGFloat)min maxValue:(CGFloat)max
-{
-	self = [super init];
-	if(self) {
-		_dimensionId = dimId;
-		_min = min;
-		_max = max;
-	}
-	return self;
-}
-
-- (void)setMin:(CGFloat)min
-{
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(&min, nil);
-	}
-	_min = min;
-}
-
-- (void)setMax:(CGFloat)max
-{
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(nil, &max);
-	}
-	_max = max;
-}
-
-- (void)setMin:(CGFloat)min max:(CGFloat)max
-{
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(&min, &max);
-	}
-	_min = min;
-	_max = max;
-}
-
-- (CGFloat)length { return _max - _min; }
-
-- (CGFloat)mid { return 0.5 * (_min + _max); }
-
-- (CGFloat)convertValue:(CGFloat)value
-                     to:(FMDimensionalProjection *)to
-{
-    const CGFloat v = (value - _min) / self.length;
-    return (to.length * v) + to.min;
-}
-
-@end
-
-
-@implementation FMProjectionCartesian2D
-
-- (instancetype)initWithDimensionX:(FMDimensionalProjection *)x
-								 Y:(FMDimensionalProjection *)y
-{
-	self = [super init];
-	if(self) {
-		_dimX = x;
-		_dimY = y;
-		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:[FMDeviceResource defaultResource]];
-		_dimensions = @[x, y];
-	}
-	return self;
-}
-
-- (void)writeToBuffer
-{
-	FMDimensionalProjection *xDim = _dimX;
-	FMDimensionalProjection *yDim = _dimY;
-	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
-	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
-}
-
-- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
-{
-	if(_dimX.dimensionId == dimensionId) return _dimX;
-	if(_dimY.dimensionId == dimensionId) return _dimY;
-	return nil;
-}
-
-- (void)configure:(MetalView *)view padding:(RectPadding)padding
-{
-	[_projection setPhysicalSize:view.bounds.size];
-	[_projection setSampleCount:view.sampleCount];
-	[_projection setColorPixelFormat:view.colorPixelFormat];
-	[_projection setPadding:padding];
-}
-
-- (BOOL)matchesDimensionIds:(NSArray<NSNumber *> *)ids
-{
-	const NSInteger count = ids.count;
-	return (count == 2 && ids[0].integerValue == _dimX.dimensionId && ids[1].integerValue == _dimY.dimensionId);
-}
-
-@end
-
 
 @implementation MetalChart
 
