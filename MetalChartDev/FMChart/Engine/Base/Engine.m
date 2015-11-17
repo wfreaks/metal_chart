@@ -40,10 +40,33 @@
 - (id<MTLRenderPipelineState>)pipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 												 vertFunc:(NSString *)vertFuncName
 												 fragFunc:(NSString *)fragFuncName
-                                               writeDepth:(BOOL)writeDepth
+											   writeDepth:(BOOL)writeDepth
 {
-	const NSUInteger sampleCount = projection.sampleCount;
-	const MTLPixelFormat pixelFormat = projection.colorPixelFormat;
+	return [self pipelineStateWithFormat:projection.colorPixelFormat
+							 sampleCount:projection.sampleCount
+								vertFunc:vertFuncName
+								fragFunc:fragFuncName
+							  writeDepth:writeDepth];
+}
+
+- (id<MTLRenderPipelineState>)pipelineStateWithPolar:(FMUniformProjectionPolar *)projection
+											vertFunc:(NSString *)vertFuncName
+											fragFunc:(NSString *)fragFuncName
+										  writeDepth:(BOOL)writeDepth
+{
+	return [self pipelineStateWithFormat:projection.colorPixelFormat
+							 sampleCount:projection.sampleCount
+								vertFunc:vertFuncName
+								fragFunc:fragFuncName
+							  writeDepth:writeDepth];
+}
+
+- (id<MTLRenderPipelineState>)pipelineStateWithFormat:(MTLPixelFormat)pixelFormat
+										  sampleCount:(NSUInteger)sampleCount
+											 vertFunc:(NSString *)vertFuncName
+											 fragFunc:(NSString *)fragFuncName
+										   writeDepth:(BOOL)writeDepth
+{
 	NSString *label = [NSString stringWithFormat:@"%@_%@(%lu,%d)", vertFuncName, fragFuncName, (unsigned long)sampleCount, (int)pixelFormat];
 	id<MTLRenderPipelineState> state = _resource.renderStates[label];
 	if(state == nil) {

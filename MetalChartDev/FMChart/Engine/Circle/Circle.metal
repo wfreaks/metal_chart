@@ -8,6 +8,8 @@
 
 #include "../Base/Shader_common.h"
 
+#define M_PI  3.14159265358979323846264338327950288
+
 struct uniform_pie_global_attr {
 	float  radius_inner;
 	float  radius_outer;
@@ -15,15 +17,14 @@ struct uniform_pie_global_attr {
 	float  value_total;
 };
 
-struct attri_pie {
+struct attr_pie {
 	float4 color;
 };
 
 struct out_vertex_pie {
-	float4 position [[ position ]];
-	float4 color;
-	float2 pos_view; // centerからのviewスケールでのdiff.
-	float  depth;
+	float4 position   [[ position ]];
+	float  point_size [[ point_size ]];
+	float  psize;
 };
 
 inline float ratio_pie(const float inner, const float outer, const float dist, const float screen_scale)
@@ -32,33 +33,29 @@ inline float ratio_pie(const float inner, const float outer, const float dist, c
 	const float2 sat = saturate(diff_px);
 	return (sat.x * sat.y);
 }
-//
-//vertex out_vertex_pie PieVertex(device		uint*							indices [[ buffer(0) ]],
-//								device		float*							values	[[ buffer(1) ]],
-//								device		attr_pie*						attrs   [[ buffer(2) ]],
-//								constant	uniform_projection_polar&		proj	[[ buffer(3) ]],
-//								constant	uniform_pie_global_attr&		attr	[[ buffer(4) ]],
-//								const uint									vid_raw [[ vertex_id ]]
-//								)
-//{
-//	// 頂点順序は, center -> left -> right / left -> right -> out
-//	const uint vid = vid_raw / 6;
-//	const uchar spec = vid_raw % 6;
-//	const uint idx_current = indices[vid], idx_next = indices[vid]
-//	const float v_current = values[indices[vid]];
-//	const float
-//	
-//	out_vertex_pie out;
-//	
-//	return out;
-//}
-//
-//fragment out_fragment_depthGreater PieFragment(const	out_vertex_pie				input	[[ stage_in  ]],
-//											   constant uniform_projection_polar&	proj	[[ buffer(0) ]],
-//											   constant uniform_pie_global_attr&	attr	[[ buffer(1) ]]
-//											   )
-//{
-//	// 座業変換はvshader、こっちは特定の切り方をされた時、その距離を求めて、適切なalphaを求めるという感じ.
+
+vertex out_vertex_pie PieVertex(
+								constant	uniform_projection_polar&		proj	[[ buffer(0) ]]
+								)
+{
+	out_vertex_pie out;
+	out.position = float4(0, 0, 0, 1);
+	out.point_size = 400;
+	out.psize = 20;
+	
+	return out;
+}
+
+fragment out_fragment PieFragment(
+								  out_vertex_pie input [[ stage_in ]],
+								  const float2 pos_coord [[ point_coord ]],
+								  constant uniform_projection_polar&	proj	[[ buffer(0) ]],
+								  constant const float * values [[ buffer(1) ]],
+								  constant const float4 * colors [[ buffer(2) ]],
+								  constant float& total_value [[ buffer(3) ]],
+								  constant int&   count [[ buffer(4) ]]
+								  )
+{
 //	const float dist = length(input.pos_view);
 //	out_fragment_depthGreater out;
 //	const float ratio = ratio_pie(attr.radius_inner, attr.radius_outer, dist, proj.screen_scale);
@@ -66,5 +63,22 @@ inline float ratio_pie(const float inner, const float outer, const float dist, c
 //	out.color.a *= ratio;
 //	out.depth = (ratio > 0) * input.depth;
 //	return out;
-//}
+	const float2 pos = (2 * pos_coord) - 1;
+	const float coef = 2 * M_PI / total_value;
+	float radian = atan2(-pos.y, pos.x);
+	radian += (radian < 0) * 2 * M_PI;
+	int idx = 0;
+	const int c = 3;
+	for(int i = 0; i < c; ++i) {
+		const float r = values[i] * coef;
+		idx += (radian >= r);
+		radian -= ((radian >= r) * r);
+	}
+	out_fragment out;
+	
+	out.color = colors[idx];
+	out.color.a *= (length(pos) < 1);
+	
+	return out;
+}
 

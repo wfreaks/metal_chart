@@ -11,6 +11,7 @@
 
 @class FMDeviceResource;
 @class FMUniformProjectionCartesian2D;
+@class FMUniformProjectionPolar;
 
 @interface FMEngine : NSObject
 
@@ -30,5 +31,17 @@
 ;
 											
 
+- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithPolar:(FMUniformProjectionPolar * _Nonnull)projection
+													 vertFunc:(NSString * _Nonnull)vertFuncName
+													 fragFunc:(NSString * _Nonnull)fragFuncName
+												   writeDepth:(BOOL)writeDepth
+;
+
+- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithFormat:(MTLPixelFormat)pixelFormat
+												   sampleCount:(NSUInteger)sampleCount
+													  vertFunc:(NSString * _Nonnull)vertFuncName
+													  fragFunc:(NSString * _Nonnull)fragFuncName
+										   writeDepth:(BOOL)writeDepth
+;
 
 @end
