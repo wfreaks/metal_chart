@@ -96,6 +96,10 @@
 		AA85C76F1BFC57090037253B /* Circles.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C76C1BFC57090037253B /* Circles.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA85C7701BFC57090037253B /* Circles.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85C76D1BFC57090037253B /* Circles.m */; };
 		AA85C7711BFC57090037253B /* Circles.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85C76D1BFC57090037253B /* Circles.m */; };
+		AA85C7751BFC6FDC0037253B /* FMRenderablesAux.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C7761BFC6FDC0037253B /* FMRenderablesAux.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C7771BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */; };
+		AA85C7781BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */; };
 		AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
@@ -212,6 +216,8 @@
 		AA85C7661BFC4D730037253B /* CircleBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleBuffers.m; sourceTree = "<group>"; };
 		AA85C76C1BFC57090037253B /* Circles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Circles.h; sourceTree = "<group>"; };
 		AA85C76D1BFC57090037253B /* Circles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Circles.m; sourceTree = "<group>"; };
+		AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRenderablesAux.h; sourceTree = "<group>"; };
+		AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FMRenderablesAux.mm; sourceTree = "<group>"; };
 		AA97955D1BFBA60700BA9970 /* circle_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = circle_shared.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -404,6 +410,8 @@
 				AA858A3B1BFA4E8200C419F2 /* FMProjections.m */,
 				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
 				AAC4A8361BAFE3020032A0CF /* FMRenderables.m */,
+				AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */,
+				AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */,
 				AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */,
 				AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */,
 				AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */,
@@ -586,6 +594,7 @@
 				AA32A9CC1BE3B5FA00ABDC1E /* RectBuffers.h in Headers */,
 				AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */,
 				AA32A9CE1BE3B5FA00ABDC1E /* TextureQuadBuffers.h in Headers */,
+				AA85C7761BFC6FDC0037253B /* FMRenderablesAux.h in Headers */,
 				AA85C76F1BFC57090037253B /* Circles.h in Headers */,
 				AA32A9CF1BE3B5FA00ABDC1E /* FMMetalView.h in Headers */,
 				AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */,
@@ -630,6 +639,7 @@
 				AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */,
 				AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */,
 				AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */,
+				AA85C7751BFC6FDC0037253B /* FMRenderablesAux.h in Headers */,
 				AA85C76E1BFC57090037253B /* Circles.h in Headers */,
 				AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */,
 				AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */,
@@ -799,6 +809,7 @@
 				AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */,
 				AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */,
 				AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */,
+				AA85C7781BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,6 +861,7 @@
 				AAC4A8711BAFE3020032A0CF /* FMAxisLabel.m in Sources */,
 				AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */,
 				AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */,
+				AA85C7771BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
