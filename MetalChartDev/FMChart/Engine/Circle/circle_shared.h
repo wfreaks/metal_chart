@@ -17,15 +17,16 @@ using namespace simd;
 
 #endif
 
-struct pie_conf {
+struct arc_conf {
 	float  radius_inner;
 	float  radius_outer;
 	float  radian_offseet;
-	float  value_total;
 };
 
-struct pie_attr {
+struct arc_attr {
 	vector_float4 color;
+	float radius_inner;
+	float radius_outer;
 };
 
 struct indexed_value_float {
@@ -35,9 +36,9 @@ struct indexed_value_float {
 
 #ifdef __OBJC__
 
-typedef struct pie_conf uniform_pie_configuration;
+typedef struct arc_conf uniform_arc_configuration;
 
-typedef struct pie_attr uniform_pie_attributes ;
+typedef struct arc_attr uniform_arc_attributes ;
 
 typedef struct indexed_value_float indexed_value_float;
 

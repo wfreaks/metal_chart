@@ -88,6 +88,10 @@
 		AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
 		AA85C75D1BFB533B0037253B /* base_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C75C1BFB533B0037253B /* base_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA85C75E1BFB533B0037253B /* base_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C75C1BFB533B0037253B /* base_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C7671BFC4D730037253B /* CircleBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C7651BFC4D730037253B /* CircleBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C7681BFC4D730037253B /* CircleBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C7651BFC4D730037253B /* CircleBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA85C7691BFC4D730037253B /* CircleBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7661BFC4D730037253B /* CircleBuffers.m */; };
+		AA85C76A1BFC4D730037253B /* CircleBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7661BFC4D730037253B /* CircleBuffers.m */; };
 		AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
@@ -151,8 +155,8 @@
 		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
-		AAFB9A7A1BF1DE0900F966E7 /* Circle.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* Circle.metal */; };
-		AAFB9A7B1BF1DE0900F966E7 /* Circle.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* Circle.metal */; };
+		AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; };
+		AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +204,8 @@
 		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
 		AA858A3B1BFA4E8200C419F2 /* FMProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjections.m; sourceTree = "<group>"; };
 		AA85C75C1BFB533B0037253B /* base_shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base_shared.h; sourceTree = "<group>"; };
+		AA85C7651BFC4D730037253B /* CircleBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleBuffers.h; sourceTree = "<group>"; };
+		AA85C7661BFC4D730037253B /* CircleBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleBuffers.m; sourceTree = "<group>"; };
 		AA97955D1BFBA60700BA9970 /* circle_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = circle_shared.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -271,7 +277,7 @@
 		AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
-		AAFB9A791BF1DE0900F966E7 /* Circle.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Circle.metal; sourceTree = "<group>"; };
+		AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = CircleEngineShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -523,8 +529,10 @@
 		AAFB9A781BF1DDF700F966E7 /* Circle */ = {
 			isa = PBXGroup;
 			children = (
-				AAFB9A791BF1DE0900F966E7 /* Circle.metal */,
+				AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */,
 				AA97955D1BFBA60700BA9970 /* circle_shared.h */,
+				AA85C7651BFC4D730037253B /* CircleBuffers.h */,
+				AA85C7661BFC4D730037253B /* CircleBuffers.m */,
 			);
 			path = Circle;
 			sourceTree = "<group>";
@@ -560,6 +568,7 @@
 				AA32A9C31BE3B5FA00ABDC1E /* Engine.h in Headers */,
 				AA32A9C41BE3B5FA00ABDC1E /* FMInteractive.h in Headers */,
 				AA32A9C51BE3B5FA00ABDC1E /* TextureQuads.h in Headers */,
+				AA85C7681BFC4D730037253B /* CircleBuffers.h in Headers */,
 				AA32A9C61BE3B5FA00ABDC1E /* MetalChart.h in Headers */,
 				AA32A9C71BE3B5FA00ABDC1E /* TextureQuad_common.h in Headers */,
 				AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */,
@@ -602,6 +611,7 @@
 				AAC4A8721BAFE3020032A0CF /* FMInteractive.h in Headers */,
 				AAC4A89E1BAFE3020032A0CF /* TextureQuads.h in Headers */,
 				AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */,
+				AA85C7671BFC4D730037253B /* CircleBuffers.h in Headers */,
 				AAC4A89B1BAFE3020032A0CF /* TextureQuad_common.h in Headers */,
 				AAC4A8A11BAFE3020032A0CF /* DeviceResource.h in Headers */,
 				AAC4A8701BAFE3020032A0CF /* FMAxisLabel.h in Headers */,
@@ -747,13 +757,14 @@
 			files = (
 				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
 				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
-				AAFB9A7B1BF1DE0900F966E7 /* Circle.metal in Sources */,
+				AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
 				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
 				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
 				AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */,
 				AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */,
 				AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */,
+				AA85C76A1BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */,
 				AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */,
 				AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */,
@@ -796,13 +807,14 @@
 			files = (
 				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
-				AAFB9A7A1BF1DE0900F966E7 /* Circle.metal in Sources */,
+				AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
 				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
 				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
 				AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */,
 				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
 				AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */,
+				AA85C7691BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
 				AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */,
