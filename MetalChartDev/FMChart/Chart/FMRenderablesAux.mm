@@ -78,14 +78,14 @@
 		return v + e.value;
 	});
 	const NSInteger count = _buffer.size();
-	_series.count = count + 1;
+	_series.count = count;
 	if(count > 0) {
 		CGFloat v = 0;
 		const CGFloat coef = (2 * M_PI) / total;
 		for(NSInteger i = 0; i < count; ++i) {
-			const auto& e = _buffer[i]; // 現状はi=0は初期値でindexも無視される、これは例外作ってるのでできればシェーダから改善する.
+			const auto& e = _buffer[i];
 			const CGFloat value = (v + e.value) * coef;
-			[_series.values setValue:value index:e.index atIndex:i+1];
+			[_series.values setValue:value index:e.index atIndex:i];
 			v += e.value;
 		}
 	}

@@ -52,14 +52,15 @@
 	FMPieDoughnutDataProxy *data = series.data;
 	
 	[conf setRadiusInner:100 outer:120];
+	[conf setRadianOffset:M_PI_2];
 	
 	[attrs[0] setColor:[[UIColor redColor] vector]];
 	[attrs[1] setColor:[[UIColor greenColor] vector]];
 	[attrs[2] setColor:[[UIColor blueColor] vector]];
 	
-	[data addElementWithValue:5 index:0 ID:0];
-	[data addElementWithValue:25 index:1 ID:0];
-	[data addElementWithValue:125 index:2 ID:0];
+	[data addElementWithValue:-5 index:0 ID:0];
+	[data addElementWithValue:-25 index:1 ID:0];
+	[data addElementWithValue:-125 index:2 ID:0];
 	[data sort:NO];
 	[data flush];
 

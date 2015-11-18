@@ -65,7 +65,7 @@
 		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
 		
 		const NSUInteger vOffset = 12 * offset;
-		const NSUInteger vCount = 12 * (count - 1);
+		const NSUInteger vCount = 12 * count;
 		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:vOffset vertexCount:vCount];
 		
 		[encoder popDebugGroup];

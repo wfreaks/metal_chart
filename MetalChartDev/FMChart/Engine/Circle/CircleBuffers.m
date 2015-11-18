@@ -25,7 +25,7 @@
 
 - (void)setInnerRadius:(CGFloat)radius { self.conf->radius_inner = radius; }
 - (void)setOuterRadius:(CGFloat)radius { self.conf->radius_outer = radius; }
-- (void)setRadianOffset:(CGFloat)radian { self.conf->radian_offseet = radian; }
+- (void)setRadianOffset:(CGFloat)radian { self.conf->radian_offset = radian; }
 - (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
 {
 	self.conf->radius_inner = inner;

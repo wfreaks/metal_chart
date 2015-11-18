@@ -21,11 +21,6 @@
 @property (nonatomic, readonly) FMUniformArcConfiguration * _Nonnull configuration;
 @property (nonatomic, readonly) FMUniformArcAttributesArray * _Nonnull attributes;
 
-// attributesCapacityは単に_Nullableとするためにnilの際の生成に使うパラメータで
-// non-nilを渡したら上手いことリサイズしてコピーとかそんな事はしないので注意.
-// また、Countは描かれる弧の数ではなく、+1した値にする事(idx=0には入るので、
-// バッファサイズを意識する意味でこのようにしている).
-
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 						  configuration:(FMUniformArcConfiguration * _Nullable)conf
 							 attributes:(FMUniformArcAttributesArray * _Nullable)attr

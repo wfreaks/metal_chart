@@ -38,8 +38,11 @@ vertex out_vertex_arc ArcContinuosVertex(
 	const uint arc_id = vid_raw / 12;
 	const uint subarc_id = (vid_raw % 12) / 3;
 	
-	const float t1 = values[arc_id].value, t2 = values[arc_id+1].value;
-	const uint  idx = values[arc_id+1].idx;
+	const float offset=  conf.radian_offset;
+	const int arc_prev = max(0, (int)(arc_id)-1);
+	const float t1 = ((arc_id > 0) * values[arc_prev].value) + offset;
+	const float t2 = values[arc_id].value + offset;
+	const uint  idx = values[arc_id].idx;
 	const arc_attr attr = attrs[idx];
 	const float theta = min(2*M_PI, t2-t1);
 	const float theta_8 = theta / 8;
@@ -48,7 +51,7 @@ vertex out_vertex_arc ArcContinuosVertex(
 	const float r_subarc = ro / cos(theta_8);
 	const float t = t1 + (2*theta_8*(subarc_id + (vid == 2)));
 	const float r = (vid > 0) * r_subarc;
-	const float2 origin = float2(0, 0);//polar_to_ndc(float2(0, 0), proj);
+	const float2 origin = polar_to_ndc(float2(0, 0), proj);
 	const float2 pos = polar_to_ndc(float2(r, t), proj);
 	out_vertex_arc out;
 	out.position = float4(pos, 0, 1);

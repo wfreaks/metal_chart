@@ -20,7 +20,7 @@ using namespace simd;
 struct arc_conf {
 	float  radius_inner;
 	float  radius_outer;
-	float  radian_offseet;
+	float  radian_offset;
 };
 
 struct arc_attr {
