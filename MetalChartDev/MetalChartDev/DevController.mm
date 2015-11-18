@@ -39,20 +39,30 @@
 	[self.chart addProjection:space];
 	
 	FMEngine *engine = self.engine;
+	id<MTLDevice> device = engine.resource.device;
 	
-	auto colors = std::make_shared<MTLObjectBuffer<vector_float4>>(engine.resource.device, 3);
-	auto values = std::make_shared<MTLObjectBuffer<float>>(engine.resource.device, 3);
-	auto total = std::make_shared<MTLObjectBuffer<float>>(engine.resource.device);
-	auto count = std::make_shared<MTLObjectBuffer<uint32_t>>(engine.resource.device);
+	const auto values = std::make_shared<MTLObjectBuffer<indexed_value_float>>(device, 16);
+	auto& v = *values;
+	v[0].value = 0;
+	v[1].value = M_PI_4;
+	v[2].value = M_PI_2;
+	v[3].value = 3;
+	v[4].value = M_PI;
 	
-	(*colors)[0] = vector4(1.0f, 0.0f, 0.0f, 1.0f);
-	(*colors)[1] = vector4(0.0f, 1.0f, 0.0f, 1.0f);
-	(*colors)[2] = vector4(0.0f, 0.0f, 1.0f, 1.0f);
-	(*values)[0] = 1;
-	(*values)[1] = 2;
-	(*values)[2] = 3;
-	(*total)[0] = 6;
-	(*count)[0] = 3;
+	v[1].idx = 0;
+	v[2].idx = 1;
+	v[3].idx = 0;
+	v[4].idx = 1;
+	
+	const auto conf = std::make_shared<MTLObjectBuffer<uniform_pie_configuration>>(device);
+	auto c = *conf;
+	c[0].radius_outer = 150;
+	c[0].radius_inner = 130;
+	
+	const auto attrs = std::make_shared<MTLObjectBuffer<uniform_pie_attributes>>(device, 2);
+	auto& a = *attrs;
+	a[0].color = [[UIColor redColor] vector];
+	a[1].color = [[UIColor greenColor] vector];
 
 	[self.configurator addBlockRenderable:^(id<MTLRenderCommandEncoder>  _Nonnull encoder, MetalChart * _Nonnull chart) {
 		[encoder pushDebugGroup:@"circle"];
@@ -62,14 +72,16 @@
 																	 writeDepth:NO];
 		[encoder setRenderPipelineState:renderState];
 		
-		[encoder setVertexBuffer:space.projection.buffer offset:0 atIndex:0];
-		[encoder setFragmentBuffer:space.projection.buffer offset:0 atIndex:0];
-		[encoder setFragmentBuffer:values->getBuffer() offset:0 atIndex:1];
-		[encoder setFragmentBuffer:colors->getBuffer() offset:0 atIndex:2];
-		[encoder setFragmentBuffer:total->getBuffer() offset:0 atIndex:3];
-		[encoder setFragmentBuffer:count->getBuffer() offset:0 atIndex:4];
+		[encoder setVertexBuffer:values->getBuffer() offset:0 atIndex:0];
+		[encoder setVertexBuffer:conf->getBuffer() offset:0 atIndex:1];
+		[encoder setVertexBuffer:attrs->getBuffer() offset:0 atIndex:2];
+		[encoder setVertexBuffer:space.projection.buffer offset:0 atIndex:3];
 		
-		[encoder drawPrimitives:MTLPrimitiveTypePoint vertexStart:0 vertexCount:1];
+		[encoder setFragmentBuffer:conf->getBuffer() offset:0 atIndex:0];
+		[encoder setFragmentBuffer:space.projection.buffer offset:0 atIndex:1];
+		
+		const NSInteger n = 4;
+		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:12*n];
 		
 		[encoder popDebugGroup];
 	}];

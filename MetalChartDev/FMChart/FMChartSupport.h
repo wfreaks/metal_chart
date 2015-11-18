@@ -55,3 +55,5 @@ FOUNDATION_EXPORT const unsigned char FMChartSupportVersionString[];
 #import <FMChartSupport/TextureQuadBuffers.h>
 #import <FMChartSupport/TextureQuads.h>
 
+#import <FMChartSupport/circle_shared.h>
+

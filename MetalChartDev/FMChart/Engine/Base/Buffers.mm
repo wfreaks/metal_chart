@@ -185,6 +185,7 @@
 		_buffer = [resource.device newBufferWithLength:size options:MTLResourceOptionCPUCacheModeWriteCombined];
 		_screenScale = [UIScreen mainScreen].scale;
 		self.projection->screen_scale = _screenScale;
+		[self setRadiusScale:1];
 	}
 	return self;
 }

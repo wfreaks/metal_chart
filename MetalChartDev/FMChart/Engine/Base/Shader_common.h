@@ -44,13 +44,12 @@ inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d
 }
 
 // valueは[r,theta]の順を仮定している
-inline float2 polar_to_ndc(const float2 value, float2, constant uniform_projection_polar& proj)
+inline float2 polar_to_ndc(const float2 value, constant uniform_projection_polar& proj)
 {
 	const float2 _ps = 2 / proj.physical_size;
 	const float4 pd = proj.rect_padding;
 	const float2 diff_pad = 0.5 * float2(pd.x - pd.z, pd.y - pd.w);
-	const float2 fixed_rs = proj.radius_scale * _ps;
-	const float2 diff = fixed_rs * value.x * float2(cos(value.y), sin(value.y));
+	const float2 diff = proj.radius_scale * value.x * float2(cos(value.y), sin(value.y));
 	return proj.origin_ndc + ((proj.origin_offset + diff + diff_pad) * _ps);
 }
 

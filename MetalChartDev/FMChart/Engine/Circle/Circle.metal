@@ -7,24 +7,14 @@
 //
 
 #include "../Base/Shader_common.h"
+#include "circle_shared.h"
 
 #define M_PI  3.14159265358979323846264338327950288
 
-struct uniform_pie_global_attr {
-	float  radius_inner;
-	float  radius_outer;
-	float  radian_offseet;
-	float  value_total;
-};
-
-struct attr_pie {
-	float4 color;
-};
-
 struct out_vertex_pie {
-	float4 position   [[ position ]];
-	float  point_size [[ point_size ]];
-	float  psize;
+	float4 position	[[ position ]];
+	float4 color;
+	float2 diff;
 };
 
 inline float ratio_pie(const float inner, const float outer, const float dist, const float screen_scale)
@@ -35,49 +25,48 @@ inline float ratio_pie(const float inner, const float outer, const float dist, c
 }
 
 vertex out_vertex_pie PieVertex(
-								constant	uniform_projection_polar&		proj	[[ buffer(0) ]]
+								device		indexed_value_float*			values	[[ buffer(0) ]],
+								constant	pie_conf&						conf	[[ buffer(1) ]],
+								constant	pie_attr*						attrs	[[ buffer(2) ]],
+								constant	uniform_projection_polar&		proj	[[ buffer(3) ]],
+								const		uint							vid_raw	[[ vertex_id ]]
 								)
 {
-	out_vertex_pie out;
-	out.position = float4(0, 0, 0, 1);
-	out.point_size = 400;
-	out.psize = 20;
+	const uint vid = vid_raw % 3;
+	const uint arc_id = vid_raw / 12;
+	const uint subarc_id = (vid_raw % 12) / 3;
 	
+	const float t1 = values[arc_id].value, t2 = values[arc_id+1].value;
+	const uint  idx = values[arc_id+1].idx;
+	const float theta = min(2*M_PI, t2-t1);
+	const float theta_8 = theta / 8;
+	const float ro = conf.radius_outer;
+	const float r_subarc = ro / cos(theta_8);
+	const float t = t1 + (2*theta_8*(subarc_id + (vid == 2)));
+	const float r = (vid > 0) * r_subarc;
+	const float2 origin = float2(0, 0);//polar_to_ndc(float2(0, 0), proj);
+	const float2 pos = polar_to_ndc(float2(r, t), proj);
+	out_vertex_pie out;
+	out.position = float4(pos, 0, 1);
+	out.diff = 0.5 * proj.physical_size * (pos - origin);
+	out.color = attrs[idx].color;
 	return out;
 }
 
 fragment out_fragment PieFragment(
 								  out_vertex_pie input [[ stage_in ]],
-								  const float2 pos_coord [[ point_coord ]],
-								  constant uniform_projection_polar&	proj	[[ buffer(0) ]],
-								  constant const float * values [[ buffer(1) ]],
-								  constant const float4 * colors [[ buffer(2) ]],
-								  constant float& total_value [[ buffer(3) ]],
-								  constant int&   count [[ buffer(4) ]]
+								  constant	pie_conf&						conf	[[ buffer(0) ]],
+								  constant	uniform_projection_polar&		proj	[[ buffer(1) ]]
 								  )
 {
-//	const float dist = length(input.pos_view);
-//	out_fragment_depthGreater out;
-//	const float ratio = ratio_pie(attr.radius_inner, attr.radius_outer, dist, proj.screen_scale);
-//	out.color = input.color;
-//	out.color.a *= ratio;
-//	out.depth = (ratio > 0) * input.depth;
-//	return out;
-	const float2 pos = (2 * pos_coord) - 1;
-	const float coef = 2 * M_PI / total_value;
-	float radian = atan2(-pos.y, pos.x);
-	radian += (radian < 0) * 2 * M_PI;
-	int idx = 0;
-	const int c = 3;
-	for(int i = 0; i < c; ++i) {
-		const float r = values[i] * coef;
-		idx += (radian >= r);
-		radian -= ((radian >= r) * r);
-	}
 	out_fragment out;
 	
-	out.color = colors[idx];
-	out.color.a *= (length(pos) < 1);
+	out.color = input.color;
+	const float rs = proj.radius_scale;
+	const float ro = conf.radius_outer * rs;
+	const float ri = conf.radius_inner * rs;
+	const float l = length(input.diff);
+	out.color.a *= (l < ro) * (l >= ri);
 	
 	return out;
 }
