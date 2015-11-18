@@ -54,14 +54,10 @@ private :
 
 @property (readonly, nonatomic) NSUInteger capacity;
 
-// このoriginはMetalの座標系NDC([-1,1]x[-1,1])の中での点を指定する.この点にInputの(0, 0)が描画される.
-@property (assign, nonatomic) CGPoint origin;
-
-@property (assign, nonatomic) CGSize scale;
-
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
 - (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
+
 
 #ifdef __cplusplus
 
@@ -93,6 +89,28 @@ private :
 
 @end
 
+
+
+
+
+@interface FMIndexedFloatBuffer : NSObject
+
+@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
+@property (nonatomic, readonly) NSUInteger capacity;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+								 capacity:(NSUInteger)capacity
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (indexed_value_float * _Nonnull)bufferAtIndex:(NSUInteger)index;
+
+- (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
+;
+
+@end
 
 
 

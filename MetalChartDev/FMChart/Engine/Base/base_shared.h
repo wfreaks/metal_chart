@@ -25,6 +25,13 @@ struct vertex_index {
 	uint32_t index;
 };
 
+// 主に属性付きの値(色などの設定を変える)を表示する際に使う.
+// 別々のパラメータとしてもよいが、数の一致や扱い方の煩雑さなどからこちらの方が使い易いと思う.
+struct indexed_value_float {
+	float value;
+	uint32_t idx;
+};
+
 struct uniform_projection_cart2d {
 	vector_float2 origin;
 	vector_float2 value_scale;
@@ -54,6 +61,22 @@ typedef struct uniform_projection_polar {
 	float screen_scale;
 } uniform_projection_polar;
 
+
+#ifdef __OBJC__
+
+typedef struct vertex_coord vertex_buffer;
+
+typedef struct vertex_index index_buffer;
+
+typedef struct uniform_series_info uniform_series_info;
+
+typedef struct uniform_projection_cart2d uniform_projection_cart2d;
+
+typedef struct uniform_projection_polar uniform_projection_polar;
+
+typedef struct indexed_value_float indexed_value_float;
+
+#endif
 
 
 #endif /* base_shared_h */

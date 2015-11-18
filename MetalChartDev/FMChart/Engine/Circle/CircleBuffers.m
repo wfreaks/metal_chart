@@ -51,7 +51,8 @@
 
 - (void)setInnerRadius:(CGFloat)radius { self.attr->radius_inner = radius; }
 - (void)setOuterRadius:(CGFloat)radius { self.attr->radius_outer = radius; }
-- (void)setColor:(const vector_float4 *)color { self.attr->color = *color; }
+- (void)setColor:(vector_float4)color { self.attr->color = color; }
+- (void)setColorRef:(const vector_float4 *)color { self.attr->color = *color; }
 
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {

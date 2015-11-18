@@ -39,54 +39,26 @@
 	[self.chart addProjection:space];
 	
 	FMEngine *engine = self.engine;
-	id<MTLDevice> device = engine.resource.device;
 	
-	const auto values = std::make_shared<MTLObjectBuffer<indexed_value_float>>(device, 16);
-	auto& v = *values;
-	v[0].value = 0;
-	v[1].value = M_PI_4;
-	v[2].value = M_PI_2;
-	v[3].value = 3;
-	v[4].value = 2 * M_PI;
+	FMContinuosArcPrimitive *arc = [[FMContinuosArcPrimitive alloc] initWithEngine:engine configuration:nil attributes:nil attributesCapacity:4];
+	FMIndexedFloatBuffer *values = [[FMIndexedFloatBuffer alloc] initWithResource:engine.resource capacity:8];
+	FMUniformArcAttributesArray *attrs = arc.attributes;
 	
-	v[1].idx = 0;
-	v[2].idx = 1;
-	v[3].idx = 0;
-	v[4].idx = 1;
+	[arc.configuration setInnerRadius:100];
+	[arc.configuration setOuterRadius:120];
 	
-	const auto conf = std::make_shared<MTLObjectBuffer<uniform_arc_configuration>>(device);
-	auto c = *conf;
-	c[0].radius_outer = 120;
-	c[0].radius_inner = 100;
+	[values setValue:M_PI_4 index:0 atIndex:1];
+	[values setValue:M_PI_2 index:1 atIndex:2];
+	[values setValue:3      index:2 atIndex:3];
+	[values setValue:2*M_PI index:3 atIndex:4];
 	
-	const auto attrs = std::make_shared<MTLObjectBuffer<uniform_arc_attributes>>(device, 2);
-	auto& a = *attrs;
-	a[0].color = [[UIColor redColor] vector];
-	a[0].radius_inner = 0;
-	a[0].radius_outer = 0;
-	a[1].color = [[UIColor greenColor] vector];
-	a[1].radius_outer = 125;
-	a[1].radius_inner = 100;
+	[attrs[0] setColor:[[UIColor redColor] vector]];
+	[attrs[1] setColor:[[UIColor greenColor] vector]];
+	[attrs[2] setColor:[[UIColor blueColor] vector]];
+	[attrs[3] setColor:[[UIColor colorWithWhite:1.0 alpha:0.5] vector]];
 
 	[self.configurator addBlockRenderable:^(id<MTLRenderCommandEncoder>  _Nonnull encoder, MetalChart * _Nonnull chart) {
-		[encoder pushDebugGroup:@"circle"];
-		id<MTLRenderPipelineState> renderState = [engine pipelineStateWithPolar:space.projection
-																	   vertFunc:@"ArcContinuosVertex"
-																	   fragFunc:@"ArcFragment"
-																	 writeDepth:NO];
-		[encoder setRenderPipelineState:renderState];
-		
-		[encoder setVertexBuffer:values->getBuffer() offset:0 atIndex:0];
-		[encoder setVertexBuffer:conf->getBuffer() offset:0 atIndex:1];
-		[encoder setVertexBuffer:attrs->getBuffer() offset:0 atIndex:2];
-		[encoder setVertexBuffer:space.projection.buffer offset:0 atIndex:3];
-		
-		[encoder setFragmentBuffer:space.projection.buffer offset:0 atIndex:0];
-		
-		const NSInteger n = 4;
-		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:12*n];
-		
-		[encoder popDebugGroup];
+		[arc encodeWith:encoder projection:space.projection values:values offset:0 count:5];
 	}];
 }
 

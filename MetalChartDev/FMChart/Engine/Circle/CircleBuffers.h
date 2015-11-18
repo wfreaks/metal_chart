@@ -44,7 +44,8 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)setInnerRadius:(CGFloat)radius;
 - (void)setOuterRadius:(CGFloat)radius;
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
-- (void)setColor:(const vector_float4 *_Nonnull)color;
+- (void)setColor:(vector_float4)color;
+- (void)setColorRef:(const vector_float4 *_Nonnull)color;
 
 @end
 

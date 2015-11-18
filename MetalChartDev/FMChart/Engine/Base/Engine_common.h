@@ -20,16 +20,6 @@ typedef struct RectPadding {
     CGFloat bottom;
 } RectPadding;
 
-typedef struct vertex_coord vertex_buffer;
-
-typedef struct vertex_index index_buffer;
-
-typedef struct uniform_series_info uniform_series_info;
-
-typedef struct uniform_projection_cart2d uniform_projection_cart2d;
-
-typedef struct uniform_projection_polar uniform_projection_polar;
-
 FM_INLINE bool __RectPaddingEqualsTo(RectPadding a, RectPadding b) {
 	return a.left == b.left && a.top == b.top && a.right == b.right && a.bottom == b.bottom;
 }

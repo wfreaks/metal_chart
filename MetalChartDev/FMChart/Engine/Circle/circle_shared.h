@@ -29,18 +29,11 @@ struct arc_attr {
 	float radius_outer;
 };
 
-struct indexed_value_float {
-	float value;
-	uint32_t idx;
-};
-
 #ifdef __OBJC__
 
 typedef struct arc_conf uniform_arc_configuration;
 
 typedef struct arc_attr uniform_arc_attributes ;
-
-typedef struct indexed_value_float indexed_value_float;
 
 #endif
 

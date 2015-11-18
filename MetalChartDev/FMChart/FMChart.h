@@ -57,4 +57,5 @@ FOUNDATION_EXPORT const unsigned char FMChartVersionString[];
 
 #import <FMChart/circle_shared.h>
 #import <FMChart/CircleBuffers.h>
+#import <FMChart/Circles.h>
 

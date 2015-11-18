@@ -113,6 +113,36 @@
 
 
 
+@implementation FMIndexedFloatBuffer
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
+{
+	self = [super init];
+	if(self) {
+		const NSUInteger length = sizeof(indexed_value_float) * capacity;
+		_buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_capacity = capacity;
+	}
+	return self;
+}
+
+- (indexed_value_float *)bufferAtIndex:(NSUInteger)index
+{
+	indexed_value_float *ptr = (indexed_value_float *)[_buffer contents];
+	return (ptr + index);
+}
+
+- (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
+{
+	indexed_value_float *buffer = ((indexed_value_float *)[_buffer contents]) + bufferIndex;
+	buffer->value = value;
+	buffer->idx = index;
+}
+
+@end
+
+
+
 @implementation FMUniformProjectionCartesian2D
 
 - (id)initWithResource:(FMDeviceResource *)resource
