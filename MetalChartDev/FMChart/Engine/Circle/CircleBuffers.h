@@ -28,6 +28,7 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)setInnerRadius:(CGFloat)radius;
 - (void)setOuterRadius:(CGFloat)radius;
 - (void)setRadianOffset:(CGFloat)radian;
+- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer;
 
 @end
 
@@ -43,6 +44,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setInnerRadius:(CGFloat)radius;
 - (void)setOuterRadius:(CGFloat)radius;
+- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer;
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 - (void)setColor:(vector_float4)color;
 - (void)setColorRef:(const vector_float4 *_Nonnull)color;

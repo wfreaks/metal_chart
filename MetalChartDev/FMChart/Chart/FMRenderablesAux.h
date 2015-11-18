@@ -24,7 +24,46 @@
 @class FMUniformArcAttributesArray;
 @class FMUniformArcConfiguration;
 
-@interface FMPieDoughtSeries : NSObject <FMRenderable>
+@class FMPieDoughnutSeries;
+
+typedef struct PieProxyElement {
+	NSInteger dataID; // IDはユニークである必要はない.
+	CGFloat   value;
+	uint32_t  index;
+#ifdef __cplusplus
+	PieProxyElement(NSInteger _id, CGFloat v, uint32_t idx) :
+	dataID(_id), value(v), index(idx)
+	{}
+#endif
+} FMPieDoughnutDataProxyElement;
+
+@interface FMPieDoughnutDataProxy : NSObject
+
+
+@property (nonatomic, readonly) FMPieDoughnutSeries * _Nonnull series;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (FMPieDoughnutDataProxyElement * _Nullable)elementWithID:(NSInteger)_id;
+
+// IDはユニークでなくても良い(後から参照できなくなるだけ)
+- (void)addElementWithValue:(CGFloat)value
+					  index:(uint32_t)index
+						 ID:(NSInteger)_id
+;
+
+- (void)removeElementWithID:(NSInteger)_id;
+- (void)clear;
+
+- (void)sort:(BOOL)ascend;
+
+- (void)flush;
+
+@end
+
+
+@interface FMPieDoughnutSeries : NSObject <FMRenderable>
 
 @property (nonatomic, readonly) FMContinuosArcPrimitive * _Nonnull arc;
 @property (nonatomic, readonly) FMUniformArcConfiguration * _Nonnull conf;
@@ -35,11 +74,14 @@
 @property (nonatomic)			NSUInteger count;
 @property (nonatomic, readonly) NSUInteger capacity;
 
+@property (nonatomic, readonly) FMPieDoughnutDataProxy * _Nonnull data;
+
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-									arc:(FMContinuosArcPrimitive * _Nonnull)arc
+									arc:(FMContinuosArcPrimitive * _Nullable)arc
 							 projection:(FMProjectionPolar * _Nullable)projection
 								 values:(FMIndexedFloatBuffer * _Nullable)values
-					   capacityOnCreate:(NSUInteger)capacity
+			 attributesCapacityOnCreate:(NSUInteger)attrCapacity
+				 valuesCapacityOnCreate:(NSUInteger)valueCapacity
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init

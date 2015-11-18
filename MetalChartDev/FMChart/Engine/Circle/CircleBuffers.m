@@ -26,6 +26,11 @@
 - (void)setInnerRadius:(CGFloat)radius { self.conf->radius_inner = radius; }
 - (void)setOuterRadius:(CGFloat)radius { self.conf->radius_outer = radius; }
 - (void)setRadianOffset:(CGFloat)radian { self.conf->radian_offseet = radian; }
+- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
+{
+	self.conf->radius_inner = inner;
+	self.conf->radius_outer = outer;
+}
 
 @end
 
@@ -51,6 +56,13 @@
 
 - (void)setInnerRadius:(CGFloat)radius { self.attr->radius_inner = radius; }
 - (void)setOuterRadius:(CGFloat)radius { self.attr->radius_outer = radius; }
+- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
+{
+	self.attr->radius_inner = inner;
+	self.attr->radius_outer = outer;
+}
+
+
 - (void)setColor:(vector_float4)color { self.attr->color = color; }
 - (void)setColorRef:(const vector_float4 *)color { self.attr->color = *color; }
 

@@ -40,26 +40,30 @@
 	
 	FMEngine *engine = self.engine;
 	
-	FMContinuosArcPrimitive *arc = [[FMContinuosArcPrimitive alloc] initWithEngine:engine configuration:nil attributes:nil attributesCapacity:4];
-	FMIndexedFloatBuffer *values = [[FMIndexedFloatBuffer alloc] initWithResource:engine.resource capacity:8];
-	FMUniformArcAttributesArray *attrs = arc.attributes;
+	FMPieDoughnutSeries *series = [[FMPieDoughnutSeries alloc] initWithEngine:engine
+																		  arc:nil
+																   projection:space
+																	   values:nil
+												   attributesCapacityOnCreate:8
+													   valuesCapacityOnCreate:16];
 	
-	[arc.configuration setInnerRadius:100];
-	[arc.configuration setOuterRadius:120];
+	FMUniformArcAttributesArray *attrs = series.attrs;
+	FMUniformArcConfiguration *conf = series.conf;
+	FMPieDoughnutDataProxy *data = series.data;
 	
-	[values setValue:M_PI_4 index:0 atIndex:1];
-	[values setValue:M_PI_2 index:1 atIndex:2];
-	[values setValue:3      index:2 atIndex:3];
-	[values setValue:2*M_PI index:3 atIndex:4];
+	[conf setRadiusInner:100 outer:120];
 	
 	[attrs[0] setColor:[[UIColor redColor] vector]];
 	[attrs[1] setColor:[[UIColor greenColor] vector]];
 	[attrs[2] setColor:[[UIColor blueColor] vector]];
-	[attrs[3] setColor:[[UIColor colorWithWhite:1.0 alpha:0.5] vector]];
+	
+	[data addElementWithValue:5 index:0 ID:0];
+	[data addElementWithValue:25 index:1 ID:0];
+	[data addElementWithValue:125 index:2 ID:0];
+	[data sort:NO];
+	[data flush];
 
-	[self.configurator addBlockRenderable:^(id<MTLRenderCommandEncoder>  _Nonnull encoder, MetalChart * _Nonnull chart) {
-		[arc encodeWith:encoder projection:space.projection values:values offset:0 count:5];
-	}];
+	[self.chart addSeries:series];
 }
 
 @end
