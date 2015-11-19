@@ -37,6 +37,7 @@
         _bufferSize = CGSizeMake(width / _scale, height / _scale);
         _cgSpace = CGColorSpaceCreateDeviceRGB();
         _data = malloc(4 * width * height);
+		_clearColor = 0x00FFFFFF;
     }
     return self;
 }
@@ -63,41 +64,6 @@
     _data = NULL;
 }
 
-- (void)drawLine:(NSMutableAttributedString *)line
-       toTexture:(id<MTLTexture>)texture
-          region:(MTLRegion)region
-       confBlock:(FMLineConfBlock)block
-{
-    CTFontRef font = _ctFont;
-    if(font) {
-        [line addAttribute:(NSString *)kCTFontAttributeName
-                     value:(__bridge id)font
-                     range:NSMakeRange(0, line.length)];
-    }
-    CTLineRef ctline = CTLineCreateWithAttributedString((CFAttributedStringRef)line);
-    
-    const CGRect glyphRect = CTLineGetBoundsWithOptions(ctline, kCTLineBoundsUseGlyphPathBounds);
-    const CGSize bufPxSize = _bufferPixelSize;
-    const CGSize bufLogSize = _bufferSize;
-    CGRect drawRect;
-    block(0, glyphRect.size, bufLogSize, &drawRect);
-    const float sx = (drawRect.size.width) / glyphRect.size.width;
-    const float sy = (drawRect.size.height) / glyphRect.size.height;
-    CGContextRef context = CGBitmapContextCreate(_data, bufPxSize.width, bufPxSize.height, 8, 4 * bufPxSize.width, _cgSpace, kCGImageAlphaPremultipliedLast);
-    CGContextClearRect(context, CGRectMake(0, 0, bufPxSize.width, bufPxSize.height));
-    CGContextScaleCTM(context, _scale, _scale);
-    CGContextTranslateCTM(context, drawRect.origin.x , drawRect.origin.y);
-    CGContextScaleCTM(context, sx, sy);
-    CGContextTranslateCTM(context, -glyphRect.origin.x, -glyphRect.origin.y);
-    CGContextSetTextPosition(context, 0, 0);
-    CTLineDraw(ctline, context);
-    
-    CGContextRelease(context);
-    CFRelease(ctline);
-    
-    [texture replaceRegion:region mipmapLevel:0 withBytes:_data bytesPerRow:bufPxSize.width * 4];
-}
-
 - (void)drawLines:(NSArray<NSMutableAttributedString *> *)lines
         toTexture:(id<MTLTexture>)texture
            region:(MTLRegion)region
@@ -106,7 +72,7 @@
     const CGSize bufPxSize = _bufferPixelSize;
     const CGSize bufLogSize = _bufferSize;
 	{ // 手動で_dataをクリアしないと、CoreTextが明るい色の文字をうまく描画できなくなる。この問題は本質的には描画色を必要とするが、ひとまずこの状態にしておく.
-		const int32_t color = 0x00FFFFFF;
+		const int32_t color = _clearColor;
 		const int num = bufPxSize.width * bufPxSize.height;
 		int32_t * const ptr = (int32_t *)_data;
 		for(int i = 0; i < num; ++i) ptr[i] = color;
@@ -126,6 +92,7 @@
         const CGRect glyphRect = CTLineGetBoundsWithOptions(ctline, kCTLineBoundsUseGlyphPathBounds);
         CGRect drawRect;
         block(i, glyphRect.size, bufLogSize, &drawRect);
+		[_hook willDrawString:line toContext:context drawRect:&drawRect];
         const float sx = (drawRect.size.width) / glyphRect.size.width;
         const float sy = (drawRect.size.height) / glyphRect.size.height;
         CGContextTranslateCTM(context, drawRect.origin.x , drawRect.origin.y);
@@ -143,6 +110,32 @@
 }
 
 @end
+
+
+
+@implementation FMBlockLineDrawHook
+
+- (instancetype)initWithBlock:(FMLineHookBlock)block
+{
+	self = [super init];
+	if(self) {
+		_block = block;
+	}
+	return self;
+}
+
+- (void)willDrawString:(NSAttributedString *)string toContext:(CGContextRef)context drawRect:(const CGRect *)drawRect
+{
+	_block(string, context, drawRect);
+}
+
++ (instancetype)hookWithBlock:(FMLineHookBlock)block
+{
+	return [[self alloc] initWithBlock:block];
+}
+
+@end
+
 
 
 @interface FMAxisLabel()
@@ -274,6 +267,16 @@
     
 	_idxMax = newMax;
 	_idxMin = newMin;
+}
+
+- (void)setClearColor:(int32_t)color
+{
+	_buffer.clearColor = color;
+}
+
+- (void)setLineDrawHook:(id<FMLineDrawHook>)hook
+{
+	_buffer.hook = hook;
 }
 
 @end
