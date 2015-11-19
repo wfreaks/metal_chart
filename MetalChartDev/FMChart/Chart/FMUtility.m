@@ -207,13 +207,14 @@
 			}
 			if(block) {
 				FMAxisLabelBlockDelegate *delegate = [[FMAxisLabelBlockDelegate alloc] initWithBlock:block];
-				[_retained addObject:delegate];
 				FMAxisLabel *label = [[FMAxisLabel alloc] initWithEngine:_engine
 															   frameSize:size
 														  bufferCapacity:count
 														   labelDelegate:delegate];
 				[label setFrameAnchorPoint:((dimIndex == 0) ? CGPointMake(0.5, 0) : CGPointMake(1.0, 0.5))];
 				axis.decoration = label;
+				[self addRetainedObject:delegate];
+				[self addRetainedObject:label];
 			}
 			return axis;
 		}
@@ -325,6 +326,11 @@
 	FMPieDoughnutSeries *series = [[FMPieDoughnutSeries alloc] initWithEngine:self.engine arc:nil projection:space values:nil attributesCapacityOnCreate:capacity valuesCapacityOnCreate:capacity];
 	[_chart addSeries:series];
 	return series;
+}
+
+- (void)addRetainedObject:(id)object
+{
+	[self.retained addObject:object];
 }
 
 @end

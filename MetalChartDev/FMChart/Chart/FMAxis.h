@@ -49,7 +49,7 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
-@property (strong  , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
+@property (weak    , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
 							 Projection:(FMProjectionCartesian2D * _Nonnull)projection

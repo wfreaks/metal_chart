@@ -138,6 +138,11 @@ NS_DESIGNATED_INITIALIZER;
 											 capacity:(NSUInteger)capacity
 ;
 
+// protocolを使ったdelegate/hookなどを良く実装するため、外側でretainしておく必要が
+// 出る事が多いが、実際そのためにプロパティ増やすとかないわーな時に使う.
+// 決して良い方法ではないし何回も通るコードパスで使用するべきではないが、
+- (void)addRetainedObject:(id _Nonnull)object;
+
 @end
 
 
