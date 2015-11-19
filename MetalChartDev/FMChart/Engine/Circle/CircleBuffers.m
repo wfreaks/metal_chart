@@ -17,6 +17,7 @@
 	if(self) {
 		_buffer = [resource.device newBufferWithLength:sizeof(uniform_arc_configuration)
 											   options:MTLResourceOptionCPUCacheModeWriteCombined];
+		[self setRadianScale:1];
 	}
 	return self;
 }
@@ -25,12 +26,16 @@
 
 - (void)setInnerRadius:(CGFloat)radius { self.conf->radius_inner = radius; }
 - (void)setOuterRadius:(CGFloat)radius { self.conf->radius_outer = radius; }
+
 - (void)setRadianOffset:(CGFloat)radian { self.conf->radian_offset = radian; }
+- (void)setRadianScale:(CGFloat)scale { self.conf->radian_scale = scale; }
+
 - (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
 {
 	self.conf->radius_inner = inner;
 	self.conf->radius_outer = outer;
 }
+
 
 @end
 

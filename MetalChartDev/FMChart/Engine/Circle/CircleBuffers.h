@@ -27,8 +27,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setInnerRadius:(CGFloat)radius;
 - (void)setOuterRadius:(CGFloat)radius;
-- (void)setRadianOffset:(CGFloat)radian;
 - (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer;
+- (void)setRadianOffset:(CGFloat)radian;
+- (void)setRadianScale:(CGFloat)scale;
 
 @end
 

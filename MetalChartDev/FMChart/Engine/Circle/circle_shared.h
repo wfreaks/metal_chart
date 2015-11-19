@@ -21,6 +21,7 @@ struct arc_conf {
 	float  radius_inner;
 	float  radius_outer;
 	float  radian_offset;
+	float  radian_scale;
 };
 
 struct arc_attr {

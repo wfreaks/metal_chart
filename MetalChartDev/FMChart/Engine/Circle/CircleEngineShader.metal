@@ -38,10 +38,11 @@ vertex out_vertex_arc ArcContinuosVertex(
 	const uint arc_id = vid_raw / 12;
 	const uint subarc_id = (vid_raw % 12) / 3;
 	
-	const float offset=  conf.radian_offset;
+	const float offset = conf.radian_offset;
+	const float scale = conf.radian_scale;
 	const int arc_prev = max(0, (int)(arc_id)-1);
-	const float t1 = ((arc_id > 0) * values[arc_prev].value) + offset;
-	const float t2 = values[arc_id].value + offset;
+	const float t1 = (scale * ((arc_id > 0) * values[arc_prev].value)) + offset;
+	const float t2 = (scale * values[arc_id].value) + offset;
 	const uint  idx = values[arc_id].idx;
 	const arc_attr attr = attrs[idx];
 	const float theta = min(2*M_PI, t2-t1);

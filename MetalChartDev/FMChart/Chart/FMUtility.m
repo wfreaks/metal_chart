@@ -50,7 +50,8 @@
 		_space = array;
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
-		_engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
+		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
+		_engine = engine;
 		_view = view;
 		_preferredFps = fps;
 		
@@ -309,6 +310,21 @@
 - (FMOrderedSeries *)createSeries:(NSUInteger)capacity
 {
     return [[FMOrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
+}
+
+- (FMProjectionPolar *)addPolarSpace
+{
+	FMProjectionPolar *space = [[FMProjectionPolar alloc] initWithResource:self.engine.resource];
+	[_chart addProjection:space];
+	return space;
+}
+
+- (FMPieDoughnutSeries *)addPieSeriesToSpace:(FMProjectionPolar *)space
+									capacity:(NSUInteger)capacity
+{
+	FMPieDoughnutSeries *series = [[FMPieDoughnutSeries alloc] initWithEngine:self.engine arc:nil projection:space values:nil attributesCapacityOnCreate:capacity valuesCapacityOnCreate:capacity];
+	[_chart addSeries:series];
+	return series;
 }
 
 @end

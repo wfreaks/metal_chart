@@ -25,6 +25,8 @@
 		_configuration = (conf) ? conf : [[FMUniformArcConfiguration alloc] initWithResource:engine.resource];
 		_attributes = (attr) ? attr : [[FMUniformArcAttributesArray alloc] initWithResource:engine.resource
 																				   capacity:capacity];
+		[_configuration setRadianScale:-1];
+		[_configuration setRadianOffset:M_PI_2];
 	}
 	return self;
 }

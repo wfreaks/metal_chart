@@ -15,10 +15,12 @@
 
 #import "FMAxisLabel.h"
 #import "FMRenderables.h"
+#import "FMRenderablesAux.h"
 
 @class MetalChart;
 @class FMDimensionalProjection;
 @class FMProjectionCartesian2D;
+@class FMProjectionPolar;
 @class FMProjectionUpdater;
 @class FMAxis;
 @class FMAxisLabel;
@@ -125,6 +127,15 @@ NS_DESIGNATED_INITIALIZER;
 - (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
 
 - (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
+;
+
+
+
+- (FMProjectionPolar * _Nonnull)addPolarSpace;
+;
+
+- (FMPieDoughnutSeries * _Nonnull)addPieSeriesToSpace:(FMProjectionPolar * _Nonnull)space
+											 capacity:(NSUInteger)capacity
 ;
 
 @end
