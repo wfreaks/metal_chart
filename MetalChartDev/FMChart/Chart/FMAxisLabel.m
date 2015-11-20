@@ -191,9 +191,11 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			  axis:(FMAxis *)axis projection:(FMUniformProjectionCartesian2D *)projection
+			  axis:(FMAxis *)axis
+		projection:(FMUniformProjectionCartesian2D *)projection
+			  view:(FMMetalView * _Nonnull)view
 {
-    [self configure:axis];
+    [self configure:axis view:view];
     const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
 	[_quad encodeWith:encoder projection:projection count:count];
 }
@@ -204,7 +206,7 @@
     _idxMin = 0;
 }
 
-- (void)configure:(FMAxis *)axis
+- (void)configure:(FMAxis *)axis view:(MetalView *)view
 {
     FMDimensionalProjection *dimension = axis.dimension;
     const CGFloat min = dimension.min;
@@ -244,27 +246,28 @@
 		block(newMin, newMax, &oldMin, &oldMax);
 	}
 	
+	BOOL dispatch = NO;
     for(NSInteger idx = newMin; idx <= newMax; ++idx) {
         if(!(oldMin <= idx && idx <= oldMax)) {
-            const CGFloat value = anchor + (idx * interval);
-            NSArray<NSMutableAttributedString*> *str = [_delegate attributedStringForValue:value index:idx-newMin last:newMax-newMin dimension:dimension];
-            NSInteger wrapped_idx = (idx % capacity);
-            if(wrapped_idx < 0) wrapped_idx += capacity;
-            const MTLRegion region = MTLRegionMake2D(0, (wrapped_idx * bufPixels.height), bufPixels.width, bufPixels.height);
-            const NSUInteger count = str.count;
-            [_buffer drawLines:str toTexture:_quad.texture region:region confBlock:^(NSUInteger idx, CGSize lineSize, CGSize bufSize, CGRect * _Nonnull drawRect) {
-                const CGFloat w = lineSize.width;
-                const CGFloat h = lineSize.height;
-                const CGFloat space = self.lineSpace;
-                const CGFloat boxHeight = h * count + (space * (count-1));
-                const CGFloat x = align.x * (bufSize.width - w);
-                const CGFloat y = align.y * (bufSize.height - boxHeight);
-                const CGFloat yOffset = (h+space) * idx;
-                *drawRect = CGRectMake(x, y+yOffset, w, h);
-            }];
+			const CGFloat value = anchor + (idx * interval);
+			NSArray<NSMutableAttributedString*> *str = [_delegate attributedStringForValue:value index:idx-newMin last:newMax-newMin dimension:dimension];
+			NSInteger wrapped_idx = (idx % capacity);
+			if(wrapped_idx < 0) wrapped_idx += capacity;
+			const MTLRegion region = MTLRegionMake2D(0, (wrapped_idx * bufPixels.height), bufPixels.width, bufPixels.height);
+			const NSUInteger count = str.count;
+			[_buffer drawLines:str toTexture:_quad.texture region:region confBlock:^(NSUInteger idx, CGSize lineSize, CGSize bufSize, CGRect * _Nonnull drawRect) {
+				const CGFloat w = lineSize.width;
+				const CGFloat h = lineSize.height;
+				const CGFloat space = self.lineSpace;
+				const CGFloat boxHeight = h * count + (space * (count-1));
+				const CGFloat x = align.x * (bufSize.width - w);
+				const CGFloat y = align.y * (bufSize.height - boxHeight);
+				const CGFloat yOffset = (h+space) * idx;
+				*drawRect = CGRectMake(x, y+yOffset, w, h);
+			}];
         }
     }
-    
+	
 	_idxMax = newMax;
 	_idxMin = newMin;
 }
