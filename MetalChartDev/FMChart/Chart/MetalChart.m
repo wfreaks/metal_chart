@@ -138,10 +138,10 @@ MTLPixelFormat determineDepthPixelFormat()
     
 	if(drawable) {
 		__block dispatch_semaphore_t semaphore = _semaphore;
+		[buffer presentDrawable:drawable];
 		[buffer addCompletedHandler:^(id<MTLCommandBuffer> _Nonnull buffer) {
 			dispatch_semaphore_signal(semaphore);
 		}];
-		[buffer presentDrawable:drawable];
 		[buffer commit];
 	} else {
 		dispatch_semaphore_signal(_semaphore);
