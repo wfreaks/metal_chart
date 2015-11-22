@@ -56,9 +56,7 @@
 @end
 
 
-@implementation FMUniformBarAttributes
-
-@dynamic bar;
+@implementation FMUniformBarConfiguration
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
@@ -120,6 +118,65 @@
 
 @end
 
+
+
+@interface FMUniformRectAttributes()
+
+- (instancetype)initWithPointer:(uniform_rect_attr *)ptr;
+
+@end
+@implementation FMUniformRectAttributes
+
+- (instancetype)initWithPointer:(uniform_rect_attr *)ptr
+{
+	self = [super init];
+	if(self) {
+		_attr = ptr;
+	}
+	return self;
+}
+
+- (void)setColor:(vector_float4)color { self.attr->color = color; }
+- (void)setColorRef:(const vector_float4 *)color { self.attr->color = *color; }
+
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
+{
+	self.attr->color = vector4(r, g, b, a);
+}
+
+@end
+
+
+
+
+
+@implementation FMUniformRectAttributesArray
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource
+						capacity:(NSUInteger)capacity
+{
+	self = [super init];
+	if(self) {
+		const NSInteger size = sizeof(uniform_rect_attr) * capacity;
+		const MTLResourceOptions opt = MTLResourceOptionCPUCacheModeWriteCombined;
+		_buffer = [resource.device newBufferWithLength:size
+											   options:opt];
+		uniform_rect_attr *ptr = (uniform_rect_attr *)[_buffer contents];
+		NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
+		for(NSUInteger i = 0; i < capacity; ++i) {
+			[array addObject:[[FMUniformRectAttributes alloc] initWithPointer:(ptr+i)]];
+		}
+		_array = array.copy;
+	}
+	return self;
+}
+
+- (FMUniformRectAttributes *)objectAtIndexedSubscript:(NSUInteger)index
+{
+	return _array[index];
+}
+
+@end
 
 
 

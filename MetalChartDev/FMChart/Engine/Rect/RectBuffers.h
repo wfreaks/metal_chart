@@ -29,7 +29,7 @@
 @end
 
 
-@interface FMUniformBarAttributes : NSObject
+@interface FMUniformBarConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_bar * _Nonnull bar;
@@ -51,5 +51,39 @@
 // ただ、棒グラフとしては（機能の要不要は棚に上げると）この挙動が望ましいと考えている.
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 
+@end
+
+
+@interface FMUniformRectAttributes : NSObject
+
+@property (readonly, nonatomic) uniform_rect_attr * _Nonnull attr;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
+- (void)setColor:(vector_float4)color;
+- (void)setColorRef:(vector_float4 const * _Nonnull)color;
 
 @end
+
+
+@interface FMUniformRectAttributesArray : NSObject
+
+@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
+@property (nonatomic, readonly) NSArray<FMUniformRectAttributes*> * _Nonnull array;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+								 capacity:(NSUInteger)capacity
+;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+// indexチェックは行わない、注意する事.
+- (FMUniformRectAttributes * _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
+
+@end
+
+
+

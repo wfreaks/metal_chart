@@ -51,7 +51,7 @@
 @interface FMBarPrimitive()
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-									  attributes:(FMUniformBarAttributes * _Nullable)attributes
+						  configuration:(FMUniformBarConfiguration * _Nullable)conf
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
@@ -59,19 +59,20 @@
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset;
 - (id<MTLBuffer> _Nullable)indexBuffer;
 - (NSString * _Nonnull)vertexFunctionName;
+- (NSString * _Nonnull)fragmentFunctionName;
 
 @end
 
 @implementation FMBarPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-					attributes:(FMUniformBarAttributes * _Nullable)attributes
+				 configuration:(FMUniformBarConfiguration * _Nullable)conf
 {
     self = [super init];
     if(self) {
         _engine = engine;
         FMDeviceResource *res = engine.resource;
-        _attributes = (attributes) ? attributes : [[FMUniformBarAttributes alloc] initWithResource:res];
+        _conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
     }
     return self;
 }
@@ -89,7 +90,7 @@
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const indexBuffer = [self indexBuffer];
-		id<MTLBuffer> const barBuffer = _attributes.buffer;
+		id<MTLBuffer> const barBuffer = _conf.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
@@ -111,7 +112,7 @@
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
-    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"GeneralBar_Fragment" writeDepth:YES];
+    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 6 * count; }
@@ -119,6 +120,7 @@
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return 6 * offset; }
 
 - (NSString *)vertexFunctionName { return @""; }
+- (NSString *)fragmentFunctionName { return @"GeneralBar_Fragment"; }
 
 - (id<MTLBuffer>)indexBuffer { return nil; }
 
@@ -131,9 +133,9 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMOrderedSeries *)series
-					attributes:(FMUniformBarAttributes * _Nullable)attributes
+				 configuration:(FMUniformBarConfiguration * _Nullable)conf
 {
-    self = [super initWithEngine:engine attributes:attributes];
+    self = [super initWithEngine:engine configuration:conf];
     if(self) {
         _series = series;
     }
@@ -146,6 +148,63 @@
 
 
 
+
+
+@implementation FMOrderedAttributedBarPrimitive
+
+- (instancetype)initWithEngine:(FMEngine *)engine
+						series:(FMOrderedAttributedSeries *)series
+				 configuration:(FMUniformBarConfiguration * _Nullable)conf
+					attributes:(FMUniformRectAttributesArray * _Nullable)attrs
+	attributesCapacityOnCreate:(NSUInteger)capacity
+{
+	self = [super initWithEngine:engine configuration:conf];
+	if(self) {
+		_series = series;
+		_attrs = (attrs) ? attrs : [[FMUniformRectAttributesArray alloc] initWithResource:engine.resource capacity:capacity];
+	}
+	return self;
+}
+
+- (NSString *)vertexFunctionName { return @"AttributedBar_VertexOrdered"; }
+- (NSString *)fragmentFunctionName { return @"AttributedBar_Fragment"; }
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+		projection:(FMUniformProjectionCartesian2D *)projection
+{
+	id<FMSeries> const series = [self series];
+	if(series) {
+		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLDepthStencilState> depthState = self.engine.depthState_depthGreater;
+		[encoder pushDebugGroup:@"DrawAttributedBar"];
+		[encoder setRenderPipelineState:renderState];
+		[encoder setDepthStencilState:depthState];
+		
+		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
+		id<MTLBuffer> const indexBuffer = [self indexBuffer];
+		id<MTLBuffer> const barBuffer = self.conf.buffer;
+		id<MTLBuffer> const attrsBuffer = self.attrs.buffer;
+		id<MTLBuffer> const projBuffer = projection.buffer;
+		id<MTLBuffer> const infoBuffer = [series info].buffer;
+		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:barBuffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:projBuffer offset:0 atIndex:3];
+		[encoder setVertexBuffer:infoBuffer offset:0 atIndex:4];
+		
+		[encoder setFragmentBuffer:barBuffer offset:0 atIndex:0];
+		[encoder setFragmentBuffer:attrsBuffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:2];
+		
+		const NSUInteger offset = [self vertexOffsetWithOffset:[series info].offset];
+		const NSUInteger count = [self vertexCountWithCount:[series info].count];
+		[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
+		
+		[encoder popDebugGroup];
+	}
+}
+
+@end
 
 
 

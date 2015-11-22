@@ -41,7 +41,7 @@ struct uniform_rect_attr {
 
 typedef struct uniform_plot_rect uniform_plot_rect;
 typedef struct uniform_bar uniform_bar;
-typedef struct uniform_rect_attr uniform_attr;
+typedef struct uniform_rect_attr uniform_rect_attr;
 
 #endif
 

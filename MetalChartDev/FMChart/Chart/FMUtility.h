@@ -28,6 +28,7 @@
 @class FMGestureInterpreter;
 @class FMEngine;
 @class FMOrderedSeries;
+@class FMOrderedAttributedSeries;
 
 @protocol FMSeries;
 @protocol FMInteraction;
@@ -120,8 +121,13 @@ NS_DESIGNATED_INITIALIZER;
                                  series:(FMOrderedSeries * _Nonnull)series
 ;
 
+- (FMAttributedBarSeries * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
+													 series:(FMOrderedAttributedSeries * _Nonnull)series
+											   attrCapacity:(NSUInteger)capacity
+;
+
 - (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-									 series:(FMOrderedSeries * _Nonnull)series
+									 series:(FMAttributedBarSeries * _Nonnull)series
 ;
 
 - (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
@@ -129,6 +135,8 @@ NS_DESIGNATED_INITIALIZER;
 - (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
 ;
 
+- (FMOrderedAttributedSeries * _Nonnull)createAttributedSeries:(NSUInteger)capacity
+;
 
 
 - (FMProjectionPolar * _Nonnull)addPolarSpace;

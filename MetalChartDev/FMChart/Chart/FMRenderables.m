@@ -120,17 +120,17 @@
             return 0;
         }
     }
-    [self.attributes setDepthValue:min+0.05];
+    [self.conf setDepthValue:min+0.05];
     return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-    [self.attributes setDepthValue:min+0.05];
+    [self.conf setDepthValue:min+0.05];
     return 0.1;
 }
 
-- (FMUniformBarAttributes *)attributes { return _bar.attributes; }
+- (FMUniformBarConfiguration *)conf { return _bar.conf; }
 
 - (id<FMSeries>)series { return [_bar series]; }
 
@@ -148,10 +148,10 @@
 							   projection:(FMProjectionCartesian2D *)projection
 {
 	FMOrderedSeries *series = [[FMOrderedSeries alloc] initWithResource:engine.resource
-													 vertexCapacity:capacity];
+														 vertexCapacity:capacity];
 	FMOrderedBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:engine
-																	 series:series
-																 attributes:nil];
+																		series:series
+																 configuration:nil];
 	
 	return [[self alloc] initWithBar:bar projection:projection];
 }
@@ -160,6 +160,36 @@
 @end
 
 
+@implementation FMAttributedBarSeries
+
+- (instancetype)initWithAttributedBar:(FMOrderedAttributedBarPrimitive *)bar
+						   projection:(FMProjectionCartesian2D *)projection
+{
+	self = [super initWithBar:bar projection:projection];
+	if(self) {
+		_attributedBar = bar;
+	}
+	return self;
+}
+
+- (FMUniformRectAttributesArray *)attrs { return _attributedBar.attrs; }
+
++ (instancetype)orderedSeriesWithCapacity:(NSUInteger)seriesCapacity
+					   attributesCapacity:(NSUInteger)attrCapacity
+								   engine:(FMEngine *)engine
+							   projection:(FMProjectionCartesian2D *)projection
+{
+	FMOrderedAttributedSeries *series = [[FMOrderedAttributedSeries alloc] initWithResource:engine.resource vertexCapacity:seriesCapacity];
+	FMOrderedAttributedBarPrimitive *primitive = [[FMOrderedAttributedBarPrimitive alloc] initWithEngine:engine
+																								  series:series
+																						   configuration:nil
+																							  attributes:nil
+																			  attributesCapacityOnCreate:attrCapacity];
+	FMAttributedBarSeries *bar = [[FMAttributedBarSeries alloc] initWithAttributedBar:primitive projection:projection];
+	return bar;
+}
+
+@end
 
 
 @implementation FMPointSeries

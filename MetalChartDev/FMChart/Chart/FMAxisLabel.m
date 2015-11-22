@@ -248,7 +248,6 @@
 		block(newMin, newMax, &oldMin, &oldMax);
 	}
 	
-	BOOL dispatch = NO;
     for(NSInteger idx = newMin; idx <= newMax; ++idx) {
         if(!(oldMin <= idx && idx <= oldMax)) {
 			const CGFloat value = anchor + (idx * interval);

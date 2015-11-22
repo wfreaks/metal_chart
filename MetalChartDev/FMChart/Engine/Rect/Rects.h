@@ -12,7 +12,9 @@
 @class FMEngine;
 @class FMUniformProjectionCartesian2D;
 @class FMUniformPlotRectAttributes;
-@class FMUniformBarAttributes;
+@class FMUniformBarConfiguration;
+@class FMUniformRectAttributes;
+@class FMUniformRectAttributesArray;
 @class FMOrderedSeries;
 @class FMOrderedAttributedSeries;
 
@@ -36,7 +38,7 @@
 @interface FMBarPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
-@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
 
 - (id<FMSeries> _Nullable)series;
 
@@ -48,7 +50,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(FMOrderedSeries * _Nullable)series
-							 attributes:(FMUniformBarAttributes * _Nullable)attributes
+						  configuration:(FMUniformBarConfiguration * _Nullable)conf
 ;
 
 @end
@@ -56,10 +58,13 @@
 @interface FMOrderedAttributedBarPrimitive : FMBarPrimitive
 
 @property (strong, nonatomic) FMOrderedAttributedSeries * _Nullable series;
+@property (strong, nonatomic) FMUniformRectAttributesArray * _Nonnull attrs;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(FMOrderedAttributedSeries * _Nullable)series
-							 attributes:(FMUniformBarAttributes * _Nullable)attributes
+						  configuration:(FMUniformBarConfiguration * _Nullable)conf
+							 attributes:(FMUniformRectAttributesArray * _Nullable)attrs
+			 attributesCapacityOnCreate:(NSUInteger)capacity
 ;
 
 @end
