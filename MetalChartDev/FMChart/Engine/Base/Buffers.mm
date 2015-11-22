@@ -142,6 +142,35 @@
 @end
 
 
+@implementation FMIndexedFloat2Buffer
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
+{
+	self = [super init];
+	if(self) {
+		const NSUInteger length = sizeof(indexed_value_float2) * capacity;
+		_buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_capacity = capacity;
+	}
+	return self;
+}
+
+- (indexed_value_float2 *)bufferAtIndex:(NSUInteger)index
+{
+	indexed_value_float2 *ptr = (indexed_value_float2 *)[_buffer contents];
+	return (ptr + index);
+}
+
+- (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
+{
+	indexed_value_float2 *buffer = ((indexed_value_float2 *)[_buffer contents]) + bufferIndex;
+	buffer->value = vector2(x, y);
+	buffer->idx = index;
+}
+
+@end
+
+
 
 @implementation FMUniformProjectionCartesian2D
 

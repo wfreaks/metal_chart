@@ -113,6 +113,25 @@ UNAVAILABLE_ATTRIBUTE;
 @end
 
 
+@interface FMIndexedFloat2Buffer : NSObject
+
+@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
+@property (nonatomic, readonly) NSUInteger capacity;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+								 capacity:(NSUInteger)capacity
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (indexed_value_float2 * _Nonnull)bufferAtIndex:(NSUInteger)index;
+
+- (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
+;
+
+@end
+
 
 
 // このクラスだけScissorRectやらscreenScaleやらを考慮した上でvalueOffsetとかsizeとvalueScaleを

@@ -28,10 +28,26 @@
 @property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
-									vertexCapacity:(NSUInteger)vertCapacity
+						   vertexCapacity:(NSUInteger)vertCapacity
 ;
 
 @end
+
+@interface FMOrderedAttributedSeries : NSObject<FMSeries>
+
+@property (readonly, nonatomic) FMIndexedFloat2Buffer * _Nonnull vertices;
+@property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+						   vertexCapacity:(NSUInteger)vertCapacity
+;
+
+- (void)addPoint:(CGPoint)point attrIndex:(NSUInteger)attrIndex;
+- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max attrIndex:(NSUInteger)attrIndex;
+
+@end
+
+// これは、「描画するデータを指定するための」index. 属性を指定するためのそれと区別する事.
 
 @interface FMIndexedSeries : NSObject<FMSeries>
 
@@ -40,8 +56,8 @@
 @property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
-									vertexCapacity:(NSUInteger)vertCapacity
-									 indexCapacity:(NSUInteger)idxCapacity
+						   vertexCapacity:(NSUInteger)vertCapacity
+							indexCapacity:(NSUInteger)idxCapacity
 ;
 
 // write vertices[index] = point, indices[head] = index;

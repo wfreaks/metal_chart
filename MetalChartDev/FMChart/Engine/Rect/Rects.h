@@ -14,6 +14,7 @@
 @class FMUniformPlotRectAttributes;
 @class FMUniformBarAttributes;
 @class FMOrderedSeries;
+@class FMOrderedAttributedSeries;
 
 @protocol MTLRenderCommandEncoder;
 @protocol FMSeries;
@@ -47,6 +48,17 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(FMOrderedSeries * _Nullable)series
+							 attributes:(FMUniformBarAttributes * _Nullable)attributes
+;
+
+@end
+
+@interface FMOrderedAttributedBarPrimitive : FMBarPrimitive
+
+@property (strong, nonatomic) FMOrderedAttributedSeries * _Nullable series;
+
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
+								 series:(FMOrderedAttributedSeries * _Nullable)series
 							 attributes:(FMUniformBarAttributes * _Nullable)attributes
 ;
 

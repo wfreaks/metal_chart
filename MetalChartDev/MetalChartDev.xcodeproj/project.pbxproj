@@ -163,8 +163,8 @@
 		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
-		AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; };
-		AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; };
+		AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
+		AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

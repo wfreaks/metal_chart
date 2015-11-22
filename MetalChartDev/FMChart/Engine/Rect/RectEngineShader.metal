@@ -7,6 +7,7 @@
 //
 
 #include "../Base/Shader_common.h"
+#include "Rect_common.h"
 
 struct out_vertex_plot {
     float4 position [[ position ]];
@@ -24,24 +25,6 @@ struct out_vertex_bar {
     float  w   [[ flat ]];
     float  l   [[ flat ]];
 };
-
-struct uniform_plot_rect {
-    float4 color;
-    float4 corner_radius; // 解釈は(x, y, z, w) = (lt, rt, lb, rb);
-    float  depth_value;
-};
-
-struct uniform_bar {
-    float4 color;
-    float4 corner_radius;
-    
-    float2 dir;
-    float2 anchor_point;
-    
-    float  width;
-    float  depth_value;
-};
-
 
 vertex out_vertex_plot PlotRect_Vertex(
                                        constant uniform_plot_rect&  rect [[ buffer(0) ]],

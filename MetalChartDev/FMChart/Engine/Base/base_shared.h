@@ -32,6 +32,11 @@ struct indexed_value_float {
 	uint32_t idx;
 };
 
+struct indexed_value_float2 {
+	vector_float2 value;
+	uint32_t idx;
+};
+
 struct uniform_projection_cart2d {
 	vector_float2 origin;
 	vector_float2 value_scale;
@@ -65,16 +70,14 @@ typedef struct uniform_projection_polar {
 #ifdef __OBJC__
 
 typedef struct vertex_coord vertex_buffer;
-
 typedef struct vertex_index index_buffer;
-
 typedef struct uniform_series_info uniform_series_info;
 
 typedef struct uniform_projection_cart2d uniform_projection_cart2d;
-
 typedef struct uniform_projection_polar uniform_projection_polar;
 
 typedef struct indexed_value_float indexed_value_float;
+typedef struct indexed_value_float2 indexed_value_float2;
 
 #endif
 
