@@ -167,6 +167,7 @@
         _idxMin = 1;
         _idxMax = -1;
         _textAlignment = CGPointMake(0.5, 0.5);
+		_textOffset = CGPointZero;
         _lineSpace = 2;
         
         [_quad.dataRegion setSize:frameSize];
@@ -236,6 +237,7 @@
     const NSInteger capacity = _capacity;
     const CGSize bufPixels = _buffer.bufferPixelSize;
     const CGPoint align = _textAlignment;
+	const CGPoint offset = _textOffset;
 	
 	NSInteger oldMin = _idxMin;
 	NSInteger oldMax = _idxMax;
@@ -260,8 +262,8 @@
 				const CGFloat h = lineSize.height;
 				const CGFloat space = self.lineSpace;
 				const CGFloat boxHeight = h * count + (space * (count-1));
-				const CGFloat x = align.x * (bufSize.width - w);
-				const CGFloat y = align.y * (bufSize.height - boxHeight);
+				const CGFloat x = (align.x * (bufSize.width - w)) + offset.x;
+				const CGFloat y = (align.y * (bufSize.height - boxHeight)) + offset.y;
 				const CGFloat yOffset = (h+space) * idx;
 				*drawRect = CGRectMake(x, y+yOffset, w, h);
 			}];

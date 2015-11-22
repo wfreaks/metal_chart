@@ -104,6 +104,7 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
 @property (assign  , nonatomic) CGPoint textAlignment;
+@property (assign  , nonatomic) CGPoint textOffset;
 
 @property (copy    , nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
 

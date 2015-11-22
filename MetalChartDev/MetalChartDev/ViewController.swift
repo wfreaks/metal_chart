@@ -48,7 +48,7 @@ class ViewController: UIViewController {
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
         
-		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 2,height: 2), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
+		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 10,height: 10), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
 		
 		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
@@ -126,11 +126,12 @@ class ViewController: UIViewController {
             let dummyDim : FMDimensionalProjection = configurator.dimensionWithId(3)!
 			
             let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(4))
-            lineSeries.attributes.setWidth(2)
+            lineSeries.attributes.setWidth(10)
             lineSeries.attributes.enableOverlay = true
-            lineSeries.attributes.enableDash = true;
-            lineSeries.attributes.setDashLineLength(2);
-            lineSeries.attributes.setDashSpaceLength(2);
+			lineSeries.attributes.setColorWithRed(0, green:0, blue:0, alpha:1);
+//            lineSeries.attributes.enableDash = true;
+//            lineSeries.attributes.setDashLineLength(2);
+//            lineSeries.attributes.setDashSpaceLength(2);
 			
 			let barSeries = configurator.addBarToSpace(space, series: configurator.createSeries(1<<4))
 			barSeries.attributes.setBarWidth(10)
