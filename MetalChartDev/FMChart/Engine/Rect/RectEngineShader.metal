@@ -65,18 +65,25 @@ vertex out_vertex_plot PlotRect_Vertex(
 // rect(x, y, z, w) represents (xMin, xMax, yMin, yMax) of rectangle, must share coordinate system with pos.
 inline float RoundRectFragment_core(const float2 pos, const float4 rect, const float r, const float screen_scale)
 {
-    const float xMin = rect.x + r;
-    const float xMax = rect.y - r;
-    const float yMin = rect.z + r;
-    const float yMax = rect.w - r;
-    
+	const float cap_y = min(abs(rect.w - rect.z) * 0.5, r);
+	const float cap_diff = r - cap_y;
+	const float xMin = rect.x + r;
+	const float xMax = rect.y - r;
+	const float yMin = rect.z + cap_y;
+	const float yMax = rect.w - cap_y;
+	
+//    const float xMin = rect.x + r;
+//    const float xMax = rect.y - r;
+//    const float yMin = rect.z + r;
+//    const float yMax = rect.w - r;
+	
     const float left   = pos.x - xMin;
     const float right  = pos.x - xMax;
     const float bottom = pos.y - yMin;
     const float top    = pos.y - yMax;
     
     const float x = ((left   < 0) * left  ) + ((right > 0) * right);
-    const float y = ((bottom < 0) * bottom) + ((top   > 0) * top  );
+    const float y = ((bottom < 0) * (bottom-cap_diff)) + ((top   > 0) * (top+cap_diff));
     
     const float2 mapped_pos = float2(x, y);
     const float dist_from_circle_in_px = ( (length(mapped_pos) - r) * screen_scale ) + 0.5;
@@ -158,7 +165,7 @@ fragment out_fragment_depthGreater GeneralBar_Fragment(
     // 手順をまとめてみる. pos及びcenterはデバイス上の位置となっている. dirも同じ座標に従い、かつnormalizeされているものとする.
     // その場合直行するベクトルを求めてその２つで分解する、つまり p = a*dir + b*perp; となるa, bを求める. これは簡単で a = dot(p, dir), b = dot(p, perp)である.
     // ただしこの p は p = pos - center; である.
-    // この様に分解したのち、9patchでマッピングする必要があるが、これには形状に関する情報が必要となる. これは in.w / in.l が担当するが、以下の仮定を置いている.
+    // この様に分解したのち、9patchでマッピングする必要があるが、これには形状に関する情報が必要となる. これは in.w , in.l が担当するが、以下の仮定を置いている.
     // lはdir方向の長さ成分、wは垂直方向の成分、どちらもcenterから矩形の境界までの距離に相当する、つまり長さ/2, 太さ/2である.
     // また、dirを上に向ける形で処理を進める. この仮定はcorner_radiusがどう適用されるかに影響される事に注意.
 	// ただし現状では、dirと逆方向に棒が伸びる(負値の場合)、t/bは頂点/根元に相当するため入れ替わるが、l/rは棒の進行方向に関係なく維持されることに注意.
