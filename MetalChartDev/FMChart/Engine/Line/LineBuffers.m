@@ -114,14 +114,19 @@
 
 - (void)setLineLength:(float)length { _attributes->line_length = length; }
 
-- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     _attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 const *)color
+- (void)setColor:(vector_float4)color
 {
-    _attributes->color = *color;
+    _attributes->color = color;
+}
+
+- (void)setColorRef:(const vector_float4 *)color
+{
+	_attributes->color = *color;
 }
 
 - (void)setLengthModifierStart:(float)start end:(float)end
@@ -222,14 +227,19 @@
     self.attributes->width = width;
 }
 
-- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     self.attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 const *)color
+- (void)setColor:(vector_float4)color
 {
-    self.attributes->color = *color;
+    self.attributes->color = color;
+}
+
+- (void)setColorRef:(const vector_float4 *)color
+{
+	self.attributes->color = *color;
 }
 
 - (void)setAnchorValue:(float)anchorValue

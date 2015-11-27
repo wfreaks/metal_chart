@@ -28,14 +28,19 @@
     return (uniform_plot_rect *)([_buffer contents]);
 }
 
-- (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     self.rect->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 const *)color
+- (void)setColorRef:(vector_float4 const *)color
 {
     self.rect->color = *color;
+}
+
+- (void)setColor:(vector_float4)color
+{
+	self.rect->color = color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
@@ -65,7 +70,7 @@
         _buffer = [resource.device newBufferWithLength:sizeof(uniform_bar) options:MTLResourceOptionCPUCacheModeWriteCombined];
         [self setBarWidth:3];
         [self setBarDirection:CGPointMake(0, 1)];
-        [self setColor:0.4 green:0.4 blue:0.4 alpha:0.6];
+        [self setColorRed:0.4 green:0.4 blue:0.4 alpha:0.6];
     }
     return self;
 }
@@ -75,14 +80,19 @@
     return (uniform_bar *)([_buffer contents]);
 }
 
-- (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     self.bar->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 const *)color
+- (void)setColorRef:(vector_float4 const *)color
 {
     self.bar->color = *color;
+}
+
+- (void)setColor:(vector_float4)color
+{
+	self.bar->color = color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb

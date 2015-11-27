@@ -305,7 +305,7 @@ static double gaussian(double mean, double variance) {
     if(self) {
         _attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
         _engine = engine;
-        [_attributes setColorWithRed:0.5 green:0.5 blue:0.5 alpha:0.8];
+        [_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
         [_attributes setWidth:0.5];
         [_attributes setInterval:1];
         [_attributes setAnchorValue:0];

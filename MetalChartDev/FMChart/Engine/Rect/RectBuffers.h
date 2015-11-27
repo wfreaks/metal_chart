@@ -20,8 +20,9 @@
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 const *_Nonnull)color;
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setColor:(vector_float4)color;
+- (void)setColorRef:(vector_float4 const *_Nonnull)color;
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
 - (void)setCornerRadius:(float)radius;
 - (void)setDepthValue:(float)value;
@@ -36,8 +37,9 @@
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setColor:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 const *_Nonnull)color;
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setColor:(vector_float4)color;
+- (void)setColorRef:(vector_float4 const *_Nonnull)color;
 - (void)setCornerRadius:(float)radius;
 - (void)setBarWidth:(float)width;
 - (void)setDepthValue:(float)value;

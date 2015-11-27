@@ -81,16 +81,16 @@
 	FMUniformAxisAttributes *minor = _axis.minorTickAttributes;
 	
     const float v = 0.4;
-	[axis setColorWithRed:v green:v blue:v alpha:1.0];
+	[axis setColorRed:v green:v blue:v alpha:1.0];
 	[axis setWidth:3];
 	[axis setLineLength:1];
 	
-	[major setColorWithRed:v green:v blue:v alpha:0.8];
+	[major setColorRed:v green:v blue:v alpha:0.8];
 	[major setWidth:2];
 	[major setLineLength:10];
 	[major setLengthModifierStart:-1 end:0];
 	
-	[minor setColorWithRed:v green:v blue:v alpha:0.8];
+	[minor setColorRed:v green:v blue:v alpha:0.8];
 	[minor setWidth:2];
 	[minor setLineLength:8];
 	[minor setLengthModifierStart:0 end:1];
