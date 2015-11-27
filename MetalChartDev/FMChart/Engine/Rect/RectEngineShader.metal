@@ -164,13 +164,17 @@ fragment out_fragment_depthGreater GeneralBar_Fragment(
     // lはdir方向の長さ成分、wは垂直方向の成分、どちらもcenterから矩形の境界までの距離に相当する、つまり長さ/2, 太さ/2である.
     // また、dirを上に向ける形で処理を進める. この仮定はcorner_radiusがどう適用されるかに影響される事に注意.
 	// ただし現状では、dirと逆方向に棒が伸びる(負値の場合)、t/bは頂点/根元に相当するため入れ替わるが、l/rは棒の進行方向に関係なく維持されることに注意.
+	const float4 radius = bar.corner_radius;
+	const float2 r_y = (radius.xz + radius.yw) * 0.5;
+	const float  y_offset = 0.5 * (r_y.x - r_y.y);
     const float2 p = in.pos - in.center;
     const float2 perp(+in.dir.y, -in.dir.x);
-    const float2 pos(dot(p, perp), dot(p, in.dir));
+    const float2 pos(dot(p, perp), dot(p, in.dir) + y_offset);
     const float4 rectangle(-in.w, +in.w, -in.l, +in.l);
-    const float2 signs = sign(in.coef);
+	const float2 signs = sign(pos);//sign(in.coef);
+	// ここの象限を決める際に、radiusに応じたoffsetを取る。横にずれると話がややこしくなるので、まずは縦のみ. 左右があって面倒なので、(l+r)*0.5を基準にしよう.
     const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));
-    const float r = bar.corner_radius[idx_corner];
+    const float r = radius[idx_corner];
     const float ratio = RoundRectFragment_core(pos, rectangle, r, proj.screen_scale);
     
     out_fragment_depthGreater out;
