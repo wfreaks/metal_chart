@@ -113,7 +113,7 @@
     _screenScale = [newWindow.screen scale];
     if(newWindow) {
         _display = [CADisplayLink displayLinkWithTarget:self selector:@selector(_refreshView)];
-        [_display addToRunLoop:_runloop forMode:NSDefaultRunLoopMode];
+        [_display addToRunLoop:_runloop forMode:NSRunLoopCommonModes];
         [self _updateDisplayLink];
     } else {
         [_display invalidate];
@@ -183,9 +183,6 @@
 {
     if(self.enableSetNeedsDisplay) {
         _needsRedraw = YES;
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[self draw];
-		});
     }
 }
 

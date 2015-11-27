@@ -148,7 +148,7 @@ MTLPixelFormat determineDepthPixelFormat()
         NSLog(@"drawable was not available.");
 	}
     const CFAbsoluteTime interval = (CFAbsoluteTimeGetCurrent() - startTime) * 1000;
-    if(interval > 4) {
+    if(interval > 8) {
         NSLog(@"frame time was %.1f", interval);
     }
 }
