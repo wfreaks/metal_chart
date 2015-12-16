@@ -100,6 +100,7 @@
 		AA85C7761BFC6FDC0037253B /* FMRenderablesAux.h in Headers */ = {isa = PBXBuildFile; fileRef = AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA85C7771BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */; };
 		AA85C7781BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */; };
+		AA85C7F41C09C3E70037253B /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA85C7F31C09C3E70037253B /* HealthKit.framework */; };
 		AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
@@ -218,6 +219,8 @@
 		AA85C76D1BFC57090037253B /* Circles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Circles.m; sourceTree = "<group>"; };
 		AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRenderablesAux.h; sourceTree = "<group>"; };
 		AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FMRenderablesAux.mm; sourceTree = "<group>"; };
+		AA85C7F31C09C3E70037253B /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		AA85C7F51C09C3E70037253B /* MetalChartDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MetalChartDev.entitlements; sourceTree = "<group>"; };
 		AA97955D1BFBA60700BA9970 /* circle_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = circle_shared.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
 				AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
+				AA85C7F41C09C3E70037253B /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +375,7 @@
 		AAB584DD1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXGroup;
 			children = (
+				AA85C7F51C09C3E70037253B /* MetalChartDev.entitlements */,
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
 				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
 				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
@@ -532,6 +537,7 @@
 		AADC1AC41B8F20D8002F455D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA85C7F31C09C3E70037253B /* HealthKit.framework */,
 				AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */,
 				AA1D05C01BA9959A0041DCF0 /* CoreText.framework */,
 				AADC1AC21B8F2002002F455D /* MetalKit.framework */,
@@ -716,6 +722,12 @@
 				TargetAttributes = {
 					AAB584DA1B6F0D8C00480AAE = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = CN2TXAP2YW;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 					AAC4A81C1BAFE2960032A0CF = {
 						CreatedOnToolsVersion = 7.1;
@@ -1037,6 +1049,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1049,6 +1064,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetalChartDev/MetalChartDev-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1060,6 +1076,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
@@ -1068,6 +1087,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetalChartDev/MetalChartDev-Bridging-Header.h";
 			};
