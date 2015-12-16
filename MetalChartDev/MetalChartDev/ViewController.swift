@@ -134,8 +134,8 @@ class ViewController: UIViewController {
 //            lineSeries.attributes.setDashSpaceLength(2);
 			
 			let barSeries = configurator.addBarToSpace(space, series: configurator.createSeries(1<<4))
-			barSeries.attributes.setBarWidth(10)
-			barSeries.attributes.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
+			barSeries.conf.setBarWidth(10)
+			barSeries.conf.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			
 			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
 			let xAxis : FMAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
