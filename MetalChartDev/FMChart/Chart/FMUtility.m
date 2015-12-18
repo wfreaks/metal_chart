@@ -315,6 +315,11 @@
     return ps;
 }
 
+- (void)removeRenderable:(id<FMRenderable>)renderable
+{
+	[_chart removeSeries:renderable];
+}
+
 - (FMBlockRenderable *)addBlockRenderable:(FMRenderBlock)block
 {
 	FMBlockRenderable *renderable = [[FMBlockRenderable alloc] initWithBlock:block];

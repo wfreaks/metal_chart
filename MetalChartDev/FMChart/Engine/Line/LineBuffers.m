@@ -38,12 +38,17 @@
     [self attributes]->width = (float)width;
 }
 
-- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
     [self attributes]->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4 const *)color
+- (void)setColor:(vector_float4)color
+{
+	[self attributes]->color = color;
+}
+
+- (void)setColorRef:(vector_float4 const *)color
 {
     [self attributes]->color = *color;
 }

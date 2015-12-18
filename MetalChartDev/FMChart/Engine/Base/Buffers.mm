@@ -64,7 +64,7 @@
 - (vertex_buffer *)bufferAtIndex:(NSUInteger)index
 {
     vertex_buffer *ptr = (vertex_buffer *)([self.buffer contents]);
-    return ptr + index;
+    return ptr + (index % self.capacity);
 }
 
 - (NSUInteger)capacity

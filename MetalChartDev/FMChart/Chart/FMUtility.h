@@ -130,6 +130,8 @@ NS_DESIGNATED_INITIALIZER;
 									 series:(FMAttributedBarSeries * _Nonnull)series
 ;
 
+- (void)removeRenderable:(id<FMRenderable> _Nonnull)renderable;
+
 - (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
 
 - (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity

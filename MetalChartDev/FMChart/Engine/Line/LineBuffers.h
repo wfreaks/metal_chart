@@ -28,8 +28,9 @@
 
 - (void)setWidth:(CGFloat)width;
 
-- (void)setColorWithRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4 const * _Nonnull)color;
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
+- (void)setColor:(vector_float4)color;
+- (void)setColorRef:(vector_float4 const * _Nonnull)color;
 
 - (void)setAlpha:(float)alpha;
 
