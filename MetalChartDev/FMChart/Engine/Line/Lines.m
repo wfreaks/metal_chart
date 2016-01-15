@@ -178,7 +178,7 @@
 	if(self) {
 		_series = series;
 		[self.attributes setWidth:5.0];
-		[self.attributes setColorWithRed:0.3 green:0.6 blue:0.8 alpha:0.5];
+		[self.attributes setColorRed:0.3 green:0.6 blue:0.8 alpha:0.5];
 	}
 	return self;
 }

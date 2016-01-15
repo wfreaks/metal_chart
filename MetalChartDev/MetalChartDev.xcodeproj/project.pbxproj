@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
-		AA0E95671C0ACDF200B9184F /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0E95661C0ACDF200B9184F /* HealthKit.framework */; };
 		AA1648ED1BAD4A9B00E5B73D /* README_JA.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */; };
 		AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C01BA9959A0041DCF0 /* CoreText.framework */; };
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
@@ -82,6 +81,7 @@
 		AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */; };
 		AA858A391BFA259700C419F2 /* DevController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA858A381BFA259700C419F2 /* DevController.mm */; };
 		AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,8 +193,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AA0E95661C0ACDF200B9184F /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		AA0E95681C0ACDF200B9184F /* MetalChartDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MetalChartDev.entitlements; sourceTree = "<group>"; };
 		AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_JA.txt; sourceTree = "<group>"; };
 		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -210,6 +208,8 @@
 		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
 		AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utility.h"; sourceTree = "<group>"; };
 		AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utility.m"; sourceTree = "<group>"; };
+		AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MetalChartDev.entitlements; sourceTree = "<group>"; };
 		AA858A371BFA259700C419F2 /* DevController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevController.h; sourceTree = "<group>"; };
 		AA858A381BFA259700C419F2 /* DevController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DevController.mm; sourceTree = "<group>"; };
 		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
 				AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
-				AA0E95671C0ACDF200B9184F /* HealthKit.framework in Frameworks */,
+				AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +375,7 @@
 		AAB584DD1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXGroup;
 			children = (
-				AA0E95681C0ACDF200B9184F /* MetalChartDev.entitlements */,
+				AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */,
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
 				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
 				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
@@ -537,7 +537,7 @@
 		AADC1AC41B8F20D8002F455D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA0E95661C0ACDF200B9184F /* HealthKit.framework */,
+				AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */,
 				AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */,
 				AA1D05C01BA9959A0041DCF0 /* CoreText.framework */,
 				AADC1AC21B8F2002002F455D /* MetalKit.framework */,
@@ -1050,8 +1050,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1064,7 +1062,6 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetalChartDev/MetalChartDev-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1077,8 +1074,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
@@ -1087,7 +1082,6 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MetalChartDev/MetalChartDev-Bridging-Header.h";
 			};
