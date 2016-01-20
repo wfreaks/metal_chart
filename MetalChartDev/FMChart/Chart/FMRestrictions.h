@@ -150,6 +150,7 @@ NS_DESIGNATED_INITIALIZER;
 // もしもより細かいレベルのコントロールを行いたいのなら、FMGestureInterpreterの代替を用意すればよい.
 // あれはUIGestureRecognizerのtarget selector pairに設定してステートを管理するだけのユーティリティクラスで、
 // コアクラス(MetalChart.h内で宣言されるクラス)からは一切参照されない.
+// ただしこのクラスはGestureInterpreterありきのものなので、restrictionも自分で書き直す必要がある.
 
 @interface FMUserInteractiveRestriction : NSObject<FMRestriction>
 

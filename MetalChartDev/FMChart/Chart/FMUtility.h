@@ -100,6 +100,9 @@ NS_DESIGNATED_INITIALIZER;
 										 label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
+// 上記２つのメソッドにはAxisLabelへアクセスする手段がない・・・ので、検索して返す必要がある.
+- (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(FMAxis * _Nonnull)axis;
+
 - (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
 
 - (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan

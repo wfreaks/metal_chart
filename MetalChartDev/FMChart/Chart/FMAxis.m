@@ -57,16 +57,21 @@
 	return self;
 }
 
+- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+{
+    [_conf configureUniform:_axis.configuration withDimension:_dimension orthogonal:_orthogonal];
+    const CGFloat len = _dimension.max - _dimension.min;
+    // floorだと境界の挙動が怪しい. %.8fで見てもlen, intervalともに変化ないのに、countが変動する.
+//    const NSUInteger majorTickCount = floor(len/_axis.configuration.majorTickInterval) + 1;
+    const NSUInteger majorTickCount = round(len/_axis.configuration.majorTickInterval) + 1;
+    _axis.configuration.maxMajorTicks = majorTickCount;
+}
+
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart
               view:(MetalView *)view
 {
-	[_conf configureUniform:_axis.configuration withDimension:_dimension orthogonal:_orthogonal];
-    const CGFloat len = _dimension.max - _dimension.min;
-    const NSUInteger majorTickCount = floor(len/_axis.configuration.majorTickInterval) + 1;
-    [_axis encodeWith:encoder projection:_projection.projection maxMajorTicks:majorTickCount];
-	
-    [_decoration encodeWith:encoder axis:self projection:_projection.projection view:view];
+    [_axis encodeWith:encoder projection:_projection.projection];
 }
 
 - (void)setMinorTickCountPerMajor:(NSUInteger)count

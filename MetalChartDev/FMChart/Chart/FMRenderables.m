@@ -315,17 +315,29 @@
     return self.gridLine.attributes;
 }
 
+- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+{
+    FMUniformAxisConfiguration *conf = _axis.axis.configuration;
+    FMUniformGridAttributes *attr = _gridLine.attributes;
+    if(conf) {
+        const NSInteger minFreq = conf.minorTicksPerMajor;
+        const BOOL minor = _sticksToMinorTicks;
+        attr.anchorValue = conf.tickAnchorValue;
+        attr.interval = (minFreq > 0 && minor) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
+    }
+}
+
+- (NSArray<id<FMDependentAttachment>> *)dependencies
+{
+    FMAxis *axis = _axis;
+    return (axis) ? @[axis] : nil;
+}
+
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
              chart:(MetalChart *)chart
               view:(MetalChart *)view
 {
-	FMUniformAxisConfiguration *conf = _axis.axis.configuration;
-	FMUniformGridAttributes *attr = _gridLine.attributes;
-	if(conf) {
-		const NSInteger minFreq = conf.minorTicksPerMajor;
-		attr.anchorValue = conf.tickAnchorValue;
-		attr.interval = (minFreq > 0) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
-	}
+    FMUniformGridAttributes *attr = _gridLine.attributes;
     const CGFloat len = _dimension.max - _dimension.min;
 	const CGFloat interval = attr.interval;
 	const NSUInteger maxCount = (interval > 0) ? floor(len/attr.interval) + 1 : 0;

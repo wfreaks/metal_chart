@@ -158,12 +158,16 @@ NS_DESIGNATED_INITIALIZER;
 @class FMGridLinePrimitive;
 @class FMAxis;
 
-@interface FMGridLine : NSObject<FMAttachment, FMPlotAreaClient>
+@interface FMGridLine : NSObject<FMDependentAttachment, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) FMGridLinePrimitive		* _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
+
+// GridLineのintervalをaxisのmajorTickIntervalと連動させたい事がある.
+// sticksToMinorTicksはmajor/minorどちらにあわせるかという話.
 @property (nonatomic)			FMAxis					* _Nullable axis;
+@property (nonatomic)           BOOL                                sticksToMinorTicks;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine
                                Projection:(FMProjectionCartesian2D * _Nonnull)projection

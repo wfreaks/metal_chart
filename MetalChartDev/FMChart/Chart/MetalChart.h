@@ -46,6 +46,15 @@ MTLPixelFormat determineDepthPixelFormat();
 
 @end
 
+/*
+ * FMRenderableは系列データ（プロットされる実際のデータ）が実装するべきプロトコル.
+ * いわゆるaddSeriesでChartに追加するもの.
+ * requiredは以下のenocdeWith:chart:だけだが、大抵は内部でProjectionへの参照が必要になる.
+ * （要は画面上の点にマッピングできればそれで構わない、デフォルト実装はそういう思想にのっとっているというだけ.
+ * 　ただそのマッピング情報は本当に他の系列と共有する必要がないのか、FMProjectionへのサポートなしで
+ * 　問題ないかを検討はすべきである）
+ * ちなみに系列データはデータであるべきで、正常な描画に軸などのAttachmentへの依存関係などを作るべきではない.
+ */
 
 
 @protocol FMRenderable<NSObject>
@@ -57,12 +66,35 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
+/*
+ * FMAttachmentは軸などの付加的な描画要素が実装するべきプロトコル.
+ * ただし目盛りのラベルは軸に依存する場合など、あらかじめ依存しているAttachmentが準備を終わらせておかなければ
+ * いけない状況が存在する. このような問題に対して、描画順に依存せずに対処すりために、描画とは別の
+ * メソッドを要求する. また、この依存関係を順序として解決するためのoptionalメソッドも必要に応じて実装する.
+ * 
+ * こういった依存関係を解決するような処理は描画時にやるものではない.
+ * もちろんそうすれば変更後の反映は即時行われるようになるが、addする前に正しく設定しないとか
+ * 実行時に途中で変更するとかいう割と珍しいニーズは、専用の方法で満たしてもらう.
+ * 具体的には[FMChat requestResolveAttachmentDependencies]を使用する事.
+ */
 
 @protocol FMAttachment <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
              chart:(MetalChart * _Nonnull)chart
               view:(MetalView * _Nonnull)view
+;
+
+@end
+
+@protocol FMDependentAttachment <FMAttachment>
+
+- (void)prepare:(MetalChart * _Nonnull)chart
+           view:(MetalView * _Nonnull)view
+;
+
+@optional
+- (NSArray<id<FMDependentAttachment>> * _Nullable)dependencies
 ;
 
 @end
@@ -115,10 +147,13 @@ MTLPixelFormat determineDepthPixelFormat();
 - (void)removePreRenderable:(id<FMAttachment> _Nonnull)object;
 
 - (void)addPostRenderable:(id<FMAttachment> _Nonnull)object;
+- (void)insertPostRenderable:(id<FMAttachment> _Nonnull)object atIndex:(NSUInteger)index;
 - (void)addPostRenderables:(NSArray<id<FMAttachment>> * _Nonnull)array;
 - (void)removePostRenderable:(id<FMAttachment> _Nonnull)object;
 
 - (void)removeAll;
+
+- (void)requestResolveAttachmentDependencies;
 
 - (NSArray<id<FMRenderable>> * _Nonnull)series;
 

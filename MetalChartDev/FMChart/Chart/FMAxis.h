@@ -32,25 +32,13 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 @end
 
 
-@protocol FMAxisDecoration<NSObject>
-
-- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-			  axis:(FMAxis * _Nonnull)axis
-		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
-			  view:(MetalView *_Nonnull)view
-;
-
-@end
-
-
-@interface FMAxis : NSObject<FMAttachment>
+@interface FMAxis : NSObject<FMDependentAttachment>
 
 @property (readonly, nonatomic) FMProjectionCartesian2D *	_Nonnull  projection;
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
 
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
-@property (weak    , nonatomic) id<FMAxisDecoration>		_Nullable decoration;
 
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
 							 Projection:(FMProjectionCartesian2D * _Nonnull)projection

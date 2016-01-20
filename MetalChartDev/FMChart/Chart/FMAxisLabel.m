@@ -192,13 +192,28 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			  axis:(FMAxis *)axis
-		projection:(FMUniformProjectionCartesian2D *)projection
-			  view:(FMMetalView * _Nonnull)view
+             chart:(MetalChart *)chart
+              view:(FMMetalView *)view
 {
-    [self configure:axis view:view];
-    const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
-	[_quad encodeWith:encoder projection:projection count:count];
+    FMAxis *axis = _axis;
+    if(axis) {
+        const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
+        FMUniformProjectionCartesian2D *projection = axis.projection.projection;
+        [_quad encodeWith:encoder projection:projection count:count];
+    }
+}
+
+- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+{
+    if(_axis) {
+        [self configure:_axis view:view];
+    }
+}
+
+- (NSArray<id<FMDependentAttachment>> *)dependencies
+{
+    FMAxis *axis = _axis;
+    return (axis) ? @[axis] : @[];
 }
 
 - (void)clearCache

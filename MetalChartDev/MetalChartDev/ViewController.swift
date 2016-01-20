@@ -79,7 +79,7 @@ class ViewController: UIViewController {
             
             let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
             let overlayLineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
-            overlayLineSeries.attributes.setColorWithRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
+            overlayLineSeries.attributes.setColorRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
             overlayLineSeries.attributes.enableOverlay = true
             
             lineSeries.attributes.setWidth(3)
@@ -128,7 +128,7 @@ class ViewController: UIViewController {
             let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(4))
             lineSeries.attributes.setWidth(10)
             lineSeries.attributes.enableOverlay = true
-			lineSeries.attributes.setColorWithRed(0, green:0, blue:0, alpha:1);
+			lineSeries.attributes.setColorRed(0, green:0, blue:0, alpha:1);
 //            lineSeries.attributes.enableDash = true;
 //            lineSeries.attributes.setDashLineLength(2);
 //            lineSeries.attributes.setDashSpaceLength(2);
@@ -137,14 +137,26 @@ class ViewController: UIViewController {
 			barSeries.conf.setBarWidth(10)
 			barSeries.conf.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
 			
-			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
+//			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
+            let xAxisConf : FMBlockAxisConfigurator = FMBlockAxisConfigurator(block: { (conf, dim, orth, isFirst) -> Void in
+                if(isFirst) {
+                    conf.axisAnchorValue = 0
+                    conf.tickAnchorValue = 0
+                    conf.minorTicksPerMajor = 5
+                }
+                let len : CGFloat = dim.length
+                let count : CGFloat = floor(len / CGFloat(0.25))
+                let multiplier : CGFloat = ceil(count / 2.0)
+                conf.majorTickInterval = 0.25 * Float(multiplier)
+            })
+            
 			let xAxis : FMAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
                 let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)), attributes: [kCTForegroundColorAttributeName as String : UIColor.redColor()])
                 let v = dimension.convertValue(value, to: dummyDim)
                 let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)), attributes: [kCTForegroundColorAttributeName as String : UIColor.blueColor()])
 				return [str_a, str_b]
 			}
-			let label : FMAxisLabel = xAxis.decoration as! FMAxisLabel
+            let label : FMAxisLabel = (configurator.axisLabelsToAxis(xAxis!)?.first)!
 			lineDrawHook = FMBlockLineDrawHook(block: { (string, context, drawRect : UnsafePointer<CGRect>) -> Void in
 				CGContextSetFillColorWithColor(context, UIColor.cyanColor().CGColor)
 				var rect : CGRect = drawRect.memory
@@ -157,7 +169,8 @@ class ViewController: UIViewController {
 			})
 			label.setLineDrawHook(lineDrawHook!);
 			
-            configurator.addGridLineToDimensionWithId(1, belowSeries: true, anchor: 0, interval: 0.5)
+            let xLine : FMGridLine? = configurator.addGridLineToDimensionWithId(1, belowSeries: true, anchor: 0, interval: 0.5)
+            xLine?.axis = xAxis
             configurator.addGridLineToDimensionWithId(2, belowSeries: true, anchor: 0, interval: 0.25)
 			
 			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())

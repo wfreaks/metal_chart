@@ -24,6 +24,7 @@ MTLPixelFormat determineDepthPixelFormat()
 
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *preRenderables;
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *postRenderables;
+@property (strong, nonatomic) NSArray<id<FMDependentAttachment>> *preparation;
 
 @property (strong, nonatomic) dispatch_semaphore_t semaphore;
 
@@ -39,6 +40,7 @@ MTLPixelFormat determineDepthPixelFormat()
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
+        _preparation = [NSArray array];
 		_semaphore = dispatch_semaphore_create(1);
         _clearDepth = 0;
 	}
@@ -72,6 +74,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	NSArray<id<FMRenderable>> *seriesArray = nil;
 	NSArray<id<FMAttachment>> *preRenderables = nil;
 	NSArray<id<FMAttachment>> *postRenderables = nil;
+    NSArray<id<FMDependentAttachment>> *preparation = nil;
 	NSSet<id<FMProjection>> *projections = nil;
     id<FMCommandBufferHook> hook = nil;
 	
@@ -79,6 +82,7 @@ MTLPixelFormat determineDepthPixelFormat()
 		seriesArray = _series;
 		preRenderables = _preRenderables;
 		postRenderables = _postRenderables;
+        preparation = _preparation;
 		projections = _projectionSet;
         hook = _bufferHook;
 	}
@@ -100,6 +104,10 @@ MTLPixelFormat determineDepthPixelFormat()
             [hook chart:self willStartEncodingToBuffer:buffer];
             
 			id<MTLRenderCommandEncoder> encoder = [buffer renderCommandEncoderWithDescriptor:pass];
+            
+            for(id<FMDependentAttachment> attachment in preparation) {
+                [attachment prepare:self view:view];
+            }
 			
 			for(id<FMAttachment> renderable in preRenderables) {
 				[renderable encodeWith:encoder chart:self view:view];
@@ -212,13 +220,23 @@ MTLPixelFormat determineDepthPixelFormat()
 	}
 }
 
+- (void)handleAttachmentMod:(id<FMAttachment>)object
+{
+    if([object conformsToProtocol:@protocol(FMDepthClient)]) {
+        [self reconstructDepthClients];
+    }
+    if([object conformsToProtocol:@protocol(FMDependentAttachment)]) {
+        [self resolveAttachmentDependencies];
+    }
+}
+
 - (void)addPreRenderable:(id<FMAttachment>)object
 {
 	@synchronized(self) {
         NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByAddingObjectIfNotExists:object];
-        if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
-            [self reconstructDepthClients];
+        if(old != _preRenderables) {
+            [self handleAttachmentMod:object];
         }
 	}
 }
@@ -228,8 +246,8 @@ MTLPixelFormat determineDepthPixelFormat()
 	@synchronized(self) {
 		NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByInsertingObjectIfNotExists:object atIndex:index];
-		if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
-			[self reconstructDepthClients];
+		if(old != _preRenderables) {
+            [self handleAttachmentMod:object];
 		}
 	}
 }
@@ -246,8 +264,8 @@ MTLPixelFormat determineDepthPixelFormat()
 	@synchronized(self) {
         NSArray <id<FMAttachment>> *old = _preRenderables;
 		_preRenderables = [_preRenderables arrayByRemovingObject:object];
-        if(old != _preRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
-            [self reconstructDepthClients];
+        if(old != _preRenderables) {
+            [self handleAttachmentMod:object];
         }
 	}
 }
@@ -256,11 +274,22 @@ MTLPixelFormat determineDepthPixelFormat()
 {
 	@synchronized(self) {
         NSArray <id<FMAttachment>> *old = _postRenderables;
-		_postRenderables = [_postRenderables arrayByAddingObjectIfNotExists:object];
-        if(old != _postRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
-            [self reconstructDepthClients];
+		_postRenderables = [old arrayByAddingObjectIfNotExists:object];
+        if(old != _postRenderables) {
+            [self handleAttachmentMod:object];
         }
 	}
+}
+
+- (void)insertPostRenderable:(id<FMAttachment>)object atIndex:(NSUInteger)index
+{
+    @synchronized(self) {
+        NSArray <id<FMAttachment>> *old = _postRenderables;
+        _postRenderables = [old arrayByInsertingObjectIfNotExists:object atIndex:index];
+        if(old != _preRenderables) {
+            [self handleAttachmentMod:object];
+        }
+    }
 }
 
 - (void)addPostRenderables:(NSArray<id<FMAttachment>> *)array
@@ -274,9 +303,9 @@ MTLPixelFormat determineDepthPixelFormat()
 {
 	@synchronized(self) {
         NSArray <id<FMAttachment>> *old = _postRenderables;
-		_postRenderables = [_postRenderables arrayByRemovingObject:object];
-        if(old != _postRenderables && [object conformsToProtocol:@protocol(FMDepthClient)]) {
-            [self reconstructDepthClients];
+		_postRenderables = [old arrayByRemovingObject:object];
+        if(old != _postRenderables) {
+            [self handleAttachmentMod:object];
         }
 	}
 }
@@ -289,6 +318,7 @@ MTLPixelFormat determineDepthPixelFormat()
         _preRenderables = [NSArray array];
         _postRenderables = [NSArray array];
         [self reconstructDepthClients];
+        [self resolveAttachmentDependencies];
     }
 }
 
@@ -299,6 +329,13 @@ MTLPixelFormat determineDepthPixelFormat()
             _clearDepth = clearDepth;
             [self reconstructDepthClients];
         }
+    }
+}
+
+- (void)requestResolveAttachmentDependencies
+{
+    @synchronized(self) {
+        [self resolveAttachmentDependencies];
     }
 }
 
@@ -320,6 +357,35 @@ MTLPixelFormat determineDepthPixelFormat()
         }
     }
     _clearDepth = clearVal;
+}
+
+// このメソッドも同様.
+- (void)resolveAttachmentDependencies
+{
+    NSMutableArray<id<FMAttachment>> *objects = [NSMutableArray array];
+    [objects addObjectsFromArray:_preRenderables];
+    [objects addObjectsFromArray:_postRenderables];
+    
+    NSMutableOrderedSet *set = [NSMutableOrderedSet orderedSet];
+    for(id<FMAttachment> obj in objects) {
+        if([obj conformsToProtocol:@protocol(FMDependentAttachment)]) {
+            [self.class _resolve:(id<FMDependentAttachment>)obj set:set];
+        }
+    }
+    _preparation = [set array];
+}
+
++ (void)_resolve:(id<FMDependentAttachment>)obj set:(NSMutableOrderedSet *)set
+{
+    if([obj respondsToSelector:@selector(dependencies)]) {
+        NSArray<id<FMDependentAttachment>> * dependencies = [obj dependencies];
+        for(id<FMDependentAttachment> dep in dependencies) {
+            if(![set containsObject:dep]) { // 循環による無限ループの防止. OrderedSetにした意味がほとんどないが・・・.
+                [self _resolve:dep set:set];
+            }
+        }
+    }
+    [set addObject:obj];
 }
 
 @end

@@ -264,7 +264,6 @@ static double gaussian(double mean, double variance) {
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
         projection:(FMUniformProjectionCartesian2D *)projection
-     maxMajorTicks:(NSUInteger)maxCount
 {
     id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
     id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
@@ -286,9 +285,9 @@ static double gaussian(double mean, double variance) {
     [encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
 	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
     
+    const NSUInteger maxCount = conf.maxMajorTicks;
     const NSUInteger lineCount = (1 + ((1 + conf.minorTicksPerMajor) * maxCount));
     const NSUInteger vertCount = 6 * lineCount;
-    conf.maxMajorTicks = maxCount;
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
     
     [encoder popDebugGroup];

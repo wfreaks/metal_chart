@@ -192,7 +192,7 @@
 						configurator:(id<FMAxisConfigurator>)configurator
 					  labelFrameSize:(CGSize)size
 					labelBufferCount:(NSUInteger)count
-						 label:(FMAxisLabelDelegateBlock)block
+                               label:(FMAxisLabelDelegateBlock)block
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
@@ -212,14 +212,35 @@
 														  bufferCapacity:count
 														   labelDelegate:delegate];
 				[label setFrameAnchorPoint:((dimIndex == 0) ? CGPointMake(0.5, 0) : CGPointMake(1.0, 0.5))];
-				axis.decoration = label;
+                label.axis = axis;
 				[self addRetainedObject:delegate];
 				[self addRetainedObject:label];
+                if(below) {
+                    [_chart addPreRenderable:label];
+                } else {
+                    [_chart addPostRenderable:label];
+                }
 			}
 			return axis;
 		}
 	}
 	return nil;
+}
+
+- (NSArray<FMAxisLabel *> *)axisLabelsToAxis:(FMAxis *)axis
+{
+    NSMutableArray<FMAxisLabel *> *ar = nil;
+    NSArray *retained = self.retained.copy;
+    for(id obj in retained) {
+        if([obj isKindOfClass:[FMAxisLabel class]]) {
+            FMAxisLabel *label = obj;
+            if(label.axis == axis) {
+                ar = (ar) ? ar : [NSMutableArray array];
+                [ar addObject:label];
+            }
+        }
+    }
+    return ar.copy;
 }
 
 - (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color
