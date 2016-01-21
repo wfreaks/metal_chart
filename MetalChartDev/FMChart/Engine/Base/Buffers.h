@@ -146,6 +146,8 @@ UNAVAILABLE_ATTRIBUTE;
 @property (assign, nonatomic) MTLPixelFormat colorPixelFormat;
 @property (assign, nonatomic) CGSize physicalSize;
 @property (assign, nonatomic) RectPadding padding;
+@property (assign, nonatomic) CGSize valueScale;
+@property (assign, nonatomic) CGPoint valueOffset;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 NS_DESIGNATED_INITIALIZER;
@@ -155,11 +157,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setPixelSize:(CGSize)size;
 
-- (void)setValueScale:(CGSize)scale;
-
 - (void)setOrigin:(CGPoint)origin;
-
-- (void)setValueOffset:(CGSize)offset;
 
 @end
 

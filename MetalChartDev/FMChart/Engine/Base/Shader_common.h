@@ -43,6 +43,12 @@ inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d
 	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
+// これはパディングとかを無視した[-1, 1] -> [vmin, vmax]変換用. 上のdata_to_ndcのそれとは違う.
+inline float2 semi_ndc_to_data(const float2 ndc, constant uniform_projection_cart2d& proj)
+{
+    return (ndc * proj.value_scale) - proj.value_offset;
+}
+
 // valueは[r,theta]の順を仮定している
 inline float2 polar_to_ndc(const float2 value, constant uniform_projection_polar& proj)
 {

@@ -149,7 +149,7 @@ class ViewController: UIViewController {
                 conf.majorTickInterval = 0.25 * max(1, Float(multiplier))
                 let vmin = Float(orth!.min)
                 let vmax = Float(orth!.max)
-                conf.axisAnchorValue = min(vmax, max(vmin, 0))
+                conf.axisAnchorDataValue = min(vmax, max(vmin, 0))
             })
             
 			let xAxis : FMExclusiveAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in

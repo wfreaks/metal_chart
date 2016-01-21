@@ -25,7 +25,8 @@ typedef struct uniform_line_attr {
 } uniform_line_attr;
 
 typedef struct uniform_axis_configuration {
-    float           axis_anchor_value;
+    float           axis_anchor_value_data;
+    float           axis_anchor_value_ndc;
     float           tick_anchor_value;
     float           tick_interval_major;
     

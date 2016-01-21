@@ -12,6 +12,7 @@
 
 @protocol MTLBuffer;
 @class FMDeviceResource;
+@class FMUniformProjectionCartesian2D;
 
 @interface FMUniformLineAttributes : NSObject
 
@@ -77,7 +78,8 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_axis_configuration * _Nonnull configuration;
 
-@property (assign  , nonatomic) float axisAnchorValue;
+@property (assign  , nonatomic) float axisAnchorDataValue;
+@property (assign  , nonatomic) float axisAnchorNDCValue; // [-1, 1], この値の外ではDataValueが使われる
 @property (assign  , nonatomic) float tickAnchorValue;
 @property (assign  , nonatomic) float majorTickInterval;
 @property (assign  , nonatomic) uint8_t minorTicksPerMajor;
@@ -99,6 +101,8 @@
 // if majorTickValueModified is YES, then ifModified will be invoked, and clear the flag when YES is returned from it.
 // return value of this method is identical to majorTickValueModified.
 - (BOOL)checkIfMajorTickValueModified:(BOOL (^_Nonnull)(FMUniformAxisConfiguration *_Nonnull))ifModified;
+
+- (float)axisAnchorValueWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
 
 @end
 

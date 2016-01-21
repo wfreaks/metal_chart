@@ -128,6 +128,7 @@ NS_DESIGNATED_INITIALIZER;
 // axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動く.
 // 範囲外へ出てしまう時に軸を消すという動作は現在実装されていない（シザーテストは描画が崩れ、またラベルなどへも影響する）
 // ので、範囲外の時は端に留める挙動にしてあることに注意.
+// (結果としてこの実装は直交する次元の範囲に依存する)
 + (instancetype _Nonnull)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
                                               tickAnchor:(CGFloat)tickAnchor
                                            fixedInterval:(CGFloat)majorTickInterval

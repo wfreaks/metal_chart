@@ -220,7 +220,7 @@
                                       FMDimensionalProjection *orth,
                                       BOOL isFirst) {
 		const CGFloat v = MIN(orth.max, MAX(orth.min, axisAnchor));
-		[conf setAxisAnchorValue:v];
+		[conf setAxisAnchorDataValue:v];
         if(isFirst) {
             [conf setTickAnchorValue:tickAnchor];
             [conf setMajorTickInterval:tickInterval];
@@ -239,10 +239,8 @@
                                       FMDimensionalProjection *dim,
                                       FMDimensionalProjection *orth,
                                       BOOL isFirst) {
-        const CGFloat min = orth.min;
-        const CGFloat l = orth.max - min;
-        const CGFloat anchor = min + (axisPosition * l);
-        [conf setAxisAnchorValue:anchor];
+        const CGFloat anchorNDC = (axisPosition * 2) - 1;
+        [conf setAxisAnchorNDCValue:anchorNDC];
         if(isFirst) {
             [conf setTickAnchorValue:tickAnchor];
             [conf setMajorTickInterval:tickInterval];
@@ -267,10 +265,8 @@
 			[conf setMinorTicksPerMajor:minorPerMajor];
 			[conf setMaxMajorTicks:maxTick];
 		}
-		const CGFloat min = orth.min;
-		const CGFloat l = orth.max - min;
-		const CGFloat anchor = min + (axisPosition * l);
-		[conf setAxisAnchorValue:anchor];
+        const CGFloat anchorNDC = (axisPosition * 2) - 1;
+        [conf setAxisAnchorNDCValue:anchorNDC];
 		const CGFloat vl = (dim.max - dim.min);
 		const CGFloat minInterval = (vl / (maxTick-1));
 		const CGFloat newInterval = interval * ceil(minInterval / interval);

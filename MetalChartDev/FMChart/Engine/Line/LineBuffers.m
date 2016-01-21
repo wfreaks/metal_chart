@@ -143,6 +143,8 @@
 
 @implementation FMUniformAxisConfiguration
 
+static const float _ndc_anchor_invalid = 8;
+
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
@@ -157,11 +159,20 @@
     return (uniform_axis_configuration *)[_buffer contents];
 }
 
-- (void)setAxisAnchorValue:(float)value
+- (void)setAxisAnchorDataValue:(float)value
 {
-    if(_axisAnchorValue != value) {
-        _axisAnchorValue = value;
-        self.configuration->axis_anchor_value = value;
+    if(_axisAnchorDataValue != value) {
+        _axisAnchorDataValue = value;
+        self.configuration->axis_anchor_value_data = value;
+    }
+    self.axisAnchorNDCValue = _ndc_anchor_invalid;
+}
+
+- (void)setAxisAnchorNDCValue:(float)value
+{
+    if(_axisAnchorNDCValue != value) {
+        _axisAnchorNDCValue = value;
+        self.configuration->axis_anchor_value_ndc = value;
     }
 }
 
@@ -211,6 +222,17 @@
         _majorTickValueModified = ! ifModified(self);
     }
     return isModified;
+}
+
+- (float)axisAnchorValueWithProjection:(FMUniformProjectionCartesian2D *)projection
+{
+    if(_axisAnchorNDCValue != _ndc_anchor_invalid) {
+        const BOOL isx = (_dimensionIndex == 0); // これは軸の方向、必要なのは直交する方向の位置.
+        const CGSize scale = projection.valueScale;
+        const CGPoint offset = projection.valueOffset; // offsetは描画時のそれで符合反転している事に注意.
+        return (isx) ? (scale.height * _axisAnchorNDCValue) - offset.y : (scale.width * _axisAnchorNDCValue) - offset.x;
+    }
+    return _axisAnchorDataValue;
 }
 
 @end

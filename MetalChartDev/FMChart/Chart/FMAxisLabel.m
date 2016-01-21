@@ -208,7 +208,7 @@
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
 {
     if(_axis) {
-        [self configure:_axis view:view];
+        [self configure:_axis chart:chart view:view];
     }
 }
 
@@ -224,7 +224,7 @@
     _idxMin = 0;
 }
 
-- (void)configure:(id<FMAxis>)axis view:(MetalView *)view
+- (void)configure:(id<FMAxis>)axis chart:(MetalChart *)chart view:(MetalView *)view
 {
     FMDimensionalProjection *dimension = axis.dimension;
     const CGFloat min = dimension.min;
@@ -237,7 +237,8 @@
     
     FMUniformRegion *texRegion = _quad.texRegion;
     FMUniformRegion *dataRegion = _quad.dataRegion;
-    const CGFloat aVal = conf.axisAnchorValue;
+    FMUniformProjectionCartesian2D *proj = [axis projectionForChart:chart].projection;
+    const CGFloat aVal = [conf axisAnchorValueWithProjection:proj];
     const CGFloat tVal = conf.tickAnchorValue;
     [conf checkIfMajorTickValueModified:^BOOL(FMUniformAxisConfiguration *conf) {
         const CGFloat normHeight = 1 / (CGFloat)self.capacity;

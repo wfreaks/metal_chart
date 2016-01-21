@@ -41,7 +41,10 @@ inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_configurat
 	const float n = ceil((v_min - tick_anchor) / interval);
 	const float tick_value = tick_anchor + (n * interval);
 	v[idx] = ((is_axis) * v[idx]) + ((!is_axis) * tick_value);
-	v[idx_orth] = axis.axis_anchor_value;
+    const float axis_ndc = axis.axis_anchor_value_ndc;
+    const bool in_ndc_range = (-1 <= axis_ndc) * (axis_ndc <= 1);
+    const float mid_data = semi_ndc_to_data(float2(axis_ndc, axis_ndc), proj)[idx_orth]; // 情報として片次元たりてないけど気にしない.
+	v[idx_orth] = ((in_ndc_range) * mid_data) + ((!in_ndc_range) * axis.axis_anchor_value_data);
 	return v;
 }
 

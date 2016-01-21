@@ -181,7 +181,7 @@
         _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection_cart2d) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		_screenScale = [UIScreen mainScreen].scale;
         [self projection]->screen_scale = _screenScale;
-        [self projection]->value_scale = vector2(1.0f, 1.0f);
+        self.valueScale = CGSizeMake(1, 1);
     }
     return self;
 }
@@ -217,7 +217,10 @@
 
 - (void)setValueScale:(CGSize)scale
 {
-    self.projection->value_scale = vector2((float)scale.width, (float)scale.height);
+    if(!CGSizeEqualToSize(_valueScale, scale)) {
+        _valueScale = scale;
+        self.projection->value_scale = vector2((float)scale.width, (float)scale.height);
+    }
 }
 
 - (void)setOrigin:(CGPoint)origin
@@ -225,9 +228,9 @@
     self.projection->origin = vector2((float)origin.x, (float)origin.y);
 }
 
-- (void)setValueOffset:(CGSize)offset
+- (void)setValueOffset:(CGPoint)offset
 {
-    self.projection->value_offset = vector2((float)offset.width, (float)offset.height);
+    self.projection->value_offset = vector2((float)offset.x, (float)offset.y);
 }
 
 @end

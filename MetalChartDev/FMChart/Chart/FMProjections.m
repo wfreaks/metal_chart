@@ -97,7 +97,7 @@
 	FMDimensionalProjection *xDim = _dimX;
 	FMDimensionalProjection *yDim = _dimY;
 	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
-	[_projection setValueOffset:CGSizeMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
+	[_projection setValueOffset:CGPointMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
 
 - (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
