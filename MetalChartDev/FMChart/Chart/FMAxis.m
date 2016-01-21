@@ -137,20 +137,29 @@
         [FMExclusiveAxis setupDefaultAttributes:_axis];
         
         // いわゆるprepare:view:での設定を全てここで行ってしまう.
-        [_conf configureUniform:_axis.configuration
-                  withDimension:dimension
-                     orthogonal:nil];
-        
-        const CGFloat len = _dimension.max - _dimension.min;
-        const NSUInteger majorTickCount = round(len/_axis.configuration.majorTickInterval) + 1;
-        _axis.configuration.maxMajorTicks = majorTickCount;
+        [self configure:nil];
     }
     return self;
 }
 
+- (void)configure:(FMDimensionalProjection *)orthogonal
+{
+    [_conf configureUniform:_axis.configuration
+              withDimension:_dimension
+                 orthogonal:orthogonal];
+    
+    const CGFloat len = _dimension.max - _dimension.min;
+    const NSUInteger majorTickCount = round(len/_axis.configuration.majorTickInterval) + 1;
+    _axis.configuration.maxMajorTicks = majorTickCount;
+}
+
 - (FMProjectionCartesian2D *)projectionForChart:(MetalChart *)chart
 {
-    return _projections[chart.key];
+    FMProjectionCartesian2D *projection = _projections[chart.key];
+#ifdef DEBUG
+    NSAssert(projection != nil, @"no projection associated with chart for this FMSharedAxis, check you did call [axis setProjection:forChart:] beforehand.");
+#endif
+    return projection;
 }
 
 - (void)setMinorTickCountPerMajor:(NSUInteger)count
@@ -160,7 +169,12 @@
 
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
 {
-    
+    if(_needsOrhogonal) {
+        FMProjectionCartesian2D *proj = [self projectionForChart:chart];
+        FMDimensionalProjection *dim = _dimension;
+        FMDimensionalProjection *orth = (proj.dimX == dim) ? proj.dimY : proj.dimX;
+        [self configure:orth];
+    }
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
