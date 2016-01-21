@@ -179,27 +179,27 @@
     return nil;
 }
 
-- (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-						 belowSeries:(BOOL)below
-						configurator:(id<FMAxisConfigurator>)configurator
-							   label:(FMAxisLabelDelegateBlock)block
+- (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
+                                  belowSeries:(BOOL)below
+                                 configurator:(id<FMAxisConfigurator>)configurator
+                                        label:(FMAxisLabelDelegateBlock)block
 {
 	return [self addAxisToDimensionWithId:dimensionId belowSeries:below configurator:configurator labelFrameSize:CGSizeMake(45, 30) labelBufferCount:8 label:block];
 }
 
-- (FMAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-						 belowSeries:(BOOL)below
-						configurator:(id<FMAxisConfigurator>)configurator
-					  labelFrameSize:(CGSize)size
-					labelBufferCount:(NSUInteger)count
-                               label:(FMAxisLabelDelegateBlock)block
+- (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
+                                  belowSeries:(BOOL)below
+                                 configurator:(id<FMAxisConfigurator>)configurator
+                               labelFrameSize:(CGSize)size
+                             labelBufferCount:(NSUInteger)count
+                                        label:(FMAxisLabelDelegateBlock)block
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
 		FMProjectionCartesian2D *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
 		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim];
 		if(targetSpace) {
-			FMAxis *axis = [[FMAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
+			FMExclusiveAxis *axis = [[FMExclusiveAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
 			if(below) {
 				[_chart addPreRenderable:axis];
 			} else {
@@ -227,7 +227,7 @@
 	return nil;
 }
 
-- (NSArray<FMAxisLabel *> *)axisLabelsToAxis:(FMAxis *)axis
+- (NSArray<FMAxisLabel *> *)axisLabelsToAxis:(id<FMAxis>)axis
 {
     NSMutableArray<FMAxisLabel *> *ar = nil;
     NSArray *retained = self.retained.copy;

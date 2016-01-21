@@ -24,6 +24,7 @@
 @class FMPlotArea;
 
 @protocol FMSeries;
+@protocol FMAxis;
 
 
 typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, MetalChart *_Nonnull chart);
@@ -156,7 +157,6 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 @class FMGridLinePrimitive;
-@class FMAxis;
 
 @interface FMGridLine : NSObject<FMDependentAttachment, FMPlotAreaClient>
 
@@ -166,7 +166,7 @@ NS_DESIGNATED_INITIALIZER;
 
 // GridLineのintervalをaxisのmajorTickIntervalと連動させたい事がある.
 // sticksToMinorTicksはmajor/minorどちらにあわせるかという話.
-@property (nonatomic)			FMAxis					* _Nullable axis;
+@property (nonatomic)			id<FMAxis>				  _Nullable axis;
 @property (nonatomic)           BOOL                                sticksToMinorTicks;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine

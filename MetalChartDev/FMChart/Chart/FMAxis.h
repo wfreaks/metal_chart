@@ -14,11 +14,13 @@
 @class FMUniformLineAttributes;
 @class FMAxisPrimitive;
 @class FMUniformAxisConfiguration;
-@class FMAxis;
+@protocol FMAxis;
 
+// orthogonalがnullableなのは、sharedの場合はprojectionに無関係に設定しなければ動作が担保できないため.
+// exclusiveならnonnullである.
 typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
 										FMDimensionalProjection *_Nonnull dimension,
-										FMDimensionalProjection *_Nonnull orthogonal,
+										FMDimensionalProjection *_Nullable orthogonal,
                                         BOOL isFirst
                                         );
 
@@ -26,13 +28,43 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 
 - (void)configureUniform:(FMUniformAxisConfiguration * _Nonnull)uniform
 		   withDimension:(FMDimensionalProjection * _Nonnull)dimension
-			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
+			  orthogonal:(FMDimensionalProjection * _Nullable)orthogonal
 ;
 
 @end
 
 
-@interface FMAxis : NSObject<FMDependentAttachment>
+
+
+
+@protocol FMAxis <FMDependentAttachment>
+
+@property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
+@property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
+@property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
+
+- (void)setMinorTickCountPerMajor:(NSUInteger)count;
+
+// なんでProjectionはChartで切り替えられるのにDimensionは1つなのかと思うかもしれないが、
+// 複数Chartで軸を共有する場合、そもそも以下の条件を満たす必要がある.
+// ・confがorthogonalに依存しない（別のインスタンスを渡しても常に同じ設定を行う）
+// ・共有する複数のChartに対応するprojectionにおいて、必ず軸index(x/y)とdimensionが共有される事
+// この条件を満たさない限り、正常な動作は原理的にできない
+// (軸indexは設定用の構造体メンバに含まれてしまってるためで厳密には原理的にではないのだが).
+//
+// このあたり、SharedAxisを使う場合、果たして本当に利用条件を満たしているのか
+// 設計者が吟味する事. 面倒ならExclusiveを使うべきである(こちらのほうがずっと単純な作りである)
+// ライブラリ自体が整合性をチェックしてAssertする事はまずない.
+// 特に軸indexの一貫性は自分で担保する事 (そもそもxy反転する時点でどうかと思うが).
+- (FMProjectionCartesian2D * _Nullable)projectionForChart:(MetalChart * _Nonnull)chart;
+
+@end
+
+
+
+
+
+@interface FMExclusiveAxis : NSObject<FMAxis>
 
 @property (readonly, nonatomic) FMProjectionCartesian2D *	_Nonnull  projection;
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
@@ -48,8 +80,36 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+@end
 
-- (void)setMinorTickCountPerMajor:(NSUInteger)count;
+
+// 字のごとく複数のChartで共有するためのAxisだが、まずはFMAxisのコメントを読む事.
+// 次に、単に同じ範囲を指定したいだけならconfiguratorとconfを指定するだけで済むし、
+// 細かいコントロールが効く事も理解した上で使う事.
+// 今のところの使い道は、AxisLabelが描画バッファとしてそれなりの量のGPUメモリを確保するとか、
+// 文字描画処理がCPUを食いつぶすとかいった事への対処くらいである.
+// ＊同じ時間軸を共有する複数グラフをTableViewで複数ならべる、というのが該当ケース.
+// 　ラベルの色を変えるとか云った事が必要になる場合は、labelだけでなくaxisも分けた方がわかりやすい.
+
+@interface FMSharedAxis : NSObject<FMAxis>
+
+@property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
+
+@property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
+@property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
+
+// DimensionId ではなく、Index. x/yの位置指定である事に注意.
+- (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
+                              dimension:(FMDimensionalProjection * _Nonnull)dimension
+                         dimensionIndex:(NSUInteger)index
+                          configuration:(id<FMAxisConfigurator> _Nonnull)conf
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+- (void)setProjection:(FMProjectionCartesian2D * _Nonnull)projection
+             forChart:(MetalChart * _Nonnull)chart;
+- (void)removeProjectionForChart:(MetalChart * _Nonnull)chart;
 
 @end
 

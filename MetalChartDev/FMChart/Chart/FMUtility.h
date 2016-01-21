@@ -22,7 +22,7 @@
 @class FMProjectionCartesian2D;
 @class FMProjectionPolar;
 @class FMProjectionUpdater;
-@class FMAxis;
+@class FMExclusiveAxis;
 @class FMAxisLabel;
 @class FMPlotArea;
 @class FMGestureInterpreter;
@@ -86,13 +86,13 @@ NS_DESIGNATED_INITIALIZER;
 							  toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
 ;
 
-- (FMAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
+- (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
 								   belowSeries:(BOOL)below
 								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
 										 label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
-- (FMAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
+- (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
 								   belowSeries:(BOOL)below
 								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
 								labelFrameSize:(CGSize)size
@@ -101,7 +101,7 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 // 上記２つのメソッドにはAxisLabelへアクセスする手段がない・・・ので、検索して返す必要がある.
-- (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(FMAxis * _Nonnull)axis;
+- (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(id<FMAxis> _Nonnull)axis;
 
 - (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
 

@@ -140,17 +140,19 @@ class ViewController: UIViewController {
 //			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
             let xAxisConf : FMBlockAxisConfigurator = FMBlockAxisConfigurator(block: { (conf, dim, orth, isFirst) -> Void in
                 if(isFirst) {
-                    conf.axisAnchorValue = 0
                     conf.tickAnchorValue = 0
                     conf.minorTicksPerMajor = 5
                 }
                 let len : CGFloat = dim.length
                 let count : CGFloat = floor(len / CGFloat(0.25))
                 let multiplier : CGFloat = ceil(count / 2.0)
-                conf.majorTickInterval = 0.25 * Float(multiplier)
+                conf.majorTickInterval = 0.25 * max(1, Float(multiplier))
+                let vmin = Float(orth!.min)
+                let vmax = Float(orth!.max)
+                conf.axisAnchorValue = min(vmax, max(vmin, 0))
             })
             
-			let xAxis : FMAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
+			let xAxis : FMExclusiveAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
                 let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)), attributes: [kCTForegroundColorAttributeName as String : UIColor.redColor()])
                 let v = dimension.convertValue(value, to: dummyDim)
                 let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)), attributes: [kCTForegroundColorAttributeName as String : UIColor.blueColor()])

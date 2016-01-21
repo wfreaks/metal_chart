@@ -100,7 +100,7 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 @property (readonly, nonatomic) TextureQuad * _Nonnull quad;
 @property (readonly, nonatomic, weak) id<FMAxisLabelDelegate> _Nullable delegate;
 @property (assign  , nonatomic) CGFloat lineSpace;
-@property (nonatomic) FMAxis * _Nullable axis;
+@property (nonatomic) id<FMAxis> _Nullable axis;
 
 // textをフレーム内に配置する際、内容によっては余白(場合によっては負値)が生じる。
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.

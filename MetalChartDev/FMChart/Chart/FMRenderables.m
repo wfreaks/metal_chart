@@ -329,7 +329,7 @@
 
 - (NSArray<id<FMDependentAttachment>> *)dependencies
 {
-    FMAxis *axis = _axis;
+    id<FMAxis> axis = _axis;
     return (axis) ? @[axis] : nil;
 }
 

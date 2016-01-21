@@ -125,6 +125,9 @@ MTLPixelFormat determineDepthPixelFormat();
 @property (assign , nonatomic) RectPadding padding;
 @property (readonly, nonatomic) CGFloat clearDepth;
 
+// dictionaryとかのキーにするためのunique idプロパティ. 実体はただのアドレス文字列.
+@property (readonly, nonatomic) NSString * _Nonnull key;
+
 - (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
 
 // 以下でArrayごと追加するメソッドは、単純にクライアントコードをシンプルにするためだけのものであって、

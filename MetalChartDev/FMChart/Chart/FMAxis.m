@@ -11,7 +11,7 @@
 #import "Series.h"
 #import "LineBuffers.h"
 
-@interface FMAxis()
+@interface FMExclusiveAxis()
 
 @property (readonly, nonatomic) FMDimensionalProjection *orthogonal;
 
@@ -29,7 +29,7 @@
 
 
 
-@implementation FMAxis
+@implementation FMExclusiveAxis
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 					Projection:(FMProjectionCartesian2D *)projection
@@ -52,9 +52,14 @@
 		
 		_orthogonal = projection.dimensions[(dimIndex == 0) ? 1 : 0];
 		
-		[self setupDefaultAttributes];
+        [FMExclusiveAxis setupDefaultAttributes:_axis];
 	}
 	return self;
+}
+
+- (FMProjectionCartesian2D *)projectionForChart:(MetalChart *)chart
+{
+    return _projection;
 }
 
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
@@ -79,11 +84,11 @@
     _axis.configuration.minorTicksPerMajor = (uint8_t)count;
 }
 
-- (void)setupDefaultAttributes
++ (void)setupDefaultAttributes:(FMAxisPrimitive *)primitive
 {
-	FMUniformAxisAttributes *axis = _axis.axisAttributes;
-	FMUniformAxisAttributes *major = _axis.majorTickAttributes;
-	FMUniformAxisAttributes *minor = _axis.minorTickAttributes;
+	FMUniformAxisAttributes *axis = primitive.axisAttributes;
+	FMUniformAxisAttributes *major = primitive.majorTickAttributes;
+	FMUniformAxisAttributes *minor = primitive.minorTickAttributes;
 	
     const float v = 0.4;
 	[axis setColorRed:v green:v blue:v alpha:1.0];
@@ -103,6 +108,87 @@
 
 @end
 
+@interface FMSharedAxis()
+
+@property (nonatomic, readonly) NSDictionary<NSString *, FMProjectionCartesian2D *> *projections;
+
+@end
+
+@implementation FMSharedAxis
+
+- (instancetype)initWithEngine:(FMEngine *)engine
+                     dimension:(FMDimensionalProjection *)dimension
+                dimensionIndex:(NSUInteger)index
+                 configuration:(id<FMAxisConfigurator>)conf
+{
+    self = [super init];
+    if(self) {
+        _axis = [[FMAxisPrimitive alloc] initWithEngine:engine];
+        _conf = conf;
+        _dimension = dimension;
+        _projections = @{};
+        
+        if(_dimension == nil) {
+            abort();
+        }
+        
+        [_axis.configuration setDimensionIndex:index];
+        
+        [FMExclusiveAxis setupDefaultAttributes:_axis];
+        
+        // いわゆるprepare:view:での設定を全てここで行ってしまう.
+        [_conf configureUniform:_axis.configuration
+                  withDimension:dimension
+                     orthogonal:nil];
+        
+        const CGFloat len = _dimension.max - _dimension.min;
+        const NSUInteger majorTickCount = round(len/_axis.configuration.majorTickInterval) + 1;
+        _axis.configuration.maxMajorTicks = majorTickCount;
+    }
+    return self;
+}
+
+- (FMProjectionCartesian2D *)projectionForChart:(MetalChart *)chart
+{
+    return _projections[chart.key];
+}
+
+- (void)setMinorTickCountPerMajor:(NSUInteger)count
+{
+    [_axis.configuration setMinorTicksPerMajor:count];
+}
+
+- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+{
+    
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+             chart:(MetalChart *)chart
+              view:(FMMetalView *)view
+{
+    [_axis encodeWith:encoder projection:[self projectionForChart:chart].projection];
+}
+
+- (void)setProjection:(FMProjectionCartesian2D *)projection forChart:(MetalChart *)chart
+{
+    @synchronized(self) {
+        NSMutableDictionary *dict = _projections.mutableCopy;
+        dict[chart.key] = projection;
+        _projections = dict.copy;
+    }
+}
+
+- (void)removeProjectionForChart:(MetalChart *)chart
+{
+    @synchronized(self) {
+        NSMutableDictionary *dict = _projections.mutableCopy;
+        [dict removeObjectForKey:chart.key];
+        _projections = dict.copy;
+    }
+}
+
+@end
 
 @implementation FMBlockAxisConfigurator
 
@@ -118,7 +204,7 @@
 
 - (void)configureUniform:(FMUniformAxisConfiguration *)uniform
 		   withDimension:(FMDimensionalProjection *)dimension
-			  orthogonal:(FMDimensionalProjection * _Nonnull)orthogonal
+			  orthogonal:(FMDimensionalProjection *)orthogonal
 {
 	_block(uniform, dimension, orthogonal, _isFirst);
     _isFirst = NO;

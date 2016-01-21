@@ -180,6 +180,9 @@
         _majorTickInterval = interval;
         _majorTickValueModified = YES;
         self.configuration->tick_interval_major = interval;
+#ifdef DEBUG
+        NSAssert(interval > 0, @"interval should be positive (may work in some cases, but there's no guarantee)");
+#endif
     }
 }
 

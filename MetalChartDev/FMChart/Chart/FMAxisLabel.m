@@ -195,11 +195,13 @@
              chart:(MetalChart *)chart
               view:(FMMetalView *)view
 {
-    FMAxis *axis = _axis;
+    id<FMAxis> axis = _axis;
     if(axis) {
         const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
-        FMUniformProjectionCartesian2D *projection = axis.projection.projection;
-        [_quad encodeWith:encoder projection:projection count:count];
+        FMUniformProjectionCartesian2D *projection = [axis projectionForChart:chart].projection;
+        if(projection) {
+            [_quad encodeWith:encoder projection:projection count:count];
+        }
     }
 }
 
@@ -212,7 +214,7 @@
 
 - (NSArray<id<FMDependentAttachment>> *)dependencies
 {
-    FMAxis *axis = _axis;
+    id<FMAxis> axis = _axis;
     return (axis) ? @[axis] : @[];
 }
 
@@ -222,7 +224,7 @@
     _idxMin = 0;
 }
 
-- (void)configure:(FMAxis *)axis view:(MetalView *)view
+- (void)configure:(id<FMAxis>)axis view:(MetalView *)view
 {
     FMDimensionalProjection *dimension = axis.dimension;
     const CGFloat min = dimension.min;

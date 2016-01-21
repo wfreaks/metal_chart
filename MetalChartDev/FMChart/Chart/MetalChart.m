@@ -43,6 +43,7 @@ MTLPixelFormat determineDepthPixelFormat()
         _preparation = [NSArray array];
 		_semaphore = dispatch_semaphore_create(1);
         _clearDepth = 0;
+        _key = [NSString stringWithFormat:@"%p", self];
 	}
 	return self;
 }
