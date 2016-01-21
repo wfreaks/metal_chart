@@ -230,7 +230,10 @@
 
 - (void)setValueOffset:(CGPoint)offset
 {
-    self.projection->value_offset = vector2((float)offset.x, (float)offset.y);
+    if(!CGPointEqualToPoint(_valueOffset, offset)) {
+        _valueOffset = offset;
+        self.projection->value_offset = vector2((float)offset.x, (float)offset.y);
+    }
 }
 
 @end
