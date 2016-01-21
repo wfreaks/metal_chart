@@ -10,8 +10,6 @@
 #define Lines_common_h
 
 #include <simd/simd.h>
-#include <CoreGraphics/CGGeometry.h>
-#include "Engine_common.h"
 
 typedef struct uniform_line_attr {
     vector_float4 color;

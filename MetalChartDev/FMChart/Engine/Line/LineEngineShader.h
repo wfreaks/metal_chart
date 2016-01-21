@@ -10,19 +10,7 @@
 #define LineEngineShader_h
 
 #include "../Base/Shader_common.h"
-
-struct uniform_line_attr {
-	float4 color;
-    float2 length_mod;
-    float width;
-    float depth;
-    float alpha;
-    float length_repeat;
-    float length_space;
-    float repeat_anchor_line;
-    float repeat_anchor_dash;
-    uchar modify_alpha_on_edge;
-};
+#include "Line_common.h"
 
 inline void modify_length(thread float2& start, thread float2& end, float2 modifier, float2 phy_size)
 {

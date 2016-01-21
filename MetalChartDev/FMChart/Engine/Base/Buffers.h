@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import <Metal/Metal.h>
-#import "Line_common.h"
+#include "Engine_common.h"
 #import "DeviceResource.h"
 
 #ifndef __Buffers_h__

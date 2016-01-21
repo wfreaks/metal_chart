@@ -10,37 +10,6 @@
 
 #include "LineEngineShader.h"
 
-struct uniform_axis_conf {
-    float  axis_anchor_value;
-    float  tick_anchor_value;
-	float  tick_interval_major;
-    
-    uchar  dimIndex;
-    uchar  minor_ticks_per_major;
-    uchar  max_major_ticks;
-};
-
-struct uniform_axis_attributes {
-	float4 color;
-	float2 length_mod;
-	float  line_length;
-	float  width;
-};
-
-struct uniform_grid_attributes {
-    float4 color;
-    float width;
-    
-    float anchor_value;
-    float interval;
-    float depth;
-    float length_repeat;
-    float length_space;
-    float repeat_anchor_line;
-    float repeat_anchor_dash;
-    uchar dimIndex;
-};
-
 struct out_vertex_axis {
     float4 position_ndc [[ position ]];
     float2 position_scaled;
@@ -59,7 +28,7 @@ struct out_vertex_grid {
     float  dropped   [[ flat ]];
 };
 
-inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_conf& axis, constant uniform_projection_cart2d& proj )
+inline float2 axis_mid_pos( const bool is_axis, constant uniform_axis_configuration& axis, constant uniform_projection_cart2d& proj )
 {
 	const uchar idx = axis.dimIndex;
 	const uchar idx_orth = idx ^ 0x01;
@@ -84,7 +53,7 @@ inline float2 axis_dir_vec( const uchar dimIndex, const bool is_axis )
 	return v;
 }
 
-inline float2 tick_iter_vec( constant uniform_axis_conf& axis, const bool is_axis ) {
+inline float2 tick_iter_vec( constant uniform_axis_configuration& axis, const bool is_axis ) {
 	const uchar idx = axis.dimIndex;
 	float2 v(0, 0);
 	v[idx] = axis.tick_interval_major * (!is_axis); // 軸の場合は移動0.
@@ -122,7 +91,7 @@ inline bool is_dropped(const float2 mid, const uchar dimIndex, constant uniform_
 }
 
 vertex out_vertex_axis AxisVertex(
-								  constant uniform_axis_conf& axis [[ buffer(0) ]],
+								  constant uniform_axis_configuration& axis [[ buffer(0) ]],
 								  constant uniform_axis_attributes *attr_ptr [[ buffer(1) ]],
 								  constant uniform_projection_cart2d& proj [[ buffer(2) ]],
 								  uint v_id [[ vertex_id ]]
