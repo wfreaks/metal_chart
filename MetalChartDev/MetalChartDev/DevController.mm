@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
 	const double v = 0.9;
 	const NSInteger fps = 60;
 	

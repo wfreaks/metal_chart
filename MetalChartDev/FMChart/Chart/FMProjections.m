@@ -86,7 +86,7 @@
 		_dimX = x;
 		_dimY = y;
 		if(resource == nil) resource = [FMDeviceResource defaultResource];
-		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:[FMDeviceResource defaultResource]];
+		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:resource];
 		_dimensions = @[x, y];
 	}
 	return self;
