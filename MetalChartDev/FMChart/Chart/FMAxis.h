@@ -98,6 +98,17 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
 
+// 非常に遺憾な事ながら、軸を「画面上の位置固定」にすると共有できないというわりかしヤバ目の
+// 設計上のミス（構造体がデータ空間での位置固定をデフォルトにしたため）をどうにか回避するために、
+// 直交軸に依存する場合の挙動を変更する必要がある.
+// そもそもこれはバグではないのでそのために設計を曲げるのはどうかという気もするが、
+// 回避策を用意する事自体は問題ないと考える(使うかは使用者の判断に委ねる)
+// この方法を使って回避する場合、60fpsでグラフ２個同時に走らせた場合、画面表示が乱れるかもしれない.
+// (要は同期上の問題が存在するという事.)
+// 多分ちゃんとuniformを(あるいはprimitiveごと)chart毎に分けるべきなのだろう.
+
+@property (nonatomic) BOOL                                            needsOrhogonal;
+
 // DimensionId ではなく、Index. x/yの位置指定である事に注意.
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
                               dimension:(FMDimensionalProjection * _Nonnull)dimension
