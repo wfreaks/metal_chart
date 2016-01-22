@@ -155,7 +155,10 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMUserInteractiveRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat orientationRad;
-@property (readonly, nonatomic) FMGestureInterpreter * _Nonnull interpreter;
+
+// updater -> restriction(self) -> interpreter -> interaction -> updater と循環参照になる.
+// 実際こいつが所有権をもつのは微妙.
+@property (readonly, nonatomic, weak) FMGestureInterpreter * _Nullable interpreter;
 
 - (instancetype _Nonnull)initWithGestureInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
                                         orientation:(CGFloat)radian

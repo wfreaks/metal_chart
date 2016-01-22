@@ -156,7 +156,7 @@
 										 orientations:orientations];
 		const BOOL setNeedsDisplay = (_preferredFps <= 0);
 		if(setNeedsDisplay) {
-			typeof(_view) view = _view;
+            __weak typeof(_view) view = _view;
 			[interpreter addInteraction:[[FMSimpleBlockInteraction alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull _interpreter) {
 				[view setNeedsDisplay];
 			}]];
