@@ -46,6 +46,8 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection *> * _Nonnull dimensions;
 
+@property (nonatomic, readonly) NSString * _Nonnull key;
+
 - (instancetype _Nonnull)initWithDimensionX:(FMDimensionalProjection * _Nonnull)x
 										  Y:(FMDimensionalProjection * _Nonnull)y
 								   resource:(FMDeviceResource *_Nullable)resource

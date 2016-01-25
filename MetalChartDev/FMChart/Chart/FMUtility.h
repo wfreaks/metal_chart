@@ -58,6 +58,11 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
 
+// インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
++ (void)configureMetalView:(MetalView * _Nonnull)view
+              preferredFps:(NSInteger)fps
+;
+
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
 - (instancetype _Nonnull)initWithChart:(MetalChart * _Nonnull)chart
 								engine:(FMEngine * _Nullable)engine

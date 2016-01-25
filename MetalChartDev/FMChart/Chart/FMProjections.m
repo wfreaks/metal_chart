@@ -88,6 +88,7 @@
 		if(resource == nil) resource = [FMDeviceResource defaultResource];
 		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:resource];
 		_dimensions = @[x, y];
+        _key = [NSString stringWithFormat:@"%p", self];
 	}
 	return self;
 }

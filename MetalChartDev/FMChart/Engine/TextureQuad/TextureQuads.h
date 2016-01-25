@@ -32,4 +32,12 @@
              count:(NSUInteger)count;
 ;
 
+// ちょっと特殊な使い方をしたい時に...
+- (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
+        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+             count:(NSUInteger)count
+        dataRegion:(FMUniformRegion * _Nonnull)dataRegion
+         texRegion:(FMUniformRegion * _Nonnull)texRegion
+;
+
 @end

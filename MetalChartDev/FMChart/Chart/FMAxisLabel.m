@@ -140,10 +140,16 @@
 
 @interface FMAxisLabel()
 
+@property (readonly, nonatomic) FMEngine *engine;
 @property (readonly, nonatomic) FMLineRenderer * _Nonnull buffer;
 @property (assign, nonatomic) NSInteger idxMin;
 @property (assign, nonatomic) NSInteger idxMax;
 @property (assign, nonatomic) NSUInteger capacity;
+@property (nonatomic) CGSize  frameSize;
+@property (nonatomic) CGPoint frameOffset;
+@property (nonatomic) CGPoint frameAnchorPoint;
+@property (nonatomic) CGPoint dataIterationVector;
+@property (nonatomic) NSMutableDictionary<NSString *, FMUniformRegion *> *dataRegions;
 
 @end
 
@@ -156,6 +162,7 @@
 {
 	self = [super init];
 	if(self) {
+        _engine = engine;
         const CGFloat scale = [UIScreen mainScreen].scale;
         const CGSize bufSize = CGSizeMake(ceil(scale * frameSize.width), ceil(scale * frameSize.height));
 		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:bufSize.width height:bufSize.height * capacity mipmapped:NO];
@@ -169,9 +176,10 @@
         _textAlignment = CGPointMake(0.5, 0.5);
 		_textOffset = CGPointZero;
         _lineSpace = 2;
+        _dataRegions = [NSMutableDictionary dictionary];
         
-        [_quad.dataRegion setSize:frameSize];
-        [_quad.dataRegion setAnchorPoint:CGPointMake(0.5, 0.5)];
+        self.frameSize = frameSize;
+        self.frameAnchorPoint = CGPointMake(0.5, 0.5);
 	}
 	return self;
 }
@@ -183,12 +191,34 @@
 
 - (void)setFrameOffset:(CGPoint)offset
 {
-    [_quad.dataRegion setPositionOffset:offset];
+    if(!CGPointEqualToPoint(_frameOffset, offset)) {
+        _frameOffset = offset;
+        [_quad.dataRegion setPositionOffset:offset];
+    }
 }
 
 - (void)setFrameAnchorPoint:(CGPoint)point
 {
-    [_quad.dataRegion setAnchorPoint:point];
+    if(!CGPointEqualToPoint(_frameAnchorPoint, point)) {
+        _frameAnchorPoint = point;
+        [_quad.dataRegion setAnchorPoint:point];
+    }
+}
+
+- (void)setFrameSize:(CGSize)frameSize
+{
+    if(!CGSizeEqualToSize(_frameSize, frameSize)) {
+        _frameSize = frameSize;
+        [_quad.dataRegion setSize:frameSize];
+    }
+}
+
+- (void)setDataIterationVector:(CGPoint)vector
+{
+    if(!CGPointEqualToPoint(_dataIterationVector, vector)) {
+        _dataIterationVector = vector;
+        [_quad.dataRegion setIterationVector:vector];
+    }
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -198,9 +228,11 @@
     id<FMAxis> axis = _axis;
     if(axis) {
         const NSInteger count = MAX(0, (_idxMax-_idxMin) + 1);
-        FMUniformProjectionCartesian2D *projection = [axis projectionForChart:chart].projection;
+        FMProjectionCartesian2D *projection = [axis projectionForChart:chart];
         if(projection) {
-            [_quad encodeWith:encoder projection:projection count:count];
+            FMUniformRegion *dataRegion = [self dataRegionForProjection:projection];
+            FMUniformRegion *texRegion = _quad.texRegion;
+            [_quad encodeWith:encoder projection:projection.projection count:count dataRegion:dataRegion texRegion:texRegion];
         }
     }
 }
@@ -224,6 +256,21 @@
     _idxMin = 0;
 }
 
+- (FMUniformRegion *)dataRegionForProjection:(FMProjectionCartesian2D *)projection
+{
+    @synchronized(self) {
+        FMUniformRegion *region = self.dataRegions[projection.key];
+        if(!region) {
+            region = [[FMUniformRegion alloc] initWithResource:self.engine.resource];
+            self.dataRegions[projection.key] = region;
+        }
+        [region setPositionOffset:_frameOffset];
+        [region setAnchorPoint:_frameAnchorPoint];
+        [region setSize:_frameSize];
+        return region;
+    }
+}
+
 - (void)configure:(id<FMAxis>)axis chart:(MetalChart *)chart view:(MetalView *)view
 {
     FMDimensionalProjection *dimension = axis.dimension;
@@ -235,22 +282,23 @@
     const NSInteger newMin = ceil((min-anchor)/interval);
     const NSInteger newMax = floor((max-anchor)/interval);
     
+    FMProjectionCartesian2D *proj = [axis projectionForChart:chart];
     FMUniformRegion *texRegion = _quad.texRegion;
-    FMUniformRegion *dataRegion = _quad.dataRegion;
-    FMUniformProjectionCartesian2D *proj = [axis projectionForChart:chart].projection;
-    const CGFloat aVal = [conf axisAnchorValueWithProjection:proj];
+    FMUniformRegion *dataRegion = [self dataRegionForProjection:proj];
+    const CGFloat aVal = [conf axisAnchorValueWithProjection:proj.projection];
     const CGFloat tVal = conf.tickAnchorValue;
     [conf checkIfMajorTickValueModified:^BOOL(FMUniformAxisConfiguration *conf) {
         const CGFloat normHeight = 1 / (CGFloat)self.capacity;
         [texRegion setIterationVector:CGPointMake(0, normHeight)];
         [texRegion setSize:CGSizeMake(1, normHeight)];
-        [dataRegion setIterationVector:(conf.dimensionIndex == 0) ? CGPointMake(interval, 0) : CGPointMake(0, interval)];
+        [self setDataIterationVector:(conf.dimensionIndex == 0) ? CGPointMake(interval, 0) : CGPointMake(0, interval)];
         [self clearCache];
         return YES;
     }];
     [texRegion setIterationOffset:newMin];
     [dataRegion setIterationOffset:newMin];
     [dataRegion setBasePosition:(conf.dimensionIndex == 0) ? CGPointMake(tVal, aVal) : CGPointMake(aVal, tVal)];
+    [dataRegion setIterationVector:_dataIterationVector];
     
     const NSInteger capacity = _capacity;
     const CGSize bufPixels = _buffer.bufferPixelSize;

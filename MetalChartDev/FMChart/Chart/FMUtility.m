@@ -36,6 +36,17 @@
 
 @implementation FMConfigurator
 
++ (void)configureMetalView:(MetalView *)view
+              preferredFps:(NSInteger)fps
+{
+    view.enableSetNeedsDisplay = (fps <= 0);
+    view.paused = (fps <= 0);
+    view.preferredFramesPerSecond = fps;
+    view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+    view.depthStencilPixelFormat = determineDepthPixelFormat();
+    view.clearDepth = 0;
+}
+
 - (instancetype)initWithChart:(MetalChart *)chart
 					   engine:(FMEngine *)engine
 						view:(MetalView *)view
