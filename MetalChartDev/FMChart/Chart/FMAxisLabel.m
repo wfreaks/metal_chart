@@ -145,6 +145,15 @@
 @property (assign, nonatomic) NSInteger idxMin;
 @property (assign, nonatomic) NSInteger idxMax;
 @property (assign, nonatomic) NSUInteger capacity;
+
+- (FMUniformRegion *)dataRegionForProjection:(FMProjectionCartesian2D *)projection;
+
+@end
+
+
+
+@interface FMSharedAxisLabel()
+
 @property (nonatomic) CGSize  frameSize;
 @property (nonatomic) CGPoint frameOffset;
 @property (nonatomic) CGPoint frameAnchorPoint;
@@ -152,6 +161,8 @@
 @property (nonatomic) NSMutableDictionary<NSString *, FMUniformRegion *> *dataRegions;
 
 @end
+
+
 
 @implementation FMAxisLabel
 
@@ -176,7 +187,6 @@
         _textAlignment = CGPointMake(0.5, 0.5);
 		_textOffset = CGPointZero;
         _lineSpace = 2;
-        _dataRegions = [NSMutableDictionary dictionary];
         
         self.frameSize = frameSize;
         self.frameAnchorPoint = CGPointMake(0.5, 0.5);
@@ -191,34 +201,22 @@
 
 - (void)setFrameOffset:(CGPoint)offset
 {
-    if(!CGPointEqualToPoint(_frameOffset, offset)) {
-        _frameOffset = offset;
-        [_quad.dataRegion setPositionOffset:offset];
-    }
+	[_quad.dataRegion setPositionOffset:offset];
 }
 
 - (void)setFrameAnchorPoint:(CGPoint)point
 {
-    if(!CGPointEqualToPoint(_frameAnchorPoint, point)) {
-        _frameAnchorPoint = point;
-        [_quad.dataRegion setAnchorPoint:point];
-    }
+	[_quad.dataRegion setAnchorPoint:point];
 }
 
 - (void)setFrameSize:(CGSize)frameSize
 {
-    if(!CGSizeEqualToSize(_frameSize, frameSize)) {
-        _frameSize = frameSize;
-        [_quad.dataRegion setSize:frameSize];
-    }
+	[_quad.dataRegion setSize:frameSize];
 }
 
 - (void)setDataIterationVector:(CGPoint)vector
 {
-    if(!CGPointEqualToPoint(_dataIterationVector, vector)) {
-        _dataIterationVector = vector;
-        [_quad.dataRegion setIterationVector:vector];
-    }
+	[_quad.dataRegion setIterationVector:vector];
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -258,17 +256,7 @@
 
 - (FMUniformRegion *)dataRegionForProjection:(FMProjectionCartesian2D *)projection
 {
-    @synchronized(self) {
-        FMUniformRegion *region = self.dataRegions[projection.key];
-        if(!region) {
-            region = [[FMUniformRegion alloc] initWithResource:self.engine.resource];
-            self.dataRegions[projection.key] = region;
-        }
-        [region setPositionOffset:_frameOffset];
-        [region setAnchorPoint:_frameAnchorPoint];
-        [region setSize:_frameSize];
-        return region;
-    }
+	return _quad.dataRegion;
 }
 
 - (void)configure:(id<FMAxis>)axis chart:(MetalChart *)chart view:(MetalView *)view
@@ -298,7 +286,6 @@
     [texRegion setIterationOffset:newMin];
     [dataRegion setIterationOffset:newMin];
     [dataRegion setBasePosition:(conf.dimensionIndex == 0) ? CGPointMake(tVal, aVal) : CGPointMake(aVal, tVal)];
-    [dataRegion setIterationVector:_dataIterationVector];
     
     const NSInteger capacity = _capacity;
     const CGSize bufPixels = _buffer.bufferPixelSize;
@@ -381,10 +368,85 @@
 
 
 
+@implementation FMSharedAxisLabel
 
+- (instancetype)initWithEngine:(FMEngine *)engine
+					 frameSize:(CGSize)frameSize
+				bufferCapacity:(NSUInteger)capacity
+				 labelDelegate:(id<FMAxisLabelDelegate>)delegate
+{
+	self = [super initWithEngine:engine frameSize:frameSize bufferCapacity:capacity labelDelegate:delegate];
+	if(self) {
+		_dataRegions = [NSMutableDictionary dictionary];
+	}
+	return self;
+}
 
+- (void)setFrameOffset:(CGPoint)offset
+{
+	if(!CGPointEqualToPoint(_frameOffset, offset)) {
+		_frameOffset = offset;
+		[self _synchronizeDataRegions];
+	}
+}
 
+- (void)setFrameAnchorPoint:(CGPoint)point
+{
+	if(!CGPointEqualToPoint(_frameAnchorPoint, point)) {
+		_frameAnchorPoint = point;
+		[self _synchronizeDataRegions];
+	}
+}
 
+- (void)setFrameSize:(CGSize)frameSize
+{
+	if(!CGSizeEqualToSize(_frameSize, frameSize)) {
+		_frameSize = frameSize;
+		[self _synchronizeDataRegions];
+	}
+}
+
+- (void)setDataIterationVector:(CGPoint)vector
+{
+	if(!CGPointEqualToPoint(_dataIterationVector, vector)) {
+		_dataIterationVector = vector;
+		[self _synchronizeDataRegions];
+	}
+}
+
+- (void)_synchronizeDataRegions
+{
+	@synchronized(self) {
+		NSArray<FMUniformRegion *> *regions = _dataRegions.allValues;
+		const CGPoint offset = _frameOffset, anchor = _frameAnchorPoint, iter = _dataIterationVector;
+		const CGSize size = _frameSize;
+		for(FMUniformRegion *r in regions) {
+			[r setPositionOffset:offset];
+			[r setSize:size];
+			[r setIterationVector:iter];
+			[r setAnchorPoint:anchor];
+		}
+	}
+}
+
+- (FMUniformRegion *)dataRegionForProjection:(FMProjectionCartesian2D *)projection
+{
+	@synchronized(self) {
+		FMUniformRegion *region = self.dataRegions[projection.key];
+		if(!region) {
+			region = [[FMUniformRegion alloc] initWithResource:self.engine.resource];
+			self.dataRegions[projection.key] = region;
+			
+			[region setPositionOffset:_frameOffset];
+			[region setSize:_frameSize];
+			[region setIterationVector:_dataIterationVector];
+			[region setAnchorPoint:_frameAnchorPoint];
+		}
+		return region;
+	}
+}
+
+@end
 
 
 

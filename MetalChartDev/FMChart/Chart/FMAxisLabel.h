@@ -26,10 +26,9 @@
 
 @end
 
-typedef void (^FMLineConfBlock)(NSUInteger idx, CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
-// Class that manages CGBitmapContext and draw text to it, then copy its contents to MTLTexture.
-// It's not a class that you have to use, but you may do so if you know what it does.
+
+typedef void (^FMLineConfBlock)(NSUInteger idx, CGSize lineSize, CGSize bufferSize, CGRect *_Nonnull drawRect);
 
 @protocol FMLineDrawHook<NSObject>
 
@@ -39,6 +38,8 @@ typedef void (^FMLineConfBlock)(NSUInteger idx, CGSize lineSize, CGSize bufferSi
 ;
 
 @end
+
+
 
 typedef void (^FMLineHookBlock)(NSAttributedString * _Nonnull string,
 								CGContextRef _Nonnull context,
@@ -57,6 +58,11 @@ UNAVAILABLE_ATTRIBUTE;
 + (instancetype _Nonnull)hookWithBlock:(FMLineHookBlock _Nonnull)block;
 
 @end
+
+
+
+// Class that manages CGBitmapContext and draw text to it, then copes its contents to MTLTexture.
+// It's not a class that you have to use, but you may do so if you know what it does.
 
 @interface FMLineRenderer : NSObject
 
@@ -89,11 +95,6 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 										NSInteger * _Nonnull oldMinIdx,
 										NSInteger * _Nonnull oldMaxIdx);
 
-
-// Label renderer for FMAxis.
-// This class manages its own drawing buffer(MTLTexture to be precise), 
-// and you should not use one instance from multiple Axis
-// unless their configurations are COMPLETELY same.
 
 @interface FMAxisLabel : NSObject<FMDependentAttachment>
 
@@ -129,6 +130,14 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setLineDrawHook:(id<FMLineDrawHook> _Nullable)hook;
 
 @end
+
+
+
+@interface FMSharedAxisLabel : FMAxisLabel
+
+@end
+
+
 
 typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value,
                                                                                   NSInteger index,
