@@ -61,73 +61,92 @@
 @end
 
 
+
 @implementation FMUniformBarConfiguration
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
     self = [super init];
     if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_bar) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        [self setBarWidth:3];
+        _buffer = [resource.device newBufferWithLength:sizeof(uniform_bar_conf) options:MTLResourceOptionCPUCacheModeWriteCombined];
         [self setBarDirection:CGPointMake(0, 1)];
-        [self setColorRed:0.4 green:0.4 blue:0.4 alpha:0.6];
     }
     return self;
 }
 
-- (uniform_bar *)bar
+- (uniform_bar_conf *)conf
 {
-    return (uniform_bar *)([_buffer contents]);
-}
-
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-    self.bar->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColorRef:(vector_float4 const *)color
-{
-    self.bar->color = *color;
-}
-
-- (void)setColor:(vector_float4)color
-{
-	self.bar->color = color;
-}
-
-- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
-{
-    self.bar->corner_radius = vector4(lt, rt, lb, rb);
-}
-
-- (void)setCornerRadius:(float)radius
-{
-    self.bar->corner_radius = vector4(radius, radius, radius, radius);
-}
-
-- (void)setBarWidth:(float)width
-{
-    self.bar->width = width;
+    return (uniform_bar_conf *)([_buffer contents]);
 }
 
 - (void)setAnchorPoint:(CGPoint)point
 {
-    self.bar->anchor_point = vector2((float)point.x, (float)point.y);
+    self.conf->anchor_point = vector2((float)point.x, (float)point.y);
 }
 
 - (void)setBarDirection:(CGPoint)dir
 
 {
-    self.bar->dir = vector2((float)dir.x, (float)dir.y);
+    self.conf->dir = vector2((float)dir.x, (float)dir.y);
 }
 
 - (void)setDepthValue:(float)value
 {
-    self.bar->depth_value = value;
+    self.conf->depth_value = value;
 }
 
 @end
 
+
+@implementation FMUniformBarAttributes
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_bar_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		[self setBarWidth:3];
+		[self setColorRed:0.4 green:0.4 blue:0.4 alpha:0.6];
+	}
+	return self;
+}
+
+- (uniform_bar_attr *)attr
+{
+	return (uniform_bar_attr *)([_buffer contents]);
+}
+
+- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
+{
+	self.attr->color = vector4(red, green, blue, alpha);
+}
+
+- (void)setColorRef:(vector_float4 const *)color
+{
+	self.attr->color = *color;
+}
+
+- (void)setColor:(vector_float4)color
+{
+	self.attr->color = color;
+}
+
+- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
+{
+	self.attr->corner_radius = vector4(lt, rt, lb, rb);
+}
+
+- (void)setCornerRadius:(float)radius
+{
+	self.attr->corner_radius = vector4(radius, radius, radius, radius);
+}
+
+- (void)setBarWidth:(float)width
+{
+	self.attr->width = width;
+}
+
+@end
 
 
 @interface FMUniformRectAttributes()

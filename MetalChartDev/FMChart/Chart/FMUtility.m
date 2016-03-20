@@ -316,7 +316,10 @@
 - (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
                         series:(FMOrderedSeries *)series
 {
-    FMBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine series:series configuration:nil];
+    FMBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine
+																 series:series
+														  configuration:nil
+															 attributes:nil];
     FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
     [_chart addSeries:bs];
 	[_chart addProjection:space];
@@ -330,7 +333,8 @@
 	FMOrderedAttributedBarPrimitive *bar = [[FMOrderedAttributedBarPrimitive alloc] initWithEngine:self.engine
 																							series:series
 																					 configuration:nil
-																						attributes:nil
+																				  globalAttributes:nil
+																				   attributesArray:nil
 																		attributesCapacityOnCreate:capacity];
 	FMAttributedBarSeries *bs = [[FMAttributedBarSeries alloc] initWithAttributedBar:bar projection:space];
 	[_chart addSeries:bs];

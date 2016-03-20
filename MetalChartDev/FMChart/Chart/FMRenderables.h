@@ -17,6 +17,7 @@
 @class FMPointPrimitive;
 @class FMUniformLineAttributes;
 @class FMUniformBarConfiguration;
+@class FMUniformBarAttributes;
 @class FMUniformRectAttributesArray;
 @class FMUniformPointAttributes;
 @class FMUniformPlotRectAttributes;
@@ -75,6 +76,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
@@ -94,7 +96,8 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMAttributedBarSeries : FMBarSeries
 
 @property (readonly, nonatomic) FMOrderedAttributedBarPrimitive * _Nonnull attributedBar;
-@property (readonly, nonatomic) FMUniformRectAttributesArray * _Nonnull attrs;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull globalAttributes;
+@property (readonly, nonatomic) FMUniformRectAttributesArray * _Nonnull attributesArray;
 
 - (instancetype _Nonnull)initWithBar:(FMBarPrimitive * _Nonnull)bar
 						  projection:(FMProjectionCartesian2D * _Nullable)projection

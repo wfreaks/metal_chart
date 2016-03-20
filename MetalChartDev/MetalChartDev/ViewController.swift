@@ -122,8 +122,8 @@ class ViewController: UIViewController {
 		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
 		
-		stepBar?.conf.setBarWidth(20)
-		stepBar?.conf.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar?.attributes.setBarWidth(20)
+		stepBar?.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
 		weightLine?.attributes.setWidth(5)
 		weightLine?.attributes.enableOverlay = true
 		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(0.5).vector())

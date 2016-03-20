@@ -33,7 +33,20 @@
 @interface FMUniformBarConfiguration : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
-@property (readonly, nonatomic) uniform_bar * _Nonnull bar;
+@property (readonly, nonatomic) uniform_bar_conf * _Nonnull conf;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
+
+- (void)setDepthValue:(float)value;
+- (void)setAnchorPoint:(CGPoint)point;
+- (void)setBarDirection:(CGPoint)dir;
+
+@end
+
+@interface FMUniformBarAttributes : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_bar_attr * _Nonnull attr;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
@@ -42,9 +55,6 @@
 - (void)setColorRef:(vector_float4 const *_Nonnull)color;
 - (void)setCornerRadius:(float)radius;
 - (void)setBarWidth:(float)width;
-- (void)setDepthValue:(float)value;
-- (void)setAnchorPoint:(CGPoint)point;
-- (void)setBarDirection:(CGPoint)dir;
 
 // 各頂点に個別の大きさを設定する. 注意すべきは、lt/rtがどこに来るかの自然な解釈が難しい事だ.
 // 現状では, t/bはそれぞれ、(direction＋値の正負を考慮した)Barの伸展方向を上にした時の上下だが、

@@ -52,6 +52,7 @@
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 						  configuration:(FMUniformBarConfiguration * _Nullable)conf
+							 attributes:(FMUniformBarAttributes * _Nullable)attr
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
@@ -67,12 +68,14 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				 configuration:(FMUniformBarConfiguration * _Nullable)conf
+					attributes:(FMUniformBarAttributes * _Nullable)attr
 {
     self = [super init];
     if(self) {
         _engine = engine;
         FMDeviceResource *res = engine.resource;
         _conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
+		_attr = (attr) ? attr : [[FMUniformBarAttributes alloc] initWithResource:res];
     }
     return self;
 }
@@ -89,18 +92,19 @@
 		[encoder setDepthStencilState:depthState];
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
-		id<MTLBuffer> const indexBuffer = [self indexBuffer];
 		id<MTLBuffer> const barBuffer = _conf.buffer;
+		id<MTLBuffer> const attrBuffer = _attr.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
-		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
-		[encoder setVertexBuffer:barBuffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:barBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:attrBuffer offset:0 atIndex:2];
 		[encoder setVertexBuffer:projBuffer offset:0 atIndex:3];
 		[encoder setVertexBuffer:infoBuffer offset:0 atIndex:4];
 		
 		[encoder setFragmentBuffer:barBuffer offset:0 atIndex:0];
-		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:attrBuffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:2];
 		
 		const NSUInteger offset = [self vertexOffsetWithOffset:[series info].offset];
 		const NSUInteger count = [self vertexCountWithCount:[series info].count];
@@ -134,8 +138,9 @@
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMOrderedSeries *)series
 				 configuration:(FMUniformBarConfiguration * _Nullable)conf
+					attributes:(FMUniformBarAttributes * _Nullable)attr
 {
-    self = [super initWithEngine:engine configuration:conf];
+    self = [super initWithEngine:engine configuration:conf attributes:attr];
     if(self) {
         _series = series;
     }
@@ -155,13 +160,13 @@
 - (instancetype)initWithEngine:(FMEngine *)engine
 						series:(FMOrderedAttributedSeries *)series
 				 configuration:(FMUniformBarConfiguration * _Nullable)conf
-					attributes:(FMUniformRectAttributesArray * _Nullable)attrs
-	attributesCapacityOnCreate:(NSUInteger)capacity
+			  globalAttributes:(FMUniformBarAttributes * _Nullable)attr
+			   attributesArray:(FMUniformRectAttributesArray * _Nullable)attrs attributesCapacityOnCreate:(NSUInteger)capacity
 {
-	self = [super initWithEngine:engine configuration:conf];
+	self = [super initWithEngine:engine configuration:conf attributes:attr];
 	if(self) {
 		_series = series;
-		_attrs = (attrs) ? attrs : [[FMUniformRectAttributesArray alloc] initWithResource:engine.resource capacity:capacity];
+		_rectAttrs = (attrs) ? attrs : [[FMUniformRectAttributesArray alloc] initWithResource:engine.resource capacity:capacity];
 	}
 	return self;
 }
@@ -181,20 +186,21 @@
 		[encoder setDepthStencilState:depthState];
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
-		id<MTLBuffer> const indexBuffer = [self indexBuffer];
 		id<MTLBuffer> const barBuffer = self.conf.buffer;
-		id<MTLBuffer> const attrsBuffer = self.attrs.buffer;
+		id<MTLBuffer> const attrBuffer = self.attr.buffer;
+		id<MTLBuffer> const attrsBuffer = self.rectAttrs.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
-		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
-		[encoder setVertexBuffer:barBuffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:barBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:attrBuffer offset:0 atIndex:2];
 		[encoder setVertexBuffer:projBuffer offset:0 atIndex:3];
 		[encoder setVertexBuffer:infoBuffer offset:0 atIndex:4];
 		
 		[encoder setFragmentBuffer:barBuffer offset:0 atIndex:0];
-		[encoder setFragmentBuffer:attrsBuffer offset:0 atIndex:1];
-		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:2];
+		[encoder setFragmentBuffer:attrBuffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:attrsBuffer offset:0 atIndex:2];
+		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:3];
 		
 		const NSUInteger offset = [self vertexOffsetWithOffset:[series info].offset];
 		const NSUInteger count = [self vertexCountWithCount:[series info].count];
