@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 	let store : HKHealthStore = HKHealthStore()
 	var interpreter : FMGestureInterpreter? = nil
 	
-	let seriesCapacity : UInt = 256
+	let seriesCapacity : UInt = 512
 	var stepSeries : FMOrderedSeries? = nil
 	var weightSeries : FMOrderedSeries? = nil
 	var systolicSeries : FMOrderedSeries? = nil
@@ -36,10 +36,14 @@ class ViewController: UIViewController {
 	var systolicLine : FMLineSeries? = nil
 	var diastolicLine : FMLineSeries? = nil
 	
+	var stepUpdater : FMProjectionUpdater? = nil;
+	var weightUpdater : FMProjectionUpdater? = nil;
+	var pressureUpdater : FMProjectionUpdater? = nil;
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
         metalView.device = resource.device
-        metalView.sampleCount = 2
+        metalView.sampleCount = 1
         let v : Double = 0.9
         let alpha : Double = 1
         metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
@@ -68,7 +72,7 @@ class ViewController: UIViewController {
 		
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
         
-		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 10,height: 10), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
+		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 10,height: 1), translationMin: CGPoint(x: -0.5,y: -0), max: CGPoint(x: 48,y: 0))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
 		self.interpreter = interpreter
 		
@@ -86,37 +90,44 @@ class ViewController: UIViewController {
 		let daySec : CGFloat = 24 * 60 * 60
 		dateUpdator.addRestrictionToLast(FMSourceRestriction(minValue: -7 * daySec, maxValue: daySec, expandMin: true, expandMax: true))
 		
-		let stepUpdator = FMProjectionUpdater()
-		stepUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
-		stepUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
+		stepUpdater = FMProjectionUpdater()
+		stepUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
+		stepUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
 		
-		let weightUpdator = FMProjectionUpdater()
-		weightUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
-		weightUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
+		weightUpdater = FMProjectionUpdater()
+		weightUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
+		weightUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
 		
-		let pressureUpdator = FMProjectionUpdater()
-		pressureUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 60, maxValue: 80, expandMin: false, expandMax: false))
-		pressureUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 20, shrinkMin: false, shrinkMax: false))
+		pressureUpdater = FMProjectionUpdater()
+		pressureUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 60, maxValue: 120, expandMin: false, expandMax: false))
+		pressureUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
  		
 		let stepSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim,stepDim]) { (dimId) -> FMProjectionUpdater? in
 			if(dimId == dateDim) {
 				return dateUpdator
 			}
-			return stepUpdator
+			return self.stepUpdater
 		}
 		
 		let weightSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim, weightDim]) { (dimId) -> FMProjectionUpdater? in
-			return weightUpdator
+			return self.weightUpdater
 		}
 		
 		let pressureSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim, pressureDim]) { (dimId) -> FMProjectionUpdater? in
-			return pressureUpdator
+			return self.pressureUpdater
 		}
 		
 		stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
 		weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
 		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
+		
+		stepBar?.conf.setBarWidth(20)
+		stepBar?.conf.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		weightLine?.attributes.setWidth(5)
+		weightLine?.attributes.enableOverlay = true
+		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(0.5).vector())
+		diastolicLine?.attributes.setColor(UIColor.greenColor().colorWithAlphaComponent(0.5).vector())
 		
 		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
 		let axis = configurator.addAxisToDimensionWithId(dateDim, belowSeries: false, configurator: dateConf, label: nil)
@@ -130,32 +141,77 @@ class ViewController: UIViewController {
 		systolicSeries?.info.clear()
 		diastolicSeries?.info.clear()
 		
+		stepUpdater?.clearSourceValues(false)
+		weightUpdater?.clearSourceValues(false)
+		pressureUpdater?.clearSourceValues(false)
+		
 		let refDate : NSDate = getStartOfDate(NSDate())
+		let interval : NSDateComponents = NSDateComponents()
+		interval.day = 1
 		let step = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!
 		let weight = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
-		let pressure = HKCorrelationType.correlationTypeForIdentifier(HKCorrelationTypeIdentifierBloodPressure)!
+		let systolic = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureSystolic)!
+		let diastolic = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBloodPressureDiastolic)!
 		
 		let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
 		
-		let stepQuery = HKStatisticsQuery(quantityType: step, quantitySamplePredicate: <#T##NSPredicate?#>, options: <#T##HKStatisticsOptions#>, completionHandler: <#T##(HKStatisticsQuery, HKStatistics?, NSError?) -> Void#>)
-		
-		let kg = HKUnit(fromMassFormatterUnit: NSMassFormatterUnit.Kilogram)
-		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
-			if let array = samples {
-				for sample in (array as! [HKQuantitySample]) {
-					self.weightSeries?.addPoint(CGPointMake(CGFloat(sample.startDate.timeIntervalSinceDate(refDate)), CGFloat(sample.quantity.doubleValueForUnit(kg))))
+		let stepQuery = HKStatisticsCollectionQuery(quantityType: step, quantitySamplePredicate: nil, options: HKStatisticsOptions.CumulativeSum, anchorDate: refDate, intervalComponents: interval)
+		stepQuery.initialResultsHandler = { query, results, eror in
+			if let collection = results {
+				for statistic in collection.statistics() {
+					if let quantity = statistic.sumQuantity() {
+						let value = quantity.doubleValueForUnit(HKUnit.countUnit())
+						self.stepSeries?.addPoint(CGPointMake(CGFloat(statistic.startDate.timeIntervalSinceDate(refDate)), CGFloat(value)))
+						self.stepUpdater?.addSourceValue(CGFloat(value), update: false)
+					}
 				}
+				self.stepUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
 		}
-		store.executeQuery(weightQuery)
-//		let pressureQuery = HKCorrelationQuery(type: pressure, predicate: nil, samplePredicates: nil) { (query, correlations, error) -> Void in
-//		}
-//		
-//		let components = NSDateComponents()
-//		components.day = 1
-//		let stepQuery = HKStatisticsCollectionQuery(quantityType: step, quantitySamplePredicate: nil, options: HKStatisticsOptions.CumulativeSum, anchorDate: refDate, intervalComponents: components)
 		
+		let kg = HKUnit.gramUnitWithMetricPrefix(HKMetricPrefix.Kilo)
+		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+			if let array = samples {
+				for sample in (array as! [HKQuantitySample]) {
+					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
+					let val = sample.quantity.doubleValueForUnit(kg)
+					self.weightSeries?.addPoint(CGPointMake(x, CGFloat(val)))
+					self.weightUpdater?.addSourceValue(CGFloat(val), update: false)
+				}
+				self.weightUpdater?.updateTarget()
+				self.metalView.setNeedsDisplay()
+			}
+		}
+		let mmHg = HKUnit.millimeterOfMercuryUnit()
+		let systolicQuery = HKSampleQuery(sampleType:systolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+			if let array = samples {
+				for sample in (array as! [HKQuantitySample]) {
+					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
+					let val = sample.quantity.doubleValueForUnit(mmHg)
+					self.systolicSeries?.addPoint(CGPointMake(x, CGFloat(val)))
+					self.pressureUpdater?.addSourceValue(CGFloat(val), update: false)
+				}
+				self.pressureUpdater?.updateTarget()
+				self.metalView.setNeedsDisplay()
+			}
+		}
+		let diastolicQuery = HKSampleQuery(sampleType:diastolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+			if let array = samples {
+				for sample in (array as! [HKQuantitySample]) {
+					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
+					let val = sample.quantity.doubleValueForUnit(mmHg)
+					self.diastolicSeries?.addPoint(CGPointMake(x, CGFloat(val)))
+					self.pressureUpdater?.addSourceValue(CGFloat(val), update: false)
+				}
+				self.pressureUpdater?.updateTarget()
+				self.metalView.setNeedsDisplay()
+			}
+		}
+		store.executeQuery(stepQuery)
+		store.executeQuery(weightQuery)
+		store.executeQuery(systolicQuery)
+		store.executeQuery(diastolicQuery)
 	}
 	
 	let calendar : NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
