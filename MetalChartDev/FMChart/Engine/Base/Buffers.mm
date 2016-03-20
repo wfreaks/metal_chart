@@ -329,6 +329,12 @@
 	[self info]->offset = (uint32_t)offset;
 }
 
+- (void)clear
+{
+	self.offset = 0;
+	self.count = 0;
+}
+
 @end
 
 

@@ -205,6 +205,8 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (uniform_series_info * _Nonnull)info;
 
+- (void)clear;
+
 @end
 
 

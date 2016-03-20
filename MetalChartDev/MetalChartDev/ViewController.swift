@@ -9,6 +9,7 @@
 import UIKit
 import Metal
 import FMChartSupport
+import HealthKit
 
 class ViewController: UIViewController {
 
@@ -20,10 +21,20 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	var chartConf : FMConfigurator? = nil
 	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
-    let animator : FMAnimator = FMAnimator();
-	let asChart = false
-    var firstLineAttributes : FMUniformLineAttributes? = nil
-	var lineDrawHook : FMLineDrawHook? = nil
+    let animator : FMAnimator = FMAnimator()
+	let store : HKHealthStore = HKHealthStore()
+	var interpreter : FMGestureInterpreter? = nil
+	
+	let seriesCapacity : UInt = 256
+	var stepSeries : FMOrderedSeries? = nil
+	var weightSeries : FMOrderedSeries? = nil
+	var systolicSeries : FMOrderedSeries? = nil
+	var diastolicSeries : FMOrderedSeries? = nil
+	
+	var stepBar : FMBarSeries? = nil
+	var weightLine : FMLineSeries? = nil
+	var systolicLine : FMLineSeries? = nil
+	var diastolicLine : FMLineSeries? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -36,6 +47,11 @@ class ViewController: UIViewController {
 		
 		setupChart()
 	}
+	
+	override func viewWillAppear(animated: Bool) {
+		super.viewWillAppear(animated)
+		loadData()
+	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
@@ -44,154 +60,115 @@ class ViewController: UIViewController {
 	
 	func setupChart() {
 		let engine = FMEngine(resource: resource)
-		let fps = asChart ? 60 : 0;
+		let fps = 0;
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
+		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
+		chart.bufferHook = animator
+		
+		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
         
 		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 10,height: 10), translationMin: CGPoint(x: -1.5,y: -1.5), max: CGPoint(x: 1.5,y: 1.5))
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
+		self.interpreter = interpreter
 		
-		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
+		stepSeries = configurator.createSeries(seriesCapacity)
+		weightSeries = configurator.createSeries(seriesCapacity)
+		systolicSeries = configurator.createSeries(seriesCapacity)
+		diastolicSeries = configurator.createSeries(seriesCapacity)
 		
-		if (asChart) {
-            
-            let N : UInt = 9;
-            let vertCapacity : UInt = 1 << N
-            let vertLength = 1 << (N-1);
-            let vertOffset = 1 << (N-5);
-            let yRange : CGFloat = CGFloat(5)
-            
-            let space = configurator.spaceWithDimensionIds([1,2]) { (dimId) -> FMProjectionUpdater? in
-                let updater : FMProjectionUpdater = FMProjectionUpdater()
-                if(dimId == 1) {
-                    updater.addRestrictionToLast(FMSourceRestriction(minValue: -1, maxValue: 1, expandMin: true, expandMax: true))
-                    updater.addRestrictionToLast(FMLengthRestriction(length: CGFloat(vertLength), anchor: 1, offset:CGFloat(vertOffset)))
-                } else {
-                    updater.addRestrictionToLast(FMSourceRestriction( minValue: -yRange, maxValue: yRange, expandMin: true, expandMax: true))
-                }
-                return updater
-            }
-            
-            let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: CGFloat(1<<(N-3)), minorTicksFreq: 4)
-            let yAxisConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: 1, minorTicksFreq: 0)
-            configurator.addAxisToDimensionWithId(2, belowSeries: false, configurator: yAxisConf, label: nil)
-            configurator.addAxisToDimensionWithId(1, belowSeries: false, configurator: xAxisConf, label: nil)
-            
-            let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
-            let overlayLineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(vertCapacity))
-            overlayLineSeries.attributes.setColorRed(1.0, green: 0.5, blue: 0.2, alpha: 0.5)
-            overlayLineSeries.attributes.enableOverlay = true
-            
-            lineSeries.attributes.setWidth(3)
-            overlayLineSeries.attributes.setWidth(3)
-			
-            let xUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(1)!
-            let yUpdater : FMProjectionUpdater = configurator.updaterWithDimensionId(2)!
-			
-			chart.willDraw = { (FM : MetalChart) -> Void in
-                let line : FMOrderedPolyLinePrimitive = lineSeries.line as! FMOrderedPolyLinePrimitive
-                let overlayLine : FMOrderedPolyLinePrimitive = overlayLineSeries.line as! FMOrderedPolyLinePrimitive
-                line.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(+0.3), variance:CGFloat(0.75)) { (Float x, Float y) in
-					xUpdater.addSourceValue(CGFloat(x), update: false)
-				}
-                overlayLine.appendSampleData((1<<(N-9)), maxVertexCount:vertCapacity, mean:CGFloat(-0.3), variance: 0.3) { (Float x, Float y) in
-                    xUpdater.addSourceValue(CGFloat(x), update: false)
-                }
-				xUpdater.updateTarget()
-                yUpdater.updateTarget()
+		let dateDim = 1
+		let stepDim = 2
+		let weightDim = 3
+		let pressureDim = 4
+		
+		let dateUpdator = FMProjectionUpdater()
+		let daySec : CGFloat = 24 * 60 * 60
+		dateUpdator.addRestrictionToLast(FMSourceRestriction(minValue: -7 * daySec, maxValue: daySec, expandMin: true, expandMax: true))
+		
+		let stepUpdator = FMProjectionUpdater()
+		stepUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
+		stepUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
+		
+		let weightUpdator = FMProjectionUpdater()
+		weightUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
+		weightUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
+		
+		let pressureUpdator = FMProjectionUpdater()
+		pressureUpdator.addRestrictionToLast(FMSourceRestriction(minValue: 60, maxValue: 80, expandMin: false, expandMax: false))
+		pressureUpdator.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 20, shrinkMin: false, shrinkMax: false))
+ 		
+		let stepSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim,stepDim]) { (dimId) -> FMProjectionUpdater? in
+			if(dimId == dateDim) {
+				return dateUpdator
 			}
-            
-            configurator.addPlotAreaWithColor(UIColor.whiteColor())
-            
-            let yGrid = configurator.addGridLineToDimensionWithId(2, belowSeries: true, anchor: 0, interval:1)!
-            yGrid.attributes.setDashLineLength(5)
-            yGrid.attributes.setDashSpaceLength(5)
-            
-            firstLineAttributes = lineSeries.attributes
-            chart.bufferHook = animator
-			
-		} else {
-			let space : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([1, 2]) { (dimensionID) -> FMProjectionUpdater? in
-				let updater = FMProjectionUpdater()
-				updater.addRestrictionToLast(FMLengthRestriction(length: 2, anchor: 0, offset: 0))
-				return updater
-			}
-            
-            let dummySpace = configurator.spaceWithDimensionIds([3, 2]) { (dimensionID) -> FMProjectionUpdater? in
-                let updater = FMProjectionUpdater()
-                updater.addRestrictionToLast(FMLengthRestriction(length: 20, anchor: 0, offset: 0))
-                return updater
-            }
-            configurator.connectSpace([space, dummySpace], toInterpreter: interpreter)
-            let dummyDim : FMDimensionalProjection = configurator.dimensionWithId(3)!
-			
-            let lineSeries = configurator.addLineToSpace(space, series: configurator.createSeries(4))
-            lineSeries.attributes.setWidth(10)
-            lineSeries.attributes.enableOverlay = true
-			lineSeries.attributes.setColorRed(0, green:0, blue:0, alpha:1);
-//            lineSeries.attributes.enableDash = true;
-//            lineSeries.attributes.setDashLineLength(2);
-//            lineSeries.attributes.setDashSpaceLength(2);
-			
-			let barSeries = configurator.addBarToSpace(space, series: configurator.createSeries(1<<4))
-			barSeries.conf.setBarWidth(10)
-			barSeries.conf.setCornerRadius(3, rt: 3, lb: 0, rb: 0)
-			
-//			let xAxisConf = FMBlockAxisConfigurator(fixedAxisAnchor: 0, tickAnchor: 0, fixedInterval: 0.25, minorTicksFreq: 5)
-            let xAxisConf : FMBlockAxisConfigurator = FMBlockAxisConfigurator(block: { (conf, dim, orth, isFirst) -> Void in
-                if(isFirst) {
-                    conf.tickAnchorValue = 0
-                    conf.minorTicksPerMajor = 5
-                }
-                let len : CGFloat = dim.length
-                let count : CGFloat = floor(len / CGFloat(0.25))
-                let multiplier : CGFloat = ceil(count / 2.0)
-                conf.majorTickInterval = 0.25 * max(1, Float(multiplier))
-                let vmin = Float(orth!.min)
-                let vmax = Float(orth!.max)
-                conf.axisAnchorDataValue = min(vmax, max(vmin, 0))
-            })
-            
-			let xAxis : FMExclusiveAxis! = configurator.addAxisToDimensionWithId(1, belowSeries: true, configurator: xAxisConf) { (value : CGFloat, index : Int, lastIndex : Int, dimension : FMDimensionalProjection) -> [NSMutableAttributedString] in
-                let str_a = NSMutableAttributedString(string: String(format: "%.1f", Float(value)), attributes: [kCTForegroundColorAttributeName as String : UIColor.redColor()])
-                let v = dimension.convertValue(value, to: dummyDim)
-                let str_b = NSMutableAttributedString(string: String(format: "%.1f", Float(v)), attributes: [kCTForegroundColorAttributeName as String : UIColor.blueColor()])
-				return [str_a, str_b]
-			}
-            let label : FMAxisLabel = (configurator.axisLabelsToAxis(xAxis!)?.first)!
-			lineDrawHook = FMBlockLineDrawHook(block: { (string, context, drawRect : UnsafePointer<CGRect>) -> Void in
-				CGContextSetFillColorWithColor(context, UIColor.cyanColor().CGColor)
-				var rect : CGRect = drawRect.memory
-				rect.origin.x -= 3
-				rect.origin.y -= 1
-				rect.size.width += 6
-				rect.size.height += 2
-				CGContextAddPath(context, UIBezierPath(roundedRect: rect, cornerRadius: 3).CGPath)
-				CGContextFillPath(context)
-			})
-			label.setLineDrawHook(lineDrawHook!);
-			
-            let xLine : FMGridLine? = configurator.addGridLineToDimensionWithId(1, belowSeries: true, anchor: 0, interval: 0.5)
-            xLine?.axis = xAxis
-            configurator.addGridLineToDimensionWithId(2, belowSeries: true, anchor: 0, interval: 0.25)
-			
-			let rect = configurator.addPlotAreaWithColor(UIColor.whiteColor())
-			rect.attributes.setCornerRadius(10)
-			
-            barSeries.bar.series()?.addPoint(CGPointMake(0.5, 0.75))
-            barSeries.bar.series()?.addPoint(CGPointMake(0.75, 0.5))
-            for idx in 0 ..< 4  {
-                lineSeries.series?.addPoint(CGPointMake(CGFloat(Double(idx%2) - 0.5), CGFloat(Double(idx/2) - 0.5)))
-            }
+			return stepUpdator
 		}
+		
+		let weightSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim, weightDim]) { (dimId) -> FMProjectionUpdater? in
+			return weightUpdator
+		}
+		
+		let pressureSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim, pressureDim]) { (dimId) -> FMProjectionUpdater? in
+			return pressureUpdator
+		}
+		
+		stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
+		weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
+		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
+		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
+		
+		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
+		let axis = configurator.addAxisToDimensionWithId(dateDim, belowSeries: false, configurator: dateConf, label: nil)
+		
+		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
+	}
+	
+	func loadData() {
+		stepSeries?.info.clear()
+		weightSeries?.info.clear()
+		systolicSeries?.info.clear()
+		diastolicSeries?.info.clear()
+		
+		let refDate : NSDate = getStartOfDate(NSDate())
+		let step = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!
+		let weight = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMass)!
+		let pressure = HKCorrelationType.correlationTypeForIdentifier(HKCorrelationTypeIdentifierBloodPressure)!
+		
+		let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+		
+		let stepQuery = HKStatisticsQuery(quantityType: step, quantitySamplePredicate: <#T##NSPredicate?#>, options: <#T##HKStatisticsOptions#>, completionHandler: <#T##(HKStatisticsQuery, HKStatistics?, NSError?) -> Void#>)
+		
+		let kg = HKUnit(fromMassFormatterUnit: NSMassFormatterUnit.Kilogram)
+		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+			if let array = samples {
+				for sample in (array as! [HKQuantitySample]) {
+					self.weightSeries?.addPoint(CGPointMake(CGFloat(sample.startDate.timeIntervalSinceDate(refDate)), CGFloat(sample.quantity.doubleValueForUnit(kg))))
+				}
+				self.metalView.setNeedsDisplay()
+			}
+		}
+		store.executeQuery(weightQuery)
+//		let pressureQuery = HKCorrelationQuery(type: pressure, predicate: nil, samplePredicates: nil) { (query, correlations, error) -> Void in
+//		}
+//		
+//		let components = NSDateComponents()
+//		components.day = 1
+//		let stepQuery = HKStatisticsCollectionQuery(quantityType: step, quantitySamplePredicate: nil, options: HKStatisticsOptions.CumulativeSum, anchorDate: refDate, intervalComponents: components)
+		
+	}
+	
+	let calendar : NSCalendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
+	func getStartOfDate(date : NSDate) -> NSDate {
+		let comp : NSDateComponents = calendar.components([.Year, .Month, .Day], fromDate: date)
+		return calendar.dateFromComponents(comp)!
 	}
     
     @IBAction func chartTapped(sender: UITapGestureRecognizer) {
-        let anim = FMBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
-            let alpha : CFloat = CFloat( 2 * fabs(0.5 - progress) )
-            self.firstLineAttributes?.setAlpha(alpha)
-        }
-        animator.addAnimation(anim)
+//        let anim = FMBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
+//            let alpha : CFloat = CFloat( 2 * fabs(0.5 - progress) )
+//        }
+//        animator.addAnimation(anim)
     }
     
 }
