@@ -25,11 +25,11 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
 
-- (void)setInnerRadius:(CGFloat)radius;
-- (void)setOuterRadius:(CGFloat)radius;
-- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer;
-- (void)setRadianOffset:(CGFloat)radian;
-- (void)setRadianScale:(CGFloat)scale;
+- (void)setInnerRadius:(float)radius;
+- (void)setOuterRadius:(float)radius;
+- (void)setRadiusInner:(float)inner outer:(float)outer;
+- (void)setRadianOffset:(float)radian;
+- (void)setRadianScale:(float)scale;
 
 @end
 
@@ -43,9 +43,9 @@ UNAVAILABLE_ATTRIBUTE;
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
 
-- (void)setInnerRadius:(CGFloat)radius;
-- (void)setOuterRadius:(CGFloat)radius;
-- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer;
+- (void)setInnerRadius:(float)radius;
+- (void)setOuterRadius:(float)radius;
+- (void)setRadiusInner:(float)inner outer:(float)outer;
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 - (void)setColor:(vector_float4)color;
 - (void)setColorRef:(const vector_float4 *_Nonnull)color;

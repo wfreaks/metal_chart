@@ -33,7 +33,7 @@
     return (uniform_line_attr *)([self.buffer contents]);
 }
 
-- (void)setWidth:(CGFloat)width
+- (void)setWidth:(float)width
 {
     [self attributes]->width = (float)width;
 }

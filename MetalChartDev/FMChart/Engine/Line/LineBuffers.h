@@ -27,7 +27,7 @@
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setWidth:(CGFloat)width;
+- (void)setWidth:(float)width;
 
 - (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
 - (void)setColor:(vector_float4)color;

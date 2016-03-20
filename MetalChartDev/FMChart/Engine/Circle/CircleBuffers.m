@@ -24,13 +24,13 @@
 
 - (uniform_arc_configuration *)conf { return ((uniform_arc_configuration *)[_buffer contents]); }
 
-- (void)setInnerRadius:(CGFloat)radius { self.conf->radius_inner = radius; }
-- (void)setOuterRadius:(CGFloat)radius { self.conf->radius_outer = radius; }
+- (void)setInnerRadius:(float)radius { self.conf->radius_inner = radius; }
+- (void)setOuterRadius:(float)radius { self.conf->radius_outer = radius; }
 
-- (void)setRadianOffset:(CGFloat)radian { self.conf->radian_offset = radian; }
-- (void)setRadianScale:(CGFloat)scale { self.conf->radian_scale = scale; }
+- (void)setRadianOffset:(float)radian { self.conf->radian_offset = radian; }
+- (void)setRadianScale:(float)scale { self.conf->radian_scale = scale; }
 
-- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
+- (void)setRadiusInner:(float)inner outer:(float)outer
 {
 	self.conf->radius_inner = inner;
 	self.conf->radius_outer = outer;
@@ -59,9 +59,9 @@
 	return self;
 }
 
-- (void)setInnerRadius:(CGFloat)radius { self.attr->radius_inner = radius; }
-- (void)setOuterRadius:(CGFloat)radius { self.attr->radius_outer = radius; }
-- (void)setRadiusInner:(CGFloat)inner outer:(CGFloat)outer
+- (void)setInnerRadius:(float)radius { self.attr->radius_inner = radius; }
+- (void)setOuterRadius:(float)radius { self.attr->radius_outer = radius; }
+- (void)setRadiusInner:(float)inner outer:(float)outer
 {
 	self.attr->radius_inner = inner;
 	self.attr->radius_outer = outer;

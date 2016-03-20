@@ -11,6 +11,10 @@
 		AA1648ED1BAD4A9B00E5B73D /* README_JA.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */; };
 		AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C01BA9959A0041DCF0 /* CoreText.framework */; };
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
+		AA30D8921C9EFBBE0044B5C6 /* FMProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = AA30D8901C9EFBBE0044B5C6 /* FMProperty.h */; };
+		AA30D8931C9EFBBE0044B5C6 /* FMProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = AA30D8901C9EFBBE0044B5C6 /* FMProperty.h */; };
+		AA30D8941C9EFBBE0044B5C6 /* FMProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30D8911C9EFBBE0044B5C6 /* FMProperty.m */; };
+		AA30D8951C9EFBBE0044B5C6 /* FMProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = AA30D8911C9EFBBE0044B5C6 /* FMProperty.m */; };
 		AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A98C1BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -197,6 +201,8 @@
 		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
+		AA30D8901C9EFBBE0044B5C6 /* FMProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProperty.h; sourceTree = "<group>"; };
+		AA30D8911C9EFBBE0044B5C6 /* FMProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProperty.m; sourceTree = "<group>"; };
 		AA32A97E1BE3439600ABDC1E /* FMMetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalView.h; sourceTree = "<group>"; };
 		AA32A97F1BE3439600ABDC1E /* FMMetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalView.m; sourceTree = "<group>"; };
 		AA32A9891BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
@@ -530,6 +536,8 @@
 				AA32A97F1BE3439600ABDC1E /* FMMetalView.m */,
 				AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */,
 				AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */,
+				AA30D8901C9EFBBE0044B5C6 /* FMProperty.h */,
+				AA30D8911C9EFBBE0044B5C6 /* FMProperty.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -568,6 +576,7 @@
 			files = (
 				AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */,
 				AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */,
+				AA30D8931C9EFBBE0044B5C6 /* FMProperty.h in Headers */,
 				AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */,
 				AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */,
 				AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */,
@@ -613,6 +622,7 @@
 			files = (
 				AAC4A87E1BAFE3020032A0CF /* Buffers.h in Headers */,
 				AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */,
+				AA30D8921C9EFBBE0044B5C6 /* FMProperty.h in Headers */,
 				AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */,
 				AA32AAD21BE7BE1100ABDC1E /* UIColor+Utility.h in Headers */,
 				AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */,
@@ -790,6 +800,7 @@
 				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
 				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
+				AA30D8951C9EFBBE0044B5C6 /* FMProperty.m in Sources */,
 				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
 				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
 				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
@@ -842,6 +853,7 @@
 				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
+				AA30D8941C9EFBBE0044B5C6 /* FMProperty.m in Sources */,
 				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
 				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
 				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
