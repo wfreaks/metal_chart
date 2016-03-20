@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     let animator : FMAnimator = FMAnimator()
 	let store : HKHealthStore = HKHealthStore()
 	var interpreter : FMGestureInterpreter? = nil
+	var refDate : NSDate? = nil
 	
 	let seriesCapacity : UInt = 512
 	var stepSeries : FMOrderedSeries? = nil
@@ -126,11 +127,22 @@ class ViewController: UIViewController {
 		stepBar?.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
 		weightLine?.attributes.setWidth(5)
 		weightLine?.attributes.enableOverlay = true
-		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(0.5).vector())
-		diastolicLine?.attributes.setColor(UIColor.greenColor().colorWithAlphaComponent(0.5).vector())
+		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(0.3).vector())
+		diastolicLine?.attributes.setColor(UIColor.greenColor().colorWithAlphaComponent(0.3).vector())
 		
 		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
-		let axis = configurator.addAxisToDimensionWithId(dateDim, belowSeries: false, configurator: dateConf, label: nil)
+		let dateSize = CGSizeMake(30, 15)
+		let dateFmt = NSDateFormatter()
+		dateFmt.dateFormat = "M/d"
+		let axis = configurator.addAxisToDimensionWithId(dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 12) {
+			(val, index, lastIndex, projection) -> [NSMutableAttributedString] in
+			let date = NSDate(timeInterval: NSTimeInterval(val), sinceDate: self.refDate!)
+			let str = dateFmt.stringFromDate(date)
+			return [NSMutableAttributedString(string: str)]
+		}
+		let label = configurator.axisLabelsToAxis(axis!)!.first!
+		label.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
+		label.setFrameOffset(CGPointMake(0, 5))
 		
 		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
 	}
@@ -146,6 +158,7 @@ class ViewController: UIViewController {
 		pressureUpdater?.clearSourceValues(false)
 		
 		let refDate : NSDate = getStartOfDate(NSDate())
+		self.refDate = refDate
 		let interval : NSDateComponents = NSDateComponents()
 		interval.day = 1
 		let step = HKQuantityType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!
