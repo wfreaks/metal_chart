@@ -68,7 +68,7 @@ inline float LineDashFragmentCore(thread const InputType input)
     const float y = position.y;
     position.y = ((y >= l) * (y - l)) + ((y <= -l) * (y + l));
     
-    const float distance_from_circle_in_px = (input.scale * (length(position) - 1)) + 0.5;
+    const float distance_from_circle_in_px = (input.scale * (length(position) - 1)) + 1.0;
     return saturate(1.0 - distance_from_circle_in_px);
 }
 

@@ -125,9 +125,11 @@ class ViewController: UIViewController {
 		
 		stepBar?.attributes.setBarWidth(20)
 		stepBar?.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		weightLine?.attributes.setWidth(5)
+		weightLine?.attributes.setWidth(15)
 		weightLine?.attributes.enableOverlay = true
-		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(0.3).vector())
+		
+		systolicLine?.attributes.enableOverlay = true
+		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(1).vector())
 		diastolicLine?.attributes.setColor(UIColor.greenColor().colorWithAlphaComponent(0.3).vector())
 		
 		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
