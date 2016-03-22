@@ -36,36 +36,22 @@
 
 - (void)configureChart
 {
-	FMProjectionPolar *space = [[FMProjectionPolar alloc] initWithResource:self.engine.resource];
+	FMProjectionCartesian2D *space = [self.configurator spaceWithDimensionIds:@[@1, @2] configureBlock:^FMProjectionUpdater * _Nullable(NSInteger dimensionID) {
+        return nil;
+    }];
 	[self.chart addProjection:space];
 	
-	FMEngine *engine = self.engine;
-	
-	FMPieDoughnutSeries *series = [[FMPieDoughnutSeries alloc] initWithEngine:engine
-																		  arc:nil
-																   projection:space
-																	   values:nil
-												   attributesCapacityOnCreate:8
-													   valuesCapacityOnCreate:16];
-	
-	FMUniformArcAttributesArray *attrs = series.attrs;
-	FMUniformArcConfiguration *conf = series.conf;
-	FMPieDoughnutDataProxy *data = series.data;
-	
-	[conf setRadiusInner:100 outer:120];
-	[conf setRadianOffset:M_PI_2];
-	
-	[attrs[0] setColor:[[UIColor redColor] vector]];
-	[attrs[1] setColor:[[UIColor greenColor] vector]];
-	[attrs[2] setColor:[[UIColor blueColor] vector]];
-	
-	[data addElementWithValue:-5 index:0 ID:0];
-	[data addElementWithValue:-25 index:1 ID:0];
-	[data addElementWithValue:-125 index:2 ID:0];
-	[data sort:NO];
-	[data flush];
-
-	[self.chart addSeries:series];
+    FMOrderedSeries *series = [self.configurator createSeries:8];
+    FMLineSeries *line = [self.configurator addLineToSpace:space series:series];
+    
+    [line.attributes setWidth:5];
+    [line.attributes setEnableOverlay:NO];
+    
+    [series addPoint:CGPointMake(0, 0)];
+    [series addPoint:CGPointMake(0, 0.1000)];
+    [series addPoint:CGPointMake(0, 0.1001)];
+    [series addPoint:CGPointMake(0.01, 0.2000)];
+    
 }
 
 @end

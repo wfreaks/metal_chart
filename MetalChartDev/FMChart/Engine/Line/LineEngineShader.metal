@@ -63,8 +63,8 @@ fragment out_fragment_depthGreater LineEngineFragment_NoOverlay(
     const float ratio = LineDashFragmentCore(input);
     out_fragment_depthGreater out;
     out.color = attr.color;
-    out.color.a *= attr.alpha * round(ratio);
-    out.depth = (out.color.a > 0) * input.depth;
+    out.color.a *= attr.alpha * ratio;
+    out.depth = (ratio >= 1) * input.depth;
     
 	return out;
 }
