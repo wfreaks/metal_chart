@@ -37,6 +37,7 @@ class ViewController: UIViewController {
 	var systolicLine : FMLineSeries? = nil
 	var diastolicLine : FMLineSeries? = nil
 	
+    var dateUpdater : FMProjectionUpdater? = nil;
 	var stepUpdater : FMProjectionUpdater? = nil;
 	var weightUpdater : FMProjectionUpdater? = nil;
 	var pressureUpdater : FMProjectionUpdater? = nil;
@@ -73,8 +74,7 @@ class ViewController: UIViewController {
 		
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
         
-		let restriction = FMDefaultInterpreterRestriction(scaleMin: CGSize(width: 1,height: 1), max: CGSize(width: 10,height: 1), translationMin: CGPoint(x: -0.5,y: -0), max: CGPoint(x: 48,y: 0))
-		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: restriction)
+		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
 		self.interpreter = interpreter
 		
 		stepSeries = configurator.createSeries(seriesCapacity)
@@ -87,9 +87,21 @@ class ViewController: UIViewController {
 		let weightDim = 3
 		let pressureDim = 4
 		
-		let dateUpdator = FMProjectionUpdater()
+		dateUpdater = FMProjectionUpdater()
 		let daySec : CGFloat = 24 * 60 * 60
-		dateUpdator.addRestrictionToLast(FMSourceRestriction(minValue: -7 * daySec, maxValue: daySec, expandMin: true, expandMax: true))
+        let dateLength = 7 * daySec;
+		dateUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: -5 * daySec, maxValue: 0, expandMin: true, expandMax: true))
+        dateUpdater?.addRestrictionToLast(FMPaddingRestriction(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
+        let dateAccessibleRange = FMDefaultRestriction()
+        dateUpdater?.addRestrictionToLast(dateAccessibleRange)
+        dateUpdater?.addRestrictionToLast(FMLengthRestriction(length: dateLength, anchor: 1, offset: 0))
+        let dateWindowRange = FMDefaultRestriction()
+        dateUpdater?.addRestrictionToLast(dateWindowRange)
+        
+        let dateRangeRestriction = FMRangedDimensionalRestriction(accessibleRange: dateAccessibleRange, windowRange: dateWindowRange, minLength: dateLength, maxLength: dateLength)
+        let yRangeRestriction = FMDefaultDimensionalRestriction.fixedRangeRestriction()
+        let stateRestriction = FMInterpreterDetailedRestriction(XRestriction:dateRangeRestriction, yRestriction:yRangeRestriction)
+        interpreter.stateRestriction = stateRestriction
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
@@ -105,7 +117,7 @@ class ViewController: UIViewController {
  		
 		let stepSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim,stepDim]) { (dimId) -> FMProjectionUpdater? in
 			if(dimId == dateDim) {
-				return dateUpdator
+				return self.dateUpdater
 			}
 			return self.stepUpdater
 		}
@@ -155,6 +167,7 @@ class ViewController: UIViewController {
 		systolicSeries?.info.clear()
 		diastolicSeries?.info.clear()
 		
+        dateUpdater?.clearSourceValues(false)
 		stepUpdater?.clearSourceValues(false)
 		weightUpdater?.clearSourceValues(false)
 		pressureUpdater?.clearSourceValues(false)
@@ -175,12 +188,15 @@ class ViewController: UIViewController {
 			if let collection = results {
 				for statistic in collection.statistics() {
 					if let quantity = statistic.sumQuantity() {
-						let value = quantity.doubleValueForUnit(HKUnit.countUnit())
-						self.stepSeries?.addPoint(CGPointMake(CGFloat(statistic.startDate.timeIntervalSinceDate(refDate)), CGFloat(value)))
-						self.stepUpdater?.addSourceValue(CGFloat(value), update: false)
+						let yValue = CGFloat(quantity.doubleValueForUnit(HKUnit.countUnit()))
+                        let xValue = CGFloat(statistic.startDate.timeIntervalSinceDate(refDate))
+						self.stepSeries?.addPoint(CGPointMake(xValue, yValue))
+						self.stepUpdater?.addSourceValue(yValue, update: false)
+                        self.dateUpdater?.addSourceValue(xValue, update: false)
 					}
 				}
 				self.stepUpdater?.updateTarget()
+                self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
 		}
@@ -190,11 +206,13 @@ class ViewController: UIViewController {
 			if let array = samples {
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
-					let val = sample.quantity.doubleValueForUnit(kg)
-					self.weightSeries?.addPoint(CGPointMake(x, CGFloat(val)))
-					self.weightUpdater?.addSourceValue(CGFloat(val), update: false)
+					let val = CGFloat(sample.quantity.doubleValueForUnit(kg))
+					self.weightSeries?.addPoint(CGPointMake(x, val))
+					self.weightUpdater?.addSourceValue(val, update: false)
+                    self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.weightUpdater?.updateTarget()
+                self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
 		}
@@ -203,11 +221,13 @@ class ViewController: UIViewController {
 			if let array = samples {
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
-					let val = sample.quantity.doubleValueForUnit(mmHg)
-					self.systolicSeries?.addPoint(CGPointMake(x, CGFloat(val)))
-					self.pressureUpdater?.addSourceValue(CGFloat(val), update: false)
+					let val = CGFloat(sample.quantity.doubleValueForUnit(mmHg))
+					self.systolicSeries?.addPoint(CGPointMake(x, val))
+					self.pressureUpdater?.addSourceValue(val, update: false)
+                    self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.pressureUpdater?.updateTarget()
+                self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
 		}
@@ -215,11 +235,13 @@ class ViewController: UIViewController {
 			if let array = samples {
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
-					let val = sample.quantity.doubleValueForUnit(mmHg)
-					self.diastolicSeries?.addPoint(CGPointMake(x, CGFloat(val)))
-					self.pressureUpdater?.addSourceValue(CGFloat(val), update: false)
+					let val = CGFloat(sample.quantity.doubleValueForUnit(mmHg))
+                    self.diastolicSeries?.addPoint(CGPointMake(x, val))
+					self.pressureUpdater?.addSourceValue(val, update: false)
+                    self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.pressureUpdater?.updateTarget()
+                self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
 		}

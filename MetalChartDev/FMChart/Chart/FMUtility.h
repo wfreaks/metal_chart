@@ -112,7 +112,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan
 												 pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
-												stateRestriction:(id<FMInterpreterStateRestriction> _Nonnull)restriction
+												stateRestriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 ;
 
 - (FMGridLine * _Nullable)addGridLineToDimensionWithId:(NSInteger)dimensionId

@@ -328,8 +328,8 @@
     const CGFloat windowLen = self.windowRange.currentLength;
     const CGFloat accessLen = self.accessibleRange.currentLength;
     if(windowLen > 0 && accessLen > 0) {
-        const CGFloat min = (self.accessibleRange.currentMin - self.windowRange.currentMin) / windowLen;
-        const CGFloat max = (self.accessibleRange.currentMax - self.windowRange.currentMax) / windowLen;
+        const CGFloat max = - (self.accessibleRange.currentMin - self.windowRange.currentMin) / windowLen;
+        const CGFloat min = - (self.accessibleRange.currentMax - self.windowRange.currentMax) / windowLen;
         *translation = MIN(max, MAX(min, *translation));
     } else {
         *translation = 0;
