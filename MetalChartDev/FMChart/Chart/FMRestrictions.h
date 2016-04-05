@@ -25,6 +25,17 @@
 
 @end
 
+// 何も値を変更せず、記録と露出だけするRestriction. ちゃんと使い道はある.
+@interface FMDefaultRestriction : NSObject<FMRestriction>
+
+@property (readonly, nonatomic) CGFloat currentMin;
+@property (readonly, nonatomic) CGFloat currentMax;
+@property (readonly, nonatomic) CGFloat currentLength;
+@property (readonly, nonatomic) CGFloat currentCenter;
+
+- (instancetype _Nonnull)init;
+
+@end
 
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
 // つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=0ならば中央値を固定してmin,maxを動かす.
@@ -167,8 +178,4 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
-
-
-
-
 

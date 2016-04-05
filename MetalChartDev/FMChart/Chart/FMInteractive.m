@@ -257,6 +257,88 @@
 @end
 
 
+@implementation FMDefaultDimensionalRestriction
+
+- (instancetype)initWithScaleMin:(CGFloat)minScale
+                             max:(CGFloat)maxScale
+                        transMin:(CGFloat)minTrans
+                             max:(CGFloat)maxTrans
+{
+    self = [super init];
+    if(self) {
+        _minScale = minScale;
+        _maxScale = maxScale;
+        _minTranslation = minTrans;
+        _maxTranslation = maxTrans;
+    }
+    return self;
+}
+
++ (instancetype)fixedRangeRestriction
+{
+    return [[self alloc] initWithScaleMin:1 max:1 transMin:0 max:0];
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGFloat *)translation
+{
+    *translation = MIN(_maxTranslation, MAX(_minTranslation, *translation));
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGFloat *)scale
+{
+    *scale = MIN(_maxScale, MAX(_minScale, *scale));
+}
+
+@end
+
+@interface FMRangedDimensionalRestriction()
+
+@end
+@implementation FMRangedDimensionalRestriction
+
+- (instancetype)initWithAccessibleRange:(FMDefaultRestriction *)accessible
+                            windowRange:(FMDefaultRestriction *)window
+                              minLength:(CGFloat)minLength
+                              maxLength:(CGFloat)maxLength
+{
+    self = [super init];
+    if(self) {
+        _accessibleRange = accessible;
+        _windowRange = window;
+        _minLength = minLength;
+        _maxLength = maxLength;
+    }
+    return self;
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGFloat *)scale
+{
+    const CGFloat windowLen = self.windowRange.currentLength;
+    if(windowLen > 0) {
+        const CGFloat minScale = _maxLength / windowLen;
+        const CGFloat maxScale = _minLength / windowLen;
+        *scale = MIN(maxScale, MAX(minScale, *scale));
+    } else {
+        *scale = 1;
+    }
+}
+
+- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGFloat *)translation
+{
+    const CGFloat windowLen = self.windowRange.currentLength;
+    const CGFloat accessLen = self.accessibleRange.currentLength;
+    if(windowLen > 0 && accessLen > 0) {
+        const CGFloat min = (self.accessibleRange.currentMin - self.windowRange.currentMin) / windowLen;
+        const CGFloat max = (self.accessibleRange.currentMax - self.windowRange.currentMax) / windowLen;
+        *translation = MIN(max, MAX(min, *translation));
+    } else {
+        *translation = 0;
+    }
+}
+
+@end
+
+
 @implementation FMInterpreterDetailedRestriction
 
 - (instancetype)initWithXRestriction:(id<FMInterpreterDimensionalRestroction>)x

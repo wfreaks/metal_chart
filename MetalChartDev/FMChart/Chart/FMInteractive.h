@@ -10,9 +10,7 @@
 
 @class FMGestureInterpreter;
 @class FMProjectionUpdater;
-
-
-
+@class FMDefaultRestriction;
 
 
 @protocol FMInteraction <NSObject>
@@ -97,7 +95,7 @@ NS_DESIGNATED_INITIALIZER;
 @protocol FMInterpreterDimensionalRestroction<NSObject>
 
 - (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
-	willScaleChange:(CGFloat * _Nonnull)size;
+	willScaleChange:(CGFloat * _Nonnull)scale;
 
 - (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
 willTranslationChange:(CGFloat * _Nonnull)translation;
@@ -105,6 +103,43 @@ willTranslationChange:(CGFloat * _Nonnull)translation;
 @end
 
 
+@interface FMDefaultDimensionalRestriction : NSObject<FMInterpreterDimensionalRestroction>
+
+@property (readonly, nonatomic) CGFloat minScale;
+@property (readonly, nonatomic) CGFloat maxScale;
+@property (readonly, nonatomic) CGFloat minTranslation;
+@property (readonly, nonatomic) CGFloat maxTranslation;
+
+- (instancetype _Nonnull)initWithScaleMin:(CGFloat)minScale
+                                      max:(CGFloat)maxScale
+                                 transMin:(CGFloat)minTrans
+                                      max:(CGFloat)maxTrans
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype _Nonnull)fixedRangeRestriction; // scaleもtranslateもしない.
+
+@end
+
+
+@interface FMRangedDimensionalRestriction : NSObject<FMInterpreterDimensionalRestroction>
+
+@property (readonly, nonatomic) FMDefaultRestriction * _Nonnull accessibleRange;
+@property (readonly, nonatomic) FMDefaultRestriction * _Nonnull windowRange;
+@property (readonly, nonatomic) CGFloat minLength;
+@property (readonly, nonatomic) CGFloat maxLength;
+
+- (instancetype _Nonnull)initWithAccessibleRange:(FMDefaultRestriction * _Nonnull)accessible
+                                     windowRange:(FMDefaultRestriction * _Nonnull)window
+                                       minLength:(CGFloat)minLength
+                                       maxLength:(CGFloat)maxLength
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+@end
 
 
 @interface FMInterpreterDetailedRestriction : NSObject<FMInterpreterStateRestriction>

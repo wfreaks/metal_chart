@@ -9,6 +9,35 @@
 #import "FMRestrictions.h"
 #import "FMProjectionUpdater.h"
 
+@implementation FMDefaultRestriction
+
+- (instancetype)init
+{
+    self = [super init];
+    if(self) {
+        
+    }
+    return self;
+}
+
+- (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
+{
+    _currentMin = *min;
+    _currentMax = *max;
+}
+
+- (CGFloat)currentLength
+{
+    return _currentMax - _currentMin;
+}
+
+- (CGFloat)currentCenter
+{
+    return (_currentMax + _currentMin) / 2;
+}
+
+@end
+
 @implementation FMLengthRestriction
 
 - (instancetype)initWithLength:(CGFloat)length anchor:(CGFloat)anchor offset:(CGFloat)offset
@@ -221,7 +250,6 @@
 }
 
 @end
-
 
 
 
