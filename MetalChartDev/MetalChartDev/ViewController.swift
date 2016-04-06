@@ -71,6 +71,7 @@ class ViewController: UIViewController {
 		chartConf = configurator
 		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
 		chart.bufferHook = animator
+        animator.metalView = metalView
 		
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
         
@@ -258,10 +259,6 @@ class ViewController: UIViewController {
 	}
     
     @IBAction func chartTapped(sender: UITapGestureRecognizer) {
-//        let anim = FMBlockAnimation(duration: 0.5, delay: 0.1) { (progress) in
-//            let alpha : CFloat = CFloat( 2 * fabs(0.5 - progress) )
-//        }
-//        animator.addAnimation(anim)
     }
     
 }

@@ -113,7 +113,9 @@
 				}
 			}
 		}
-	}
+    } else if (state == UIGestureRecognizerStateEnded) {
+        
+    }
 }
 
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer

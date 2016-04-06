@@ -22,6 +22,8 @@
 
 @interface FMAnimator : NSObject <FMCommandBufferHook>
 
+@property (nonatomic, weak) MetalView * _Nullable metalView;
+
 - (void)addAnimation:(id<FMAnimation> _Nonnull)animation;
 
 @end

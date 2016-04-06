@@ -65,7 +65,11 @@
 
 - (void)chart:(MetalChart *)chart willCommitBuffer:(id<MTLCommandBuffer>)buffer
 {
-    
+    @synchronized (self) {
+        if(_runningAnimations.count + _pendingAnimations.count > 0) {
+            [_metalView setNeedsDisplay];
+        }
+    }
 }
 
 - (void)addAnimation:(id<FMAnimation>)animation

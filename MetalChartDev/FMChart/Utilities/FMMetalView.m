@@ -167,6 +167,7 @@
     const BOOL needsRedraw = _needsRedraw;
     const BOOL enableDisplay = _enableSetNeedsDisplay;
     if(needsRedraw | (!enableDisplay)) {
+        _needsRedraw = NO;
         id<FMMetalViewDelegate> delegate = _delegate;
         if(delegate && self.device) {
             [delegate drawInMTKView:self];
@@ -175,8 +176,9 @@
         } else {
             [self drawRect:self.bounds];
         }
+    } else {
+        _needsRedraw = NO;
     }
-    _needsRedraw = NO;
 }
 
 - (void)setNeedsDisplay
