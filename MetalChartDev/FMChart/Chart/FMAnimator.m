@@ -77,6 +77,10 @@
     @synchronized(self) {
         [animation addedToPendingQueue:CFAbsoluteTimeGetCurrent()];
         _pendingAnimations = [_pendingAnimations arrayByAddingObjectIfNotExists:animation];
+        MetalView *view = self.metalView;
+        if(view) {
+            [view setNeedsDisplay];
+        }
     }
 }
 

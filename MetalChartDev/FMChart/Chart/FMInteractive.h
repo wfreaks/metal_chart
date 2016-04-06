@@ -11,6 +11,7 @@
 @class FMGestureInterpreter;
 @class FMProjectionUpdater;
 @class FMDefaultRestriction;
+@class FMAnimator;
 
 
 @protocol FMInteraction <NSObject>
@@ -50,6 +51,8 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 // readoly state properties (only user interaction & restriction cam modify these values).
 @property (readonly, nonatomic) CGPoint translationCumulative;
 @property (readonly, nonatomic) CGSize  scaleCumulative;
+
+@property (nonatomic, weak) FMAnimator * _Nullable momentumAnimator;
 
 - (instancetype _Nonnull)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
 							   pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch

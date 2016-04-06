@@ -10,6 +10,79 @@
 #import "NSArray+Utility.h"
 #import "FMProjectionUpdater.h"
 #import "FMRestrictions.h"
+#import "FMAnimator.h"
+
+
+@interface FMMomentumState : NSObject
+
+@property (nonatomic, readonly) CGFloat value;
+@property (nonatomic, readonly) CGFloat momentum;
+@property (nonatomic, readonly) CFAbsoluteTime timestamp;
+@property (nonatomic, readonly) CGFloat dampingCoefficent;
+@property (nonatomic) NSTimeInterval maxDuration;
+
+- (instancetype)initWithMaxDuration:(CGFloat)duration
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time;
+- (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time;
+- (void)updateWithTime:(CFAbsoluteTime)time;
+
+@end
+@implementation FMMomentumState
+
+static const CGFloat VEC_THRESHOLD = 0.125;
+
+- (instancetype)initWithMaxDuration:(CGFloat)duration
+{
+    self = [super init];
+    if(self) {
+        _maxDuration = duration;
+    }
+    return self;
+}
+
+- (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time
+{
+    _value = value;
+    _momentum = 0;
+    _timestamp = time;
+    _dampingCoefficent = 0;
+}
+
+- (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time
+{
+    const NSTimeInterval timeDiff = time - _timestamp;
+    const CGFloat valueDiff = value - _value;
+    _value = value;
+    _timestamp = time;
+    if(timeDiff > 0) {
+        _momentum = (0.3 * _momentum) + (0.7 * (valueDiff / timeDiff));
+        const CGFloat k = log(fabs(_momentum / VEC_THRESHOLD)) / _maxDuration;
+        _dampingCoefficent = MAX(4, k);
+    }
+}
+
+- (void)updateWithTime:(CFAbsoluteTime)time
+{
+    const NSTimeInterval diff = time - _timestamp;
+    _timestamp = time;
+    const CGFloat oldm = _momentum;
+    if(oldm != 0 && diff > 0) {
+        NSLog(@"!");
+        const CGFloat newm = _momentum * exp(-(_dampingCoefficent * diff));
+        _value += (newm + oldm) * diff / 2;
+        _momentum = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
+    }
+}
+
+@end
+
+
+
 
 @interface FMGestureInterpreter()
 
@@ -19,6 +92,9 @@
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
+@property (nonatomic, readonly) FMMomentumState *transMomentumX;
+@property (nonatomic, readonly) FMMomentumState *transMomentumY;
+
 @property (readonly, nonatomic) NSArray<id<FMInteraction>> *cumulatives;
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
@@ -26,11 +102,65 @@
 
 @end
 
-@interface FMSimpleBlockInteraction()
 
-@property (copy, nonatomic) SimpleInteractionBlock _Nonnull block;
+
+@interface FMMomentumPanAnimatioin : NSObject<FMAnimation>
+
+@property (nonatomic, readonly) BOOL canceled;
+@property (nonatomic, readonly) FMGestureInterpreter *interpreter;
 
 @end
+@implementation FMMomentumPanAnimatioin
+
+- (instancetype)initWithInterpreter:(FMGestureInterpreter *)interpreter
+{
+    self = [super init];
+    if(self) {
+        _interpreter = interpreter;
+        _canceled = NO;
+    }
+    return self;
+}
+
+- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> *)currentAnimations timestamp:(NSTimeInterval)timestamp
+{
+    return YES;
+}
+
+- (BOOL)requestCancel
+{
+    _canceled = YES;
+    return YES;
+}
+
+- (void)addedToPendingQueue:(NSTimeInterval)timestamp
+{
+}
+
+- (BOOL)animate:(id<MTLCommandBuffer>)buffer timestamp:(NSTimeInterval)timestamp
+{
+    if(_canceled) return YES;
+    
+    FMMomentumState *x = self.interpreter.transMomentumX;
+    FMMomentumState *y = self.interpreter.transMomentumY;
+    [x updateWithTime:timestamp];
+    [y updateWithTime:timestamp];
+    self.interpreter.translationCumulative = CGPointMake(x.value, y.value);
+    BOOL r = (x.momentum == 0 && y.momentum == 0);
+    return r;
+}
+
++ (instancetype)animation:(FMGestureInterpreter *)interpreter
+{
+    return [[self alloc] initWithInterpreter:interpreter];
+}
+
+@end
+
+
+
+
+
 
 @implementation FMGestureInterpreter
 
@@ -46,6 +176,8 @@
 		_orientationStep = M_PI_4; // 45 degree.
 		_scaleCumulative = CGSizeMake(1, 1);
 		_translationCumulative = CGPointZero;
+        _transMomentumX = [[FMMomentumState alloc] initWithMaxDuration:2];
+        _transMomentumY = [[FMMomentumState alloc] initWithMaxDuration:2];
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
 		_stateRestriction = restriction;
@@ -84,11 +216,18 @@
 
 - (void)handlePanning:(UIPanGestureRecognizer *)recognizer
 {
+    FMAnimator *animator = self.momentumAnimator;
 	const UIGestureRecognizerState state = recognizer.state;
 	UIView *view = recognizer.view;
-	if(state == UIGestureRecognizerStateBegan) {
+    const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
+    const BOOL began = (state == UIGestureRecognizerStateBegan);
+    const BOOL progress = (state == UIGestureRecognizerStateChanged);
+    const BOOL end = (state == UIGestureRecognizerStateEnded);
+	if(began) {
 		_currentTranslation = [recognizer translationInView:recognizer.view];
-	} else if (state == UIGestureRecognizerStateChanged) {
+        [_transMomentumX haltWithValue:_translationCumulative.x time:time];
+        [_transMomentumY haltWithValue:_translationCumulative.y time:time];
+	} else if (progress || end) {
 		const CGSize size = view.bounds.size;
 		const CGPoint t = [recognizer translationInView:recognizer.view];
 		// window座標とグラフの座標ではy軸の向きが違う。この時点でyの値を反転させておく.
@@ -100,21 +239,18 @@
 			const CGFloat or_rad = atan2(diff.y, diff.x);
 			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 			const CGPoint oldT = _translationCumulative;
-			const CGFloat x = oldT.x + (dist * cos(stepped) / (_scaleCumulative.width));
-			const CGFloat y = oldT.y + (dist * sin(stepped) / (_scaleCumulative.height));
-			self.translationCumulative = CGPointMake(x, y);
-			const CGPoint newT = self.translationCumulative;
+			const CGFloat dx = (dist * cos(stepped) / (_scaleCumulative.width));
+			const CGFloat dy = (dist * sin(stepped) / (_scaleCumulative.height));
+            const CGPoint newT = CGPointMake(oldT.x + dx, oldT.y + dy);
+            [_transMomentumX updateWithValue:newT.x time:time];
+            [_transMomentumY updateWithValue:newT.y time:time];
+            self.translationCumulative = newT;
 			
-			if(!CGPointEqualToPoint(oldT, newT)) {
-//				NSLog(@"translation changed (%.1f, %.1f) -> (%.1f, %.1f)", oldT.x, oldT.y, newT.x, newT.y);
-				NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
-				for(id<FMInteraction> object in cumulatives) {
-					[object didTranslationChange:self];
-				}
-			}
 		}
-    } else if (state == UIGestureRecognizerStateEnded) {
-        
+        if(end && animator) {
+            [animator addAnimation:[FMMomentumPanAnimatioin animation:self]];
+        }
+    } else {
     }
 }
 
@@ -138,18 +274,10 @@
 				const CGFloat or_rad = atan2(diff.y, diff.x);
 				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
 				const CGSize oldScale = _scaleCumulative;
-				const CGFloat width = oldScale.width * (1 + (scaleDiff * cos(stepped)));
-				const CGFloat height = oldScale.height * (1 + (scaleDiff * sin(stepped)));
-				self.scaleCumulative = CGSizeMake(width, height);
-				const CGSize newScale = _scaleCumulative;
-				
-				if(!CGSizeEqualToSize(oldScale, newScale)) {
-//					NSLog(@"scale changed (%.1f, %.1f) -> (%.1f, %.1f)", oldScale.width, oldScale.height, newScale.width, newScale.height);
-					NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
-					for(id<FMInteraction> object in cumulatives) {
-						[object didScaleChange:self];
-					}
-				}
+				const CGFloat dw = (1 + (scaleDiff * cos(stepped)));
+				const CGFloat dh = (1 + (scaleDiff * sin(stepped)));
+				self.scaleCumulative = CGSizeMake(oldScale.width * dw, oldScale.height * dh);
+//				const CGSize newScale = _scaleCumulative;
 			}
 		}
 	}
@@ -157,14 +285,28 @@
 
 - (void)setTranslationCumulative:(CGPoint)translationCumulative
 {
+    const CGPoint oldT = _translationCumulative;
 	[_stateRestriction interpreter:self willTranslationChange:&translationCumulative];
 	_translationCumulative = translationCumulative;
+    if(!CGPointEqualToPoint(oldT, translationCumulative)) {
+        NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+        for(id<FMInteraction> object in cumulatives) {
+            [object didTranslationChange:self];
+        }
+    }
 }
 
 - (void)setScaleCumulative:(CGSize)scaleCumulative
 {
+    const CGSize oldScale = _scaleCumulative;
 	[_stateRestriction interpreter:self willScaleChange:&scaleCumulative];
 	_scaleCumulative = scaleCumulative;
+    if(!CGSizeEqualToSize(oldScale, scaleCumulative)) {
+        NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
+        for(id<FMInteraction> object in cumulatives) {
+            [object didScaleChange:self];
+        }
+    }
 }
 
 - (void)dealloc
@@ -227,6 +369,9 @@
 @end
 
 
+
+
+
 @implementation FMDefaultInterpreterRestriction
 
 - (instancetype)initWithScaleMin:(CGSize)minScale
@@ -257,6 +402,9 @@
 }
 
 @end
+
+
+
 
 
 @implementation FMDefaultDimensionalRestriction
@@ -341,6 +489,9 @@
 @end
 
 
+
+
+
 @implementation FMInterpreterDetailedRestriction
 
 - (instancetype)initWithXRestriction:(id<FMInterpreterDimensionalRestroction>)x
@@ -369,6 +520,14 @@
 @end
 
 
+
+
+
+@interface FMSimpleBlockInteraction()
+
+@property (copy, nonatomic) SimpleInteractionBlock _Nonnull block;
+
+@end
 @implementation FMSimpleBlockInteraction
 
 - (instancetype)initWithBlock:(SimpleInteractionBlock)block

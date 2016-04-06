@@ -77,6 +77,7 @@ class ViewController: UIViewController {
         
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
 		self.interpreter = interpreter
+        interpreter.momentumAnimator = animator
 		
 		stepSeries = configurator.createSeries(seriesCapacity)
 		weightSeries = configurator.createSeries(seriesCapacity)
