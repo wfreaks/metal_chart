@@ -72,7 +72,6 @@ static const CGFloat VEC_THRESHOLD = 0.125;
     _timestamp = time;
     const CGFloat oldm = _momentum;
     if(oldm != 0 && diff > 0) {
-        NSLog(@"!");
         const CGFloat newm = _momentum * exp(-(_dampingCoefficent * diff));
         _value += (newm + oldm) * diff / 2;
         _momentum = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
