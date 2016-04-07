@@ -15,6 +15,10 @@
 // FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
 // どんな実装でも構わないが、対象のFMDimensionalProjectionのmin/max（現在値）を使うとフィードバックループが発生するので、
 // これだけはオススメしない.
+// 基本的にはフィルタを重ねていくイメージ, inputは入力されたデータのmin/max、outputは「画面上に表示される」min/maxとなる.
+// ただし、入力データは正確にはinputではなく、それを取り込むフィルタを入れる事で考慮できるようになっている
+// (複数のフィルタで考慮したい時もあるだろうし、純粋なinputは+/-CGFloatMaxとなっている)
+
 
 @protocol FMRestriction<NSObject>
 
@@ -26,6 +30,8 @@
 @end
 
 // 何も値を変更せず、記録と露出だけするRestriction. ちゃんと使い道はある.
+// というより、他のrestrictionはほぼ全てimmutableにしてあるため、現在の値を見たければこれを使う事
+// (値をいじりつつ記録するとかすると、モデルがややこしくなる上にパフォーマンス上のメリットもほぼ無い)
 @interface FMDefaultRestriction : NSObject<FMRestriction>
 
 @property (readonly, nonatomic) CGFloat currentMin;
