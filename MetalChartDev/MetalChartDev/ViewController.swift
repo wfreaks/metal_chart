@@ -14,7 +14,7 @@ import HealthKit
 class ViewController: UIViewController {
 
 	@IBOutlet var metalView: MetalView!
-    @IBOutlet var panRecognizer: UIPanGestureRecognizer!
+    @IBOutlet var panRecognizer: FMPanGestureRecognizer!
     @IBOutlet var pinchRecognizer: UIPinchGestureRecognizer!
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     

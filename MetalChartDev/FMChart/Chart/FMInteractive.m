@@ -11,6 +11,7 @@
 #import "FMProjectionUpdater.h"
 #import "FMRestrictions.h"
 #import "FMAnimator.h"
+#import <UIKit/UIGestureRecognizerSubclass.h>
 
 
 @interface FMMomentumState : NSObject
@@ -83,7 +84,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 
 
-@interface FMGestureInterpreter()
+@interface FMGestureInterpreter() <FMPanGestureRecognizerDelegate>
 
 @property (readonly, nonatomic) CGPoint currentTranslation;
 @property (readonly, nonatomic) CGFloat currentScale;
@@ -96,7 +97,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 @property (readonly, nonatomic) NSArray<id<FMInteraction>> *cumulatives;
 
-- (void)handlePanning:(UIPanGestureRecognizer *)recognizer;
+- (void)handlePanning:(FMPanGestureRecognizer *)recognizer;
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer;
 
 @end
@@ -165,7 +166,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 @dynamic orientationStepDegree;
 
-- (instancetype)initWithPanRecognizer:(UIPanGestureRecognizer *)pan
+- (instancetype)initWithPanRecognizer:(FMPanGestureRecognizer *)pan
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
 						  restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 {
@@ -213,7 +214,16 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	}
 }
 
-- (void)handlePanning:(UIPanGestureRecognizer *)recognizer
+- (void)didBeginTouchesInRecognizer:(FMPanGestureRecognizer *)recognizer
+{
+    if(recognizer == self.panRecognizer) {
+        const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
+        [_transMomentumX haltWithValue:_translationCumulative.x time:time];
+        [_transMomentumY haltWithValue:_translationCumulative.y time:time];
+    }
+}
+
+- (void)handlePanning:(FMPanGestureRecognizer *)recognizer
 {
     FMAnimator *animator = self.momentumAnimator;
 	const UIGestureRecognizerState state = recognizer.state;
@@ -329,15 +339,17 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 }
 
 
-- (void)setPanRecognizer:(UIPanGestureRecognizer *)panRecognizer
+- (void)setPanRecognizer:(FMPanGestureRecognizer *)panRecognizer
 {
 	@synchronized(self) {
 		if(_panRecognizer != panRecognizer) {
 			if(_panRecognizer) {
 				[_panRecognizer removeTarget:self action:@selector(handlePanning:)];
+                if(_panRecognizer.recognizerDelegate == self) _panRecognizer.recognizerDelegate = nil;
 			}
 			if(panRecognizer) {
 				[panRecognizer addTarget:self action:@selector(handlePanning:)];
+                panRecognizer.recognizerDelegate = self;
 			}
 			_panRecognizer = panRecognizer;
 		}
@@ -566,5 +578,15 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 @end
 
 
+@implementation FMPanGestureRecognizer
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    typeof(self.recognizerDelegate) delegate = self.recognizerDelegate;
+    [delegate didBeginTouchesInRecognizer:self];
+}
+
+@end
 
 

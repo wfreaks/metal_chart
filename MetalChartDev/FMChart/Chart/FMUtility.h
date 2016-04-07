@@ -29,6 +29,7 @@
 @class FMEngine;
 @class FMOrderedSeries;
 @class FMOrderedAttributedSeries;
+@class FMPanGestureRecognizer;
 
 @protocol FMSeries;
 @protocol FMInteraction;
@@ -110,7 +111,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
 
-- (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *_Nullable)pan
+- (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(FMPanGestureRecognizer *_Nullable)pan
 												 pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
 												stateRestriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 ;

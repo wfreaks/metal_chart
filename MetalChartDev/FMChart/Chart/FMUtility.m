@@ -271,7 +271,7 @@
 	return area;
 }
 
-- (FMGestureInterpreter *)addInterpreterToPanRecognizer:(UIPanGestureRecognizer *)pan
+- (FMGestureInterpreter *)addInterpreterToPanRecognizer:(FMPanGestureRecognizer *)pan
 										pinchRecognizer:(UIPinchGestureRecognizer *)pinch
 									   stateRestriction:(id<FMInterpreterStateRestriction>)restriction
 {

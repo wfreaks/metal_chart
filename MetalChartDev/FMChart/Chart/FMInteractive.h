@@ -12,6 +12,7 @@
 @class FMProjectionUpdater;
 @class FMDefaultRestriction;
 @class FMAnimator;
+@class FMPanGestureRecognizer;
 
 
 @protocol FMInteraction <NSObject>
@@ -41,7 +42,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @interface FMGestureInterpreter : NSObject
 
-@property (strong, nonatomic) UIPanGestureRecognizer * _Nullable panRecognizer;
+@property (strong, nonatomic) FMPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
 @property (strong, nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
 
@@ -54,7 +55,7 @@ willTranslationChange:(CGPoint * _Nonnull)translation;
 
 @property (nonatomic, weak) FMAnimator * _Nullable momentumAnimator;
 
-- (instancetype _Nonnull)initWithPanRecognizer:(UIPanGestureRecognizer * _Nullable)pan
+- (instancetype _Nonnull)initWithPanRecognizer:(FMPanGestureRecognizer * _Nullable)pan
 							   pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
 								   restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 NS_DESIGNATED_INITIALIZER;
@@ -178,3 +179,18 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 @end
+
+
+@protocol FMPanGestureRecognizerDelegate<NSObject>
+
+- (void)didBeginTouchesInRecognizer:(FMPanGestureRecognizer * _Nonnull)recognizer;
+
+@end
+
+
+@interface FMPanGestureRecognizer : UIPanGestureRecognizer
+
+@property (nonatomic, weak) IBOutlet id<FMPanGestureRecognizerDelegate> _Nullable recognizerDelegate;
+
+@end
+
