@@ -14,10 +14,10 @@
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
 
-@interface FMMomentumState : NSObject
+@interface FMInertialState : NSObject
 
 @property (nonatomic, readonly) CGFloat value;
-@property (nonatomic, readonly) CGFloat momentum;
+@property (nonatomic, readonly) CGFloat velocity;
 @property (nonatomic, readonly) CFAbsoluteTime timestamp;
 @property (nonatomic, readonly) CGFloat dampingCoefficent;
 @property (nonatomic) NSTimeInterval maxDuration;
@@ -33,7 +33,7 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)updateWithTime:(CFAbsoluteTime)time;
 
 @end
-@implementation FMMomentumState
+@implementation FMInertialState
 
 static const CGFloat VEC_THRESHOLD = 0.125;
 
@@ -49,7 +49,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 - (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time
 {
     _value = value;
-    _momentum = 0;
+    _velocity = 0;
     _timestamp = time;
     _dampingCoefficent = 0;
 }
@@ -61,8 +61,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
     _value = value;
     _timestamp = time;
     if(timeDiff > 0) {
-        _momentum = (0.3 * _momentum) + (0.7 * (valueDiff / timeDiff));
-        const CGFloat k = log(fabs(_momentum / VEC_THRESHOLD)) / _maxDuration;
+        _velocity = (0.3 * _velocity) + (0.7 * (valueDiff / timeDiff));
+        const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
         _dampingCoefficent = MAX(4, k);
     }
 }
@@ -71,11 +71,11 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 {
     const NSTimeInterval diff = time - _timestamp;
     _timestamp = time;
-    const CGFloat oldm = _momentum;
+    const CGFloat oldm = _velocity;
     if(oldm != 0 && diff > 0) {
-        const CGFloat newm = _momentum * exp(-(_dampingCoefficent * diff));
+        const CGFloat newm = oldm * exp(-(_dampingCoefficent * diff));
         _value += (newm + oldm) * diff / 2;
-        _momentum = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
+        _velocity = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
     }
 }
 
@@ -92,8 +92,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 @property (assign, nonatomic) CGPoint translationCumulative;
 @property (assign, nonatomic) CGSize  scaleCumulative;
 
-@property (nonatomic, readonly) FMMomentumState *transMomentumX;
-@property (nonatomic, readonly) FMMomentumState *transMomentumY;
+@property (nonatomic, readonly) FMInertialState *transVX;
+@property (nonatomic, readonly) FMInertialState *transVY;
 
 @property (readonly, nonatomic) NSArray<id<FMInteraction>> *cumulatives;
 
@@ -104,13 +104,13 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 
 
-@interface FMMomentumPanAnimatioin : NSObject<FMAnimation>
+@interface FMInertialPanAnimatioin : NSObject<FMAnimation>
 
 @property (nonatomic, readonly) BOOL canceled;
 @property (nonatomic, readonly) FMGestureInterpreter *interpreter;
 
 @end
-@implementation FMMomentumPanAnimatioin
+@implementation FMInertialPanAnimatioin
 
 - (instancetype)initWithInterpreter:(FMGestureInterpreter *)interpreter
 {
@@ -141,12 +141,12 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 {
     if(_canceled) return YES;
     
-    FMMomentumState *x = self.interpreter.transMomentumX;
-    FMMomentumState *y = self.interpreter.transMomentumY;
+    FMInertialState *x = self.interpreter.transVX;
+    FMInertialState *y = self.interpreter.transVY;
     [x updateWithTime:timestamp];
     [y updateWithTime:timestamp];
     self.interpreter.translationCumulative = CGPointMake(x.value, y.value);
-    BOOL r = (x.momentum == 0 && y.momentum == 0);
+    BOOL r = (x.velocity == 0 && y.velocity == 0);
     return r;
 }
 
@@ -176,8 +176,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 		_orientationStep = M_PI_4; // 45 degree.
 		_scaleCumulative = CGSizeMake(1, 1);
 		_translationCumulative = CGPointZero;
-        _transMomentumX = [[FMMomentumState alloc] initWithMaxDuration:2];
-        _transMomentumY = [[FMMomentumState alloc] initWithMaxDuration:2];
+        _transVX = [[FMInertialState alloc] initWithMaxDuration:2];
+        _transVY = [[FMInertialState alloc] initWithMaxDuration:2];
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
 		_stateRestriction = restriction;
@@ -218,8 +218,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 {
     if(recognizer == self.panRecognizer) {
         const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
-        [_transMomentumX haltWithValue:_translationCumulative.x time:time];
-        [_transMomentumY haltWithValue:_translationCumulative.y time:time];
+        [_transVX haltWithValue:_translationCumulative.x time:time];
+        [_transVY haltWithValue:_translationCumulative.y time:time];
     }
 }
 
@@ -234,8 +234,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
     const BOOL end = (state == UIGestureRecognizerStateEnded);
 	if(began) {
 		_currentTranslation = [recognizer translationInView:recognizer.view];
-        [_transMomentumX haltWithValue:_translationCumulative.x time:time];
-        [_transMomentumY haltWithValue:_translationCumulative.y time:time];
+        [_transVX haltWithValue:_translationCumulative.x time:time];
+        [_transVY haltWithValue:_translationCumulative.y time:time];
 	} else if (progress || end) {
 		const CGSize size = view.bounds.size;
 		const CGPoint t = [recognizer translationInView:recognizer.view];
@@ -251,13 +251,13 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 			const CGFloat dx = (dist * cos(stepped) / (_scaleCumulative.width));
 			const CGFloat dy = (dist * sin(stepped) / (_scaleCumulative.height));
             const CGPoint newT = CGPointMake(oldT.x + dx, oldT.y + dy);
-            [_transMomentumX updateWithValue:newT.x time:time];
-            [_transMomentumY updateWithValue:newT.y time:time];
+            [_transVX updateWithValue:newT.x time:time];
+            [_transVY updateWithValue:newT.y time:time];
             self.translationCumulative = newT;
 			
 		}
         if(end && animator) {
-            [animator addAnimation:[FMMomentumPanAnimatioin animation:self]];
+            [animator addAnimation:[FMInertialPanAnimatioin animation:self]];
         }
     } else {
     }
