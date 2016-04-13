@@ -41,6 +41,8 @@ class ViewController: UIViewController {
 	var stepUpdater : FMProjectionUpdater? = nil;
 	var weightUpdater : FMProjectionUpdater? = nil;
 	var pressureUpdater : FMProjectionUpdater? = nil;
+    
+    var weightLabel : FMAxisLabel? = nil
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -69,7 +71,7 @@ class ViewController: UIViewController {
 		let fps = 0;
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
-		chart.padding = RectPadding(left: 30, top: 30, right: 30, bottom: 30)
+		chart.padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
 		chart.bufferHook = animator
         animator.metalView = metalView
 		
@@ -136,29 +138,76 @@ class ViewController: UIViewController {
 		weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
 		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
+        
+        let weightColor = UIColor(red: 0.4, green: 0.7, blue: 0.9, alpha: 1.0).vector()
+        let systolicColor = UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0).vector()
+        let diastolicColor = UIColor(red: 0.9, green: 0.4, blue: 0.2, alpha: 1.0).vector()
+        let stepColor = UIColor(white: 0.5, alpha: 1.0).vector()
 		
 		stepBar?.attributes.setBarWidth(20)
 		stepBar?.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		weightLine?.attributes.setWidth(15)
+		weightLine?.attributes.setWidth(8)
+        weightLine?.attributes.setColor(weightColor)
+        weightLine?.attributes.setAlpha(0.6)
 		weightLine?.attributes.enableOverlay = true
 		
 		systolicLine?.attributes.enableOverlay = true
-		systolicLine?.attributes.setColor(UIColor.redColor().colorWithAlphaComponent(1).vector())
-		diastolicLine?.attributes.setColor(UIColor.greenColor().colorWithAlphaComponent(0.3).vector())
+		systolicLine?.attributes.setColor(systolicColor)
+        diastolicLine?.attributes.enableOverlay = true
+		diastolicLine?.attributes.setColor(diastolicColor)
 		
 		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
 		let dateSize = CGSizeMake(30, 15)
 		let dateFmt = NSDateFormatter()
 		dateFmt.dateFormat = "M/d"
-		let axis = configurator.addAxisToDimensionWithId(dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 12) {
+		let dateAxis = configurator.addAxisToDimensionWithId(dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 12) {
 			(val, index, lastIndex, projection) -> [NSMutableAttributedString] in
 			let date = NSDate(timeInterval: NSTimeInterval(val), sinceDate: self.refDate!)
 			let str = dateFmt.stringFromDate(date)
 			return [NSMutableAttributedString(string: str)]
 		}
-		let label = configurator.axisLabelsToAxis(axis!)!.first!
-		label.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
-		label.setFrameOffset(CGPointMake(0, 5))
+		let dateLabel = configurator.axisLabelsToAxis(dateAxis!)!.first!
+		dateLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
+		dateLabel.setFrameOffset(CGPointMake(0, 5))
+        
+        let weightConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 1)
+        let weightSize = CGSizeMake(45, 25)
+        let weightAttributes = [NSForegroundColorAttributeName : UIColor(vector:weightColor)]
+        let stepAttributes = [NSForegroundColorAttributeName : UIColor(vector:stepColor)]
+        let stepProjection = configurator.dimensionWithId(stepDim)!
+        let weightProjection = configurator.dimensionWithId(weightDim)!
+        let weightAxis = configurator.addAxisToDimensionWithId(weightDim, belowSeries: false, configurator: weightConf, labelFrameSize: weightSize, labelBufferCount: 12) {
+            (val, index, lastIndex, projection) -> [NSMutableAttributedString] in
+            let strWeight = String(format: "%.0fkg", Float(val))
+            let strStep = String(format: "%.0f歩", Float(weightProjection.convertValue(val, to: stepProjection)))
+            return [NSMutableAttributedString(string: strWeight, attributes: weightAttributes), NSMutableAttributedString(string: strStep, attributes: stepAttributes)]
+        }
+        weightAxis!.axis.axisAttributes.setColor(weightColor)
+        weightAxis!.axis.majorTickAttributes.setColor(weightColor)
+        weightAxis!.axis.majorTickAttributes.setLengthModifierStart(0, end: 1)
+        let weightLabel = configurator.axisLabelsToAxis(weightAxis!)!.first!
+        weightLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightMedium))
+        weightLabel.setFrameAnchorPoint(CGPointMake(1, 0.5))
+        weightLabel.setFrameOffset(CGPointMake(-5, 0))
+        weightLabel.textAlignment = CGPointMake(1, 0.5)
+        self.weightLabel = weightLabel
+        
+        let pressureConf = FMBlockAxisConfigurator(relativePosition: 1, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 5)
+        let pressureSize = CGSizeMake(30, 25)
+        let pressureAttributes = [NSForegroundColorAttributeName : UIColor(vector:systolicColor)]
+        let str2 = NSMutableAttributedString(string: "mg/dL", attributes: pressureAttributes)
+        let pressureAxis = configurator.addAxisToDimensionWithId(pressureDim, belowSeries: false, configurator: pressureConf, labelFrameSize: pressureSize, labelBufferCount: 12) {
+            (val, index, lastIndex, projection) -> [NSMutableAttributedString] in
+            let str1 = String(format: "%.0f", Float(val))
+            return [NSMutableAttributedString(string: str1, attributes: pressureAttributes), str2]
+        }
+        pressureAxis!.axis.axisAttributes.setColor(systolicColor)
+        pressureAxis!.axis.majorTickAttributes.setColor(systolicColor)
+        let pressureLabel = configurator.axisLabelsToAxis(pressureAxis!)!.first!
+        pressureLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightMedium))
+        pressureLabel.setFrameAnchorPoint(CGPointMake(0, 0.5))
+        pressureLabel.setFrameOffset(CGPointMake(5, 0))
+        pressureLabel.textAlignment = CGPointMake(0, 0.5)
 		
 		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
 	}
@@ -198,6 +247,7 @@ class ViewController: UIViewController {
 					}
 				}
 				self.stepUpdater?.updateTarget()
+                self.weightLabel?.clearCache()
                 self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
@@ -214,6 +264,7 @@ class ViewController: UIViewController {
                     self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.weightUpdater?.updateTarget()
+                self.weightLabel?.clearCache()
                 self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
