@@ -1,5 +1,5 @@
 //
-//  FMRestrictions.h
+//  FMRangeFilters.h
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/10.
@@ -20,7 +20,7 @@
 // (複数のフィルタで考慮したい時もあるだろうし、純粋なinputは+/-CGFloatMaxとなっている)
 
 
-@protocol FMRestriction<NSObject>
+@protocol FMRangeFilter<NSObject>
 
 - (void)updater:(FMProjectionUpdater * _Nonnull)updater
 	   minValue:(CGFloat * _Nonnull)min
@@ -29,10 +29,10 @@
 
 @end
 
-// 何も値を変更せず、記録と露出だけするRestriction. ちゃんと使い道はある.
-// というより、他のrestrictionはほぼ全てimmutableにしてあるため、現在の値を見たければこれを使う事
+// 何も値を変更せず、記録と露出だけするFilter. ちゃんと使い道はある.
+// というより、他のFilterはほぼ全てimmutableにしてあるため、現在の値を見たければこれを使う事
 // (値をいじりつつ記録するとかすると、モデルがややこしくなる上にパフォーマンス上のメリットもほぼ無い)
-@interface FMDefaultRestriction : NSObject<FMRestriction>
+@interface FMDefaultFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat currentMin;
 @property (readonly, nonatomic) CGFloat currentMax;
@@ -46,7 +46,7 @@
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
 // つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=0ならば中央値を固定してmin,maxを動かす.
 // offsetはlengthによらない移動を提供する.
-@interface FMLengthRestriction : NSObject<FMRestriction>
+@interface FMLengthFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat length;
 @property (readonly, nonatomic) CGFloat anchor;
@@ -66,7 +66,7 @@ NS_DESIGNATED_INITIALIZER;
 // それ以外の場合にはsourceの値でmin/maxを更新する. このクラスはmin/maxの現在地を「完全に」無視する.
 // sourceの値が代替値に達していなくてもsourceの値を使いたい場合はexpand{Min,Max}をNOにする.
 // 優先度的に低い方(入力側)に来るのが普通の使い方だろう.
-@interface FMSourceRestriction : NSObject<FMRestriction>
+@interface FMSourceFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat min;
 @property (readonly, nonatomic) CGFloat max;
@@ -87,7 +87,7 @@ NS_DESIGNATED_INITIALIZER;
 // allowShrinkはsourceから計算した新しい値が範囲を狭める場合にその値を使うか否か,
 // applyToCurrentMinMaxはpaddingを現在値に加えるかどうか. 例えばAlternativeSourceの次に使う場合は
 // 現在のmin/maxが補正されてsourceMin/Maxのように働くため.
-@interface FMPaddingRestriction : NSObject<FMRestriction>
+@interface FMPaddingFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat paddingLow;
 @property (readonly, nonatomic) CGFloat paddingHigh;
@@ -111,10 +111,10 @@ NS_DESIGNATED_INITIALIZER;
  * 両端を(anchor + (n*interval))に調整するためのクラス.
  * アンカー、倍数、min/maxそれぞれをどちらへ調整するかのパラメータのみ.
  * shrinkはYESならば範囲が狭くなる方向へ調整して揃える.
- * このクラスは直接ソースの値を参照しない、そういう事は他のRestrictionと繋げて行う
+ * このクラスは直接ソースの値を参照しない、そういう事は他のFilterと繋げて行う
  */
 
-@interface FMIntervalRestriction : NSObject<FMRestriction>
+@interface FMIntervalFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat anchor;
 @property (readonly, nonatomic) CGFloat interval;
@@ -133,23 +133,23 @@ NS_DESIGNATED_INITIALIZER;
 
 
 
-typedef void (^RestrictionBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
+typedef void (^FilterBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
 
 
 
-@interface FMBlockRestriction : NSObject<FMRestriction>
+@interface FMBlockFilter : NSObject<FMRangeFilter>
 
-- (instancetype _Nonnull)initWithBlock:(RestrictionBlock _Nonnull)block
+- (instancetype _Nonnull)initWithBlock:(FilterBlock _Nonnull)block
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 @end
 
-// FMUserInteractiveRestriction - Pan/Zoom操作を実現するコンポーネント.
+// FMUserInteractiveFilter - Pan/Zoom操作を実現するコンポーネント.
 // 
 // 上記概要からわかるように、このクラスは少し毛並みが異なる.
-// このクラスだけが他の具体的な実装を持つRestrictionsとは異なり、statefullである。
+// このクラスだけが他の具体的な実装を持つFiltersとは異なり、statefullである。
 // （実際はstateを管理しているのはinterpreterで、このクラスはそれを反映する）.
 // また本来結びつかないはずのDimProjectionとUI操作を結合するために、orientationを指定している.
 // 対象のDimProjectionがorientationと一致しない場合はおかしな挙動となる事に注意が必要である.
@@ -167,13 +167,13 @@ NS_DESIGNATED_INITIALIZER;
 // もしもより細かいレベルのコントロールを行いたいのなら、FMGestureInterpreterの代替を用意すればよい.
 // あれはUIGestureRecognizerのtarget selector pairに設定してステートを管理するだけのユーティリティクラスで、
 // コアクラス(MetalChart.h内で宣言されるクラス)からは一切参照されない.
-// ただしこのクラスはGestureInterpreterありきのものなので、restrictionも自分で書き直す必要がある.
+// ただしこのクラスはGestureInterpreterありきのものなので、Filterも自分で書き直す必要がある.
 
-@interface FMUserInteractiveRestriction : NSObject<FMRestriction>
+@interface FMUserInteractiveFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat orientationRad;
 
-// updater -> restriction(self) -> interpreter -> interaction -> updater と循環参照になる.
+// updater -> Filter(self) -> interpreter -> interaction -> updater と循環参照になる.
 // 実際こいつが所有権をもつのは微妙.
 @property (readonly, nonatomic, weak) FMGestureInterpreter * _Nullable interpreter;
 

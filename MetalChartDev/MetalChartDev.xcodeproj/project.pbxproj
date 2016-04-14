@@ -24,7 +24,7 @@
 		AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
 		AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
-		AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */; };
+		AA32A99D1BE3B5FA00ABDC1E /* FMRangeFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */; };
 		AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMUtility.m */; };
 		AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
@@ -46,7 +46,7 @@
 		AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32A9B61BE3B5FA00ABDC1E /* FMRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9B61BE3B5FA00ABDC1E /* FMRangeFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRangeFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B71BE3B5FA00ABDC1E /* FMProjectionUpdater.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B81BE3B5FA00ABDC1E /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B91BE3B5FA00ABDC1E /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84F1BAFE3020032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -121,8 +121,8 @@
 		AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */; };
 		AAC4A8761BAFE3020032A0CF /* FMRenderables.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8351BAFE3020032A0CF /* FMRenderables.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
-		AAC4A8781BAFE3020032A0CF /* FMRestrictions.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */; };
+		AAC4A8781BAFE3020032A0CF /* FMRangeFilters.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8371BAFE3020032A0CF /* FMRangeFilters.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A8791BAFE3020032A0CF /* FMRangeFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */; };
 		AAC4A87A1BAFE3020032A0CF /* FMUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8391BAFE3020032A0CF /* FMUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A87B1BAFE3020032A0CF /* FMUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMUtility.m */; };
 		AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -245,8 +245,8 @@
 		AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjectionUpdater.m; sourceTree = "<group>"; };
 		AAC4A8351BAFE3020032A0CF /* FMRenderables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRenderables.h; sourceTree = "<group>"; };
 		AAC4A8361BAFE3020032A0CF /* FMRenderables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRenderables.m; sourceTree = "<group>"; };
-		AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRestrictions.h; sourceTree = "<group>"; };
-		AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRestrictions.m; sourceTree = "<group>"; };
+		AAC4A8371BAFE3020032A0CF /* FMRangeFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRangeFilters.h; sourceTree = "<group>"; };
+		AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRangeFilters.m; sourceTree = "<group>"; };
 		AAC4A8391BAFE3020032A0CF /* FMUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMUtility.h; sourceTree = "<group>"; };
 		AAC4A83A1BAFE3020032A0CF /* FMUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMUtility.m; sourceTree = "<group>"; };
 		AAC4A83B1BAFE3020032A0CF /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
@@ -419,8 +419,8 @@
 				AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */,
 				AAC4A8331BAFE3020032A0CF /* FMProjectionUpdater.h */,
 				AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */,
-				AAC4A8371BAFE3020032A0CF /* FMRestrictions.h */,
-				AAC4A8381BAFE3020032A0CF /* FMRestrictions.m */,
+				AAC4A8371BAFE3020032A0CF /* FMRangeFilters.h */,
+				AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */,
 				AAC4A8311BAFE3020032A0CF /* FMInteractive.h */,
 				AAC4A8321BAFE3020032A0CF /* FMInteractive.m */,
 				AAC4A82D1BAFE3020032A0CF /* FMAxis.h */,
@@ -571,7 +571,7 @@
 				AA32A9B51BE3B5FA00ABDC1E /* Rect_common.h in Headers */,
 				AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */,
 				AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */,
-				AA32A9B61BE3B5FA00ABDC1E /* FMRestrictions.h in Headers */,
+				AA32A9B61BE3B5FA00ABDC1E /* FMRangeFilters.h in Headers */,
 				AA32A9B71BE3B5FA00ABDC1E /* FMProjectionUpdater.h in Headers */,
 				AA32A9B81BE3B5FA00ABDC1E /* LineBuffers.h in Headers */,
 				AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */,
@@ -616,7 +616,7 @@
 				AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */,
 				AA32AAD21BE7BE1100ABDC1E /* UIColor+Utility.h in Headers */,
 				AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */,
-				AAC4A8781BAFE3020032A0CF /* FMRestrictions.h in Headers */,
+				AAC4A8781BAFE3020032A0CF /* FMRangeFilters.h in Headers */,
 				AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */,
 				AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */,
 				AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */,
@@ -805,7 +805,7 @@
 				AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
 				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */,
-				AA32A99D1BE3B5FA00ABDC1E /* FMRestrictions.m in Sources */,
+				AA32A99D1BE3B5FA00ABDC1E /* FMRangeFilters.m in Sources */,
 				AA32A99E1BE3B5FA00ABDC1E /* FMUtility.m in Sources */,
 				AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */,
 				AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */,
@@ -857,7 +857,7 @@
 				AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,
 				AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */,
-				AAC4A8791BAFE3020032A0CF /* FMRestrictions.m in Sources */,
+				AAC4A8791BAFE3020032A0CF /* FMRangeFilters.m in Sources */,
 				AAC4A87B1BAFE3020032A0CF /* FMUtility.m in Sources */,
 				AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */,
 				AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */,

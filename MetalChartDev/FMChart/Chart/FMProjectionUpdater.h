@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 
-@protocol FMRestriction;
+@protocol FMRangeFilter;
 @class FMDimensionalProjection;
 
 @interface FMProjectionUpdater : NSObject
 
-@property (readonly, nonatomic) NSArray<id<FMRestriction>> * _Nonnull restrictions;
+@property (readonly, nonatomic) NSArray<id<FMRangeFilter>> * _Nonnull filters;
 
 @property (strong, nonatomic) FMDimensionalProjection * _Nullable target;
 
@@ -27,11 +27,11 @@ NS_DESIGNATED_INITIALIZER;
 - (void)addSourceValue:(CGFloat)value update:(BOOL)update;
 - (void)clearSourceValues:(BOOL)update;
 
-- (void)addRestrictionToLast:(id<FMRestriction> _Nonnull)object;
-- (void)addRestrictionToFirst:(id<FMRestriction> _Nonnull)object;
-- (void)removeRestriction:(id<FMRestriction> _Nonnull)object;
-- (void)replaceRestriction:(id<FMRestriction> _Nonnull)oldRestriction
-		   withRestriction:(id<FMRestriction> _Nonnull)newRestriction;
+- (void)addFilterToLast:(id<FMRangeFilter> _Nonnull)object;
+- (void)addFilterToFirst:(id<FMRangeFilter> _Nonnull)object;
+- (void)removeFilter:(id<FMRangeFilter> _Nonnull)object;
+- (void)replaceFilter:(id<FMRangeFilter> _Nonnull)oldRestriction
+		   withFilter:(id<FMRangeFilter> _Nonnull)newRestriction;
 
 - (void)updateTarget;
 

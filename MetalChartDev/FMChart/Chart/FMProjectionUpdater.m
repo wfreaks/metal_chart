@@ -8,7 +8,7 @@
 
 #import "FMProjectionUpdater.h"
 #import "FMProjections.h"
-#import "FMRestrictions.h"
+#import "FMRangeFilters.h"
 
 @interface FMProjectionUpdater()
 
@@ -25,7 +25,7 @@
 	if(self) {
 		_srcMinValue = +CGFLOAT_MAX;
 		_srcMaxValue = -CGFLOAT_MAX;
-		_restrictions = [NSArray array];
+		_filters = [NSArray array];
 		_target = target;
 	}
 	return self;
@@ -61,46 +61,46 @@
 	_srcMaxValue = -CGFLOAT_MAX;
 }
 
-- (void)addRestrictionToLast:(id<FMRestriction>)object
+- (void)addFilterToLast:(id<FMRangeFilter>)object
 {
 	@synchronized(self) {
-		if(![_restrictions containsObject:object]) {
-			_restrictions = [_restrictions arrayByAddingObject:object];
+		if(![_filters containsObject:object]) {
+			_filters = [_filters arrayByAddingObject:object];
 		}
 	}
 }
 
-- (void)addRestrictionToFirst:(id<FMRestriction>)object
+- (void)addFilterToFirst:(id<FMRangeFilter>)object
 {
     @synchronized(self) {
-        if(![_restrictions containsObject:object]) {
-            NSMutableArray *ar = _restrictions.mutableCopy;
+        if(![_filters containsObject:object]) {
+            NSMutableArray *ar = _filters.mutableCopy;
             [ar insertObject:object atIndex:0];
-            _restrictions = ar.copy;
+            _filters = ar.copy;
         }
     }
 }
 
-- (void)removeRestriction:(id<FMRestriction>)object
+- (void)removeFilter:(id<FMRangeFilter>)object
 {
 	@synchronized(self) {
-		if([_restrictions containsObject:object]) {
-			NSMutableArray *newRestrictions = [_restrictions mutableCopy];
+		if([_filters containsObject:object]) {
+			NSMutableArray *newRestrictions = [_filters mutableCopy];
 			[newRestrictions removeObject:object];
-			_restrictions = [newRestrictions copy];
+			_filters = [newRestrictions copy];
 		}
 	}
 }
 
-- (void)replaceRestriction:(id<FMRestriction>)oldRestriction
-		   withRestriction:(id<FMRestriction>)newRestriction
+- (void)replaceFilter:(id<FMRangeFilter>)oldRestriction
+		   withFilter:(id<FMRangeFilter>)newRestriction
 {
 	@synchronized(self) {
-		if([_restrictions containsObject:oldRestriction]) {
-			NSMutableArray *newRestrictions = [_restrictions mutableCopy];
+		if([_filters containsObject:oldRestriction]) {
+			NSMutableArray *newRestrictions = [_filters mutableCopy];
 			NSUInteger idx = [newRestrictions indexOfObject:oldRestriction];
 			[newRestrictions replaceObjectAtIndex:idx withObject:newRestriction];
-			_restrictions = [newRestrictions copy];
+			_filters = [newRestrictions copy];
 		}
 	}
 }
@@ -109,10 +109,10 @@
 {
 	FMDimensionalProjection *projection = _target;
 	if(projection) {
-		NSArray<id<FMRestriction>> *restrictions = _restrictions;
+		NSArray<id<FMRangeFilter>> *restrictions = _filters;
 		CGFloat min = +CGFLOAT_MAX;
 		CGFloat max = -CGFLOAT_MAX;
-		for(id<FMRestriction> restriction in restrictions.objectEnumerator) {
+		for(id<FMRangeFilter> restriction in restrictions.objectEnumerator) {
 			[restriction updater:self minValue:&min maxValue:&max];
 		}
 		

@@ -10,7 +10,7 @@
 
 @class FMGestureInterpreter;
 @class FMProjectionUpdater;
-@class FMDefaultRestriction;
+@class FMDefaultFilter;
 @class FMAnimator;
 @class FMPanGestureRecognizer;
 
@@ -129,13 +129,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMRangedDimensionalRestriction : NSObject<FMInterpreterDimensionalRestroction>
 
-@property (readonly, nonatomic) FMDefaultRestriction * _Nonnull accessibleRange;
-@property (readonly, nonatomic) FMDefaultRestriction * _Nonnull windowRange;
+@property (readonly, nonatomic) FMDefaultFilter * _Nonnull accessibleRange;
+@property (readonly, nonatomic) FMDefaultFilter * _Nonnull windowRange;
 @property (readonly, nonatomic) CGFloat minLength;
 @property (readonly, nonatomic) CGFloat maxLength;
 
-- (instancetype _Nonnull)initWithAccessibleRange:(FMDefaultRestriction * _Nonnull)accessible
-                                     windowRange:(FMDefaultRestriction * _Nonnull)window
+- (instancetype _Nonnull)initWithAccessibleRange:(FMDefaultFilter * _Nonnull)accessible
+                                     windowRange:(FMDefaultFilter * _Nonnull)window
                                        minLength:(CGFloat)minLength
                                        maxLength:(CGFloat)maxLength
 NS_DESIGNATED_INITIALIZER;

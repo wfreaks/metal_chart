@@ -1,15 +1,15 @@
 //
-//  FMRestrictions.m
+//  FMRangeFilters.m
 //  MetalChartDev
 //
 //  Created by Mori Keisuke on 2015/08/10.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
-#import "FMRestrictions.h"
+#import "FMRangeFilters.h"
 #import "FMProjectionUpdater.h"
 
-@implementation FMDefaultRestriction
+@implementation FMDefaultFilter
 
 - (instancetype)init
 {
@@ -38,7 +38,7 @@
 
 @end
 
-@implementation FMLengthRestriction
+@implementation FMLengthFilter
 
 - (instancetype)initWithLength:(CGFloat)length anchor:(CGFloat)anchor offset:(CGFloat)offset
 {
@@ -65,7 +65,7 @@
 
 @end
 
-@implementation FMSourceRestriction
+@implementation FMSourceFilter
 
 - (instancetype)initWithMinValue:(CGFloat)min
 						maxValue:(CGFloat)max
@@ -96,7 +96,7 @@
 
 @end
 
-@implementation FMPaddingRestriction
+@implementation FMPaddingFilter
 
 - (instancetype)initWithPaddingLow:(CGFloat)low
 							  high:(CGFloat)high
@@ -150,7 +150,7 @@
 @end
 
 
-@implementation FMIntervalRestriction
+@implementation FMIntervalFilter
 
 - (instancetype)initWithAnchor:(CGFloat)anchor
 					  interval:(CGFloat)interval
@@ -190,15 +190,15 @@
 @end
 
 
-@interface FMBlockRestriction()
+@interface FMBlockFilter()
 
-@property (copy, nonatomic) RestrictionBlock _Nonnull block;
+@property (copy, nonatomic) FilterBlock _Nonnull block;
 
 @end
 
-@implementation FMBlockRestriction
+@implementation FMBlockFilter
 
-- (instancetype)initWithBlock:(RestrictionBlock)block
+- (instancetype)initWithBlock:(FilterBlock)block
 {
 	self = [super init];
 	if(self) {
@@ -214,7 +214,7 @@
 
 @end
 
-@implementation FMUserInteractiveRestriction
+@implementation FMUserInteractiveFilter
 
 - (instancetype)initWithGestureInterpreter:(FMGestureInterpreter *)interpreter
 							   orientation:(CGFloat)radian

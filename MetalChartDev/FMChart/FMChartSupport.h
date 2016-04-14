@@ -26,7 +26,7 @@ FOUNDATION_EXPORT const unsigned char FMChartSupportVersionString[];
 #import <FMChartSupport/FMRenderables.h>
 #import <FMChartSupport/FMRenderablesAux.h>
 #import <FMChartSupport/FMProjectionUpdater.h>
-#import <FMChartSupport/FMRestrictions.h>
+#import <FMChartSupport/FMRangeFilters.h>
 #import <FMChartSupport/FMInteractive.h>
 #import <FMChartSupport/FMAxis.h>
 #import <FMChartSupport/FMAxisLabel.h>

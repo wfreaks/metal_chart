@@ -94,13 +94,13 @@ class ViewController: UIViewController {
 		dateUpdater = FMProjectionUpdater()
 		let daySec : CGFloat = 24 * 60 * 60
         let dateLength = 7 * daySec;
-		dateUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: -5 * daySec, maxValue: 0, expandMin: true, expandMax: true))
-        dateUpdater?.addRestrictionToLast(FMPaddingRestriction(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
-        let dateAccessibleRange = FMDefaultRestriction()
-        dateUpdater?.addRestrictionToLast(dateAccessibleRange)
-        dateUpdater?.addRestrictionToLast(FMLengthRestriction(length: dateLength, anchor: 1, offset: 0))
-        let dateWindowRange = FMDefaultRestriction()
-        dateUpdater?.addRestrictionToLast(dateWindowRange)
+		dateUpdater?.addFilterToLast(FMSourceFilter(minValue: -5 * daySec, maxValue: 0, expandMin: true, expandMax: true))
+        dateUpdater?.addFilterToLast(FMPaddingFilter(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
+        let dateAccessibleRange = FMDefaultFilter()
+        dateUpdater?.addFilterToLast(dateAccessibleRange)
+        dateUpdater?.addFilterToLast(FMLengthFilter(length: dateLength, anchor: 1, offset: 0))
+        let dateWindowRange = FMDefaultFilter()
+        dateUpdater?.addFilterToLast(dateWindowRange)
         
         let dateRangeRestriction = FMRangedDimensionalRestriction(accessibleRange: dateAccessibleRange, windowRange: dateWindowRange, minLength: dateLength, maxLength: dateLength)
         let yRangeRestriction = FMDefaultDimensionalRestriction.fixedRangeRestriction()
@@ -108,16 +108,16 @@ class ViewController: UIViewController {
         interpreter.stateRestriction = stateRestriction
 		
 		stepUpdater = FMProjectionUpdater()
-		stepUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
-		stepUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
+		stepUpdater?.addFilterToLast(FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
+		stepUpdater?.addFilterToLast(FMIntervalFilter(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
 		
 		weightUpdater = FMProjectionUpdater()
-		weightUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
-		weightUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
+		weightUpdater?.addFilterToLast(FMSourceFilter(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
+		weightUpdater?.addFilterToLast(FMIntervalFilter(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
 		
 		pressureUpdater = FMProjectionUpdater()
-		pressureUpdater?.addRestrictionToLast(FMSourceRestriction(minValue: 60, maxValue: 120, expandMin: false, expandMax: false))
-		pressureUpdater?.addRestrictionToLast(FMIntervalRestriction(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
+		pressureUpdater?.addFilterToLast(FMSourceFilter(minValue: 60, maxValue: 120, expandMin: false, expandMax: false))
+		pressureUpdater?.addFilterToLast(FMIntervalFilter(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
  		
 		let stepSpace : FMProjectionCartesian2D = configurator.spaceWithDimensionIds([dateDim,stepDim]) { (dimId) -> FMProjectionUpdater? in
 			if(dimId == dateDim) {

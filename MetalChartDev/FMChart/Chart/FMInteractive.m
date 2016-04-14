@@ -9,7 +9,7 @@
 #import "FMInteractive.h"
 #import "NSArray+Utility.h"
 #import "FMProjectionUpdater.h"
-#import "FMRestrictions.h"
+#import "FMRangeFilters.h"
 #import "FMAnimator.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
@@ -457,8 +457,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 @end
 @implementation FMRangedDimensionalRestriction
 
-- (instancetype)initWithAccessibleRange:(FMDefaultRestriction *)accessible
-                            windowRange:(FMDefaultRestriction *)window
+- (instancetype)initWithAccessibleRange:(FMDefaultFilter *)accessible
+                            windowRange:(FMDefaultFilter *)window
                               minLength:(CGFloat)minLength
                               maxLength:(CGFloat)maxLength
 {
@@ -562,8 +562,8 @@ static const CGFloat VEC_THRESHOLD = 0.125;
         const NSInteger count = updaters.count;
         for(NSInteger i = 0; i < count; ++i) {
             const CGFloat orientation = (CGFloat)(orientations[i].doubleValue);
-            id<FMRestriction> r = [[FMUserInteractiveRestriction alloc] initWithGestureInterpreter:interpreter orientation:orientation];
-            [(updaters[i]) addRestrictionToLast:r];
+            id<FMRangeFilter> r = [[FMUserInteractiveFilter alloc] initWithGestureInterpreter:interpreter orientation:orientation];
+            [(updaters[i]) addFilterToLast:r];
         }
     }
     FMSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull interpreter) {
