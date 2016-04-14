@@ -1,6 +1,6 @@
 //
 //  chart_common.h
-//  MetalChartDev
+//  FMChart
 //
 //  Created by Keisuke Mori on 2015/08/07.
 //  Copyright © 2015年 freaks. All rights reserved.

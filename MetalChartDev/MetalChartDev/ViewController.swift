@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  MetalChartDev
+//  FMChart
 //
-//  Created by Mori Keisuke on 2015/08/03.
+//  Created by Keisuke Mori on 2015/08/03.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 

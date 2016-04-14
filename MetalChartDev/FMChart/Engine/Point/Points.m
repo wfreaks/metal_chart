@@ -1,6 +1,6 @@
 //
 //  Points.m
-//  MetalChartDev
+//  FMChart
 //
 //  Created by Keisuke Mori on 2015/08/27.
 //  Copyright © 2015年 freaks. All rights reserved.

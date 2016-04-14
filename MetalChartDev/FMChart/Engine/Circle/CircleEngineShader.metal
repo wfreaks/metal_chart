@@ -1,6 +1,6 @@
 //
 //  Circle.metal
-//  MetalChartDev
+//  FMChart
 //
 //  Created by Keisuke Mori on 2015/11/10.
 //  Copyright © 2015年 freaks. All rights reserved.

@@ -2,7 +2,7 @@
 //  FMChart.h
 //  FMChart
 //
-//  Created by Mori Keisuke on 2015/09/21.
+//  Created by Keisuke Mori on 2015/09/21.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 

@@ -1,9 +1,9 @@
 //
 //  DeviceResource.h
-//  mmd_dev
+//  FMChart
 //
 //  Created by Keisuke Mori on 2014/08/22.
-//  Copyright (c) 2014年 wfreaks. All rights reserved.
+//  Copyright (c) 2014年 freaks. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

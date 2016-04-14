@@ -1,6 +1,6 @@
 //
 //  CircleBuffers.h
-//  MetalChartDev
+//  FMChart
 //
 //  Created by Keisuke Mori on 2015/11/18.
 //  Copyright © 2015年 freaks. All rights reserved.

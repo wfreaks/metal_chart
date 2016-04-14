@@ -1,8 +1,8 @@
 //
 //  FMProjectionUpdater.m
-//  MetalChartDev
+//  FMChart
 //
-//  Created by Mori Keisuke on 2015/08/10.
+//  Created by Keisuke Mori on 2015/08/10.
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
