@@ -19,7 +19,7 @@ MTLPixelFormat determineDepthPixelFormat()
 
 @interface MetalChart()
 
-@property (strong, nonatomic) NSArray<id<FMRenderable>> *series;
+@property (strong, nonatomic) NSArray<id<FMRenderable>> *renderables;
 @property (strong, nonatomic) NSSet<id<FMProjection>> *projectionSet;
 
 @property (strong, nonatomic) NSArray<id<FMAttachment>> *preRenderables;
@@ -36,7 +36,7 @@ MTLPixelFormat determineDepthPixelFormat()
 {
 	self = [super init];
 	if(self) {
-		_series = [NSArray array];
+		_renderables = [NSArray array];
 		_projectionSet = [NSSet set];
 		_preRenderables = [NSArray array];
 		_postRenderables = [NSArray array];
@@ -55,7 +55,7 @@ MTLPixelFormat determineDepthPixelFormat()
 
 // かなり長く見えるが、同期を短くしたり分岐を整理するためだけの行が多い. 大雑把に言って、
 // ・semaphore_wait 前は 各配列を破綻しないようキャプチャ / projectionの更新
-// ・semaphore_wait 内では preRenderable / series / postRenderable を描画
+// ・semaphore_wait 内では preRenderable / renderables / postRenderable を描画
 // ・semaphore_signale 後は レンダリング結果をキューに入れてコミット
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
 - (void)drawInMTKView:(MetalView *)view
@@ -80,7 +80,7 @@ MTLPixelFormat determineDepthPixelFormat()
     id<FMCommandBufferHook> hook = nil;
 	
 	@synchronized(self) {
-		seriesArray = _series;
+		seriesArray = _renderables;
 		preRenderables = _preRenderables;
 		postRenderables = _postRenderables;
         preparation = _preparation;
@@ -162,37 +162,37 @@ MTLPixelFormat determineDepthPixelFormat()
     }
 }
 
-- (void)addSeries:(id<FMRenderable>)series
+- (void)addRenderable:(id<FMRenderable>)renderable
 {
 	@synchronized(self) {
-		if(![_series containsObject:series]) {
-			_series = [_series arrayByAddingObject:series];
-            if([series conformsToProtocol:@protocol(FMDepthClient)]) {
+		if(![_renderables containsObject:renderable]) {
+			_renderables = [_renderables arrayByAddingObject:renderable];
+            if([renderable conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
             }
 		}
 	}
 }
 
-- (void)addSeriesArray:(NSArray<id<FMRenderable>> *)series
+- (void)addRenderableArray:(NSArray<id<FMRenderable>> *)renderables
 {
-	const NSInteger count = series.count;
+	const NSInteger count = renderables.count;
 	@synchronized(self) {
 		for(NSInteger i = 0; i < count; ++i) {
-			[self addSeries:series[i]];
+			[self addRenderable:renderables[i]];
 		}
 	}
 }
 
 // immutableなcollectionを使ってるので非常にまどろっこしいが、描画サイクルの度に
 // 防御的コピーを強制されるならこちらの方がよほどパフォーマンス的にはまともだと思われる
-- (void)removeSeries:(id<FMRenderable>)series
+- (void)removeRenderable:(id<FMRenderable>)renderable
 {
 	@synchronized(self) {
-		const NSUInteger idx = [_series indexOfObject:series];
+		const NSUInteger idx = [_renderables indexOfObject:renderable];
 		if(idx != NSNotFound) {
-			_series = [_series arrayByRemovingObjectAtIndex:idx];
-            if([series conformsToProtocol:@protocol(FMDepthClient)]) {
+			_renderables = [_renderables arrayByRemovingObjectAtIndex:idx];
+            if([renderable conformsToProtocol:@protocol(FMDepthClient)]) {
                 [self reconstructDepthClients];
             }
 		}
@@ -314,7 +314,7 @@ MTLPixelFormat determineDepthPixelFormat()
 - (void)removeAll
 {
     @synchronized(self) {
-        _series = [NSArray array];
+        _renderables = [NSArray array];
         _projectionSet = [NSSet set];
         _preRenderables = [NSArray array];
         _postRenderables = [NSArray array];
@@ -345,7 +345,7 @@ MTLPixelFormat determineDepthPixelFormat()
 {
     NSMutableArray<id> *objects = [NSMutableArray array];
     [objects addObjectsFromArray:_preRenderables];
-    [objects addObjectsFromArray:_series];
+    [objects addObjectsFromArray:_renderables];
     [objects addObjectsFromArray:_postRenderables];
     
     CGFloat currentBase = 0;

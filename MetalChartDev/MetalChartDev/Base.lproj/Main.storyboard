@@ -59,9 +59,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evS-Pu-3nH" customClass="FMMetalView">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="evS-Pu-3nH" secondAttribute="height" multiplier="1:1" id="0B0-H5-HWP"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -69,6 +66,7 @@
                             <constraint firstItem="evS-Pu-3nH" firstAttribute="centerX" secondItem="X2q-VG-j8U" secondAttribute="centerX" id="Mvs-8v-BrM"/>
                             <constraint firstItem="evS-Pu-3nH" firstAttribute="width" secondItem="X2q-VG-j8U" secondAttribute="width" id="ZWG-xp-HFc"/>
                             <constraint firstItem="evS-Pu-3nH" firstAttribute="centerY" secondItem="X2q-VG-j8U" secondAttribute="centerY" id="hWR-WK-KNQ"/>
+                            <constraint firstItem="evS-Pu-3nH" firstAttribute="height" secondItem="X2q-VG-j8U" secondAttribute="height" id="tFI-Hi-rpN"/>
                         </constraints>
                     </view>
                     <connections>

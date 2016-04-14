@@ -93,6 +93,12 @@ class ViewController: UIViewController {
         let dateAccessibleRange = FMDefaultFilter()
         dateUpdater?.addFilterToLast(dateAccessibleRange)
         dateUpdater?.addFilterToLast(FMLengthFilter(length: dateLength, anchor: 1, offset: 0))
+        dateUpdater?.addFilterToLast(FMBlockFilter(block: { (updater, minPtr, maxPtr) in
+            // viewの大きさに合わせてminを調整する.
+            let len : CGFloat = maxPtr.memory - minPtr.memory
+            let ratio = (self.view.bounds.size.width - 80) / (320 - 80)
+            minPtr.memory = maxPtr.memory - (len * ratio)
+        }))
         let dateWindowRange = FMDefaultFilter()
         dateUpdater?.addFilterToLast(dateWindowRange)
         
@@ -150,20 +156,6 @@ class ViewController: UIViewController {
         diastolicLine?.attributes.enableOverlay = true
 		diastolicLine?.attributes.setColor(diastolicColor)
 		
-		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
-		let dateSize = CGSizeMake(30, 15)
-		let dateFmt = NSDateFormatter()
-		dateFmt.dateFormat = "M/d"
-		let dateAxis = configurator.addAxisToDimensionWithId(dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 12) {
-			(val, index, lastIndex, projection) -> [NSMutableAttributedString] in
-			let date = NSDate(timeInterval: NSTimeInterval(val), sinceDate: self.refDate!)
-			let str = dateFmt.stringFromDate(date)
-			return [NSMutableAttributedString(string: str)]
-		}
-		let dateLabel = configurator.axisLabelsToAxis(dateAxis!)!.first!
-		dateLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
-		dateLabel.setFrameOffset(CGPointMake(0, 5))
-        
         let weightConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 1)
         let weightSize = CGSizeMake(45, 25)
         let weightAttributes = [NSForegroundColorAttributeName : UIColor(vector:weightColor)]
@@ -202,6 +194,20 @@ class ViewController: UIViewController {
         pressureLabel.setFrameAnchorPoint(CGPointMake(0, 0.5))
         pressureLabel.setFrameOffset(CGPointMake(5, 0))
         pressureLabel.textAlignment = CGPointMake(0, 0.5)
+        
+        let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
+        let dateSize = CGSizeMake(30, 15)
+        let dateFmt = NSDateFormatter()
+        dateFmt.dateFormat = "M/d"
+        let dateAxis = configurator.addAxisToDimensionWithId(dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 24) {
+            (val, index, lastIndex, projection) -> [NSMutableAttributedString] in
+            let date = NSDate(timeInterval: NSTimeInterval(val), sinceDate: self.refDate!)
+            let str = dateFmt.stringFromDate(date)
+            return [NSMutableAttributedString(string: str)]
+        }
+        let dateLabel = configurator.axisLabelsToAxis(dateAxis!)!.first!
+        dateLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
+        dateLabel.setFrameOffset(CGPointMake(0, 5))
 		
 		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
 	}
@@ -309,6 +315,14 @@ class ViewController: UIViewController {
 	}
     
     @IBAction func chartTapped(sender: UITapGestureRecognizer) {
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        coordinator.animateAlongsideTransition(nil) { (context) in
+            self.dateUpdater?.updateTarget()
+            self.metalView.setNeedsDisplay()
+        }
     }
     
 }

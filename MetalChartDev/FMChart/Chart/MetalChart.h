@@ -136,9 +136,9 @@ MTLPixelFormat determineDepthPixelFormat();
 // また、すでに追加されているものを再度追加しようとした場合、あるいは追加されていないものを除こうとした場合、
 // そのメソッドは何もしない. 他の条件が不正な呼び出しもそれに準ずる.
 
-- (void)addSeries:(id<FMRenderable> _Nonnull)series;
-- (void)addSeriesArray:(NSArray<id<FMRenderable>> *_Nonnull)series;
-- (void)removeSeries:(id<FMRenderable> _Nonnull)series;
+- (void)addRenderable:(id<FMRenderable> _Nonnull)renderable;
+- (void)addRenderableArray:(NSArray<id<FMRenderable>> *_Nonnull)renderables;
+- (void)removeRenderable:(id<FMRenderable> _Nonnull)renderable;
 
 - (void)addProjection:(id<FMProjection> _Nonnull)projection;
 - (void)addProjections:(NSArray<id<FMProjection>> *_Nonnull)projections;
@@ -158,7 +158,7 @@ MTLPixelFormat determineDepthPixelFormat();
 
 - (void)requestResolveAttachmentDependencies;
 
-- (NSArray<id<FMRenderable>> * _Nonnull)series;
+- (NSArray<id<FMRenderable>> * _Nonnull)renderables;
 
 - (NSSet<id<FMProjection>> * _Nonnull)projectionSet;
 

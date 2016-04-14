@@ -312,7 +312,7 @@
 {
     FMLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
     FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
-    [_chart addSeries:ls];
+    [_chart addRenderable:ls];
 	[_chart addProjection:space];
     return ls;
 }
@@ -325,7 +325,7 @@
 														  configuration:nil
 															 attributes:nil];
     FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
-    [_chart addSeries:bs];
+    [_chart addRenderable:bs];
 	[_chart addProjection:space];
     return bs;
 }
@@ -341,7 +341,7 @@
 																				   attributesArray:nil
 																		attributesCapacityOnCreate:capacity];
 	FMAttributedBarSeries *bs = [[FMAttributedBarSeries alloc] initWithAttributedBar:bar projection:space];
-	[_chart addSeries:bs];
+	[_chart addRenderable:bs];
 	[_chart addProjection:space];
 	return bs;
 }
@@ -350,20 +350,20 @@
 {
     FMPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
     FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
-    [_chart addSeries:ps];
+    [_chart addRenderable:ps];
 	[_chart addProjection:space];
     return ps;
 }
 
 - (void)removeRenderable:(id<FMRenderable>)renderable
 {
-	[_chart removeSeries:renderable];
+	[_chart removeRenderable:renderable];
 }
 
 - (FMBlockRenderable *)addBlockRenderable:(FMRenderBlock)block
 {
 	FMBlockRenderable *renderable = [[FMBlockRenderable alloc] initWithBlock:block];
-	[_chart addSeries:renderable];
+	[_chart addRenderable:renderable];
 	
 	return renderable;
 }
@@ -389,7 +389,7 @@
 									capacity:(NSUInteger)capacity
 {
 	FMPieDoughnutSeries *series = [[FMPieDoughnutSeries alloc] initWithEngine:self.engine arc:nil projection:space values:nil attributesCapacityOnCreate:capacity valuesCapacityOnCreate:capacity];
-	[_chart addSeries:series];
+	[_chart addRenderable:series];
 	return series;
 }
 
