@@ -58,6 +58,7 @@ private :
 
 - (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
+- (void)reserve:(NSUInteger)capacity;
 
 #ifdef __cplusplus
 
@@ -110,6 +111,8 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;
 
+- (void)reserve:(NSUInteger)capacity;
+
 @end
 
 
@@ -129,6 +132,8 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;
+
+- (void)reserve:(NSUInteger)capacity;
 
 @end
 

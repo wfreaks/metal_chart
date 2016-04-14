@@ -49,6 +49,15 @@
     }
 }
 
+- (void)reserve:(NSUInteger)capacity
+{
+    if(capacity > self.vertices.capacity) {
+        [self.vertices reserve:capacity];
+        _info.offset = 0;
+        [_info info]->vertex_capacity = (uint32_t)capacity;
+    }
+}
+
 @end
 
 @implementation FMOrderedAttributedSeries
@@ -98,6 +107,15 @@
 			_info.count = (count + 1);
 		}
 	}
+}
+
+- (void)reserve:(NSUInteger)capacity
+{
+    if(capacity > self.vertices.capacity) {
+        [self.vertices reserve:capacity];
+        _info.offset = 0;
+        [_info info]->vertex_capacity = (uint32_t)capacity;
+    }
 }
 
 @end
@@ -154,6 +172,14 @@
 	}
 }
 
+- (void)reserve:(NSUInteger)capacity
+{
+    if(capacity > self.vertices.capacity) {
+        [self.vertices reserve:capacity];
+        _info.offset = 0;
+        [_info info]->vertex_capacity = (uint32_t)capacity;
+    }
+}
 
 @end
 

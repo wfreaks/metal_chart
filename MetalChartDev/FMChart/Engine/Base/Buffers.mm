@@ -72,6 +72,15 @@
     return _container->capacity();
 }
 
+- (void)reserve:(NSUInteger)capacity
+{
+    if(self.capacity < capacity) {
+        const NSUInteger length = sizeof(vertex_buffer) * capacity;
+        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _container = std::make_shared<vertex_container>([_buffer contents], capacity);
+    }
+}
+
 - (void)dealloc
 {
     _container = nullptr;
@@ -139,6 +148,15 @@
 	buffer->idx = index;
 }
 
+- (void)reserve:(NSUInteger)capacity
+{
+    if(self.capacity < capacity) {
+        const NSUInteger length = sizeof(indexed_value_float) * capacity;
+        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _capacity = capacity;
+    }
+}
+
 @end
 
 
@@ -166,6 +184,15 @@
 	indexed_value_float2 *buffer = ((indexed_value_float2 *)[_buffer contents]) + bufferIndex;
 	buffer->value = vector2(x, y);
 	buffer->idx = index;
+}
+
+- (void)reserve:(NSUInteger)capacity
+{
+    if(self.capacity < capacity) {
+        const NSUInteger length = sizeof(indexed_value_float2) * capacity;
+        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
+        _capacity = capacity;
+    }
 }
 
 @end

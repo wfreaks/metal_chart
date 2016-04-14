@@ -24,7 +24,7 @@ class ViewController: UIViewController {
 	let store : HKHealthStore = HKHealthStore()
 	var refDate : NSDate? = nil
 	
-	let seriesCapacity : UInt = 512
+	let seriesCapacity : UInt = 4
 	var stepSeries : FMOrderedSeries? = nil
 	var weightSeries : FMOrderedSeries? = nil
 	var systolicSeries : FMOrderedSeries? = nil
@@ -229,8 +229,9 @@ class ViewController: UIViewController {
 		let sort = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
 		
 		let stepQuery = HKStatisticsCollectionQuery(quantityType: step, quantitySamplePredicate: nil, options: HKStatisticsOptions.CumulativeSum, anchorDate: refDate, intervalComponents: interval)
-		stepQuery.initialResultsHandler = { query, results, eror in
+		stepQuery.initialResultsHandler = { query, results, error in
 			if let collection = results {
+                self.stepSeries?.reserve(UInt(collection.statistics().count))
 				for statistic in collection.statistics() {
 					if let quantity = statistic.sumQuantity() {
 						let yValue = CGFloat(quantity.doubleValueForUnit(HKUnit.countUnit()))
@@ -250,6 +251,7 @@ class ViewController: UIViewController {
 		let kg = HKUnit.gramUnitWithMetricPrefix(HKMetricPrefix.Kilo)
 		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
+                self.weightSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
 					let val = CGFloat(sample.quantity.doubleValueForUnit(kg))
@@ -266,6 +268,7 @@ class ViewController: UIViewController {
 		let mmHg = HKUnit.millimeterOfMercuryUnit()
 		let systolicQuery = HKSampleQuery(sampleType:systolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
+                self.systolicSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
 					let val = CGFloat(sample.quantity.doubleValueForUnit(mmHg))
@@ -280,6 +283,7 @@ class ViewController: UIViewController {
 		}
 		let diastolicQuery = HKSampleQuery(sampleType:diastolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
+                self.diastolicSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
 					let val = CGFloat(sample.quantity.doubleValueForUnit(mmHg))

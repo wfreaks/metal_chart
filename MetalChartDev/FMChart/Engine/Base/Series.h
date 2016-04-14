@@ -20,6 +20,11 @@
 - (void)addPoint:(CGPoint)point; // increment count.
 - (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
 
+// see std::vector<T>::reserve().
+// should not be used with cyclic accessed buffers.
+// this operation involves allocating, copying, and deallocating, and its cost is high.
+- (void)reserve:(NSUInteger)capacity;
+
 @end
 
 @interface FMOrderedSeries : NSObject<FMSeries>
