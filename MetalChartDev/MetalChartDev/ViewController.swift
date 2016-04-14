@@ -93,12 +93,6 @@ class ViewController: UIViewController {
         let dateAccessibleRange = FMDefaultFilter()
         dateUpdater?.addFilterToLast(dateAccessibleRange)
         dateUpdater?.addFilterToLast(FMLengthFilter(length: dateLength, anchor: 1, offset: 0))
-        dateUpdater?.addFilterToLast(FMBlockFilter(block: { (updater, minPtr, maxPtr) in
-            // viewの大きさに合わせてminを調整する.
-            let len : CGFloat = maxPtr.memory - minPtr.memory
-            let ratio = (self.view.bounds.size.width - 80) / (320 - 80)
-            minPtr.memory = maxPtr.memory - (len * ratio)
-        }))
         let dateWindowRange = FMDefaultFilter()
         dateUpdater?.addFilterToLast(dateWindowRange)
         
@@ -210,6 +204,13 @@ class ViewController: UIViewController {
         dateLabel.setFrameOffset(CGPointMake(0, 5))
 		
 		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
+        
+        dateUpdater?.addFilterToLast(FMBlockFilter(block: { (updater, minPtr, maxPtr) in
+            // viewの大きさに合わせてminを調整する.
+            let len : CGFloat = maxPtr.memory - minPtr.memory
+            let ratio = (self.view.bounds.size.width - 80) / (320 - 80)
+            minPtr.memory = maxPtr.memory - (len * ratio)
+        }))
 	}
 	
 	func loadData() {
