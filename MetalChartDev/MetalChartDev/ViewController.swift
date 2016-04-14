@@ -21,9 +21,7 @@ class ViewController: UIViewController {
 	var chart : MetalChart = MetalChart()
 	var chartConf : FMConfigurator? = nil
 	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
-    let animator : FMAnimator = FMAnimator()
 	let store : HKHealthStore = HKHealthStore()
-	var interpreter : FMGestureInterpreter? = nil
 	var refDate : NSDate? = nil
 	
 	let seriesCapacity : UInt = 512
@@ -72,14 +70,10 @@ class ViewController: UIViewController {
 		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
 		chart.padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
-		chart.bufferHook = animator
-        animator.metalView = metalView
 		
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
         
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
-		self.interpreter = interpreter
-        interpreter.momentumAnimator = animator
 		
 		stepSeries = configurator.createSeries(seriesCapacity)
 		weightSeries = configurator.createSeries(seriesCapacity)

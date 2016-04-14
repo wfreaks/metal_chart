@@ -13,6 +13,7 @@
 #import "FMAxisLabel.h"
 #import "FMRenderables.h"
 #import "FMInteractive.h"
+#import "FMAnimator.h"
 #import "Engine.h"
 #import "DeviceResource.h"
 #import "Rects.h"
@@ -63,17 +64,18 @@
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
 		_engine = engine;
-		_view = view;
 		_preferredFps = fps;
+        FMAnimator *animator = [[FMAnimator alloc] init];
+        animator.metalView = view;
+        chart.bufferHook = animator;
+        _animator = animator;
+        _view = view;
 		
-		_view.enableSetNeedsDisplay = (fps <= 0);
-		_view.paused = (fps <= 0);
-		_view.preferredFramesPerSecond = fps;
-		_view.delegate = chart;
-		_view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
-		_view.depthStencilPixelFormat = determineDepthPixelFormat();
-		_view.clearDepth = 0;
-		_view.device = engine.resource.device;
+        if(view) {
+            [self.class configureMetalView:view preferredFps:fps];
+            view.device = engine.resource.device;
+            view.delegate = chart;
+        }
 	}
 	return self;
 }
@@ -278,6 +280,8 @@
 	FMGestureInterpreter *interpreter = [[FMGestureInterpreter alloc] initWithPanRecognizer:pan
 																			pinchRecognizer:pinch
 																				restriction:restriction];
+    interpreter.momentumAnimator = _animator;
+    [self addRetainedObject:interpreter];
 	[_view addGestureRecognizer:pan];
 	[_view addGestureRecognizer:pinch];
 	return interpreter;

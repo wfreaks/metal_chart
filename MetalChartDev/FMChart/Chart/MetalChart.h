@@ -121,7 +121,7 @@ MTLPixelFormat determineDepthPixelFormat();
 
 @property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
 @property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
-@property (strong , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
+@property (weak   , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 @property (assign , nonatomic) RectPadding padding;
 @property (readonly, nonatomic) CGFloat clearDepth;
 

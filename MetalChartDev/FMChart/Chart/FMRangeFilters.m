@@ -229,24 +229,27 @@
 
 - (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
 {
-	const CGFloat minValue = *min;
-	const CGFloat maxValue = *max;
-	const CGFloat mid = (minValue + maxValue) / 2;
-	const CGFloat len = maxValue - mid;
-	const CGSize scale = _interpreter.scaleCumulative;
-	const CGPoint translation = _interpreter.translationCumulative;
-	
-	const CGFloat rad = _orientationRad;
-	// 点P(sin(rad), cos(rad))を引き伸ばされた空間上に配置した時、引き伸ばす前の空間上でのOPのノルムが求めるべき倍率.
-	// ちなみにここでいう求める倍率は空間のではなくレンジの倍率なので逆数である.
-	const CGFloat px = (cos(rad) / scale.width);
-	const CGFloat py = (sin(rad) / scale.height);
-	const CGFloat dirScale = sqrt((px*px)+(py*py));
-	const CGFloat dirOffset = (cos(rad) * translation.x) + (sin(rad) * translation.y);
-	const CGFloat base = (mid - (len * dirOffset * 2)); // 実際のrangeの長さはlen*2なので.
-	
-	*min = base - (len * dirScale);
-	*max = base + (len * dirScale);
+    typeof(_interpreter) interpreter = _interpreter;
+    if(interpreter) {
+        const CGFloat minValue = *min;
+        const CGFloat maxValue = *max;
+        const CGFloat mid = (minValue + maxValue) / 2;
+        const CGFloat len = maxValue - mid;
+        const CGSize scale = interpreter.scaleCumulative;
+        const CGPoint translation = interpreter.translationCumulative;
+        
+        const CGFloat rad = _orientationRad;
+        // 点P(sin(rad), cos(rad))を引き伸ばされた空間上に配置した時、引き伸ばす前の空間上でのOPのノルムが求めるべき倍率.
+        // ちなみにここでいう求める倍率は空間のではなくレンジの倍率なので逆数である.
+        const CGFloat px = (cos(rad) / scale.width);
+        const CGFloat py = (sin(rad) / scale.height);
+        const CGFloat dirScale = sqrt((px*px)+(py*py));
+        const CGFloat dirOffset = (cos(rad) * translation.x) + (sin(rad) * translation.y);
+        const CGFloat base = (mid - (len * dirOffset * 2)); // 実際のrangeの長さはlen*2なので.
+        
+        *min = base - (len * dirScale);
+        *max = base + (len * dirScale);
+    }
 }
 
 @end

@@ -30,6 +30,7 @@
 @class FMOrderedSeries;
 @class FMOrderedAttributedSeries;
 @class FMPanGestureRecognizer;
+@class FMAnimator;
 
 @protocol FMSeries;
 @protocol FMInteraction;
@@ -58,6 +59,8 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 @property (readonly, nonatomic) MetalView * _Nullable view;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
+
+@property (readonly, nonatomic) FMAnimator * _Nonnull animator;
 
 // インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
 + (void)configureMetalView:(MetalView * _Nonnull)view
