@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet MetalView *metalView;
 @property (nonatomic, readonly) MetalChart *chart;
 @property (nonatomic, readonly) FMEngine *engine;
-@property (nonatomic, readonly) FMConfigurator *configurator;
+@property (nonatomic, readonly) FMChartConfigurator *configurator;
 
 @end
 @implementation DevController
@@ -29,7 +29,7 @@
 	self.metalView.clearColor = MTLClearColorMake(v, v, v, 1);
 	_chart = [[MetalChart alloc] init];
 	_engine = [[FMEngine alloc] initWithResource:[FMDeviceResource defaultResource]];
-	_configurator = [[FMConfigurator alloc] initWithChart:self.chart engine:self.engine view:self.metalView preferredFps:fps];
+	_configurator = [[FMChartConfigurator alloc] initWithChart:self.chart engine:self.engine view:self.metalView preferredFps:fps];
 	
 	[self configureChart];
 }

@@ -31,7 +31,7 @@ FOUNDATION_EXPORT const unsigned char FMChartSupportVersionString[];
 #import <FMChartSupport/FMAxis.h>
 #import <FMChartSupport/FMAxisLabel.h>
 #import <FMChartSupport/FMAnimator.h>
-#import <FMChartSupport/FMUtility.h>
+#import <FMChartSupport/FMChartConfigurator.h>
 #import <FMChartSupport/FMMetalView.h>
 
 #import <FMChartSupport/Engine_common.h>

@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet var tapRecognizer: UITapGestureRecognizer!
     
 	var chart : MetalChart = MetalChart()
-	var chartConf : FMConfigurator? = nil
+	var chartConf : FMChartConfigurator? = nil
 	let resource : FMDeviceResource = FMDeviceResource.defaultResource()!
 	let store : HKHealthStore = HKHealthStore()
 	var refDate : NSDate? = nil
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
 	func setupChart() {
 		let engine = FMEngine(resource: resource)
 		let fps = 0;
-		let configurator : FMConfigurator = FMConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
+		let configurator : FMChartConfigurator = FMChartConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
 		chart.padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
 		
@@ -256,7 +256,7 @@ class ViewController: UIViewController {
 		}
 		
 		let kg = HKUnit.gramUnitWithMetricPrefix(HKMetricPrefix.Kilo)
-		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
                 self.weightSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {
@@ -273,7 +273,7 @@ class ViewController: UIViewController {
 			}
 		}
 		let mmHg = HKUnit.millimeterOfMercuryUnit()
-		let systolicQuery = HKSampleQuery(sampleType:systolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+		let systolicQuery = HKSampleQuery(sampleType:systolic, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
                 self.systolicSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {
@@ -288,7 +288,7 @@ class ViewController: UIViewController {
 				self.metalView.setNeedsDisplay()
 			}
 		}
-		let diastolicQuery = HKSampleQuery(sampleType:diastolic, predicate: nil, limit: Int(seriesCapacity), sortDescriptors: [sort]) { (query, samples, error) -> Void in
+		let diastolicQuery = HKSampleQuery(sampleType:diastolic, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
                 self.diastolicSeries?.reserve(UInt(array.count))
 				for sample in (array as! [HKQuantitySample]) {

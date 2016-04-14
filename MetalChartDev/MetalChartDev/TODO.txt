@@ -12,3 +12,5 @@
 
 ・attributedLineの追加
 
+・panアニメーションの速度がおかしい
+

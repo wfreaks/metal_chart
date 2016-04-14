@@ -37,9 +37,7 @@
 @protocol FMAxisConfigurator;
 @protocol FMInterpreterStateRestriction;
 
-@interface FMUtility : NSObject
 
-@end
 
 typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dimensionID);
 
@@ -50,7 +48,12 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 // 迷わずより低いレベルのクラスを直接使う事をお勧めする(綺麗により細かいコントロールができる魔法のクラスなんて存在しないし、
 // 文字数より細かい制御など原理的にできる訳がない)
 
-@interface FMConfigurator : NSObject
+// またこのクラスの性質上、オブジェクトを作成・設定した後戻り値として返す場合でも、内部的にretainしているものが多い.
+// わざわざretainする為だけにプロパティ追加を強制するのは非合理的だからである.
+// 特にProjectionUpdaterやGestureInterpreter、デリゲートのデフォルト実装が該当する事が多いが、これはそもそもコアコンポーネントで
+// サポートされる仕組みではない事が大きく影響している. またデリゲートをブロックベースで実装できるようにしているものなどは不可避である.
+
+@interface FMChartConfigurator : NSObject
 
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection*> * _Nonnull dimensions;
 @property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
@@ -159,11 +162,6 @@ NS_DESIGNATED_INITIALIZER;
 - (FMPieDoughnutSeries * _Nonnull)addPieSeriesToSpace:(FMProjectionPolar * _Nonnull)space
 											 capacity:(NSUInteger)capacity
 ;
-
-// protocolを使ったdelegate/hookなどを良く実装するため、外側でretainしておく必要が
-// 出る事が多いが、実際そのためにプロパティ増やすとかないわーな時に使う.
-// 決して良い方法ではないし何回も通るコードパスで使用するべきではないが、
-- (void)addRetainedObject:(id _Nonnull)object;
 
 @end
 
