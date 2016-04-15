@@ -252,7 +252,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 			const CGFloat dx = (dist * cos(stepped) / (_scaleCumulative.width));
 			const CGFloat dy = (dist * sin(stepped) / (_scaleCumulative.height));
 			self.translationCumulative = CGPointMake(oldT.x + dx, oldT.y + dy);
-//			const CGPoint newT = _translationCumulative;
+			const CGPoint newT = _translationCumulative;
 			[_transVX updateWithValue:newT.x time:time];
 			[_transVY updateWithValue:newT.y time:time];
 			
