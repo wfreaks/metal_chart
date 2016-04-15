@@ -20,9 +20,6 @@ MTLPixelFormat determineDepthPixelFormat();
  * もちろんコード量と煩雑さはそこそこなのでオススメはできない.
  */
 
-@class MetalChart;
-
-
 /*
  * Renderable/AttachmentがDepthTestを必要とする場合、このプロトコルを実装する. 
  * 複数のドローコールが発行される関係上、Depthバッファの値の取りうる範囲（領域ではない）のうち、

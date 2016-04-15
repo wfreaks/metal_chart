@@ -10,24 +10,6 @@
 #import "MetalChart.h"
 #import "FMProjections.h"
 
-@class FMEngine;
-@class FMLinePrimitive;
-@class FMBarPrimitive;
-@class FMOrderedAttributedBarPrimitive;
-@class FMPointPrimitive;
-@class FMUniformLineAttributes;
-@class FMUniformBarConfiguration;
-@class FMUniformBarAttributes;
-@class FMUniformRectAttributesArray;
-@class FMUniformPointAttributes;
-@class FMUniformPlotRectAttributes;
-@class FMUniformGridAttributes;
-@class FMPlotArea;
-
-@protocol FMSeries;
-@protocol FMAxis;
-
-
 typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, MetalChart *_Nonnull chart);
 
 @interface FMBlockRenderable : NSObject<FMRenderable>

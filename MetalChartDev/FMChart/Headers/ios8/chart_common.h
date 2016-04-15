@@ -15,6 +15,7 @@
 
 #import <Metal/Metal.h>
 #import "FMMetalView.h"
+#import "Prototypes.h"
 
 @compatibility_alias MetalView FMMetalView;
 

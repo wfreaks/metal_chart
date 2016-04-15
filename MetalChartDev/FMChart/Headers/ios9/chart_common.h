@@ -14,6 +14,7 @@
 #endif
 
 #import <MetalKit/MetalKit.h>
+#import "Prototypes.h"
 
 @compatibility_alias MetalView MTKView;
 

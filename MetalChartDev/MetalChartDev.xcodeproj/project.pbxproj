@@ -108,6 +108,8 @@
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
 		AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E51B6F0D8C00480AAE /* Assets.xcassets */; };
 		AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */; };
+		AAC344D71CC0EB4F00115113 /* Prototypes.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC344D61CC0E4E000115113 /* Prototypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC344D81CC0EB5000115113 /* Prototypes.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC344D61CC0E4E000115113 /* Prototypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A81F1BAFE2960032A0CF /* FMChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A86C1BAFE3020032A0CF /* FMAnimator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82B1BAFE3020032A0CF /* FMAnimator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */; };
@@ -230,6 +232,7 @@
 		AAB584E81B6F0D8C00480AAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB584EA1B6F0D8C00480AAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MetalChartDev-Bridging-Header.h"; sourceTree = "<group>"; };
+		AAC344D61CC0E4E000115113 /* Prototypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Prototypes.h; path = ../Chart/Prototypes.h; sourceTree = "<group>"; };
 		AAC4A81D1BAFE2960032A0CF /* FMChart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAC4A81F1BAFE2960032A0CF /* FMChart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FMChart.h; sourceTree = "<group>"; };
 		AAC4A8211BAFE2960032A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -328,6 +331,7 @@
 		AA32A9871BE3B53E00ABDC1E /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				AAC344D61CC0E4E000115113 /* Prototypes.h */,
 				AA32A9881BE3B53E00ABDC1E /* ios8 */,
 				AA32A98B1BE3B53E00ABDC1E /* ios9 */,
 			);
@@ -597,6 +601,7 @@
 				AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */,
 				AA32A9C91BE3B5FA00ABDC1E /* FMAxisLabel.h in Headers */,
 				AA32A9CA1BE3B5FA00ABDC1E /* FMAxis.h in Headers */,
+				AAC344D81CC0EB5000115113 /* Prototypes.h in Headers */,
 				AA32A9CB1BE3B5FA00ABDC1E /* FMChartConfigurator.h in Headers */,
 				AA32A9CC1BE3B5FA00ABDC1E /* RectBuffers.h in Headers */,
 				AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */,
@@ -642,6 +647,7 @@
 				AAC4A8701BAFE3020032A0CF /* FMAxisLabel.h in Headers */,
 				AAC4A86E1BAFE3020032A0CF /* FMAxis.h in Headers */,
 				AAC4A87A1BAFE3020032A0CF /* FMChartConfigurator.h in Headers */,
+				AAC344D71CC0EB4F00115113 /* Prototypes.h in Headers */,
 				AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */,
 				AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */,
 				AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */,

@@ -16,16 +16,6 @@
  */
 
 
-@class FMEngine;
-@class FMProjectionPolar;
-@class FMIndexedFloatBuffer;
-@class FMContinuosArcPrimitive;
-@class FMUniformSeriesInfo;
-@class FMUniformArcAttributesArray;
-@class FMUniformArcConfiguration;
-
-@class FMPieDoughnutSeries;
-
 typedef struct PieProxyElement {
 	NSInteger dataID; // IDはユニークである必要はない.
 	CGFloat   value;

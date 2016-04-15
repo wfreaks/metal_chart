@@ -10,10 +10,6 @@
 #import <CoreGraphics/CGGeometry.h>
 #import "MetalChart.h"
 
-@class FMUniformProjectionCartesian2D;
-@class FMUniformProjectionPolar;
-@class FMDeviceResource;
-
 @interface FMDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
