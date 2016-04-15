@@ -9,7 +9,7 @@
 #include "LineEngineShader.h"
 
 vertex out_vertex_LineDash PolyLineEngineVertexOrdered(
-                                                       device vertex_coord* coords [[ buffer(0) ]],
+                                                       device vertex_float2* coords [[ buffer(0) ]],
                                                        constant uniform_projection_cart2d& proj [[ buffer(2) ]],
                                                        constant uniform_line_attr& attr [[ buffer(3) ]],
                                                        constant uniform_series_info& info [[ buffer(4) ]],
@@ -30,7 +30,7 @@ vertex out_vertex_LineDash PolyLineEngineVertexOrdered(
 }
 
 vertex out_vertex_LineDash SeparatedLineEngineVertexOrdered(
-                                                            device vertex_coord* coords [[ buffer(0) ]],
+                                                            device vertex_float2* coords [[ buffer(0) ]],
                                                             constant uniform_projection_cart2d& proj [[ buffer(1) ]],
                                                             constant uniform_line_attr& attr [[ buffer(2) ]],
                                                             constant uniform_series_info& info [[ buffer(3) ]],

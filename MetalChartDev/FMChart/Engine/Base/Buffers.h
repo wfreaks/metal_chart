@@ -114,7 +114,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
-- (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
+- (vertex_float2 * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 @end
 
@@ -129,7 +129,7 @@ UNAVAILABLE_ATTRIBUTE;
                                  capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
 
-- (index_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
+- (vertex_index * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 @end
 
@@ -143,7 +143,7 @@ NS_DESIGNATED_INITIALIZER;
 								 capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
 
-- (indexed_value_float * _Nonnull)bufferAtIndex:(NSUInteger)index;
+- (indexed_float * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 - (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;
@@ -157,7 +157,7 @@ NS_DESIGNATED_INITIALIZER;
 								 capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
 
-- (indexed_value_float2 * _Nonnull)bufferAtIndex:(NSUInteger)index;
+- (indexed_float2 * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 - (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;

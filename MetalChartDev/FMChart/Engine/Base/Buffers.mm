@@ -59,14 +59,14 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<vertex_buffer>>(resource.device, capacity);
+    auto ptr = std::make_shared<MTLObjectBuffer<vertex_float2>>(resource.device, capacity);
     self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
-- (vertex_buffer *)bufferAtIndex:(NSUInteger)index
+- (vertex_float2 *)bufferAtIndex:(NSUInteger)index
 {
-    vertex_buffer *ptr = (vertex_buffer *)([self.buffer contents]);
+    vertex_float2 *ptr = (vertex_float2 *)([self.buffer contents]);
     return ptr + (index % self.capacity);
 }
 
@@ -77,14 +77,14 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<index_buffer>>(resource.device, capacity);
+    auto ptr = std::make_shared<MTLObjectBuffer<vertex_index>>(resource.device, capacity);
     self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
-- (index_buffer *)bufferAtIndex:(NSUInteger)index
+- (vertex_index *)bufferAtIndex:(NSUInteger)index
 {
-    index_buffer *ptr = (index_buffer *)([self.buffer contents]);
+    vertex_index *ptr = (vertex_index *)([self.buffer contents]);
     return ptr + index;
 }
 
@@ -96,20 +96,20 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<indexed_value_float>>(resource.device, capacity);
+    auto ptr = std::make_shared<MTLObjectBuffer<indexed_float>>(resource.device, capacity);
     self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
-- (indexed_value_float *)bufferAtIndex:(NSUInteger)index
+- (indexed_float *)bufferAtIndex:(NSUInteger)index
 {
-	indexed_value_float *ptr = (indexed_value_float *)[self.buffer contents];
+	indexed_float *ptr = (indexed_float *)[self.buffer contents];
 	return (ptr + index);
 }
 
 - (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 {
-	indexed_value_float *buffer = [self bufferAtIndex:bufferIndex];
+	indexed_float *buffer = [self bufferAtIndex:bufferIndex];
 	buffer->value = value;
 	buffer->idx = index;
 }
@@ -121,20 +121,20 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<indexed_value_float2>>(resource.device, capacity);
+    auto ptr = std::make_shared<MTLObjectBuffer<indexed_float2>>(resource.device, capacity);
     self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
-- (indexed_value_float2 *)bufferAtIndex:(NSUInteger)index
+- (indexed_float2 *)bufferAtIndex:(NSUInteger)index
 {
-	indexed_value_float2 *ptr = (indexed_value_float2 *)[self.buffer contents];
+	indexed_float2 *ptr = (indexed_float2 *)[self.buffer contents];
 	return (ptr + index);
 }
 
 - (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 {
-	indexed_value_float2 *buffer = [self bufferAtIndex:bufferIndex];
+	indexed_float2 *buffer = [self bufferAtIndex:bufferIndex];
 	buffer->value = vector2(x, y);
 	buffer->idx = index;
 }

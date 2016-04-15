@@ -202,7 +202,7 @@ static double gaussian(double mean, double variance) {
 	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
 	const NSUInteger idx_end = idx_start + count;
 	for(NSUInteger i = 0; i < count; ++i) {
-		vertex_buffer *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
+		vertex_float2 *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
 		const float x = idx_start + i;
 		const float y = gaussian(mean, variant);
 		v->position.x = x;

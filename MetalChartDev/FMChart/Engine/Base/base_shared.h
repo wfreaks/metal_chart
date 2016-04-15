@@ -17,7 +17,7 @@ using namespace simd;
 
 #endif
 
-struct vertex_coord {
+struct vertex_float2 {
 	vector_float2 position;
 };
 
@@ -27,12 +27,12 @@ struct vertex_index {
 
 // 主に属性付きの値(色などの設定を変える)を表示する際に使う.
 // 別々のパラメータとしてもよいが、数の一致や扱い方の煩雑さなどからこちらの方が使い易いと思う.
-struct indexed_value_float {
+struct indexed_float {
 	float value;
 	uint32_t idx;
 };
 
-struct indexed_value_float2 {
+struct indexed_float2 {
 	vector_float2 value;
 	uint32_t idx;
 };
@@ -69,15 +69,15 @@ typedef struct uniform_projection_polar {
 
 #ifdef __OBJC__
 
-typedef struct vertex_coord vertex_buffer;
-typedef struct vertex_index index_buffer;
+typedef struct vertex_float2 vertex_float2;
+typedef struct vertex_index vertex_index;
 typedef struct uniform_series_info uniform_series_info;
 
 typedef struct uniform_projection_cart2d uniform_projection_cart2d;
 typedef struct uniform_projection_polar uniform_projection_polar;
 
-typedef struct indexed_value_float indexed_value_float;
-typedef struct indexed_value_float2 indexed_value_float2;
+typedef struct indexed_float indexed_float;
+typedef struct indexed_float2 indexed_float2;
 
 #endif
 

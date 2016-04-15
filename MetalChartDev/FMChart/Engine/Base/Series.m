@@ -98,7 +98,7 @@
 		const NSUInteger count = _info.count;
 		const NSUInteger offset = _info.offset;
 		const NSUInteger idx = count + offset;
-		indexed_value_float2 *ptr = [_vertices bufferAtIndex:idx];
+		indexed_float2 *ptr = [_vertices bufferAtIndex:idx];
 		ptr->value = vector2((float)point.x, (float)point.y);
 		ptr->idx = (uint32_t)attrIndex;
 		if(0 < max && max <= count) {

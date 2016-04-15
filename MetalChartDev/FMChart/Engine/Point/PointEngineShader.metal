@@ -24,7 +24,7 @@ struct uniform_point {
 };
 
 vertex out_vertex Point_VertexOrdered(
-                                      device vertex_coord *vertices [[ buffer(0) ]],
+                                      device vertex_float2 *vertices [[ buffer(0) ]],
                                       constant uniform_point& point [[ buffer(2) ]],
                                       constant uniform_projection_cart2d& proj [[ buffer(3) ]],
                                       constant uniform_series_info& info [[ buffer(4) ]],
@@ -43,7 +43,7 @@ vertex out_vertex Point_VertexOrdered(
 }
 
 vertex out_vertex Point_VertexIndexed(
-									  device vertex_coord *vertices [[ buffer(0) ]],
+									  device vertex_float2 *vertices [[ buffer(0) ]],
 									  device vertex_index *indices  [[ buffer(1) ]],
 									  constant uniform_point& point [[ buffer(2) ]],
 									  constant uniform_projection_cart2d& proj [[ buffer(3) ]],

@@ -111,7 +111,7 @@ fragment out_fragment_depthLess PlotRect_Fragment(
 }
 
 vertex out_vertex_bar GeneralBar_VertexOrdered(
-                                        device vertex_coord *vertices   [[ buffer(0) ]],
+                                        device vertex_float2 *vertices   [[ buffer(0) ]],
 										constant uniform_bar_conf& conf [[ buffer(1) ]],
                                         constant uniform_bar_attr& attr [[ buffer(2) ]],
                                         constant uniform_projection_cart2d& proj [[ buffer(3) ]],
@@ -191,7 +191,7 @@ fragment out_fragment_depthGreater GeneralBar_Fragment(
 // for attributed bar
 
 vertex out_vertex_bar_attributed AttributedBar_VertexOrdered(
-															 device indexed_value_float2 *vertices [[ buffer(0) ]],
+															 device indexed_float2 *vertices [[ buffer(0) ]],
 															 constant uniform_bar_conf& conf [[ buffer(1) ]],
 															 constant uniform_bar_attr& attr [[ buffer(2) ]],
 															 constant uniform_projection_cart2d& proj [[ buffer(3) ]],
@@ -209,7 +209,7 @@ vertex out_vertex_bar_attributed AttributedBar_VertexOrdered(
 	const float2 dir_view = normalize(conf.dir);
 	const float2 perp_view(dir_view.y, -dir_view.x);
 	const float2 anchor_view = data_to_ndc(conf.anchor_point, proj) * size; // data -> ndc -> view
-	const indexed_value_float2 value = vertices[vid];
+	const indexed_float2 value = vertices[vid];
 	const float2 position_view = data_to_ndc(value.value, proj) * size;
 	const float2 root_view = (dot(position_view-anchor_view, perp_view) * perp_view) + anchor_view;
 	
