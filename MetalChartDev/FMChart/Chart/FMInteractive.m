@@ -52,6 +52,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	_velocity = 0;
 	_timestamp = time;
 	_dampingCoefficent = 0;
+	NSLog(@"halt");
 }
 
 - (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time
@@ -64,6 +65,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 		_velocity = (0.3 * _velocity) + (0.7 * (valueDiff / timeDiff));
 		const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
 		_dampingCoefficent = MAX(4, k);
+		NSLog(@"velocity = %.1f", _velocity);
 	}
 }
 
@@ -76,6 +78,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 		const CGFloat newm = oldm * exp(-(_dampingCoefficent * diff));
 		_value += (newm + oldm) * diff / 2;
 		_velocity = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
+		NSLog(@"velocity = %.1f", _velocity);
 	}
 }
 
@@ -234,8 +237,6 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	const BOOL end = (state == UIGestureRecognizerStateEnded);
 	if(began) {
 		_currentTranslation = [recognizer translationInView:recognizer.view];
-		[_transVX haltWithValue:_translationCumulative.x time:time];
-		[_transVY haltWithValue:_translationCumulative.y time:time];
 	} else if (progress || end) {
 		const CGSize size = view.bounds.size;
 		const CGPoint t = [recognizer translationInView:recognizer.view];
@@ -250,10 +251,10 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 			const CGPoint oldT = _translationCumulative;
 			const CGFloat dx = (dist * cos(stepped) / (_scaleCumulative.width));
 			const CGFloat dy = (dist * sin(stepped) / (_scaleCumulative.height));
-			const CGPoint newT = CGPointMake(oldT.x + dx, oldT.y + dy);
+			self.translationCumulative = CGPointMake(oldT.x + dx, oldT.y + dy);
+//			const CGPoint newT = _translationCumulative;
 			[_transVX updateWithValue:newT.x time:time];
 			[_transVY updateWithValue:newT.y time:time];
-			self.translationCumulative = newT;
 			
 		}
 		if(end && animator) {
