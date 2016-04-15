@@ -12,22 +12,6 @@
 
 #pragma mark - Private Interfaces
 
-@interface VertexBuffer()
-
-@property (strong, nonatomic) id<MTLBuffer> buffer;
-@property (assign, nonatomic) std::shared_ptr<vertex_container> container;
-
-@end
-
-
-
-@interface IndexBuffer()
-
-@property (strong, nonatomic) id<MTLBuffer> buffer;
-@property (assign, nonatomic) std::shared_ptr<index_container> container;
-
-@end
-
 
 
 @interface FMUniformProjectionCartesian2D()
@@ -48,16 +32,35 @@
 #pragma mark - Implementation
 
 
+@implementation ArrayBuffer
+
+- (instancetype)initWithBuffer:(std::shared_ptr<MTLObjectBufferBase>)buffer
+{
+    self = [super init];
+    if(self) {
+        _objectBuffer = buffer;
+    }
+    return self;
+}
+
+- (id<MTLBuffer>)buffer { return _objectBuffer->buffer(); }
+- (NSUInteger)capacity { return _objectBuffer->capacity(); }
+
+- (void)reserve:(NSUInteger)capacity
+{
+    _objectBuffer->reserve(capacity);
+}
+
+@end
+
+
+
 @implementation VertexBuffer
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    self = [super init];
-    if(self) {
-        const NSUInteger length = sizeof(vertex_buffer) * capacity;
-        _buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _container = std::make_shared<vertex_container>([_buffer contents], capacity);
-    }
+    auto ptr = std::make_shared<MTLObjectBuffer<vertex_buffer>>(resource.device, capacity);
+    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
@@ -67,25 +70,6 @@
     return ptr + (index % self.capacity);
 }
 
-- (NSUInteger)capacity
-{
-    return _container->capacity();
-}
-
-- (void)reserve:(NSUInteger)capacity
-{
-    if(self.capacity < capacity) {
-        const NSUInteger length = sizeof(vertex_buffer) * capacity;
-        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _container = std::make_shared<vertex_container>([_buffer contents], capacity);
-    }
-}
-
-- (void)dealloc
-{
-    _container = nullptr;
-}
-
 @end
 
 
@@ -93,12 +77,8 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    self = [super init];
-    if(self) {
-        const NSUInteger length = sizeof(index_buffer) * capacity;
-        _buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _container = std::make_shared<index_container>([_buffer contents], capacity);
-    }
+    auto ptr = std::make_shared<MTLObjectBuffer<index_buffer>>(resource.device, capacity);
+    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
     return self;
 }
 
@@ -106,16 +86,6 @@
 {
     index_buffer *ptr = (index_buffer *)([self.buffer contents]);
     return ptr + index;
-}
-
-- (NSUInteger)capacity
-{
-    return _container->capacity();
-}
-
-- (void)dealloc
-{
-    _container = nullptr;
 }
 
 @end
@@ -126,35 +96,22 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-	self = [super init];
-	if(self) {
-		const NSUInteger length = sizeof(indexed_value_float) * capacity;
-		_buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-		_capacity = capacity;
-	}
-	return self;
+    auto ptr = std::make_shared<MTLObjectBuffer<indexed_value_float>>(resource.device, capacity);
+    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+    return self;
 }
 
 - (indexed_value_float *)bufferAtIndex:(NSUInteger)index
 {
-	indexed_value_float *ptr = (indexed_value_float *)[_buffer contents];
+	indexed_value_float *ptr = (indexed_value_float *)[self.buffer contents];
 	return (ptr + index);
 }
 
 - (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 {
-	indexed_value_float *buffer = ((indexed_value_float *)[_buffer contents]) + bufferIndex;
+	indexed_value_float *buffer = [self bufferAtIndex:bufferIndex];
 	buffer->value = value;
 	buffer->idx = index;
-}
-
-- (void)reserve:(NSUInteger)capacity
-{
-    if(self.capacity < capacity) {
-        const NSUInteger length = sizeof(indexed_value_float) * capacity;
-        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _capacity = capacity;
-    }
 }
 
 @end
@@ -164,35 +121,22 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-	self = [super init];
-	if(self) {
-		const NSUInteger length = sizeof(indexed_value_float2) * capacity;
-		_buffer = [resource.device newBufferWithLength:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-		_capacity = capacity;
-	}
-	return self;
+    auto ptr = std::make_shared<MTLObjectBuffer<indexed_value_float2>>(resource.device, capacity);
+    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+    return self;
 }
 
 - (indexed_value_float2 *)bufferAtIndex:(NSUInteger)index
 {
-	indexed_value_float2 *ptr = (indexed_value_float2 *)[_buffer contents];
+	indexed_value_float2 *ptr = (indexed_value_float2 *)[self.buffer contents];
 	return (ptr + index);
 }
 
 - (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 {
-	indexed_value_float2 *buffer = ((indexed_value_float2 *)[_buffer contents]) + bufferIndex;
+	indexed_value_float2 *buffer = [self bufferAtIndex:bufferIndex];
 	buffer->value = vector2(x, y);
 	buffer->idx = index;
-}
-
-- (void)reserve:(NSUInteger)capacity
-{
-    if(self.capacity < capacity) {
-        const NSUInteger length = sizeof(indexed_value_float2) * capacity;
-        _buffer = [[_buffer device] newBufferWithBytes:[_buffer contents] length:length options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _capacity = capacity;
-    }
 }
 
 @end

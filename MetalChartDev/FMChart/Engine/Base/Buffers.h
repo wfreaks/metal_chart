@@ -21,51 +21,101 @@
 
 #include <memory>
 
+struct MTLObjectBufferBase {
+    
+    MTLObjectBufferBase(id<MTLDevice> _Nonnull device,
+                        NSUInteger capacity,
+                        NSUInteger elementSize,
+                        MTLResourceOptions options)
+    : _capacity(capacity),
+    _elementSize(elementSize),
+    _options(options),
+    _buffer([device newBufferWithLength:(elementSize*capacity) options:options])
+    {
+    }
+    
+    virtual ~MTLObjectBufferBase() {}
+    
+    id<MTLBuffer> _Nonnull buffer() const { return _buffer; }
+    
+    NSUInteger capacity() const { return _capacity; }
+    NSUInteger elementSize() const { return _elementSize; }
+    
+    void reserve(NSUInteger newCapacity) {
+        if(newCapacity > capacity()) {
+            id<MTLBuffer> buf = buffer();
+            const NSUInteger length = newCapacity * elementSize();
+            _buffer = [[buf device] newBufferWithBytes:[buf contents]
+                                                length:length
+                                               options:_options];
+            _capacity = newCapacity;
+        }
+    }
+    
+private :
+    
+    id<MTLBuffer> _Nonnull _buffer;
+    NSUInteger _capacity;
+    const NSUInteger _elementSize;
+    const MTLResourceOptions _options;
+    
+};
+
 template <typename T>
-struct MTLObjectBuffer {
+struct MTLObjectBuffer : MTLObjectBufferBase {
 	
 	MTLObjectBuffer(id<MTLDevice> _Nonnull device,
 					NSInteger capacity = 1,
 					MTLResourceOptions options = MTLResourceOptionCPUCacheModeWriteCombined)
-	: _capacity(capacity),
-	  _buffer([device newBufferWithLength:(sizeof(T)*capacity) options:options])
+	: MTLObjectBufferBase(device, capacity, sizeof(T), options)
 	{
 	}
 	
 	T& operator[](std::size_t index) {
-		return (reinterpret_cast<T*>([_buffer contents]))[index];
+		return (reinterpret_cast<T*>([buffer() contents]))[index];
 	}
-	
-	id<MTLBuffer> _Nonnull getBuffer() { return _buffer; }
 	
 private :
 	
-	id<MTLBuffer> _Nonnull _buffer;
-	const NSInteger _capacity;
 	
 };
 
 #pragma clang diagnostic pop
 #endif
 
-@interface VertexBuffer : NSObject
+
+@interface ArrayBuffer : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
-
 @property (readonly, nonatomic) NSUInteger capacity;
+
+- (void)reserve:(NSUInteger)capacity;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+#ifdef __cplusplus
+
+@property (nonatomic, readonly) std::shared_ptr<MTLObjectBufferBase> objectBuffer;
+
+- (instancetype _Nonnull )initWithBuffer:(std::shared_ptr<MTLObjectBufferBase>)buffer
+;
+
+#endif
+
+@end
+
+
+
+
+
+
+@interface VertexBuffer : ArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
 - (vertex_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
-- (void)reserve:(NSUInteger)capacity;
-
-#ifdef __cplusplus
-
-- (std::shared_ptr<vertex_container>)container;
-
-#endif
-
 @end
 
 
@@ -73,67 +123,44 @@ private :
 
 
 
-@interface IndexBuffer : NSObject
+@interface IndexBuffer : ArrayBuffer
 
-@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
-@property (readonly, nonatomic) NSUInteger capacity;
-
-- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+                                 capacity:(NSUInteger)capacity
+NS_DESIGNATED_INITIALIZER;
 
 - (index_buffer * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
-#ifdef __cplusplus
-
-- (std::shared_ptr<index_container>)container;
-
-#endif
-
 @end
 
 
 
 
 
-@interface FMIndexedFloatBuffer : NSObject
-
-@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
-@property (nonatomic, readonly) NSUInteger capacity;
+@interface FMIndexedFloatBuffer : ArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init
-UNAVAILABLE_ATTRIBUTE;
 
 - (indexed_value_float * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 - (void)setValue:(float)value index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;
 
-- (void)reserve:(NSUInteger)capacity;
-
 @end
 
 
-@interface FMIndexedFloat2Buffer : NSObject
-
-@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
-@property (nonatomic, readonly) NSUInteger capacity;
+@interface FMIndexedFloat2Buffer : ArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype _Nonnull)init
-UNAVAILABLE_ATTRIBUTE;
-
 - (indexed_value_float2 * _Nonnull)bufferAtIndex:(NSUInteger)index;
 
 - (void)setValueX:(float)x Y:(float)y index:(uint32_t)index atIndex:(NSUInteger)bufferIndex
 ;
-
-- (void)reserve:(NSUInteger)capacity;
 
 @end
 
