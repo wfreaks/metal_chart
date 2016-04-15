@@ -286,7 +286,6 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 				const CGFloat dw = (1 + (scaleDiff * cos(stepped)));
 				const CGFloat dh = (1 + (scaleDiff * sin(stepped)));
 				self.scaleCumulative = CGSizeMake(oldScale.width * dw, oldScale.height * dh);
-//				const CGSize newScale = _scaleCumulative;
 			}
 		}
 	}
