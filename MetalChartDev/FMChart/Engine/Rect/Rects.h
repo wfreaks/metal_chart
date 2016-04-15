@@ -30,7 +30,7 @@
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end

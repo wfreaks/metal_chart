@@ -36,26 +36,26 @@
 
 - (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max
 {
-    @synchronized(self) {
-        const NSUInteger count = _info.count;
-        const NSUInteger offset = _info.offset;
-        const NSUInteger idx = count + offset;
-        [_vertices bufferAtIndex:idx]->position = vector2((float)point.x, (float)point.y);
-        if(0 < max && max <= count) {
-            _info.offset = (offset + 1);
-        } else {
-            _info.count = (count + 1);
-        }
-    }
+	@synchronized(self) {
+		const NSUInteger count = _info.count;
+		const NSUInteger offset = _info.offset;
+		const NSUInteger idx = count + offset;
+		[_vertices bufferAtIndex:idx]->position = vector2((float)point.x, (float)point.y);
+		if(0 < max && max <= count) {
+			_info.offset = (offset + 1);
+		} else {
+			_info.count = (count + 1);
+		}
+	}
 }
 
 - (void)reserve:(NSUInteger)capacity
 {
-    if(capacity > self.vertices.capacity) {
-        [self.vertices reserve:capacity];
-        _info.offset = 0;
-        [_info info]->vertex_capacity = (uint32_t)capacity;
-    }
+	if(capacity > self.vertices.capacity) {
+		[self.vertices reserve:capacity];
+		_info.offset = 0;
+		[_info info]->vertex_capacity = (uint32_t)capacity;
+	}
 }
 
 @end
@@ -111,11 +111,11 @@
 
 - (void)reserve:(NSUInteger)capacity
 {
-    if(capacity > self.vertices.capacity) {
-        [self.vertices reserve:capacity];
-        _info.offset = 0;
-        [_info info]->vertex_capacity = (uint32_t)capacity;
-    }
+	if(capacity > self.vertices.capacity) {
+		[self.vertices reserve:capacity];
+		_info.offset = 0;
+		[_info info]->vertex_capacity = (uint32_t)capacity;
+	}
 }
 
 @end
@@ -174,11 +174,11 @@
 
 - (void)reserve:(NSUInteger)capacity
 {
-    if(capacity > self.vertices.capacity) {
-        [self.vertices reserve:capacity];
-        _info.offset = 0;
-        [_info info]->vertex_capacity = (uint32_t)capacity;
-    }
+	if(capacity > self.vertices.capacity) {
+		[self.vertices reserve:capacity];
+		_info.offset = 0;
+		[_info info]->vertex_capacity = (uint32_t)capacity;
+	}
 }
 
 @end

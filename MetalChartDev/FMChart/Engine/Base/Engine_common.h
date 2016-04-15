@@ -14,10 +14,10 @@
 #define FM_INLINE static inline
 
 typedef struct RectPadding {
-    CGFloat left;
-    CGFloat top;
-    CGFloat right;
-    CGFloat bottom;
+	CGFloat left;
+	CGFloat top;
+	CGFloat right;
+	CGFloat bottom;
 } RectPadding;
 
 FM_INLINE bool __RectPaddingEqualsTo(RectPadding a, RectPadding b) {
@@ -35,39 +35,39 @@ FM_INLINE RectPadding __RectPaddingMake(CGFloat left, CGFloat right, CGFloat top
 #ifdef __cplusplus
 
 class vertex_container {
-    
-    vertex_float2 *_buffer;
-    const std::size_t _capacity;
-    
-    public :
-    
-    vertex_container(void *ptr, std::size_t capacity) :
-    _buffer(static_cast<vertex_float2 *>(ptr)),
-    _capacity(capacity)
-    {}
-    
-    std::size_t capacity() const { return _capacity; }
-    vertex_float2& operator[](std::size_t index) { return _buffer[index]; }
-    const vertex_float2& operator[](std::size_t index) const { return _buffer[index]; }
-    
+	
+	vertex_float2 *_buffer;
+	const std::size_t _capacity;
+	
+	public :
+	
+	vertex_container(void *ptr, std::size_t capacity) :
+	_buffer(static_cast<vertex_float2 *>(ptr)),
+	_capacity(capacity)
+	{}
+	
+	std::size_t capacity() const { return _capacity; }
+	vertex_float2& operator[](std::size_t index) { return _buffer[index]; }
+	const vertex_float2& operator[](std::size_t index) const { return _buffer[index]; }
+	
 };
 
 class index_container {
-    
-    vertex_index *_buffer;
-    const std::size_t _capacity;
-    
-    public :
-    
-    index_container(void *ptr, std::size_t capacity) :
-    _buffer(static_cast<vertex_index *>(ptr)),
-    _capacity(capacity)
-    {}
-    
-    std::size_t capacity() const { return _capacity; }
-    vertex_index& operator[](std::size_t index) { return _buffer[index]; }
-    const vertex_index& operator[](std::size_t index) const { return _buffer[index]; }
-    
+	
+	vertex_index *_buffer;
+	const std::size_t _capacity;
+	
+	public :
+	
+	index_container(void *ptr, std::size_t capacity) :
+	_buffer(static_cast<vertex_index *>(ptr)),
+	_capacity(capacity)
+	{}
+	
+	std::size_t capacity() const { return _capacity; }
+	vertex_index& operator[](std::size_t index) { return _buffer[index]; }
+	const vertex_index& operator[](std::size_t index) const { return _buffer[index]; }
+	
 };
 
 #endif

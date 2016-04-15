@@ -17,11 +17,11 @@
 @interface FMDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
-@property (assign  , nonatomic) CGFloat     min;
-@property (assign  , nonatomic) CGFloat     max;
-@property (readonly, nonatomic) CGFloat     mid;
-@property (readonly, nonatomic) CGFloat     length;
-@property (copy    , nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
+@property (assign  , nonatomic) CGFloat	 min;
+@property (assign  , nonatomic) CGFloat	 max;
+@property (readonly, nonatomic) CGFloat	 mid;
+@property (readonly, nonatomic) CGFloat	 length;
+@property (copy	, nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
 - (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
 									minValue:(CGFloat)min

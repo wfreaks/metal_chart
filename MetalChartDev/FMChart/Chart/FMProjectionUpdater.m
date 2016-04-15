@@ -72,13 +72,13 @@
 
 - (void)addFilterToFirst:(id<FMRangeFilter>)object
 {
-    @synchronized(self) {
-        if(![_filters containsObject:object]) {
-            NSMutableArray *ar = _filters.mutableCopy;
-            [ar insertObject:object atIndex:0];
-            _filters = ar.copy;
-        }
-    }
+	@synchronized(self) {
+		if(![_filters containsObject:object]) {
+			NSMutableArray *ar = _filters.mutableCopy;
+			[ar insertObject:object atIndex:0];
+			_filters = ar.copy;
+		}
+	}
 }
 
 - (void)removeFilter:(id<FMRangeFilter>)object

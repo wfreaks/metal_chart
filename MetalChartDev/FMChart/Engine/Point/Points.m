@@ -23,13 +23,13 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
-    self = [super init];
-    if(self) {
-        _engine = engine;
-        FMDeviceResource *res = engine.resource;
-        _attributes = (attributes) ? attributes : [[FMUniformPointAttributes alloc] initWithResource:res];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_engine = engine;
+		FMDeviceResource *res = engine.resource;
+		_attributes = (attributes) ? attributes : [[FMUniformPointAttributes alloc] initWithResource:res];
+	}
+	return self;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -67,7 +67,7 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
-    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"Point_Fragment" writeDepth:YES];
+	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:@"Point_Fragment" writeDepth:YES];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return count; }
@@ -90,11 +90,11 @@ projection:(FMUniformProjectionCartesian2D *)projection
 						series:(FMOrderedSeries *)series
 					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
-    self = [super initWithEngine:engine attributes:attributes];
-    if(self) {
-        _series = series;
-    }
-    return self;
+	self = [super initWithEngine:engine attributes:attributes];
+	if(self) {
+		_series = series;
+	}
+	return self;
 }
 
 - (NSString *)vertexFunctionName { return @"Point_VertexOrdered"; }

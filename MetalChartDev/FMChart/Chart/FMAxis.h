@@ -21,8 +21,8 @@
 typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
 										FMDimensionalProjection *_Nonnull dimension,
 										FMDimensionalProjection *_Nullable orthogonal,
-                                        BOOL isFirst
-                                        );
+										BOOL isFirst
+										);
 
 @protocol FMAxisConfigurator<NSObject>
 
@@ -107,19 +107,19 @@ NS_DESIGNATED_INITIALIZER;
 // (要は同期上の問題が存在するという事.)
 // 多分ちゃんとuniformを(あるいはprimitiveごと)chart毎に分けるべきなのだろう.
 
-@property (nonatomic) BOOL                                            needsOrhogonal;
+@property (nonatomic) BOOL											needsOrhogonal;
 
 // DimensionId ではなく、Index. x/yの位置指定である事に注意.
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
-                              dimension:(FMDimensionalProjection * _Nonnull)dimension
-                         dimensionIndex:(NSUInteger)index
-                          configuration:(id<FMAxisConfigurator> _Nonnull)conf
+							  dimension:(FMDimensionalProjection * _Nonnull)dimension
+						 dimensionIndex:(NSUInteger)index
+						  configuration:(id<FMAxisConfigurator> _Nonnull)conf
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)setProjection:(FMProjectionCartesian2D * _Nonnull)projection
-             forChart:(MetalChart * _Nonnull)chart;
+			 forChart:(MetalChart * _Nonnull)chart;
 - (void)removeProjectionForChart:(MetalChart * _Nonnull)chart;
 
 @end
@@ -141,18 +141,18 @@ NS_DESIGNATED_INITIALIZER;
 // ので、範囲外の時は端に留める挙動にしてあることに注意.
 // (結果としてこの実装は直交する次元の範囲に依存する)
 + (instancetype _Nonnull)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
-                                              tickAnchor:(CGFloat)tickAnchor
-                                           fixedInterval:(CGFloat)majorTickInterval
-                                          minorTicksFreq:(uint8_t)minorPerMajor
+											  tickAnchor:(CGFloat)tickAnchor
+										   fixedInterval:(CGFloat)majorTickInterval
+										  minorTicksFreq:(uint8_t)minorPerMajor
 ;
 
 // 基本は上と同じだが、画面上での軸位置を固定する時に使う.
 // 例えばy方向の範囲が[yMin,yMax]の時、axisPos=0としてx軸に設定すると、x軸はy=yMinの位置に表示される.
 // 同様に, axisPos=1とすれば、y=yMaxの位置に現れる.
 + (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
-                                               tickAnchor:(CGFloat)tickAnchor
-                                            fixedInterval:(CGFloat)tickInterval
-                                           minorTicksFreq:(uint8_t)minorPerMajor
+											   tickAnchor:(CGFloat)tickAnchor
+											fixedInterval:(CGFloat)tickInterval
+										   minorTicksFreq:(uint8_t)minorPerMajor
 ;
 
 

@@ -67,7 +67,7 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 
 // インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
 + (void)configureMetalView:(MetalView * _Nonnull)view
-              preferredFps:(NSInteger)fps
+			  preferredFps:(NSInteger)fps
 ;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
@@ -82,7 +82,7 @@ NS_DESIGNATED_INITIALIZER;
 - (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
 - (FMDimensionalProjection * _Nonnull)dimensionWithId:(NSInteger)dimensionId
-                                   confBlock:(DimensionConfigureBlock _Nonnull)block
+								   confBlock:(DimensionConfigureBlock _Nonnull)block
 ;
 
 // もしもidに対応するFMDimensionalProjectionがなければ、作成してblockを呼び出す. 
@@ -123,17 +123,17 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 - (FMGridLine * _Nullable)addGridLineToDimensionWithId:(NSInteger)dimensionId
-                                           belowSeries:(BOOL)below
-                                                anchor:(CGFloat)anchorValue
-                                              interval:(CGFloat)interval
+										   belowSeries:(BOOL)below
+												anchor:(CGFloat)anchorValue
+											  interval:(CGFloat)interval
 ;
 
 - (FMLineSeries * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                   series:(FMOrderedSeries * _Nonnull)series
+								   series:(FMOrderedSeries * _Nonnull)series
 ;
 
 - (FMBarSeries * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                 series:(FMOrderedSeries * _Nonnull)series
+								 series:(FMOrderedSeries * _Nonnull)series
 ;
 
 - (FMAttributedBarSeries * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space

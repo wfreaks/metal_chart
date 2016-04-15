@@ -115,9 +115,9 @@ willTranslationChange:(CGFloat * _Nonnull)translation;
 @property (readonly, nonatomic) CGFloat maxTranslation;
 
 - (instancetype _Nonnull)initWithScaleMin:(CGFloat)minScale
-                                      max:(CGFloat)maxScale
-                                 transMin:(CGFloat)minTrans
-                                      max:(CGFloat)maxTrans
+									  max:(CGFloat)maxScale
+								 transMin:(CGFloat)minTrans
+									  max:(CGFloat)maxTrans
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -135,9 +135,9 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) CGFloat maxLength;
 
 - (instancetype _Nonnull)initWithAccessibleRange:(FMDefaultFilter * _Nonnull)accessible
-                                     windowRange:(FMDefaultFilter * _Nonnull)window
-                                       minLength:(CGFloat)minLength
-                                       maxLength:(CGFloat)maxLength
+									 windowRange:(FMDefaultFilter * _Nonnull)window
+									   minLength:(CGFloat)minLength
+									   maxLength:(CGFloat)maxLength
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init

@@ -17,33 +17,33 @@
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {
-    self = [super init];
-    if(self) {
-        _engine = engine;
-        FMDeviceResource *res = engine.resource;
-        _attributes = [[FMUniformPlotRectAttributes alloc] initWithResource:res];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_engine = engine;
+		FMDeviceResource *res = engine.resource;
+		_attributes = [[FMUniformPlotRectAttributes alloc] initWithResource:res];
+	}
+	return self;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(FMUniformProjectionCartesian2D *)projection
 {
-    id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment" writeDepth:YES];
-    id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
-    [encoder pushDebugGroup:@"DrawPlotRect"];
-    [encoder setRenderPipelineState:renderState];
-    [encoder setDepthStencilState:depthState];
-    
-    id<MTLBuffer> const rectBuffer = _attributes.buffer;
-    id<MTLBuffer> const projBuffer = projection.buffer;
-    [encoder setVertexBuffer:rectBuffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:projBuffer offset:0 atIndex:1];
-    [encoder setFragmentBuffer:rectBuffer offset:0 atIndex:0];
-    [encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];
-    
-    [encoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
-    
-    [encoder popDebugGroup];
+	id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment" writeDepth:YES];
+	id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
+	[encoder pushDebugGroup:@"DrawPlotRect"];
+	[encoder setRenderPipelineState:renderState];
+	[encoder setDepthStencilState:depthState];
+	
+	id<MTLBuffer> const rectBuffer = _attributes.buffer;
+	id<MTLBuffer> const projBuffer = projection.buffer;
+	[encoder setVertexBuffer:rectBuffer offset:0 atIndex:0];
+	[encoder setVertexBuffer:projBuffer offset:0 atIndex:1];
+	[encoder setFragmentBuffer:rectBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];
+	
+	[encoder drawPrimitives:MTLPrimitiveTypeTriangleStrip vertexStart:0 vertexCount:4];
+	
+	[encoder popDebugGroup];
 }
 
 @end
@@ -70,18 +70,18 @@
 				 configuration:(FMUniformBarConfiguration * _Nullable)conf
 					attributes:(FMUniformBarAttributes * _Nullable)attr
 {
-    self = [super init];
-    if(self) {
-        _engine = engine;
-        FMDeviceResource *res = engine.resource;
-        _conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
+	self = [super init];
+	if(self) {
+		_engine = engine;
+		FMDeviceResource *res = engine.resource;
+		_conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
 		_attr = (attr) ? attr : [[FMUniformBarAttributes alloc] initWithResource:res];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(FMUniformProjectionCartesian2D *)projection
+		projection:(FMUniformProjectionCartesian2D *)projection
 {
 	id<FMSeries> const series = [self series];
 	if(series) {
@@ -116,7 +116,7 @@
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
-    return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
+	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 6 * count; }
@@ -140,11 +140,11 @@
 				 configuration:(FMUniformBarConfiguration * _Nullable)conf
 					attributes:(FMUniformBarAttributes * _Nullable)attr
 {
-    self = [super initWithEngine:engine configuration:conf attributes:attr];
-    if(self) {
-        _series = series;
-    }
-    return self;
+	self = [super initWithEngine:engine configuration:conf attributes:attr];
+	if(self) {
+		_series = series;
+	}
+	return self;
 }
 
 - (NSString *)vertexFunctionName { return @"GeneralBar_VertexOrdered"; }

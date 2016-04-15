@@ -16,43 +16,43 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
-    self = [super init];
-    if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_region) options:MTLResourceOptionCPUCacheModeWriteCombined];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_region) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	}
+	return self;
 }
 
 - (uniform_region *)region { return (uniform_region *)[_buffer contents]; }
 
 - (void)setBasePosition:(CGPoint)point
 {
-    self.region->base_pos = vector2((float)point.x, (float)point.y);
+	self.region->base_pos = vector2((float)point.x, (float)point.y);
 }
 
 - (void)setAnchorPoint:(CGPoint)anchor
 {
-    self.region->anchor = vector2((float)anchor.x, (float)anchor.y);
+	self.region->anchor = vector2((float)anchor.x, (float)anchor.y);
 }
 
 - (void)setIterationVector:(CGPoint)vec
 {
-    self.region->iter_vec = vector2((float)vec.x, (float)vec.y);
+	self.region->iter_vec = vector2((float)vec.x, (float)vec.y);
 }
 
 - (void)setSize:(CGSize)size
 {
-    self.region->size = vector2((float)size.width, (float)size.height);
+	self.region->size = vector2((float)size.width, (float)size.height);
 }
 
 - (void)setIterationOffset:(CGFloat)offset
 {
-    self.region->iter_offset = (float)offset;
+	self.region->iter_offset = (float)offset;
 }
 
 - (void)setPositionOffset:(CGPoint)offset
 {
-    self.region->offset = vector2((float)offset.x, (float)offset.y);
+	self.region->offset = vector2((float)offset.x, (float)offset.y);
 }
 
 @end

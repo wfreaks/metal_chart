@@ -38,13 +38,13 @@
 - (instancetype)initWithEngine:(FMEngine *)engine
 					attributes:(FMUniformLineAttributes *)attributes
 {
-    self = [super init];
-    if(self) {
+	self = [super init];
+	if(self) {
 		FMDeviceResource *resource = engine.resource;
 		_engine = engine;
 		_attributes = (attributes) ? attributes : [[FMUniformLineAttributes alloc] initWithResource:resource];
-    }
-    return self;
+	}
+	return self;
 }
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
@@ -64,9 +64,9 @@
 
 - (NSString *)fragmentFunctionName
 {
-    static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
-    NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.attributes.enableOverlay ? 0 : 1);
-    return names[index];
+	static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
+	NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.attributes.enableOverlay ? 0 : 1);
+	return names[index];
 }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count
@@ -193,8 +193,8 @@ static double gaussian(double mean, double variance) {
 
 - (void)appendSampleData:(NSUInteger)count
 		  maxVertexCount:(NSUInteger)maxCount
-                    mean:(CGFloat)mean
-                variance:(CGFloat)variant
+					mean:(CGFloat)mean
+				variance:(CGFloat)variant
 			  onGenerate:(void (^ _Nullable)(float, float))block
 {
 	VertexBuffer *vertices = _series.vertices;
@@ -236,61 +236,61 @@ static double gaussian(double mean, double variance) {
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {
-    self = [super init];
-    if(self) {
-        _engine = engine;
-        _configuration = [[FMUniformAxisConfiguration alloc] initWithResource:engine.resource];
-        _attributeBuffer = [engine.resource.device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        _axisAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
-        _majorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
-        _minorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_engine = engine;
+		_configuration = [[FMUniformAxisConfiguration alloc] initWithResource:engine.resource];
+		_attributeBuffer = [engine.resource.device newBufferWithLength:(sizeof(uniform_axis_attributes[3])) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_axisAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
+		_majorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
+		_minorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
+	}
+	return self;
 }
 
 - (uniform_axis_attributes *)attributesAtIndex:(NSUInteger)index
 {
-    return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
+	return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
 }
 
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
-    return [_engine pipelineStateWithProjection:projection
-                                       vertFunc:@"AxisVertex"
-                                       fragFunc:@"AxisFragment"
-                                     writeDepth:NO];
+	return [_engine pipelineStateWithProjection:projection
+									   vertFunc:@"AxisVertex"
+									   fragFunc:@"AxisFragment"
+									 writeDepth:NO];
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(FMUniformProjectionCartesian2D *)projection
+		projection:(FMUniformProjectionCartesian2D *)projection
 {
-    id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
-    id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
-    if(renderState == nil){
-        NSLog(@"render state is nil, returning...");
-        return;
-    }
-    [encoder pushDebugGroup:@"DrawAxis"];
-    [encoder setRenderPipelineState:renderState];
-    [encoder setDepthStencilState:depthState];
-    
+	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+	id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
+	if(renderState == nil){
+		NSLog(@"render state is nil, returning...");
+		return;
+	}
+	[encoder pushDebugGroup:@"DrawAxis"];
+	[encoder setRenderPipelineState:renderState];
+	[encoder setDepthStencilState:depthState];
+	
 	FMUniformAxisConfiguration *const conf = _configuration;
-    id<MTLBuffer> attributesBuffer = _attributeBuffer;
-    
-    [encoder setVertexBuffer:conf.buffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:1];
-    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
-    
-    [encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
+	id<MTLBuffer> attributesBuffer = _attributeBuffer;
+	
+	[encoder setVertexBuffer:conf.buffer offset:0 atIndex:0];
+	[encoder setVertexBuffer:attributesBuffer offset:0 atIndex:1];
+	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
+	
+	[encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
 	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
-    
-    const NSUInteger maxCount = conf.maxMajorTicks;
-    const NSUInteger lineCount = (1 + ((1 + conf.minorTicksPerMajor) * maxCount));
-    const NSUInteger vertCount = 6 * lineCount;
-    [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
-    
-    [encoder popDebugGroup];
+	
+	const NSUInteger maxCount = conf.maxMajorTicks;
+	const NSUInteger lineCount = (1 + ((1 + conf.minorTicksPerMajor) * maxCount));
+	const NSUInteger vertCount = 6 * lineCount;
+	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
+	
+	[encoder popDebugGroup];
 }
 
 @end
@@ -300,54 +300,54 @@ static double gaussian(double mean, double variance) {
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 {
-    self = [super init];
-    if(self) {
-        _attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
-        _engine = engine;
-        [_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
-        [_attributes setWidth:0.5];
-        [_attributes setInterval:1];
-        [_attributes setAnchorValue:0];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
+		_engine = engine;
+		[_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
+		[_attributes setWidth:0.5];
+		[_attributes setInterval:1];
+		[_attributes setAnchorValue:0];
+	}
+	return self;
 }
 
 - (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
 {
-    return [_engine pipelineStateWithProjection:projection
-                                       vertFunc:@"GridVertex"
-                                       fragFunc:@"GridFragment"
-                                     writeDepth:YES
-            ];
+	return [_engine pipelineStateWithProjection:projection
+									   vertFunc:@"GridVertex"
+									   fragFunc:@"GridFragment"
+									 writeDepth:YES
+			];
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-        projection:(FMUniformProjectionCartesian2D *)projection
-          maxCount:(NSUInteger)maxCount
+		projection:(FMUniformProjectionCartesian2D *)projection
+		  maxCount:(NSUInteger)maxCount
 {
-    id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
-    id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
-    if(renderState == nil){
-        NSLog(@"render state is nil, returning...");
-        return;
-    }
-    [encoder pushDebugGroup:@"DrawGridLine"];
-    [encoder setRenderPipelineState:renderState];
-    [encoder setDepthStencilState:depthState];
-    
-    FMUniformGridAttributes *const attr = self.attributes;
-    id<MTLBuffer> attributesBuffer = attr.buffer;
-    
-    [encoder setVertexBuffer:attributesBuffer offset:0 atIndex:0];
-    [encoder setVertexBuffer:projection.buffer offset:0 atIndex:1];
-    
-    [encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
-    [encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
-    
-    const NSUInteger vertCount = 6 * maxCount;
-    [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
-    
-    [encoder popDebugGroup];
+	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+	id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
+	if(renderState == nil){
+		NSLog(@"render state is nil, returning...");
+		return;
+	}
+	[encoder pushDebugGroup:@"DrawGridLine"];
+	[encoder setRenderPipelineState:renderState];
+	[encoder setDepthStencilState:depthState];
+	
+	FMUniformGridAttributes *const attr = self.attributes;
+	id<MTLBuffer> attributesBuffer = attr.buffer;
+	
+	[encoder setVertexBuffer:attributesBuffer offset:0 atIndex:0];
+	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:1];
+	
+	[encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
+	
+	const NSUInteger vertCount = 6 * maxCount;
+	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
+	
+	[encoder popDebugGroup];
 }
 
 @end

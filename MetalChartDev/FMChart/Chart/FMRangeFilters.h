@@ -53,8 +53,8 @@
 @property (readonly, nonatomic) CGFloat offset;
 
 - (instancetype _Nonnull)initWithLength:(CGFloat)length
-                                 anchor:(CGFloat)anchor
-                                 offset:(CGFloat)offset
+								 anchor:(CGFloat)anchor
+								 offset:(CGFloat)offset
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -70,13 +70,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) CGFloat min;
 @property (readonly, nonatomic) CGFloat max;
-@property (readonly, nonatomic) BOOL    expandMin;
-@property (readonly, nonatomic) BOOL    expandMax;
+@property (readonly, nonatomic) BOOL	expandMin;
+@property (readonly, nonatomic) BOOL	expandMax;
 
 - (instancetype _Nonnull)initWithMinValue:(CGFloat)min
-                                 maxValue:(CGFloat)max
-                                expandMin:(BOOL)expandMin
-                                expandMax:(BOOL)expandMax
+								 maxValue:(CGFloat)max
+								expandMin:(BOOL)expandMin
+								expandMax:(BOOL)expandMax
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -91,15 +91,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) CGFloat paddingLow;
 @property (readonly, nonatomic) CGFloat paddingHigh;
-@property (readonly, nonatomic) BOOL    shrinkMin;
-@property (readonly, nonatomic) BOOL    shrinkMax;
-@property (readonly, nonatomic) BOOL    applyToCurrentMinMax;
+@property (readonly, nonatomic) BOOL	shrinkMin;
+@property (readonly, nonatomic) BOOL	shrinkMax;
+@property (readonly, nonatomic) BOOL	applyToCurrentMinMax;
 
 - (instancetype _Nonnull)initWithPaddingLow:(CGFloat)low
-                                       high:(CGFloat)high
-                                  shrinkMin:(BOOL)shrinkLow
-                                  shrinkMax:(BOOL)shrinkHigh
-                             applyToCurrent:(BOOL)apply
+									   high:(CGFloat)high
+								  shrinkMin:(BOOL)shrinkLow
+								  shrinkMax:(BOOL)shrinkHigh
+							 applyToCurrent:(BOOL)apply
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
@@ -118,8 +118,8 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) CGFloat anchor;
 @property (readonly, nonatomic) CGFloat interval;
-@property (readonly, nonatomic) BOOL    shrinkMin;
-@property (readonly, nonatomic) BOOL    shrinkMax;
+@property (readonly, nonatomic) BOOL	shrinkMin;
+@property (readonly, nonatomic) BOOL	shrinkMax;
 
 - (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
 							   interval:(CGFloat)interval
@@ -178,7 +178,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic, weak) FMGestureInterpreter * _Nullable interpreter;
 
 - (instancetype _Nonnull)initWithGestureInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
-                                        orientation:(CGFloat)radian
+										orientation:(CGFloat)radian
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;

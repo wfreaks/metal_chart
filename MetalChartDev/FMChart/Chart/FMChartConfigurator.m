@@ -40,14 +40,14 @@
 @implementation FMChartConfigurator
 
 + (void)configureMetalView:(MetalView *)view
-              preferredFps:(NSInteger)fps
+			  preferredFps:(NSInteger)fps
 {
-    view.enableSetNeedsDisplay = (fps <= 0);
-    view.paused = (fps <= 0);
-    view.preferredFramesPerSecond = fps;
-    view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
-    view.depthStencilPixelFormat = determineDepthPixelFormat();
-    view.clearDepth = 0;
+	view.enableSetNeedsDisplay = (fps <= 0);
+	view.paused = (fps <= 0);
+	view.preferredFramesPerSecond = fps;
+	view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+	view.depthStencilPixelFormat = determineDepthPixelFormat();
+	view.clearDepth = 0;
 }
 
 - (instancetype)initWithChart:(MetalChart *)chart
@@ -67,17 +67,17 @@
 		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
 		_engine = engine;
 		_preferredFps = fps;
-        FMAnimator *animator = [[FMAnimator alloc] init];
-        animator.metalView = view;
-        chart.bufferHook = animator;
-        _animator = animator;
-        _view = view;
+		FMAnimator *animator = [[FMAnimator alloc] init];
+		animator.metalView = view;
+		chart.bufferHook = animator;
+		_animator = animator;
+		_view = view;
 		
-        if(view) {
-            [self.class configureMetalView:view preferredFps:fps];
-            view.device = engine.resource.device;
-            view.delegate = chart;
-        }
+		if(view) {
+			[self.class configureMetalView:view preferredFps:fps];
+			view.device = engine.resource.device;
+			view.delegate = chart;
+		}
 	}
 	return self;
 }
@@ -125,7 +125,7 @@
 			if(updater) {
 				_updaters = [_updaters arrayByAddingObject:updater];
 				updater.target = r;
-                [updater updateTarget];
+				[updater updateTarget];
 			}
 		}
 		_dimensions = [_dimensions arrayByAddingObject:r];
@@ -171,7 +171,7 @@
 										 orientations:orientations];
 		const BOOL setNeedsDisplay = (_preferredFps <= 0);
 		if(setNeedsDisplay) {
-            __weak typeof(_view) view = _view;
+			__weak typeof(_view) view = _view;
 			[interpreter addInteraction:[[FMSimpleBlockInteraction alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull _interpreter) {
 				[view setNeedsDisplay];
 			}]];
@@ -182,32 +182,32 @@
 
 - (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
 {
-    FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
-    if(dim) {
-        NSArray<FMProjectionCartesian2D*> *space = self.space;
-        for(FMProjectionCartesian2D *s in space) {
-            if([s.dimensions containsObject:dim]) {
-                return s;
-            }
-        }
-    }
-    return nil;
+	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
+	if(dim) {
+		NSArray<FMProjectionCartesian2D*> *space = self.space;
+		for(FMProjectionCartesian2D *s in space) {
+			if([s.dimensions containsObject:dim]) {
+				return s;
+			}
+		}
+	}
+	return nil;
 }
 
 - (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-                                  belowSeries:(BOOL)below
-                                 configurator:(id<FMAxisConfigurator>)configurator
-                                        label:(FMAxisLabelDelegateBlock)block
+								  belowSeries:(BOOL)below
+								 configurator:(id<FMAxisConfigurator>)configurator
+										label:(FMAxisLabelDelegateBlock)block
 {
 	return [self addAxisToDimensionWithId:dimensionId belowSeries:below configurator:configurator labelFrameSize:CGSizeMake(45, 30) labelBufferCount:8 label:block];
 }
 
 - (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-                                  belowSeries:(BOOL)below
-                                 configurator:(id<FMAxisConfigurator>)configurator
-                               labelFrameSize:(CGSize)size
-                             labelBufferCount:(NSUInteger)count
-                                        label:(FMAxisLabelDelegateBlock)block
+								  belowSeries:(BOOL)below
+								 configurator:(id<FMAxisConfigurator>)configurator
+							   labelFrameSize:(CGSize)size
+							 labelBufferCount:(NSUInteger)count
+										label:(FMAxisLabelDelegateBlock)block
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
@@ -227,14 +227,14 @@
 														  bufferCapacity:count
 														   labelDelegate:delegate];
 				[label setFrameAnchorPoint:((dimIndex == 0) ? CGPointMake(0.5, 0) : CGPointMake(1.0, 0.5))];
-                label.axis = axis;
+				label.axis = axis;
 				[self addRetainedObject:delegate];
 				[self addRetainedObject:label];
-                if(below) {
-                    [_chart addPreRenderable:label];
-                } else {
-                    [_chart addPostRenderable:label];
-                }
+				if(below) {
+					[_chart addPreRenderable:label];
+				} else {
+					[_chart addPostRenderable:label];
+				}
 			}
 			return axis;
 		}
@@ -244,18 +244,18 @@
 
 - (NSArray<FMAxisLabel *> *)axisLabelsToAxis:(id<FMAxis>)axis
 {
-    NSMutableArray<FMAxisLabel *> *ar = nil;
-    NSArray *retained = self.retained.copy;
-    for(id obj in retained) {
-        if([obj isKindOfClass:[FMAxisLabel class]]) {
-            FMAxisLabel *label = obj;
-            if(label.axis == axis) {
-                ar = (ar) ? ar : [NSMutableArray array];
-                [ar addObject:label];
-            }
-        }
-    }
-    return ar.copy;
+	NSMutableArray<FMAxisLabel *> *ar = nil;
+	NSArray *retained = self.retained.copy;
+	for(id obj in retained) {
+		if([obj isKindOfClass:[FMAxisLabel class]]) {
+			FMAxisLabel *label = obj;
+			if(label.axis == axis) {
+				ar = (ar) ? ar : [NSMutableArray array];
+				[ar addObject:label];
+			}
+		}
+	}
+	return ar.copy;
 }
 
 - (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color
@@ -282,54 +282,54 @@
 	FMGestureInterpreter *interpreter = [[FMGestureInterpreter alloc] initWithPanRecognizer:pan
 																			pinchRecognizer:pinch
 																				restriction:restriction];
-    interpreter.momentumAnimator = _animator;
-    [self addRetainedObject:interpreter];
+	interpreter.momentumAnimator = _animator;
+	[self addRetainedObject:interpreter];
 	[_view addGestureRecognizer:pan];
 	[_view addGestureRecognizer:pinch];
 	return interpreter;
 }
 
 - (FMGridLine *)addGridLineToDimensionWithId:(NSInteger)dimensionId
-                                 belowSeries:(BOOL)below
-                                      anchor:(CGFloat)anchorValue
-                                    interval:(CGFloat)interval
+								 belowSeries:(BOOL)below
+									  anchor:(CGFloat)anchorValue
+									interval:(CGFloat)interval
 {
-    FMProjectionCartesian2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
-    if(space) {
-        FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
-        [line.attributes setAnchorValue:anchorValue];
-        [line.attributes setInterval:interval];
-        if(below) {
-            [_chart addPreRenderable:line];
-        } else {
-            [_chart addPostRenderable:line];
-        }
-        return line;
-    }
-    return nil;
+	FMProjectionCartesian2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
+	if(space) {
+		FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
+		[line.attributes setAnchorValue:anchorValue];
+		[line.attributes setInterval:interval];
+		if(below) {
+			[_chart addPreRenderable:line];
+		} else {
+			[_chart addPostRenderable:line];
+		}
+		return line;
+	}
+	return nil;
 }
 
 - (FMLineSeries *)addLineToSpace:(FMProjectionCartesian2D *)space
-                          series:(FMOrderedSeries *)series
+						  series:(FMOrderedSeries *)series
 {
-    FMLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
-    FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
-    [_chart addRenderable:ls];
+	FMLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
+	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
+	[_chart addRenderable:ls];
 	[_chart addProjection:space];
-    return ls;
+	return ls;
 }
 
 - (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
-                        series:(FMOrderedSeries *)series
+						series:(FMOrderedSeries *)series
 {
-    FMBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine
+	FMBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine
 																 series:series
 														  configuration:nil
 															 attributes:nil];
-    FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
-    [_chart addRenderable:bs];
+	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
+	[_chart addRenderable:bs];
 	[_chart addProjection:space];
-    return bs;
+	return bs;
 }
 
 - (FMAttributedBarSeries *)addAttributedBarToSpace:(FMProjectionCartesian2D *)space
@@ -350,11 +350,11 @@
 
 - (FMPointSeries *)addPointToSpace:(FMProjectionCartesian2D *)space series:(FMOrderedSeries *)series
 {
-    FMPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
-    FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
-    [_chart addRenderable:ps];
+	FMPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
+	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
+	[_chart addRenderable:ps];
 	[_chart addProjection:space];
-    return ps;
+	return ps;
 }
 
 - (void)removeRenderable:(id<FMRenderable>)renderable
@@ -372,7 +372,7 @@
 
 - (FMOrderedSeries *)createSeries:(NSUInteger)capacity
 {
-    return [[FMOrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
+	return [[FMOrderedSeries alloc] initWithResource:self.engine.resource vertexCapacity:capacity];
 }
 
 - (FMOrderedAttributedSeries *)createAttributedSeries:(NSUInteger)capacity

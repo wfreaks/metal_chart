@@ -33,7 +33,7 @@
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-                                          series:(FMOrderedSeries * _Nullable)series
+										  series:(FMOrderedSeries * _Nullable)series
 									  attributes:(FMUniformPointAttributes * _Nullable)attributes
 ;
 @end

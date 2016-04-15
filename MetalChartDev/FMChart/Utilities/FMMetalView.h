@@ -26,27 +26,27 @@
 
 @property (nonatomic) id<MTLDevice> device;
 
-@property (nonatomic) MTLClearColor     clearColor;
-@property (nonatomic) double            clearDepth;
-@property (nonatomic) uint32_t          clearStencil;
-@property (nonatomic) MTLPixelFormat    colorPixelFormat;
-@property (nonatomic) MTLPixelFormat    depthStencilPixelFormat;
-@property (nonatomic) NSUInteger        sampleCount;
+@property (nonatomic) MTLClearColor	 clearColor;
+@property (nonatomic) double			clearDepth;
+@property (nonatomic) uint32_t		  clearStencil;
+@property (nonatomic) MTLPixelFormat	colorPixelFormat;
+@property (nonatomic) MTLPixelFormat	depthStencilPixelFormat;
+@property (nonatomic) NSUInteger		sampleCount;
 
-@property (nonatomic) NSInteger         preferredFramesPerSecond;
-@property (nonatomic) BOOL              paused;
-@property (nonatomic) BOOL              enableSetNeedsDisplay;
+@property (nonatomic) NSInteger		 preferredFramesPerSecond;
+@property (nonatomic) BOOL			  paused;
+@property (nonatomic) BOOL			  enableSetNeedsDisplay;
 
-@property (nonatomic) BOOL              autoResizeDrawable;
-@property (nonatomic) CGSize            drawableSize;
-@property (nonatomic) BOOL              frameBufferOnly;
-@property (nonatomic) BOOL              presentsWithTransaction;
+@property (nonatomic) BOOL			  autoResizeDrawable;
+@property (nonatomic) CGSize			drawableSize;
+@property (nonatomic) BOOL			  frameBufferOnly;
+@property (nonatomic) BOOL			  presentsWithTransaction;
 
 @property (nonatomic, readonly) id<CAMetalDrawable> currentDrawable;
 
 @property (nonatomic, readonly) MTLRenderPassDescriptor *currentRenderPassDescriptor;
-@property (nonatomic, readonly) id<MTLTexture>      depthStencilTexture;
-@property (nonatomic, readonly) id<MTLTexture>      multisampleColorTexture;
+@property (nonatomic, readonly) id<MTLTexture>	  depthStencilTexture;
+@property (nonatomic, readonly) id<MTLTexture>	  multisampleColorTexture;
 
 - (void)draw;
 - (void)releaseDrawables;

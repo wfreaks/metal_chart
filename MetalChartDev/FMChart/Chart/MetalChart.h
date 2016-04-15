@@ -42,7 +42,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMDepthClient <NSObject>
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min
-                         objects:(NSArray * _Nonnull)objects;
+						 objects:(NSArray * _Nonnull)objects;
 
 @end
 
@@ -81,8 +81,8 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMAttachment <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-             chart:(MetalChart * _Nonnull)chart
-              view:(MetalView * _Nonnull)view
+			 chart:(MetalChart * _Nonnull)chart
+			  view:(MetalView * _Nonnull)view
 ;
 
 @end
@@ -90,7 +90,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMDependentAttachment <FMAttachment>
 
 - (void)prepare:(MetalChart * _Nonnull)chart
-           view:(MetalView * _Nonnull)view
+		   view:(MetalView * _Nonnull)view
 ;
 
 @optional

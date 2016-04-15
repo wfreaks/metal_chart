@@ -27,7 +27,7 @@ inline float ratio_arc(const float inner, const float outer, const float dist, c
 }
 
 vertex out_vertex_arc ArcContinuosVertex(
-								device		indexed_float*                  values	[[ buffer(0) ]],
+								device		indexed_float*				  values	[[ buffer(0) ]],
 								constant	arc_conf&						conf	[[ buffer(1) ]],
 								constant	arc_attr*						attrs	[[ buffer(2) ]],
 								constant	uniform_projection_polar&		proj	[[ buffer(3) ]],

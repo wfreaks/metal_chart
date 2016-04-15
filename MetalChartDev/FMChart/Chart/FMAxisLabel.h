@@ -19,9 +19,9 @@
 @protocol FMAxisLabelDelegate<NSObject>
 
 - (NSArray<NSMutableAttributedString*> * _Nonnull)attributedStringForValue:(CGFloat)value
-                                                                     index:(NSInteger)index
-                                                                      last:(NSInteger)lastIndex
-                                                                 dimension:(FMDimensionalProjection * _Nonnull)dimension
+																	 index:(NSInteger)index
+																	  last:(NSInteger)lastIndex
+																 dimension:(FMDimensionalProjection * _Nonnull)dimension
 ;
 
 @end
@@ -69,20 +69,20 @@ UNAVAILABLE_ATTRIBUTE;
 @property (readonly, nonatomic) CGSize bufferPixelSize;
 @property (readonly, nonatomic) CGSize bufferSize;
 @property (strong  , nonatomic) UIFont * _Nullable font;
-@property (nonatomic) int32_t          clearColor; // 順序が0xAGBRである事に注意.
-@property (nonatomic, weak)            id<FMLineDrawHook> _Nullable hook;
+@property (nonatomic) int32_t		  clearColor; // 順序が0xAGBRである事に注意.
+@property (nonatomic, weak)			id<FMLineDrawHook> _Nullable hook;
 
 - (instancetype _Nonnull)initWithPixelWidth:(NSUInteger)width
-                                     height:(NSUInteger)height
+									 height:(NSUInteger)height
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 
 - (void)drawLines:(NSArray<NSMutableAttributedString*> * _Nonnull)lines
-        toTexture:(id<MTLTexture> _Nonnull)texture
-           region:(MTLRegion)region
-        confBlock:(FMLineConfBlock _Nonnull)block
+		toTexture:(id<MTLTexture> _Nonnull)texture
+		   region:(MTLRegion)region
+		confBlock:(FMLineConfBlock _Nonnull)block
 ;
 
 @end
@@ -108,7 +108,7 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 @property (assign  , nonatomic) CGPoint textAlignment;
 @property (assign  , nonatomic) CGPoint textOffset;
 
-@property (copy    , nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
+@property (copy	, nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize
@@ -140,9 +140,9 @@ NS_DESIGNATED_INITIALIZER;
 
 
 typedef NSArray<NSMutableAttributedString*> *_Nonnull (^FMAxisLabelDelegateBlock)(CGFloat value,
-                                                                                  NSInteger index,
-                                                                                  NSInteger lastIndex,
-                                                                                  FMDimensionalProjection *_Nonnull dimension);
+																				  NSInteger index,
+																				  NSInteger lastIndex,
+																				  FMDimensionalProjection *_Nonnull dimension);
 
 @interface FMAxisLabelBlockDelegate : NSObject<FMAxisLabelDelegate>
 

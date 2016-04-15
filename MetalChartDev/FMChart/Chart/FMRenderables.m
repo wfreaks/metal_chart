@@ -71,19 +71,19 @@
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    for(id obj in objects) {
-        if([obj isKindOfClass:[FMPlotArea class]]) {
-            return 0;
-        }
-    }
-    [self.attributes setDepthValue:min+0.05];
-    return 0.1;
+	for(id obj in objects) {
+		if([obj isKindOfClass:[FMPlotArea class]]) {
+			return 0;
+		}
+	}
+	[self.attributes setDepthValue:min+0.05];
+	return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-    [self.attributes setDepthValue:min+0.05];
-    return 0.1;
+	[self.attributes setDepthValue:min+0.05];
+	return 0.1;
 }
 
 + (instancetype)orderedSeriesWithCapacity:(NSUInteger)capacity
@@ -105,29 +105,29 @@
 - (instancetype)initWithBar:(FMBarPrimitive *)bar
 				 projection:(FMProjectionCartesian2D *)projection
 {
-    self = [super init];
-    if(self) {
-        _bar = bar;
+	self = [super init];
+	if(self) {
+		_bar = bar;
 		_projection = projection;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    for(id obj in objects) {
-        if([obj isKindOfClass:[FMPlotArea class]]) {
-            return 0;
-        }
-    }
-    [self.conf setDepthValue:min+0.05];
-    return 0.1;
+	for(id obj in objects) {
+		if([obj isKindOfClass:[FMPlotArea class]]) {
+			return 0;
+		}
+	}
+	[self.conf setDepthValue:min+0.05];
+	return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-    [self.conf setDepthValue:min+0.05];
-    return 0.1;
+	[self.conf setDepthValue:min+0.05];
+	return 0.1;
 }
 
 - (FMUniformBarConfiguration *)conf { return _bar.conf; }
@@ -201,12 +201,12 @@
 - (instancetype)initWithPoint:(FMPointPrimitive *)point
 				   projection:(FMProjectionCartesian2D *)projection
 {
-    self = [super init];
-    if(self) {
-        _point = point;
+	self = [super init];
+	if(self) {
+		_point = point;
 		_projection = projection;
-    }
-    return self;
+	}
+	return self;
 }
 
 - (FMUniformPointAttributes *)attributes { return _point.attributes; }
@@ -243,40 +243,40 @@
 
 - (instancetype)initWithPlotRect:(FMPlotRectPrimitive *)rect
 {
-    self = [super init];
-    if(self) {
-        FMDeviceResource *res = rect.engine.resource;
-        _projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:res];
-        _rect = rect;
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		FMDeviceResource *res = rect.engine.resource;
+		_projection = [[FMUniformProjectionCartesian2D alloc] initWithResource:res];
+		_rect = rect;
+	}
+	return self;
 }
 
 - (FMUniformPlotRectAttributes *)attributes { return _rect.attributes; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-             chart:(MetalChart *)chart
-              view:(MetalView *)view
+			 chart:(MetalChart *)chart
+			  view:(MetalView *)view
 {
-    [_projection setPhysicalSize:view.bounds.size];
-    [_projection setSampleCount:view.sampleCount];
-    [_projection setColorPixelFormat:view.colorPixelFormat];
-    [_projection setPadding:chart.padding];
-    
-    [_rect encodeWith:encoder projection:_projection];
+	[_projection setPhysicalSize:view.bounds.size];
+	[_projection setSampleCount:view.sampleCount];
+	[_projection setColorPixelFormat:view.colorPixelFormat];
+	[_projection setPadding:chart.padding];
+	
+	[_rect encodeWith:encoder projection:_projection];
 }
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    CGFloat currentValue = 0.1;
-    for(id obj in objects) {
-        if([obj conformsToProtocol:@protocol(FMPlotAreaClient)]) {
-            CGFloat v = [(id<FMPlotAreaClient>)obj allocateRangeInPlotArea:self minValue:(min+currentValue)];
-            currentValue += fabs(v);
-        }
-    }
-    [self.attributes setDepthValue:min];
-    return -currentValue;
+	CGFloat currentValue = 0.1;
+	for(id obj in objects) {
+		if([obj conformsToProtocol:@protocol(FMPlotAreaClient)]) {
+			CGFloat v = [(id<FMPlotAreaClient>)obj allocateRangeInPlotArea:self minValue:(min+currentValue)];
+			currentValue += fabs(v);
+		}
+	}
+	[self.attributes setDepthValue:min];
+	return -currentValue;
 }
 
 + (instancetype)rectWithEngine:(FMEngine *)engine
@@ -296,81 +296,81 @@
 @implementation FMGridLine
 
 - (instancetype)initWithGridLine:(FMGridLinePrimitive *)gridLine
-                      Projection:(FMProjectionCartesian2D *)projection
-                       dimension:(NSInteger)dimensionId
+					  Projection:(FMProjectionCartesian2D *)projection
+					   dimension:(NSInteger)dimensionId
 {
-    self = [super init];
-    if(self) {
-        _gridLine = gridLine;
-        _projection = projection;
-        _dimension = [projection dimensionWithId:dimensionId];
-        
-        if(_dimension == nil) {
-            abort();
-        }
-        
-        const NSUInteger dimIndex = [projection.dimensions indexOfObject:_dimension];
-        [_gridLine.attributes setDimensionIndex:dimIndex];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_gridLine = gridLine;
+		_projection = projection;
+		_dimension = [projection dimensionWithId:dimensionId];
+		
+		if(_dimension == nil) {
+			abort();
+		}
+		
+		const NSUInteger dimIndex = [projection.dimensions indexOfObject:_dimension];
+		[_gridLine.attributes setDimensionIndex:dimIndex];
+	}
+	return self;
 }
 
 - (FMUniformGridAttributes *)attributes {
-    return self.gridLine.attributes;
+	return self.gridLine.attributes;
 }
 
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
 {
-    FMUniformAxisConfiguration *conf = _axis.axis.configuration;
-    FMUniformGridAttributes *attr = _gridLine.attributes;
-    if(conf) {
-        const NSInteger minFreq = conf.minorTicksPerMajor;
-        const BOOL minor = _sticksToMinorTicks;
-        attr.anchorValue = conf.tickAnchorValue;
-        attr.interval = (minFreq > 0 && minor) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
-    }
+	FMUniformAxisConfiguration *conf = _axis.axis.configuration;
+	FMUniformGridAttributes *attr = _gridLine.attributes;
+	if(conf) {
+		const NSInteger minFreq = conf.minorTicksPerMajor;
+		const BOOL minor = _sticksToMinorTicks;
+		attr.anchorValue = conf.tickAnchorValue;
+		attr.interval = (minFreq > 0 && minor) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
+	}
 }
 
 - (NSArray<id<FMDependentAttachment>> *)dependencies
 {
-    id<FMAxis> axis = _axis;
-    return (axis) ? @[axis] : nil;
+	id<FMAxis> axis = _axis;
+	return (axis) ? @[axis] : nil;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-             chart:(MetalChart *)chart
-              view:(MetalChart *)view
+			 chart:(MetalChart *)chart
+			  view:(MetalChart *)view
 {
-    FMUniformGridAttributes *attr = _gridLine.attributes;
-    const CGFloat len = _dimension.max - _dimension.min;
+	FMUniformGridAttributes *attr = _gridLine.attributes;
+	const CGFloat len = _dimension.max - _dimension.min;
 	const CGFloat interval = attr.interval;
 	const NSUInteger maxCount = (interval > 0) ? floor(len/attr.interval) + 1 : 0;
-    [_gridLine encodeWith:encoder projection:_projection.projection maxCount:maxCount];
+	[_gridLine encodeWith:encoder projection:_projection.projection maxCount:maxCount];
 }
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray * _Nonnull)objects
 {
-    for(id obj in objects) {
-        if([obj isKindOfClass:[FMPlotArea class]]) {
-            return 0;
-        }
-    }
-    [self.attributes setDepthValue:min+0.05];
-    return 0.1;
+	for(id obj in objects) {
+		if([obj isKindOfClass:[FMPlotArea class]]) {
+			return 0;
+		}
+	}
+	[self.attributes setDepthValue:min+0.05];
+	return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-    [self.attributes setDepthValue:min+0.05];
-    return 0.1;
+	[self.attributes setDepthValue:min+0.05];
+	return 0.1;
 }
 
 + (instancetype)gridLineWithEngine:(FMEngine *)engine
-                        projection:(FMProjectionCartesian2D *)projection
-                         dimension:(NSInteger)dimensionId
+						projection:(FMProjectionCartesian2D *)projection
+						 dimension:(NSInteger)dimensionId
 {
-    FMGridLinePrimitive *line = [[FMGridLinePrimitive alloc] initWithEngine:engine];
-    return [[self alloc] initWithGridLine:line Projection:projection dimension:dimensionId];
+	FMGridLinePrimitive *line = [[FMGridLinePrimitive alloc] initWithEngine:engine];
+	return [[self alloc] initWithGridLine:line Projection:projection dimension:dimensionId];
 }
 
 @end

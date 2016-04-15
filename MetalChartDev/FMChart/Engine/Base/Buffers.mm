@@ -36,11 +36,11 @@
 
 - (instancetype)initWithBuffer:(std::shared_ptr<MTLObjectBufferBase>)buffer
 {
-    self = [super init];
-    if(self) {
-        _objectBuffer = buffer;
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_objectBuffer = buffer;
+	}
+	return self;
 }
 
 - (id<MTLBuffer>)buffer { return _objectBuffer->buffer(); }
@@ -48,7 +48,7 @@
 
 - (void)reserve:(NSUInteger)capacity
 {
-    _objectBuffer->reserve(capacity);
+	_objectBuffer->reserve(capacity);
 }
 
 @end
@@ -59,15 +59,15 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<vertex_float2>>(resource.device, capacity);
-    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-    return self;
+	auto ptr = std::make_shared<MTLObjectBuffer<vertex_float2>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+	return self;
 }
 
 - (vertex_float2 *)bufferAtIndex:(NSUInteger)index
 {
-    vertex_float2 *ptr = (vertex_float2 *)([self.buffer contents]);
-    return ptr + (index % self.capacity);
+	vertex_float2 *ptr = (vertex_float2 *)([self.buffer contents]);
+	return ptr + (index % self.capacity);
 }
 
 @end
@@ -77,15 +77,15 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<vertex_index>>(resource.device, capacity);
-    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-    return self;
+	auto ptr = std::make_shared<MTLObjectBuffer<vertex_index>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+	return self;
 }
 
 - (vertex_index *)bufferAtIndex:(NSUInteger)index
 {
-    vertex_index *ptr = (vertex_index *)([self.buffer contents]);
-    return ptr + index;
+	vertex_index *ptr = (vertex_index *)([self.buffer contents]);
+	return ptr + index;
 }
 
 @end
@@ -96,9 +96,9 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<indexed_float>>(resource.device, capacity);
-    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-    return self;
+	auto ptr = std::make_shared<MTLObjectBuffer<indexed_float>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+	return self;
 }
 
 - (indexed_float *)bufferAtIndex:(NSUInteger)index
@@ -121,9 +121,9 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-    auto ptr = std::make_shared<MTLObjectBuffer<indexed_float2>>(resource.device, capacity);
-    self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-    return self;
+	auto ptr = std::make_shared<MTLObjectBuffer<indexed_float2>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+	return self;
 }
 
 - (indexed_float2 *)bufferAtIndex:(NSUInteger)index
@@ -147,19 +147,19 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource
 {
-    self = [super init];
-    if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_projection_cart2d) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_projection_cart2d) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		_screenScale = [UIScreen mainScreen].scale;
-        [self projection]->screen_scale = _screenScale;
-        self.valueScale = CGSizeMake(1, 1);
-    }
-    return self;
+		[self projection]->screen_scale = _screenScale;
+		self.valueScale = CGSizeMake(1, 1);
+	}
+	return self;
 }
 
 - (uniform_projection_cart2d *)projection
 {
-    return (uniform_projection_cart2d *)([self.buffer contents]);
+	return (uniform_projection_cart2d *)([self.buffer contents]);
 }
 
 - (void)setPhysicalSize:(CGSize)size
@@ -172,7 +172,7 @@
 
 - (void)setPixelSize:(CGSize)size
 {
-    const CGFloat scale = _screenScale;
+	const CGFloat scale = _screenScale;
 	const CGFloat w = (size.width/scale);
 	const CGFloat h = (size.height/scale);
 	self.physicalSize = CGSizeMake(w, h);
@@ -188,23 +188,23 @@
 
 - (void)setValueScale:(CGSize)scale
 {
-    if(!CGSizeEqualToSize(_valueScale, scale)) {
-        _valueScale = scale;
-        self.projection->value_scale = vector2((float)scale.width, (float)scale.height);
-    }
+	if(!CGSizeEqualToSize(_valueScale, scale)) {
+		_valueScale = scale;
+		self.projection->value_scale = vector2((float)scale.width, (float)scale.height);
+	}
 }
 
 - (void)setOrigin:(CGPoint)origin
 {
-    self.projection->origin = vector2((float)origin.x, (float)origin.y);
+	self.projection->origin = vector2((float)origin.x, (float)origin.y);
 }
 
 - (void)setValueOffset:(CGPoint)offset
 {
-    if(!CGPointEqualToPoint(_valueOffset, offset)) {
-        _valueOffset = offset;
-        self.projection->value_offset = vector2((float)offset.x, (float)offset.y);
-    }
+	if(!CGPointEqualToPoint(_valueOffset, offset)) {
+		_valueOffset = offset;
+		self.projection->value_offset = vector2((float)offset.x, (float)offset.y);
+	}
 }
 
 @end
@@ -282,16 +282,16 @@
 
 - (id)initWithResource:(FMDeviceResource *)resource
 {
-    self = [super init];
-    if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_series_info) options:MTLResourceOptionCPUCacheModeWriteCombined];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_series_info) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	}
+	return self;
 }
 
 - (uniform_series_info *)info
 {
-    return (uniform_series_info *)([self.buffer contents]);
+	return (uniform_series_info *)([self.buffer contents]);
 }
 
 - (void)setOffset:(NSUInteger)offset

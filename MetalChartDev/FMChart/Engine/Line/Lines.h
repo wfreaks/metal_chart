@@ -62,8 +62,8 @@
 
 - (void)appendSampleData:(NSUInteger)count
 		  maxVertexCount:(NSUInteger)maxCount
-                    mean:(CGFloat)mean
-                variance:(CGFloat)variant
+					mean:(CGFloat)mean
+				variance:(CGFloat)variant
 			  onGenerate:(void (^_Nullable)(float x, float y))block
 ;
 
@@ -83,7 +83,7 @@
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
 ;
 
 @end
@@ -101,8 +101,8 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
-          maxCount:(NSUInteger)maxCount
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+		  maxCount:(NSUInteger)maxCount
 ;
 
 

@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	const double v = 0.9;
 	const NSInteger fps = 60;
 	
@@ -37,21 +37,21 @@
 - (void)configureChart
 {
 	FMProjectionCartesian2D *space = [self.configurator spaceWithDimensionIds:@[@1, @2] configureBlock:^FMProjectionUpdater * _Nullable(NSInteger dimensionID) {
-        return nil;
-    }];
+		return nil;
+	}];
 	[self.chart addProjection:space];
 	
-    FMOrderedSeries *series = [self.configurator createSeries:8];
-    FMLineSeries *line = [self.configurator addLineToSpace:space series:series];
-    
-    [line.attributes setWidth:5];
-    [line.attributes setEnableOverlay:NO];
-    
-    [series addPoint:CGPointMake(0, 0)];
-    [series addPoint:CGPointMake(0, 0.1000)];
-    [series addPoint:CGPointMake(0, 0.1001)];
-    [series addPoint:CGPointMake(0.01, 0.2000)];
-    
+	FMOrderedSeries *series = [self.configurator createSeries:8];
+	FMLineSeries *line = [self.configurator addLineToSpace:space series:series];
+	
+	[line.attributes setWidth:5];
+	[line.attributes setEnableOverlay:NO];
+	
+	[series addPoint:CGPointMake(0, 0)];
+	[series addPoint:CGPointMake(0, 0.1000)];
+	[series addPoint:CGPointMake(0, 0.1001)];
+	[series addPoint:CGPointMake(0.01, 0.2000)];
+	
 }
 
 @end

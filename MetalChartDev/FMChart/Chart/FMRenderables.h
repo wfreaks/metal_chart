@@ -46,7 +46,7 @@ NS_DESIGNATED_INITIALIZER;
 @protocol FMPlotAreaClient<FMDepthClient>
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *_Nonnull)area
-                          minValue:(CGFloat)min
+						  minValue:(CGFloat)min
 ;
 
 @end
@@ -170,18 +170,18 @@ NS_DESIGNATED_INITIALIZER;
 // GridLineのintervalをaxisのmajorTickIntervalと連動させたい事がある.
 // sticksToMinorTicksはmajor/minorどちらにあわせるかという話.
 @property (nonatomic)			id<FMAxis>				  _Nullable axis;
-@property (nonatomic)           BOOL                                sticksToMinorTicks;
+@property (nonatomic)		   BOOL								sticksToMinorTicks;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine
-                               Projection:(FMProjectionCartesian2D * _Nonnull)projection
-                                dimension:(NSInteger)dimensionId
+							   Projection:(FMProjectionCartesian2D * _Nonnull)projection
+								dimension:(NSInteger)dimensionId
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype _Nonnull)gridLineWithEngine:(FMEngine * _Nonnull)engine
-                                 projection:(FMProjectionCartesian2D * _Nonnull)projection
-                                  dimension:(NSInteger)dimensionId;
+								 projection:(FMProjectionCartesian2D * _Nonnull)projection
+								  dimension:(NSInteger)dimensionId;
 ;
 
 @end

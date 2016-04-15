@@ -22,43 +22,43 @@
 #include <memory>
 
 struct MTLObjectBufferBase {
-    
-    MTLObjectBufferBase(id<MTLDevice> _Nonnull device,
-                        NSUInteger capacity,
-                        NSUInteger elementSize,
-                        MTLResourceOptions options)
-    : _capacity(capacity),
-    _elementSize(elementSize),
-    _options(options),
-    _buffer([device newBufferWithLength:(elementSize*capacity) options:options])
-    {
-    }
-    
-    virtual ~MTLObjectBufferBase() {}
-    
-    id<MTLBuffer> _Nonnull buffer() const { return _buffer; }
-    
-    NSUInteger capacity() const { return _capacity; }
-    NSUInteger elementSize() const { return _elementSize; }
-    
-    void reserve(NSUInteger newCapacity) {
-        if(newCapacity > capacity()) {
-            id<MTLBuffer> buf = buffer();
-            const NSUInteger length = newCapacity * elementSize();
-            _buffer = [[buf device] newBufferWithBytes:[buf contents]
-                                                length:length
-                                               options:_options];
-            _capacity = newCapacity;
-        }
-    }
-    
+	
+	MTLObjectBufferBase(id<MTLDevice> _Nonnull device,
+						NSUInteger capacity,
+						NSUInteger elementSize,
+						MTLResourceOptions options)
+	: _capacity(capacity),
+	_elementSize(elementSize),
+	_options(options),
+	_buffer([device newBufferWithLength:(elementSize*capacity) options:options])
+	{
+	}
+	
+	virtual ~MTLObjectBufferBase() {}
+	
+	id<MTLBuffer> _Nonnull buffer() const { return _buffer; }
+	
+	NSUInteger capacity() const { return _capacity; }
+	NSUInteger elementSize() const { return _elementSize; }
+	
+	void reserve(NSUInteger newCapacity) {
+		if(newCapacity > capacity()) {
+			id<MTLBuffer> buf = buffer();
+			const NSUInteger length = newCapacity * elementSize();
+			_buffer = [[buf device] newBufferWithBytes:[buf contents]
+												length:length
+											   options:_options];
+			_capacity = newCapacity;
+		}
+	}
+	
 private :
-    
-    id<MTLBuffer> _Nonnull _buffer;
-    NSUInteger _capacity;
-    const NSUInteger _elementSize;
-    const MTLResourceOptions _options;
-    
+	
+	id<MTLBuffer> _Nonnull _buffer;
+	NSUInteger _capacity;
+	const NSUInteger _elementSize;
+	const MTLResourceOptions _options;
+	
 };
 
 template <typename T>
@@ -126,7 +126,7 @@ UNAVAILABLE_ATTRIBUTE;
 @interface IndexBuffer : ArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
-                                 capacity:(NSUInteger)capacity
+								 capacity:(NSUInteger)capacity
 NS_DESIGNATED_INITIALIZER;
 
 - (vertex_index * _Nonnull)bufferAtIndex:(NSUInteger)index;

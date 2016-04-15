@@ -16,26 +16,26 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
-    self = [super init];
-    if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_plot_rect) options:MTLResourceOptionCPUCacheModeWriteCombined];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_plot_rect) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	}
+	return self;
 }
 
 - (uniform_plot_rect *)rect
 {
-    return (uniform_plot_rect *)([_buffer contents]);
+	return (uniform_plot_rect *)([_buffer contents]);
 }
 
 - (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
 {
-    self.rect->color = vector4(red, green, blue, alpha);
+	self.rect->color = vector4(red, green, blue, alpha);
 }
 
 - (void)setColorRef:(vector_float4 const *)color
 {
-    self.rect->color = *color;
+	self.rect->color = *color;
 }
 
 - (void)setColor:(vector_float4)color
@@ -45,17 +45,17 @@
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
 {
-    self.rect->corner_radius = vector4(lt, rt, lb, rb);
+	self.rect->corner_radius = vector4(lt, rt, lb, rb);
 }
 
 - (void)setCornerRadius:(float)radius
 {
-    self.rect->corner_radius = vector4(radius, radius, radius, radius);
+	self.rect->corner_radius = vector4(radius, radius, radius, radius);
 }
 
 - (void)setDepthValue:(float)value
 {
-    self.rect->depth_value = value;
+	self.rect->depth_value = value;
 }
 
 @end
@@ -66,33 +66,33 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
-    self = [super init];
-    if(self) {
-        _buffer = [resource.device newBufferWithLength:sizeof(uniform_bar_conf) options:MTLResourceOptionCPUCacheModeWriteCombined];
-        [self setBarDirection:CGPointMake(0, 1)];
-    }
-    return self;
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_bar_conf) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		[self setBarDirection:CGPointMake(0, 1)];
+	}
+	return self;
 }
 
 - (uniform_bar_conf *)conf
 {
-    return (uniform_bar_conf *)([_buffer contents]);
+	return (uniform_bar_conf *)([_buffer contents]);
 }
 
 - (void)setAnchorPoint:(CGPoint)point
 {
-    self.conf->anchor_point = vector2((float)point.x, (float)point.y);
+	self.conf->anchor_point = vector2((float)point.x, (float)point.y);
 }
 
 - (void)setBarDirection:(CGPoint)dir
 
 {
-    self.conf->dir = vector2((float)dir.x, (float)dir.y);
+	self.conf->dir = vector2((float)dir.x, (float)dir.y);
 }
 
 - (void)setDepthValue:(float)value
 {
-    self.conf->depth_value = value;
+	self.conf->depth_value = value;
 }
 
 @end

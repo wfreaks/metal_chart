@@ -24,20 +24,20 @@
 @property (strong  , nonatomic) id<MTLTexture> _Nullable texture;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-                                         texture:(id<MTLTexture> _Nullable)texture;
+										 texture:(id<MTLTexture> _Nullable)texture;
 ;
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
-             count:(NSUInteger)count;
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+			 count:(NSUInteger)count;
 ;
 
 // ちょっと特殊な使い方をしたい時に...
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-        projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
-             count:(NSUInteger)count
-        dataRegion:(FMUniformRegion * _Nonnull)dataRegion
-         texRegion:(FMUniformRegion * _Nonnull)texRegion
+		projection:(FMUniformProjectionCartesian2D * _Nonnull)projection
+			 count:(NSUInteger)count
+		dataRegion:(FMUniformRegion * _Nonnull)dataRegion
+		 texRegion:(FMUniformRegion * _Nonnull)texRegion
 ;
 
 @end
