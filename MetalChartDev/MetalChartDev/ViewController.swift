@@ -102,7 +102,7 @@ class ViewController: UIViewController {
 		
 		weightUpdater = FMProjectionUpdater()
 		weightUpdater?.addFilterToLast(FMSourceFilter(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
-		weightUpdater?.addFilterToLast(FMIntervalFilter(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
+		weightUpdater?.addFilterToLast(FMIntervalFilter(anchor: 0, interval: 5.001, shrinkMin: false, shrinkMax: false))
 		
 		pressureUpdater = FMProjectionUpdater()
 		pressureUpdater?.addFilterToLast(FMSourceFilter(minValue: 60, maxValue: 120, expandMin: false, expandMax: false))
