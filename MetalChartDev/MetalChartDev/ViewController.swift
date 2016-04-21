@@ -132,6 +132,9 @@ class ViewController: UIViewController {
 		weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
 		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
+		let weightPoint = configurator.setPointToLine(weightLine!)
+		let systolicPoint = configurator.setPointToLine(systolicLine!)
+		let diastolicPoint = configurator.setPointToLine(diastolicLine!)
 		
 		let weightColor = UIColor(red: 0.4, green: 0.7, blue: 0.9, alpha: 1.0).vector()
 		let systolicColor = UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0).vector()
@@ -144,11 +147,14 @@ class ViewController: UIViewController {
 		weightLine?.attributes.setColor(weightColor)
 		weightLine?.attributes.setAlpha(0.6)
 		weightLine?.attributes.enableOverlay = true
+		configurePointAttributes(weightPoint, innerRadius: 8, outerColor: weightColor)
 		
 		systolicLine?.attributes.enableOverlay = true
 		systolicLine?.attributes.setColor(systolicColor)
+		configurePointAttributes(systolicPoint, innerRadius: 6, outerColor: systolicColor)
 		diastolicLine?.attributes.enableOverlay = true
 		diastolicLine?.attributes.setColor(diastolicColor)
+		configurePointAttributes(diastolicPoint, innerRadius: 6, outerColor: diastolicColor)
 		
 		let weightConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 1)
 		let weightSize = CGSizeMake(45, 25)
@@ -313,6 +319,13 @@ class ViewController: UIViewController {
 	func getStartOfDate(date : NSDate) -> NSDate {
 		let comp : NSDateComponents = calendar.components([.Year, .Month, .Day], fromDate: date)
 		return calendar.dateFromComponents(comp)!
+	}
+	
+	func configurePointAttributes(attrs : FMUniformPointAttributes, innerRadius : Float, outerColor : vector_float4) {
+		attrs.setInnerRadius(innerRadius)
+		attrs.setOuterRadius(innerRadius * 1.5)
+		attrs.setInnerColor(UIColor.whiteColor().vector())
+		attrs.setOuterColor(outerColor)
 	}
 	
 	@IBAction func chartTapped(sender: UITapGestureRecognizer) {

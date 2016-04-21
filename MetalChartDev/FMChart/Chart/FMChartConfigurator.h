@@ -132,6 +132,9 @@ NS_DESIGNATED_INITIALIZER;
 								   series:(FMOrderedSeries * _Nonnull)series
 ;
 
+- (FMUniformPointAttributes* _Nonnull)setPointToLine:(FMLineSeries* _Nonnull)line
+;
+
 - (FMBarSeries * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
 								 series:(FMOrderedSeries * _Nonnull)series
 ;

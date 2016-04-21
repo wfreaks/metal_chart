@@ -19,6 +19,7 @@
 #import "Rects.h"
 #import "RectBuffers.h"
 #import "LineBuffers.h"
+#import "PointBuffers.h"
 #import "Lines.h"
 #import "Rects.h"
 #import "Points.h"
@@ -317,6 +318,13 @@
 	[_chart addRenderable:ls];
 	[_chart addProjection:space];
 	return ls;
+}
+
+- (FMUniformPointAttributes*)setPointToLine:(FMLineSeries *)line
+{
+	FMUniformPointAttributes *attrs = [[FMUniformPointAttributes alloc] initWithResource:self.engine.resource];
+	line.line.pointAttributes = attrs;
+	return attrs;
 }
 
 - (FMBarSeries *)addBarToSpace:(FMProjectionCartesian2D *)space
