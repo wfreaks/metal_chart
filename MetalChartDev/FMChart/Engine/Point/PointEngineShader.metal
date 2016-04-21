@@ -54,6 +54,13 @@ struct out_vertex {
 	float  psize	[[ flat ]];
 };
 
+struct out_vertex_indexed {
+	float4 position   [[ position ]];
+	float  point_size [[ point_size ]];
+	float  psize	  [[ flat ]];
+	uint   idx        [[ flat ]];
+};
+
 vertex out_vertex Point_VertexOrdered(
 									  device vertex_float2 *vertices [[ buffer(0) ]],
 									  constant uniform_point& point [[ buffer(2) ]],
@@ -96,6 +103,38 @@ fragment out_fragment Point_Fragment(
 {
 	out_fragment out;
 	out.color = PointFragmentCore(in, pos_coord, point, proj);
+	
+	return out;
+}
+
+
+
+
+vertex out_vertex_indexed Point_VertexOrderedAttributed(
+														device   indexed_float2* vertices        [[ buffer(0)]],
+														constant uniform_point * attrs_array     [[ buffer(1)]],
+														constant uniform_projection_cart2d& proj [[ buffer(2) ]],
+														constant uniform_series_info& info       [[ buffer(3) ]],
+														const uint vid                           [[ vertex_id ]]
+														)
+{
+	const indexed_float2 v = vertices[vid % info.vertex_capacity];
+	const uint idx = v.idx;
+	out_vertex_indexed out;
+	PointVertexCore(v.value, attrs_array[idx], proj, out);
+	out.idx = idx;
+	return out;
+}
+
+fragment out_fragment Point_FragmentAttributed(
+											   const out_vertex_indexed              in [[ stage_in ]],
+											   const float2                   pos_coord [[ point_coord ]],
+											   constant uniform_point*      attrs_array [[ buffer(0) ]],
+											   constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+											   )
+{
+	out_fragment out;
+	out.color = PointFragmentCore(in, pos_coord, attrs_array[in.idx], proj);
 	
 	return out;
 }

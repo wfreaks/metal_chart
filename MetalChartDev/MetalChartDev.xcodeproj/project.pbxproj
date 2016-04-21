@@ -22,7 +22,7 @@
 		AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
 		AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
-		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
+		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */; };
 		AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A99D1BE3B5FA00ABDC1E /* FMRangeFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */; };
 		AA32A99E1BE3B5FA00ABDC1E /* FMChartConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMChartConfigurator.m */; };
@@ -146,7 +146,7 @@
 		AAC4A88E1BAFE3020032A0CF /* Lines.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8501BAFE3020032A0CF /* Lines.m */; };
 		AAC4A88F1BAFE3020032A0CF /* Point_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8521BAFE3020032A0CF /* Point_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8531BAFE3020032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.m */; };
+		AAC4A8911BAFE3020032A0CF /* PointBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */; };
 		AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A8931BAFE3020032A0CF /* Points.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8561BAFE3020032A0CF /* Points.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8941BAFE3020032A0CF /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
@@ -273,7 +273,7 @@
 		AAC4A8501BAFE3020032A0CF /* Lines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lines.m; sourceTree = "<group>"; };
 		AAC4A8521BAFE3020032A0CF /* Point_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Point_common.h; sourceTree = "<group>"; };
 		AAC4A8531BAFE3020032A0CF /* PointBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointBuffers.h; sourceTree = "<group>"; };
-		AAC4A8541BAFE3020032A0CF /* PointBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointBuffers.m; sourceTree = "<group>"; };
+		AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PointBuffers.mm; sourceTree = "<group>"; };
 		AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = PointEngineShader.metal; sourceTree = "<group>"; };
 		AAC4A8561BAFE3020032A0CF /* Points.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Points.h; sourceTree = "<group>"; };
 		AAC4A8571BAFE3020032A0CF /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
@@ -491,7 +491,7 @@
 				AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */,
 				AAC4A8521BAFE3020032A0CF /* Point_common.h */,
 				AAC4A8531BAFE3020032A0CF /* PointBuffers.h */,
-				AAC4A8541BAFE3020032A0CF /* PointBuffers.m */,
+				AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */,
 				AAC4A8561BAFE3020032A0CF /* Points.h */,
 				AAC4A8571BAFE3020032A0CF /* Points.m */,
 			);
@@ -811,7 +811,7 @@
 				AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */,
 				AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
-				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.m in Sources */,
+				AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.mm in Sources */,
 				AA32A99D1BE3B5FA00ABDC1E /* FMRangeFilters.m in Sources */,
 				AA32A99E1BE3B5FA00ABDC1E /* FMChartConfigurator.m in Sources */,
 				AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */,
@@ -863,7 +863,7 @@
 				AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */,
 				AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,
-				AAC4A8911BAFE3020032A0CF /* PointBuffers.m in Sources */,
+				AAC4A8911BAFE3020032A0CF /* PointBuffers.mm in Sources */,
 				AAC4A8791BAFE3020032A0CF /* FMRangeFilters.m in Sources */,
 				AAC4A87B1BAFE3020032A0CF /* FMChartConfigurator.m in Sources */,
 				AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */,

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "Point_common.h"
+#import "Buffers.h"
 
 @class FMDeviceResource;
 @protocol MTLBuffer;
@@ -29,5 +30,19 @@
 
 - (void)setInnerRadius:(float)r;
 - (void)setOuterRadius:(float)r;
+
+@end
+
+
+@interface FMUniformPointAttributesArray : ArrayBuffer
+
+@property (nonatomic, readonly) NSArray<FMUniformPointAttributes*>* _Nonnull array;
+
+- (instancetype _Nonnull)initWithBuffer:(id<MTLBuffer> _Nonnull)buffer
+UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+                                 capacity:(NSUInteger)capacity
+NS_DESIGNATED_INITIALIZER;
 
 @end
