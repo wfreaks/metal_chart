@@ -365,6 +365,17 @@
 	return point;
 }
 
+- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMProjectionCartesian2D *)space
+														  series:(FMOrderedAttributedSeries *)series
+											  attributesCapacity:(NSUInteger)capacity
+{
+	FMOrderedAttributedPointPrimitive *point = [[FMOrderedAttributedPointPrimitive alloc] initWithEngine:self.engine series:series attributesCapacity:capacity];
+	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
+	[_chart addRenderable:ps];
+	[_chart addProjection:space];
+	return point;
+}
+
 - (void)removeRenderable:(id<FMRenderable>)renderable
 {
 	[_chart removeRenderable:renderable];

@@ -25,6 +25,7 @@
 @class FMOrderedPolyLinePrimitive;
 @class FMBarPrimitive;
 @class FMOrderedPointPrimitive;
+@class FMOrderedAttributedPointPrimitive;
 @class FMOrderedBarPrimitive;
 @class FMOrderedAttributedBarPrimitive;
 @class FMUniformLineAttributes;
@@ -32,6 +33,7 @@
 @class FMUniformBarAttributes;
 @class FMUniformRectAttributesArray;
 @class FMUniformPointAttributes;
+@class FMUniformPointAttributesArray;
 @class FMUniformPlotRectAttributes;
 @class FMUniformGridAttributes;
 @class FMUniformAxisConfiguration;

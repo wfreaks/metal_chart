@@ -24,8 +24,21 @@
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-										  series:(FMOrderedSeries * _Nullable)series
-									  attributes:(FMUniformPointAttributes * _Nullable)attributes
+								 series:(FMOrderedSeries * _Nullable)series
+							 attributes:(FMUniformPointAttributes * _Nullable)attributes
+;
+@end
+
+
+@interface FMOrderedAttributedPointPrimitive : NSObject<FMPointPrimitive>
+
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
+@property (readonly, nonatomic) FMUniformPointAttributesArray * _Nonnull attributesArray;
+@property (strong, nonatomic) FMOrderedAttributedSeries * _Nullable series;
+
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
+								 series:(FMOrderedAttributedSeries * _Nullable)series
+					 attributesCapacity:(NSUInteger)capacity
 ;
 @end
 

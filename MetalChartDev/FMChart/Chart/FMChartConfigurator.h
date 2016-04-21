@@ -148,6 +148,11 @@ NS_DESIGNATED_INITIALIZER;
 											   series:(FMAttributedBarSeries * _Nonnull)series
 ;
 
+- (FMOrderedAttributedPointPrimitive * _Nonnull)addAttributedPointToSpace:(FMProjectionCartesian2D * _Nonnull)space
+                                                                   series:(FMOrderedAttributedSeries * _Nonnull)series
+													   attributesCapacity:(NSUInteger)capacity
+;
+
 - (void)removeRenderable:(id<FMRenderable> _Nonnull)renderable;
 
 - (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
