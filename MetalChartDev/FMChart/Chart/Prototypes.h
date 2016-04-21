@@ -11,6 +11,7 @@
 
 @protocol FMSeries;
 @protocol FMAxis;
+@protocol FMPointPrimitive;
 
 @class MetalChart;
 @class FMDeviceResource;
@@ -21,9 +22,11 @@
 
 @class FMEngine;
 @class FMLinePrimitive;
+@class FMOrderedPolyLinePrimitive;
 @class FMBarPrimitive;
+@class FMOrderedPointPrimitive;
+@class FMOrderedBarPrimitive;
 @class FMOrderedAttributedBarPrimitive;
-@class FMPointPrimitive;
 @class FMUniformLineAttributes;
 @class FMUniformBarConfiguration;
 @class FMUniformBarAttributes;
@@ -31,7 +34,11 @@
 @class FMUniformPointAttributes;
 @class FMUniformPlotRectAttributes;
 @class FMUniformGridAttributes;
+@class FMUniformAxisConfiguration;
+@class FMUniformAxisAttributes;
 
+@class FMOrderedSeries;
+@class FMOrderedAttributedSeries;
 @class FMIndexedFloatBuffer;
 @class FMUniformSeriesInfo;
 @class FMContinuosArcPrimitive;

@@ -16,7 +16,7 @@
 
 @interface FMLinePrimitive()
 
-@property (strong, nonatomic) FMDynamicPointPrimitive * _Nullable point;
+@property (strong, nonatomic) FMOrderedPointPrimitive * _Nullable point;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 									  attributes:(FMUniformLineAttributes * _Nullable)attributes
@@ -107,7 +107,7 @@
 			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 		}
 		
-		FMPointPrimitive *point = [self point];
+		id<FMPointPrimitive> point = [self point];
 		if(point) {
 			[point encodeWith:encoder projection:projection];
 		}
@@ -123,7 +123,7 @@
 	if(_pointAttributes != pointAttributes) {
 		_pointAttributes = pointAttributes;
 		if(pointAttributes) {
-			_point = [[FMDynamicPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
+			_point = [[FMOrderedPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
 		} else {
 			_point = nil;
 		}
@@ -132,32 +132,7 @@
 
 @end
 
-@implementation FMOrderedSeparatedLinePrimitive
 
-- (instancetype)initWithEngine:(FMEngine *)engine
-				orderedSeries:(FMOrderedSeries *)series
-					attributes:(FMUniformLineAttributes * _Nullable)attributes
-{
-	self = [super initWithEngine:engine attributes:attributes];
-	if(self) {
-		_series = series;
-	}
-	return self;
-}
-
-- (NSUInteger)vertexCountWithCount:(NSUInteger)count
-{
-	return 6 * MAX(0, ((NSInteger)(count/2)));
-}
-
-- (NSString *)vertexFunctionName { return @"SeparatedLineEngineVertexOrdered"; }
-
-- (FMPointPrimitive *)createPointPrimitiveWithAttributes:(FMUniformPointAttributes *)attributes
-{
-	return [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:_series attributes:attributes];
-}
-
-@end
 
 @implementation FMPolyLinePrimitive
 
@@ -167,6 +142,8 @@
 }
 
 @end
+
+
 
 @implementation FMOrderedPolyLinePrimitive
 
@@ -183,39 +160,6 @@
 	return self;
 }
 
-static double gaussian(double mean, double variance) {
-	const double u1 = (double)arc4random() / UINT32_MAX;
-	const double u2 = (double)arc4random() / UINT32_MAX;
-	const double f1 = sqrt(-2 * log(u1));
-	const double f2 = 2 * M_PI * u2;
-	return (variance * f1 * sin(f2)) + mean;
-}
-
-- (void)appendSampleData:(NSUInteger)count
-		  maxVertexCount:(NSUInteger)maxCount
-					mean:(CGFloat)mean
-				variance:(CGFloat)variant
-			  onGenerate:(void (^ _Nullable)(float, float))block
-{
-	VertexBuffer *vertices = _series.vertices;
-	const NSUInteger capacity = vertices.capacity;
-	const NSUInteger idx_start = self.series.info.offset + self.series.info.count;
-	const NSUInteger idx_end = idx_start + count;
-	for(NSUInteger i = 0; i < count; ++i) {
-		vertex_float2 *v = [vertices bufferAtIndex:(idx_start+i)%capacity];
-		const float x = idx_start + i;
-		const float y = gaussian(mean, variant);
-		v->position.x = x;
-		v->position.y = y;
-		if(block) {
-			block(x, y);
-		}
-	}
-	const NSUInteger vCount = MIN(capacity, MIN(maxCount, idx_end));
-	self.series.info.count = vCount;
-	self.series.info.offset = idx_end - vCount;
-}
-
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrdered"; }
 
 - (void)setSeries:(FMOrderedSeries *)series
@@ -226,12 +170,13 @@ static double gaussian(double mean, double variance) {
 
 @end
 
+
+
 @interface FMAxisPrimitive()
 
 @property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
 
 @end
-
 @implementation FMAxisPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine

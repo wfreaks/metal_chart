@@ -73,25 +73,6 @@
 @end
 
 
-@implementation IndexBuffer
-
-- (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
-{
-	auto ptr = std::make_shared<MTLObjectBuffer<vertex_index>>(resource.device, capacity);
-	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-	return self;
-}
-
-- (vertex_index *)bufferAtIndex:(NSUInteger)index
-{
-	vertex_index *ptr = (vertex_index *)([self.buffer contents]);
-	return ptr + index;
-}
-
-@end
-
-
-
 @implementation FMIndexedFloatBuffer
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity

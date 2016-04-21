@@ -8,53 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
+#import "Prototypes.h"
 
-@class FMEngine;
-@class FMUniformProjectionCartesian2D;
-@class FMUniformPlotRectAttributes;
-@class FMUniformPointAttributes;
-@class FMOrderedSeries;
-@class FMIndexedSeries;
-
-@protocol MTLRenderCommandEncoder;
-@protocol FMSeries;
-
-@interface FMPointPrimitive : NSObject<FMPrimitive>
-
-@property (readonly, nonatomic) FMEngine * _Nonnull engine;
-@property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
+@protocol FMPointPrimitive<FMPrimitive>
 
 - (id<FMSeries> _Nullable)series;
 
 @end
 
-@interface FMOrderedPointPrimitive : FMPointPrimitive
 
+@interface FMOrderedPointPrimitive : NSObject<FMPointPrimitive>
+
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
+@property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 										  series:(FMOrderedSeries * _Nullable)series
-									  attributes:(FMUniformPointAttributes * _Nullable)attributes
-;
-@end
-
-@interface FMIndexedPointPrimitive : FMPointPrimitive
-
-@property (strong, nonatomic) FMIndexedSeries * _Nullable series;
-
-- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-										  series:(FMIndexedSeries * _Nullable)series
-									  attributes:(FMUniformPointAttributes * _Nullable)attributes
-;
-@end
-
-
-@interface FMDynamicPointPrimitive : FMPointPrimitive
-
-@property (strong, nonatomic) id<FMSeries> _Nullable series;
-
-- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-										  series:(id<FMSeries> _Nullable)series
 									  attributes:(FMUniformPointAttributes * _Nullable)attributes
 ;
 @end

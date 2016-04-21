@@ -52,24 +52,6 @@ class vertex_container {
 	
 };
 
-class index_container {
-	
-	vertex_index *_buffer;
-	const std::size_t _capacity;
-	
-	public :
-	
-	index_container(void *ptr, std::size_t capacity) :
-	_buffer(static_cast<vertex_index *>(ptr)),
-	_capacity(capacity)
-	{}
-	
-	std::size_t capacity() const { return _capacity; }
-	vertex_index& operator[](std::size_t index) { return _buffer[index]; }
-	const vertex_index& operator[](std::size_t index) const { return _buffer[index]; }
-	
-};
-
 #endif
 
 

@@ -128,24 +128,24 @@ NS_DESIGNATED_INITIALIZER;
 											  interval:(CGFloat)interval
 ;
 
-- (FMLineSeries * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
-								   series:(FMOrderedSeries * _Nonnull)series
+- (FMOrderedPolyLinePrimitive * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
+                                                 series:(FMOrderedSeries * _Nonnull)series
 ;
 
-- (FMUniformPointAttributes* _Nonnull)setPointToLine:(FMLineSeries* _Nonnull)line
+- (FMUniformPointAttributes* _Nonnull)setPointToLine:(FMLinePrimitive* _Nonnull)line
 ;
 
-- (FMBarSeries * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-								 series:(FMOrderedSeries * _Nonnull)series
+- (FMOrderedBarPrimitive * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
+										   series:(FMOrderedSeries * _Nonnull)series
 ;
 
-- (FMAttributedBarSeries * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-													 series:(FMOrderedAttributedSeries * _Nonnull)series
-											   attrCapacity:(NSUInteger)capacity
+- (FMOrderedAttributedBarPrimitive * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
+															   series:(FMOrderedAttributedSeries * _Nonnull)series
+														 attrCapacity:(NSUInteger)capacity
 ;
 
-- (FMPointSeries * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-									 series:(FMAttributedBarSeries * _Nonnull)series
+- (FMOrderedPointPrimitive * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
+											   series:(FMAttributedBarSeries * _Nonnull)series
 ;
 
 - (void)removeRenderable:(id<FMRenderable> _Nonnull)renderable;

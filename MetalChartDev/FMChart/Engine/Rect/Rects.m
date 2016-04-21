@@ -75,7 +75,7 @@
 		_engine = engine;
 		FMDeviceResource *res = engine.resource;
 		_conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
-		_attr = (attr) ? attr : [[FMUniformBarAttributes alloc] initWithResource:res];
+		_attributes = (attr) ? attr : [[FMUniformBarAttributes alloc] initWithResource:res];
 	}
 	return self;
 }
@@ -93,7 +93,7 @@
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const barBuffer = _conf.buffer;
-		id<MTLBuffer> const attrBuffer = _attr.buffer;
+		id<MTLBuffer> const attrBuffer = _attributes.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
@@ -187,7 +187,7 @@
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> const barBuffer = self.conf.buffer;
-		id<MTLBuffer> const attrBuffer = self.attr.buffer;
+		id<MTLBuffer> const attrBuffer = self.attributes.buffer;
 		id<MTLBuffer> const attrsBuffer = self.rectAttrs.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;

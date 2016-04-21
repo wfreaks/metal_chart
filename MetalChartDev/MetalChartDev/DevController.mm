@@ -42,7 +42,7 @@
 	[self.chart addProjection:space];
 	
 	FMOrderedSeries *series = [self.configurator createSeries:8];
-	FMLineSeries *line = [self.configurator addLineToSpace:space series:series];
+	FMLinePrimitive *line = [self.configurator addLineToSpace:space series:series];
 	
 	[line.attributes setWidth:5];
 	[line.attributes setEnableOverlay:NO];

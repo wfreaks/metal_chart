@@ -63,34 +63,15 @@ struct out_vertex_indexed {
 
 vertex out_vertex Point_VertexOrdered(
 									  device vertex_float2 *vertices [[ buffer(0) ]],
-									  constant uniform_point& point [[ buffer(2) ]],
-									  constant uniform_projection_cart2d& proj [[ buffer(3) ]],
-									  constant uniform_series_info& info [[ buffer(4) ]],
+									  constant uniform_point& point [[ buffer(1) ]],
+									  constant uniform_projection_cart2d& proj [[ buffer(2) ]],
+									  constant uniform_series_info& info [[ buffer(3) ]],
 									  const uint vid [[ vertex_id ]]
 									  )
 {
 	const float2 pos_data = vertices[vid % info.vertex_capacity].position;
 	out_vertex out;
 	PointVertexCore(pos_data, point, proj, out);
-	return out;
-}
-
-vertex out_vertex Point_VertexIndexed(
-									  device vertex_float2 *vertices [[ buffer(0) ]],
-									  device vertex_index *indices  [[ buffer(1) ]],
-									  constant uniform_point& point [[ buffer(2) ]],
-									  constant uniform_projection_cart2d& proj [[ buffer(3) ]],
-									  constant uniform_series_info& info [[ buffer(4) ]],
-									  const uint vid [[ vertex_id ]]
-									  )
-{
-	const uint vcap = info.vertex_capacity;
-	const uint icap = info.index_capacity;
-	const uint index = (indices[vid % icap].index) % vcap;
-	const float2 pos_data = vertices[index].position;
-	out_vertex out;
-	PointVertexCore(pos_data, point, proj, out);
-	
 	return out;
 }
 

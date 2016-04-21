@@ -21,10 +21,6 @@ typedef struct {
 	vector_float2 position;
 } vertex_float2;
 
-typedef struct {
-	uint32_t index;
-} vertex_index;
-
 // 主に属性付きの値(色などの設定を変える)を表示する際に使う.
 // 別々のパラメータとしてもよいが、数の一致や扱い方の煩雑さなどからこちらの方が使い易いと思う.
 typedef struct {

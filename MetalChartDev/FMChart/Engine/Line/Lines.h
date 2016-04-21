@@ -9,18 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "Protocols.h"
-
-@class FMEngine;
-@class FMUniformProjectionCartesian2D;
-@class FMUniformLineAttributes;
-@class FMUniformAxisConfiguration;
-@class FMUniformAxisAttributes;
-@class FMUniformPointAttributes;
-@class FMUniformGridAttributes;
-@class FMOrderedSeries;
-@class FMIndexedSeries;
-
-@protocol FMSeries;
+#import "Prototypes.h"
 
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
@@ -34,22 +23,11 @@
 
 
 
-// 使い所がなくてメンテが滞っている、正常動作しない可能性が高い.
-@interface FMOrderedSeparatedLinePrimitive : FMLinePrimitive
-
-@property (strong, nonatomic) FMOrderedSeries * _Nullable series;
-
-- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-								   orderedSeries:(FMOrderedSeries * _Nullable)series
-									  attributes:(FMUniformLineAttributes * _Nullable)attributes
-;
-
-@end
-
-
 @interface FMPolyLinePrimitive : FMLinePrimitive
 
 @end
+
+
 
 @interface FMOrderedPolyLinePrimitive : FMPolyLinePrimitive
 
@@ -60,14 +38,9 @@
 									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
-- (void)appendSampleData:(NSUInteger)count
-		  maxVertexCount:(NSUInteger)maxCount
-					mean:(CGFloat)mean
-				variance:(CGFloat)variant
-			  onGenerate:(void (^_Nullable)(float x, float y))block
-;
-
 @end
+
+
 
 
 @interface FMAxisPrimitive : NSObject
@@ -87,6 +60,8 @@
 ;
 
 @end
+
+
 
 
 @interface FMGridLinePrimitive : NSObject

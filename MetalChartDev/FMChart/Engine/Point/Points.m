@@ -13,21 +13,18 @@
 #import "PointBuffers.h"
 #import "Series.h"
 
-@interface FMPointPrimitive()
+@implementation FMOrderedPointPrimitive
 
-- (id<MTLBuffer>)indexBuffer;
-
-@end
-
-@implementation FMPointPrimitive
-
-- (instancetype)initWithEngine:(FMEngine *)engine attributes:(FMUniformPointAttributes * _Nullable)attributes
+- (instancetype)initWithEngine:(FMEngine *)engine
+						series:(FMOrderedSeries *)series
+					attributes:(FMUniformPointAttributes * _Nullable)attributes
 {
 	self = [super init];
 	if(self) {
 		_engine = engine;
 		FMDeviceResource *res = engine.resource;
 		_attributes = (attributes) ? attributes : [[FMUniformPointAttributes alloc] initWithResource:res];
+		_series = series;
 	}
 	return self;
 }
@@ -44,15 +41,13 @@ projection:(FMUniformProjectionCartesian2D *)projection
 		[encoder setDepthStencilState:depthState];
 		
 		id<MTLBuffer> const vertexBuffer = [series vertexBuffer];
-		id<MTLBuffer> const indexBuffer = [self indexBuffer];
 		id<MTLBuffer> const pointBuffer = _attributes.buffer;
 		id<MTLBuffer> const projBuffer = projection.buffer;
 		id<MTLBuffer> const infoBuffer = [series info].buffer;
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
-		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
-		[encoder setVertexBuffer:pointBuffer offset:0 atIndex:2];
-		[encoder setVertexBuffer:projBuffer offset:0 atIndex:3];
-		[encoder setVertexBuffer:infoBuffer offset:0 atIndex:4];
+		[encoder setVertexBuffer:pointBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:projBuffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:infoBuffer offset:0 atIndex:3];
 		
 		[encoder setFragmentBuffer:pointBuffer offset:0 atIndex:0];
 		[encoder setFragmentBuffer:projBuffer offset:0 atIndex:1];
@@ -74,83 +69,10 @@ projection:(FMUniformProjectionCartesian2D *)projection
 
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return offset; }
 
-- (NSString *)vertexFunctionName { return @""; }
-
-- (id<MTLBuffer>)indexBuffer { return nil; }
-
-- (id<FMSeries>)series { return nil; }
-
-@end
-
-
-
-@implementation FMOrderedPointPrimitive
-
-- (instancetype)initWithEngine:(FMEngine *)engine
-						series:(FMOrderedSeries *)series
-					attributes:(FMUniformPointAttributes * _Nullable)attributes
-{
-	self = [super initWithEngine:engine attributes:attributes];
-	if(self) {
-		_series = series;
-	}
-	return self;
-}
-
 - (NSString *)vertexFunctionName { return @"Point_VertexOrdered"; }
 
 @end
 
-
-
-@implementation FMIndexedPointPrimitive
-
-- (instancetype)initWithEngine:(FMEngine *)engine
-						series:(FMIndexedSeries *)series
-					attributes:(FMUniformPointAttributes * _Nullable)attributes
-{
-	self = [super initWithEngine:engine attributes:attributes];
-	if(self) {
-		_series = series;
-	}
-	return self;
-}
-
-- (NSString *)vertexFunctionName { return @"Point_VertexIndexed"; }
-
-- (id<MTLBuffer>)indexBuffer { return _series.indices.buffer; }
-
-@end
-
-
-
-@implementation FMDynamicPointPrimitive
-
-- (instancetype)initWithEngine:(FMEngine *)engine
-						series:(id<FMSeries> _Nullable)series
-					attributes:(FMUniformPointAttributes * _Nullable)attributes
-{
-	self = [super initWithEngine:engine attributes:attributes];
-	if(self) {
-		_series = series;
-	}
-	return self;
-}
-
-- (NSString *)vertexFunctionName {
-	return ([self indexBuffer]) ? @"Point_VertexIndexed" : @"Point_VertexOrdered";
-}
-
-- (id<MTLBuffer>)indexBuffer
-{
-	id<FMSeries> series = _series;
-	if([series isKindOfClass:[FMIndexedSeries class]]) {
-		return ((FMIndexedSeries *)series).indices.buffer;
-	}
-	return nil;
-}
-
-@end
 
 
 

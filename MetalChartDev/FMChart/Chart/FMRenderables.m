@@ -132,7 +132,7 @@
 
 - (FMUniformBarConfiguration *)conf { return _bar.conf; }
 
-- (FMUniformBarAttributes *)attributes { return _bar.attr; }
+- (FMUniformBarAttributes *)attributes { return _bar.attributes; }
 
 - (id<FMSeries>)series { return [_bar series]; }
 
@@ -198,7 +198,7 @@
 
 @implementation FMPointSeries
 
-- (instancetype)initWithPoint:(FMPointPrimitive *)point
+- (instancetype)initWithPoint:(id<FMPointPrimitive>)point
 				   projection:(FMProjectionCartesian2D *)projection
 {
 	self = [super init];
@@ -209,7 +209,6 @@
 	return self;
 }
 
-- (FMUniformPointAttributes *)attributes { return _point.attributes; }
 - (id<FMSeries>)series { return [_point series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder

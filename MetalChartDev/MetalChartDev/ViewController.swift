@@ -30,11 +30,6 @@ class ViewController: UIViewController {
 	var systolicSeries : FMOrderedSeries? = nil
 	var diastolicSeries : FMOrderedSeries? = nil
 	
-	var stepBar : FMBarSeries? = nil
-	var weightLine : FMLineSeries? = nil
-	var systolicLine : FMLineSeries? = nil
-	var diastolicLine : FMLineSeries? = nil
-	
 	var dateUpdater : FMProjectionUpdater? = nil;
 	var stepUpdater : FMProjectionUpdater? = nil;
 	var weightUpdater : FMProjectionUpdater? = nil;
@@ -128,32 +123,32 @@ class ViewController: UIViewController {
 			return self.pressureUpdater
 		}
 		
-		stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
-		weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
-		systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
-		diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
-		let weightPoint = configurator.setPointToLine(weightLine!)
-		let systolicPoint = configurator.setPointToLine(systolicLine!)
-		let diastolicPoint = configurator.setPointToLine(diastolicLine!)
+		let stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
+		let weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
+		let systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
+		let diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
+		let weightPoint = configurator.setPointToLine(weightLine)
+		let systolicPoint = configurator.setPointToLine(systolicLine)
+		let diastolicPoint = configurator.setPointToLine(diastolicLine)
 		
 		let weightColor = UIColor(red: 0.4, green: 0.7, blue: 0.9, alpha: 1.0).vector()
 		let systolicColor = UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0).vector()
 		let diastolicColor = UIColor(red: 0.9, green: 0.4, blue: 0.2, alpha: 1.0).vector()
 		let stepColor = UIColor(white: 0.5, alpha: 1.0).vector()
 		
-		stepBar?.attributes.setBarWidth(20)
-		stepBar?.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		weightLine?.attributes.setWidth(8)
-		weightLine?.attributes.setColor(weightColor)
-		weightLine?.attributes.setAlpha(0.6)
-		weightLine?.attributes.enableOverlay = true
+		stepBar.attributes.setBarWidth(20)
+		stepBar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		weightLine.attributes.setWidth(8)
+		weightLine.attributes.setColor(weightColor)
+		weightLine.attributes.setAlpha(0.6)
+		weightLine.attributes.enableOverlay = true
 		configurePointAttributes(weightPoint, innerRadius: 8, outerColor: weightColor)
 		
-		systolicLine?.attributes.enableOverlay = true
-		systolicLine?.attributes.setColor(systolicColor)
+		systolicLine.attributes.enableOverlay = true
+		systolicLine.attributes.setColor(systolicColor)
 		configurePointAttributes(systolicPoint, innerRadius: 6, outerColor: systolicColor)
-		diastolicLine?.attributes.enableOverlay = true
-		diastolicLine?.attributes.setColor(diastolicColor)
+		diastolicLine.attributes.enableOverlay = true
+		diastolicLine.attributes.setColor(diastolicColor)
 		configurePointAttributes(diastolicPoint, innerRadius: 6, outerColor: diastolicColor)
 		
 		let weightConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 1)

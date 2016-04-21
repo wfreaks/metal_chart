@@ -40,7 +40,7 @@
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
-@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attr;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 
 - (id<FMSeries> _Nullable)series;
 

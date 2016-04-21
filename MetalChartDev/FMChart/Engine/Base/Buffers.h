@@ -123,20 +123,6 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
-@interface IndexBuffer : ArrayBuffer
-
-- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
-								 capacity:(NSUInteger)capacity
-NS_DESIGNATED_INITIALIZER;
-
-- (vertex_index * _Nonnull)bufferAtIndex:(NSUInteger)index;
-
-@end
-
-
-
-
-
 @interface FMIndexedFloatBuffer : ArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
