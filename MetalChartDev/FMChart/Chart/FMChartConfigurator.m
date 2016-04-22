@@ -347,10 +347,9 @@
 	FMOrderedAttributedBarPrimitive *bar = [[FMOrderedAttributedBarPrimitive alloc] initWithEngine:self.engine
 																							series:series
 																					 configuration:nil
-																				  globalAttributes:nil
 																				   attributesArray:nil
 																		attributesCapacityOnCreate:capacity];
-	FMAttributedBarSeries *bs = [[FMAttributedBarSeries alloc] initWithAttributedBar:bar projection:space];
+	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
 	[_chart addRenderable:bs];
 	[_chart addProjection:space];
 	return bar;

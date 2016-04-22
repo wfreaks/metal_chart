@@ -10,6 +10,8 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 
+
+
 @implementation FMUniformPlotRectAttributes
 
 @dynamic rect;
@@ -98,6 +100,11 @@
 @end
 
 
+@interface FMUniformBarAttributes()
+
+@property (nonatomic, readonly) NSInteger index;
+
+@end
 @implementation FMUniformBarAttributes
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
@@ -105,15 +112,26 @@
 	self = [super init];
 	if(self) {
 		_buffer = [resource.device newBufferWithLength:sizeof(uniform_bar_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_index = 0;
 		[self setBarWidth:3];
 		[self setColorRed:0.4 green:0.4 blue:0.4 alpha:0.6];
 	}
 	return self;
 }
 
+- (instancetype)initWithBuffer:(id<MTLBuffer>)buffer index:(NSInteger)index
+{
+	self = [super init];
+	if(self) {
+		_buffer = buffer;
+		_index = index;
+	}
+	return self;
+}
+
 - (uniform_bar_attr *)attr
 {
-	return (uniform_bar_attr *)([_buffer contents]);
+	return ((uniform_bar_attr *)([_buffer contents]) + _index);
 }
 
 - (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
@@ -149,60 +167,42 @@
 @end
 
 
-@interface FMUniformRectAttributes()
-
-- (instancetype)initWithPointer:(uniform_rect_attr *)ptr;
-
-@end
-@implementation FMUniformRectAttributes
-
-- (instancetype)initWithPointer:(uniform_rect_attr *)ptr
-{
-	self = [super init];
-	if(self) {
-		_attr = ptr;
-	}
-	return self;
-}
-
-- (void)setColor:(vector_float4)color { self.attr->color = color; }
-- (void)setColorRef:(const vector_float4 *)color { self.attr->color = *color; }
-
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
-{
-	self.attr->color = vector4(r, g, b, a);
-}
-
-@end
 
 
 
-
-
-@implementation FMUniformRectAttributesArray
+@implementation FMUniformBarAttributesArray
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 						capacity:(NSUInteger)capacity
 {
-	self = [super init];
+	auto ptr = std::make_shared<MTLObjectBuffer<uniform_bar_attr>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
 	if(self) {
-		const NSInteger size = sizeof(uniform_rect_attr) * capacity;
-		const MTLResourceOptions opt = MTLResourceOptionCPUCacheModeWriteCombined;
-		_buffer = [resource.device newBufferWithLength:size
-											   options:opt];
-		uniform_rect_attr *ptr = (uniform_rect_attr *)[_buffer contents];
-		NSMutableArray *array = [NSMutableArray arrayWithCapacity:capacity];
-		for(NSUInteger i = 0; i < capacity; ++i) {
-			[array addObject:[[FMUniformRectAttributes alloc] initWithPointer:(ptr+i)]];
-		}
-		_array = array.copy;
+		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
 	}
 	return self;
 }
 
-- (FMUniformRectAttributes *)objectAtIndexedSubscript:(NSUInteger)index
+- (FMUniformBarAttributes *)objectAtIndexedSubscript:(NSUInteger)index
 {
 	return _array[index];
+}
+
++ (NSArray<FMUniformBarAttributes*>*)createArrayWithBuffer:(id<MTLBuffer>)buffer capacity:(NSUInteger)capacity
+{
+	NSMutableArray<FMUniformBarAttributes*>* array = [NSMutableArray arrayWithCapacity:capacity];
+	for(NSInteger i = 0; i < capacity; ++i) {
+		[array addObject:[[FMUniformBarAttributes alloc] initWithBuffer:buffer index:capacity]];
+	}
+	return [NSArray arrayWithArray:array];
+}
+
+- (void)reserve:(NSUInteger)capacity
+{
+	if(capacity > self.capacity) {
+		[super reserve:capacity];
+		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
+	}
 }
 
 @end

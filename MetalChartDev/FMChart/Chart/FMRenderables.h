@@ -58,7 +58,6 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
 @property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
-@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
@@ -67,33 +66,6 @@ NS_DESIGNATED_INITIALIZER;
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-@end
-
-@interface FMAttributedBarSeries : FMBarSeries
-
-@property (readonly, nonatomic) FMOrderedAttributedBarPrimitive * _Nonnull attributedBar;
-@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull globalAttributes;
-@property (readonly, nonatomic) FMUniformRectAttributesArray * _Nonnull attributesArray;
-
-- (instancetype _Nonnull)initWithBar:(FMBarPrimitive * _Nonnull)bar
-						  projection:(FMProjectionCartesian2D * _Nullable)projection
-UNAVAILABLE_ATTRIBUTE;
-
-- (instancetype _Nonnull)initWithAttributedBar:(FMOrderedAttributedBarPrimitive * _Nonnull)bar
-									projection:(FMProjectionCartesian2D * _Nullable)projection
-;
-
-+ (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
-											engine:(FMEngine * _Nonnull)engine
-										projection:(FMProjectionCartesian2D * _Nonnull)projection
-UNAVAILABLE_ATTRIBUTE;
-
-+ (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)seriesCapacity
-								attributesCapacity:(NSUInteger)attrCapacity
-											engine:(FMEngine * _Nonnull)engine
-										projection:(FMProjectionCartesian2D * _Nonnull)projection
-;
 
 @end
 

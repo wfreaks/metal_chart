@@ -19,7 +19,7 @@
 		AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
 		AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */; };
-		AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
+		AA32A9981BE3B5FA00ABDC1E /* RectBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.mm */; };
 		AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AA32A99B1BE3B5FA00ABDC1E /* PointBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */; };
@@ -152,7 +152,7 @@
 		AAC4A8941BAFE3020032A0CF /* Points.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8571BAFE3020032A0CF /* Points.m */; };
 		AAC4A8951BAFE3020032A0CF /* Rect_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8591BAFE3020032A0CF /* Rect_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */; };
+		AAC4A8971BAFE3020032A0CF /* RectBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85B1BAFE3020032A0CF /* RectBuffers.mm */; };
 		AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A8991BAFE3020032A0CF /* Rects.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A85D1BAFE3020032A0CF /* Rects.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
@@ -279,7 +279,7 @@
 		AAC4A8571BAFE3020032A0CF /* Points.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Points.m; sourceTree = "<group>"; };
 		AAC4A8591BAFE3020032A0CF /* Rect_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rect_common.h; sourceTree = "<group>"; };
 		AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RectBuffers.h; sourceTree = "<group>"; };
-		AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RectBuffers.m; sourceTree = "<group>"; };
+		AAC4A85B1BAFE3020032A0CF /* RectBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RectBuffers.mm; sourceTree = "<group>"; };
 		AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = RectEngineShader.metal; sourceTree = "<group>"; };
 		AAC4A85D1BAFE3020032A0CF /* Rects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rects.h; sourceTree = "<group>"; };
 		AAC4A85E1BAFE3020032A0CF /* Rects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Rects.m; sourceTree = "<group>"; };
@@ -504,7 +504,7 @@
 				AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */,
 				AAC4A8591BAFE3020032A0CF /* Rect_common.h */,
 				AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */,
-				AAC4A85B1BAFE3020032A0CF /* RectBuffers.m */,
+				AAC4A85B1BAFE3020032A0CF /* RectBuffers.mm */,
 				AAC4A85D1BAFE3020032A0CF /* Rects.h */,
 				AAC4A85E1BAFE3020032A0CF /* Rects.m */,
 			);
@@ -807,7 +807,7 @@
 				AA85C76A1BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AA32A9971BE3B5FA00ABDC1E /* TextureQuadBuffers.m in Sources */,
 				AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */,
-				AA32A9981BE3B5FA00ABDC1E /* RectBuffers.m in Sources */,
+				AA32A9981BE3B5FA00ABDC1E /* RectBuffers.mm in Sources */,
 				AA32A9991BE3B5FA00ABDC1E /* FMMetalView.m in Sources */,
 				AA858A3F1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AA32A99A1BE3B5FA00ABDC1E /* DeviceResource.m in Sources */,
@@ -859,7 +859,7 @@
 				AA85C7691BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
-				AAC4A8971BAFE3020032A0CF /* RectBuffers.m in Sources */,
+				AAC4A8971BAFE3020032A0CF /* RectBuffers.mm in Sources */,
 				AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */,
 				AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */,
 				AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */,

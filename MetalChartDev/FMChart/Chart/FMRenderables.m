@@ -132,8 +132,6 @@
 
 - (FMUniformBarConfiguration *)conf { return _bar.conf; }
 
-- (FMUniformBarAttributes *)attributes { return _bar.attributes; }
-
 - (id<FMSeries>)series { return [_bar series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
@@ -162,38 +160,6 @@
 
 @end
 
-
-@implementation FMAttributedBarSeries
-
-- (instancetype)initWithAttributedBar:(FMOrderedAttributedBarPrimitive *)bar
-						   projection:(FMProjectionCartesian2D *)projection
-{
-	self = [super initWithBar:bar projection:projection];
-	if(self) {
-		_attributedBar = bar;
-	}
-	return self;
-}
-
-- (FMUniformRectAttributesArray *)attributesArray { return _attributedBar.rectAttrs; }
-
-+ (instancetype)orderedSeriesWithCapacity:(NSUInteger)seriesCapacity
-					   attributesCapacity:(NSUInteger)attrCapacity
-								   engine:(FMEngine *)engine
-							   projection:(FMProjectionCartesian2D *)projection
-{
-	FMOrderedAttributedSeries *series = [[FMOrderedAttributedSeries alloc] initWithResource:engine.resource vertexCapacity:seriesCapacity];
-	FMOrderedAttributedBarPrimitive *primitive = [[FMOrderedAttributedBarPrimitive alloc] initWithEngine:engine
-																								  series:series
-																						   configuration:nil
-																						globalAttributes:nil
-																						 attributesArray:nil
-																			  attributesCapacityOnCreate:attrCapacity];
-	FMAttributedBarSeries *bar = [[FMAttributedBarSeries alloc] initWithAttributedBar:primitive projection:projection];
-	return bar;
-}
-
-@end
 
 
 @implementation FMPointSeries

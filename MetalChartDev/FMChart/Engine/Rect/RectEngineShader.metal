@@ -67,11 +67,6 @@ inline float RoundRectFragment_core(const float2 pos, const float4 rect, const f
 	const float yMin = rect.z + cap_y;
 	const float yMax = rect.w - cap_y;
 	
-//	const float xMin = rect.x + r;
-//	const float xMax = rect.y - r;
-//	const float yMin = rect.z + r;
-//	const float yMax = rect.w - r;
-	
 	const float left   = pos.x - xMin;
 	const float right  = pos.x - xMax;
 	const float bottom = pos.y - yMin;
@@ -110,16 +105,15 @@ fragment out_fragment_depthLess PlotRect_Fragment(
 	return out;
 }
 
-vertex out_vertex_bar GeneralBar_VertexOrdered(
-										device vertex_float2 *vertices   [[ buffer(0) ]],
-										constant uniform_bar_conf& conf [[ buffer(1) ]],
-										constant uniform_bar_attr& attr [[ buffer(2) ]],
-										constant uniform_projection_cart2d& proj [[ buffer(3) ]],
-										constant uniform_series_info& info [[ buffer(4) ]],
-										uint v_id [[ vertex_id ]]
-										)
+template <typename OutType>
+inline void BarVertexCore(const uint v_id,
+						  const float2 pos_data,
+						  constant uniform_bar_conf& conf,
+						  constant uniform_bar_attr& attr,
+						  constant uniform_projection_cart2d& proj,
+						  thread OutType& out
+						  )
 {
-	const uint vid = (v_id / 6) % info.vertex_capacity;
 	const uchar spec = v_id % 6;
 	const bool is_right = ((spec % 2) == 1); // spec = [0,2] -> true
 	const bool is_top = (spec%2 == 0) ^ (spec%5 == 0); // spec = [0,1] -> true
@@ -129,18 +123,17 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
 	const float2 dir_view = normalize(conf.dir);
 	const float2 perp_view(dir_view.y, -dir_view.x);
 	const float2 anchor_view = data_to_ndc(conf.anchor_point, proj) * size; // data -> ndc -> view
-	const float2 position_view = data_to_ndc(vertices[vid].position, proj) * size;
+	const float2 position_view = data_to_ndc(pos_data, proj) * size;
 	const float2 root_view = (dot(position_view-anchor_view, perp_view) * perp_view) + anchor_view;
 	
 	const float2 mid_view = (position_view + root_view) / 2;
 	const float2 vec_along_view = position_view - mid_view;
 	const float2 vec_perp_view = w * perp_view;
-	const float2 coef = float2( (2*(is_right))-1, (2*(is_top))-1 );
+	const float2 coef = float2( (2.0*(is_right))-1, (2.0*(is_top))-1 );
 	// dir_viewが上を向く状態で上だの右だのを考える.
 	const float2 fixed_pos_view = mid_view + (coef.x * vec_perp_view) + (coef.y * vec_along_view);
 	const float2 fixed_pos_ndc = fixed_pos_view / size;
 	
-	out_vertex_bar out;
 	out.position = float4(fixed_pos_ndc.x, fixed_pos_ndc.y, 0, 1.0);
 	out.pos = fixed_pos_view;
 	out.dir = dir_view;
@@ -148,16 +141,15 @@ vertex out_vertex_bar GeneralBar_VertexOrdered(
 	out.l   = length(vec_along_view);
 	out.coef = coef;
 	out.center = mid_view;
-	
-	return out;
 }
 
-fragment out_fragment_depthGreater GeneralBar_Fragment(
-													   const out_vertex_bar in [[ stage_in ]],
-													   constant uniform_bar_conf& conf [[ buffer(0) ]],
-													   constant uniform_bar_attr& attr [[ buffer(1) ]],
-													   constant uniform_projection_cart2d& proj [[ buffer(2) ]]
-													   )
+template <typename InType>
+inline float4 BarFragmentCore(thread const InType& in,
+							 thread float& ratio,
+							 constant uniform_bar_conf& conf,
+							 constant uniform_bar_attr& attr,
+							 constant uniform_projection_cart2d& proj
+							 )
 {
 	// 手順をまとめてみる. pos及びcenterはデバイス上の位置となっている. dirも同じ座標に従い、かつnormalizeされているものとする.
 	// その場合直行するベクトルを求めてその２つで分解する、つまり p = a*dir + b*perp; となるa, bを求める. これは簡単で a = dot(p, dir), b = dot(p, perp)である.
@@ -177,59 +169,61 @@ fragment out_fragment_depthGreater GeneralBar_Fragment(
 	// ここの象限を決める際に、radiusに応じたoffsetを取る。横にずれると話がややこしくなるので、まずは縦のみ. 左右があって面倒なので、(l+r)*0.5を基準にしよう.
 	const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));
 	const float r = radius[idx_corner];
-	const float ratio = RoundRectFragment_core(pos, rectangle, r, proj.screen_scale);
+	ratio = RoundRectFragment_core(pos, rectangle, r, proj.screen_scale);
 	
+	float4 color = attr.color;
+	color.a *= ratio;
+	
+	return color;
+}
+
+vertex out_vertex_bar GeneralBar_VertexOrdered(
+											   device vertex_float2 *vertices   [[ buffer(0) ]],
+											   constant uniform_bar_conf& conf [[ buffer(1) ]],
+											   constant uniform_bar_attr& attr [[ buffer(2) ]],
+											   constant uniform_projection_cart2d& proj [[ buffer(3) ]],
+											   constant uniform_series_info& info [[ buffer(4) ]],
+											   uint v_id [[ vertex_id ]]
+											   )
+{
+	const uint vid = (v_id / 6) % info.vertex_capacity;
+	out_vertex_bar out;
+	BarVertexCore(v_id, vertices[vid].position, conf, attr, proj, out);
+	
+	return out;
+}
+
+fragment out_fragment_depthGreater GeneralBar_Fragment(
+													   const out_vertex_bar in [[ stage_in ]],
+													   constant uniform_bar_conf& conf [[ buffer(0) ]],
+													   constant uniform_bar_attr& attr [[ buffer(1) ]],
+													   constant uniform_projection_cart2d& proj [[ buffer(2) ]]
+													   )
+{
+	float ratio = 0;
 	out_fragment_depthGreater out;
-	out.color = attr.color;
-	out.color.a *= ratio;
+	out.color = BarFragmentCore(in, ratio, conf, attr, proj);;
 	out.depth = ((ratio > 0) * conf.depth_value);
 	
 	return out;
 }
 
 
-// for attributed bar
-
 vertex out_vertex_bar_attributed AttributedBar_VertexOrdered(
 															 device indexed_float2 *vertices [[ buffer(0) ]],
 															 constant uniform_bar_conf& conf [[ buffer(1) ]],
-															 constant uniform_bar_attr& attr [[ buffer(2) ]],
+															 constant uniform_bar_attr* attrs_array [[ buffer(2) ]],
 															 constant uniform_projection_cart2d& proj [[ buffer(3) ]],
 															 constant uniform_series_info& info [[ buffer(4) ]],
 															 uint v_id [[ vertex_id ]]
 															 )
 {
 	const uint vid = (v_id / 6) % info.vertex_capacity;
-	const uchar spec = v_id % 6;
-	const bool is_right = ((spec % 2) == 1); // spec = [0,2] -> true
-	const bool is_top = (spec%2 == 0) ^ (spec%5 == 0); // spec = [0,1] -> true
-	// dirが(0,0)の場合は考えない. そんなやつの事は知らん. ちなみに面倒な事に、dirはview空間、anchorはデータ空間となる（rangeによって方向変わるとか許されない）
-	const float2 size = proj.physical_size / 2;
-	const float  w = attr.width / 2;
-	const float2 dir_view = normalize(conf.dir);
-	const float2 perp_view(dir_view.y, -dir_view.x);
-	const float2 anchor_view = data_to_ndc(conf.anchor_point, proj) * size; // data -> ndc -> view
-	const indexed_float2 value = vertices[vid];
-	const float2 position_view = data_to_ndc(value.value, proj) * size;
-	const float2 root_view = (dot(position_view-anchor_view, perp_view) * perp_view) + anchor_view;
-	
-	const float2 mid_view = (position_view + root_view) / 2;
-	const float2 vec_along_view = position_view - mid_view;
-	const float2 vec_perp_view = w * perp_view;
-	const float2 coef = float2( (2*(is_right))-1, (2*(is_top))-1 );
-	// dir_viewが上を向く状態で上だの右だのを考える.
-	const float2 fixed_pos_view = mid_view + (coef.x * vec_perp_view) + (coef.y * vec_along_view);
-	const float2 fixed_pos_ndc = fixed_pos_view / size;
-	
+	const indexed_float2 v = vertices[vid];
+	constant uniform_bar_attr& attrs = attrs_array[v.idx];
 	out_vertex_bar_attributed out;
-	out.position = float4(fixed_pos_ndc.x, fixed_pos_ndc.y, 0, 1.0);
-	out.pos = fixed_pos_view;
-	out.dir = dir_view;
-	out.w   = w;
-	out.l   = length(vec_along_view);
-	out.coef = coef;
-	out.center = mid_view;
-	out.idx = value.idx;
+	out.idx = v.idx;
+	BarVertexCore(vid, v.value, conf, attrs, proj, out);
 	
 	return out;
 }
@@ -238,23 +232,14 @@ vertex out_vertex_bar_attributed AttributedBar_VertexOrdered(
 fragment out_fragment_depthGreater AttributedBar_Fragment(
 														  const out_vertex_bar_attributed in [[ stage_in ]],
 														  constant uniform_bar_conf& conf [[ buffer(0) ]],
-														  constant uniform_bar_attr& attr_global [[ buffer(1) ]],
-														  constant uniform_rect_attr* attrs [[ buffer(2) ]],
-														  constant uniform_projection_cart2d& proj [[ buffer(3) ]]
+														  constant uniform_bar_attr* attrs_array [[ buffer(1) ]],
+														  constant uniform_projection_cart2d& proj [[ buffer(2) ]]
 														  )
 {
-	const float2 p = in.pos - in.center;
-	const float2 perp(+in.dir.y, -in.dir.x);
-	const float2 pos(dot(p, perp), dot(p, in.dir));
-	const float4 rectangle(-in.w, +in.w, -in.l, +in.l);
-	const float2 signs = sign(in.coef);
-	const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));
-	const float r = attr_global.corner_radius[idx_corner];
-	const float ratio = RoundRectFragment_core(pos, rectangle, r, proj.screen_scale);
-	
+	constant uniform_bar_attr& attrs = attrs_array[in.idx];
+	float ratio = 0;
 	out_fragment_depthGreater out;
-	out.color = attrs[in.idx].color;
-	out.color.a *= ratio;
+	out.color = BarFragmentCore(in, ratio, conf, attrs, proj);;
 	out.depth = ((ratio > 0) * conf.depth_value);
 	
 	return out;

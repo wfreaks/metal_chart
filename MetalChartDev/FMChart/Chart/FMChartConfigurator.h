@@ -108,6 +108,10 @@ NS_DESIGNATED_INITIALIZER;
 											  interval:(CGFloat)interval
 ;
 
+// 以下のFMRenderable系の追加メソッドは適合するLineSeriesなどを返さずprimitiveを返しているが、
+// これはLineSeriesなどはほとんど抽象化されラッパーとして機能しており、これを返すと細かいコントロールができないため.
+// 各々適切に処理されてるので気にする必要はない.
+
 - (FMOrderedPolyLinePrimitive * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
                                                  series:(FMOrderedSeries * _Nonnull)series
 ;
@@ -125,7 +129,7 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 - (FMOrderedPointPrimitive * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-											   series:(FMAttributedBarSeries * _Nonnull)series
+											   series:(FMOrderedAttributedSeries * _Nonnull)series
 ;
 
 - (FMOrderedAttributedPointPrimitive * _Nonnull)addAttributedPointToSpace:(FMProjectionCartesian2D * _Nonnull)space

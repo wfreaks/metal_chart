@@ -29,7 +29,6 @@
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
-@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 
 - (id<FMSeries> _Nullable)series;
 
@@ -38,6 +37,7 @@
 @interface FMOrderedBarPrimitive : FMBarPrimitive
 
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
+@property (readonly, nonatomic) FMUniformBarAttributes * _Nonnull attributes;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(FMOrderedSeries * _Nullable)series
@@ -50,13 +50,12 @@
 @interface FMOrderedAttributedBarPrimitive : FMBarPrimitive
 
 @property (strong, nonatomic) FMOrderedAttributedSeries * _Nullable series;
-@property (strong, nonatomic) FMUniformRectAttributesArray * _Nonnull rectAttrs;
+@property (strong, nonatomic) FMUniformBarAttributesArray * _Nonnull attributesArray;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								 series:(FMOrderedAttributedSeries * _Nullable)series
 						  configuration:(FMUniformBarConfiguration * _Nullable)conf
-					   globalAttributes:(FMUniformBarAttributes * _Nullable)attr
-						attributesArray:(FMUniformRectAttributesArray * _Nullable)attrs
+						attributesArray:(FMUniformBarAttributesArray * _Nullable)attrs
 			 attributesCapacityOnCreate:(NSUInteger)capacity
 ;
 

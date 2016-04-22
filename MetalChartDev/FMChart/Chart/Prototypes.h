@@ -17,6 +17,7 @@
 @protocol FMSeries;
 
 @class FMAnimator;
+@class FMArrayBuffer;
 @class FMAxisPrimitive;
 @class FMBarPrimitive;
 @class FMContinuosArcPrimitive;
@@ -55,7 +56,7 @@
 @class FMUniformPointAttributesArray;
 @class FMUniformProjectionCartesian2D;
 @class FMUniformProjectionPolar;
-@class FMUniformRectAttributesArray;
+@class FMUniformBarAttributesArray;
 @class FMUniformRegion;
 @class FMUniformSeriesInfo;
 @class TextureQuad;

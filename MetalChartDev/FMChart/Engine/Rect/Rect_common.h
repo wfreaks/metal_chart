@@ -35,10 +35,6 @@ struct uniform_bar_attr {
 	float		 width;
 };
 
-struct uniform_rect_attr {
-	vector_float4 color;
-};
-
 #ifdef __OBJC__
 
 typedef struct uniform_plot_rect uniform_plot_rect;

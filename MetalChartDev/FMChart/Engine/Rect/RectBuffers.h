@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "Rect_common.h"
-#import "Prototypes.h"
+#import "Buffers.h"
 
 @protocol MTLBuffer;
 
@@ -66,24 +66,9 @@
 @end
 
 
-@interface FMUniformRectAttributes : NSObject
+@interface FMUniformBarAttributesArray : FMArrayBuffer
 
-@property (readonly, nonatomic) uniform_rect_attr * _Nonnull attr;
-
-- (instancetype _Nonnull)init
-UNAVAILABLE_ATTRIBUTE;
-
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const * _Nonnull)color;
-
-@end
-
-
-@interface FMUniformRectAttributesArray : NSObject
-
-@property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
-@property (nonatomic, readonly) NSArray<FMUniformRectAttributes*> * _Nonnull array;
+@property (nonatomic, readonly) NSArray<FMUniformBarAttributes*> * _Nonnull array;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
@@ -93,7 +78,7 @@ UNAVAILABLE_ATTRIBUTE;
 UNAVAILABLE_ATTRIBUTE;
 
 // indexチェックは行わない、注意する事.
-- (FMUniformRectAttributes * _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
+- (FMUniformBarAttributes * _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
 
 @end
 

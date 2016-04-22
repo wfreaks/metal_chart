@@ -22,7 +22,7 @@
 
 // see std::vector<T>::reserve().
 // should not be used with cyclic accessed buffers.
-// this operation involves allocating, copying, and deallocating, and its cost is high.
+// this operation involves allocating, copying, and deallocating(avoid incremental extension).
 - (void)reserve:(NSUInteger)capacity;
 
 @end
