@@ -19,7 +19,7 @@
 {
 	self = [super init];
 	if(self) {
-		_vertices = [[VertexBuffer alloc] initWithResource:resource capacity:vertCapacity];
+		_vertices = [[FMFloat2Buffer alloc] initWithResource:resource capacity:vertCapacity];
 		_info = [[FMUniformSeriesInfo alloc] initWithResource:resource];
 		
 		[_info info]->vertex_capacity = (uint32_t)vertCapacity;

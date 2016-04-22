@@ -29,7 +29,7 @@
 
 @interface FMOrderedSeries : NSObject<FMSeries>
 
-@property (readonly, nonatomic) VertexBuffer * _Nonnull vertices;
+@property (readonly, nonatomic) FMFloat2Buffer * _Nonnull vertices;
 @property (readonly, nonatomic) FMUniformSeriesInfo * _Nonnull info;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource

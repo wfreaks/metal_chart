@@ -34,7 +34,7 @@
 @end
 
 
-@interface FMUniformPointAttributesArray : ArrayBuffer
+@interface FMUniformPointAttributesArray : FMArrayBuffer
 
 @property (nonatomic, readonly) NSArray<FMUniformPointAttributes*>* _Nonnull array;
 

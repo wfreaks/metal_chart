@@ -32,7 +32,7 @@
 #pragma mark - Implementation
 
 
-@implementation ArrayBuffer
+@implementation FMArrayBuffer
 
 - (instancetype)initWithBuffer:(std::shared_ptr<MTLObjectBufferBase>)buffer
 {
@@ -55,7 +55,7 @@
 
 
 
-@implementation VertexBuffer
+@implementation FMFloat2Buffer
 
 - (id)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {

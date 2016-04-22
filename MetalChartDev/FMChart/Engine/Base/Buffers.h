@@ -84,7 +84,7 @@ private :
 #endif
 
 
-@interface ArrayBuffer : NSObject
+@interface FMArrayBuffer : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) NSUInteger capacity;
@@ -110,7 +110,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
-@interface VertexBuffer : ArrayBuffer
+@interface FMFloat2Buffer : FMArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource capacity:(NSUInteger)capacity;
 
@@ -123,7 +123,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
-@interface FMIndexedFloatBuffer : ArrayBuffer
+@interface FMIndexedFloatBuffer : FMArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
@@ -137,7 +137,7 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@interface FMIndexedFloat2Buffer : ArrayBuffer
+@interface FMIndexedFloat2Buffer : FMArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
