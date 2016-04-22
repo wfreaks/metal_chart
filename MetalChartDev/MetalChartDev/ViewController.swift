@@ -140,14 +140,14 @@ class ViewController: UIViewController {
 		stepBar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
 		weightLine.attributes.setWidth(8)
 		weightLine.attributes.setColor(weightColor)
-		weightLine.attributes.setAlpha(0.6)
-		weightLine.attributes.enableOverlay = true
+		weightLine.conf.setAlpha(0.6)
+		weightLine.conf.enableOverlay = true
 		configurePointAttributes(weightPoint, innerRadius: 8, outerColor: weightColor)
 		
-		systolicLine.attributes.enableOverlay = true
+		systolicLine.conf.enableOverlay = true
 		systolicLine.attributes.setColor(systolicColor)
 		configurePointAttributes(systolicPoint, innerRadius: 6, outerColor: systolicColor)
-		diastolicLine.attributes.enableOverlay = true
+		diastolicLine.conf.enableOverlay = true
 		diastolicLine.attributes.setColor(diastolicColor)
 		configurePointAttributes(diastolicPoint, innerRadius: 6, outerColor: diastolicColor)
 		

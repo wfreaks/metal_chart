@@ -11,18 +11,21 @@
 
 #include <simd/simd.h>
 
-typedef struct uniform_line_attr {
+typedef struct {
 	vector_float4 color;
 	vector_float2 length_mod;
 	float width;
-	float depth;
-	float alpha;
 	float length_repeat;
 	float length_space;
 	float repeat_anchor_line;
 	float repeat_anchor_dash;
-	uint8_t modify_alpha_on_edge;
 } uniform_line_attr;
+
+typedef struct {
+	float alpha;
+	float depth;
+	uint8_t modify_alpha_on_edge;
+} uniform_line_conf;
 
 typedef struct uniform_axis_configuration {
 	float		   axis_anchor_value_data;

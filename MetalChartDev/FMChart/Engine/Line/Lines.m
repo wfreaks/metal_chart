@@ -19,14 +19,13 @@
 @property (strong, nonatomic) FMOrderedPointPrimitive * _Nullable point;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
-									  attributes:(FMUniformLineAttributes * _Nullable)attributes
 ;
 
 - (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
-- (id<MTLBuffer> _Nullable)indexBuffer;
 - (NSString *)vertexFunctionName;
 - (NSString *)fragmentFunctionName;
+- (id<MTLBuffer>)attributesBuffer;
 
 @end
 
@@ -36,13 +35,11 @@
 @implementation FMLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
-					attributes:(FMUniformLineAttributes *)attributes
 {
 	self = [super init];
 	if(self) {
-		FMDeviceResource *resource = engine.resource;
 		_engine = engine;
-		_attributes = (attributes) ? attributes : [[FMUniformLineAttributes alloc] initWithResource:resource];
+		_conf = [[FMUniformLineConf alloc] initWithResource:engine.resource];
 	}
 	return self;
 }
@@ -57,24 +54,14 @@
 	return _engine.depthState_depthGreater;
 }
 
-- (NSString *)vertexFunctionName
-{
-	abort();
-}
-
-- (NSString *)fragmentFunctionName
-{
-	static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
-	NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.attributes.enableOverlay ? 0 : 1);
-	return names[index];
-}
+- (NSString *)vertexFunctionName { abort(); }
+- (NSString *)fragmentFunctionName { abort(); }
+- (id<MTLBuffer>)attributesBuffer { abort(); }
 
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count
 {
 	return 0;
 }
-
-- (id<MTLBuffer>)indexBuffer { return nil; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(FMUniformProjectionCartesian2D *)projection
@@ -88,18 +75,19 @@
 		[encoder setDepthStencilState:depthState];
 		
 		id<MTLBuffer> vertexBuffer = [series vertexBuffer];
-		id<MTLBuffer> indexBuffer = [self indexBuffer];
-		FMUniformLineAttributes *attributes = _attributes;
+		id<MTLBuffer> attributes = [self attributesBuffer];
+		id<MTLBuffer> confBuffer = _conf.buffer;
 		FMUniformSeriesInfo *info = series.info;
 
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
-		[encoder setVertexBuffer:indexBuffer offset:0 atIndex:1];
-		[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
-		[encoder setVertexBuffer:attributes.buffer offset:0 atIndex:3];
+		[encoder setVertexBuffer:confBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:attributes offset:0 atIndex:2];
+		[encoder setVertexBuffer:projection.buffer offset:0 atIndex:3];
 		[encoder setVertexBuffer:info.buffer offset:0 atIndex:4];
 		
-		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:0];
-		[encoder setFragmentBuffer:attributes.buffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:confBuffer offset:0 atIndex:0];
+		[encoder setFragmentBuffer:attributes offset:0 atIndex:1];
+		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:2];
 		
 		NSUInteger count = [self vertexCountWithCount:info.count];
 		if(count > 0) {
@@ -151,8 +139,10 @@
 				 orderedSeries:(FMOrderedSeries *)series
 					attributes:(FMUniformLineAttributes * _Nullable)attributes
 {
-	self = [super initWithEngine:engine attributes:attributes];
+	self = [super initWithEngine:engine];
 	if(self) {
+		FMDeviceResource *resource = engine.resource;
+		_attributes = (attributes) ? attributes : [[FMUniformLineAttributes alloc] initWithResource:resource];
 		_series = series;
 		[self.attributes setWidth:5.0];
 		[self.attributes setColorRed:0.3 green:0.6 blue:0.8 alpha:0.5];
@@ -161,6 +151,15 @@
 }
 
 - (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrdered"; }
+
+- (NSString *)fragmentFunctionName
+{
+	static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
+	NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.conf.enableOverlay ? 0 : 1);
+	return names[index];
+}
+
+- (id<MTLBuffer>)attributesBuffer { return _attributes.buffer; }
 
 - (void)setSeries:(FMOrderedSeries *)series
 {

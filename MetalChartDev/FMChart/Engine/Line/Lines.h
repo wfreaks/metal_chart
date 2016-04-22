@@ -13,7 +13,7 @@
 
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
-@property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
+@property (nonatomic, readonly) FMUniformLineConf * _Nonnull conf;
 @property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
@@ -31,6 +31,7 @@
 
 @interface FMOrderedPolyLinePrimitive : FMPolyLinePrimitive
 
+@property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine

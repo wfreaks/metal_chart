@@ -56,9 +56,9 @@
 	return self;
 }
 
-- (FMUniformLineAttributes *)attributes { return _line.attributes; }
-
 - (id<FMSeries>)series { return [_line series]; }
+
+- (FMUniformLineConf *)conf { return _line.conf; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(MetalChart * _Nonnull)chart
@@ -76,13 +76,13 @@
 			return 0;
 		}
 	}
-	[self.attributes setDepthValue:min+0.05];
+	[self.conf setDepthValue:min+0.05];
 	return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-	[self.attributes setDepthValue:min+0.05];
+	[self.conf setDepthValue:min+0.05];
 	return 0.1;
 }
 

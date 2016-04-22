@@ -51,6 +51,7 @@
 @class FMUniformBarConfiguration;
 @class FMUniformGridAttributes;
 @class FMUniformLineAttributes;
+@class FMUniformLineConf;
 @class FMUniformPlotRectAttributes;
 @class FMUniformPointAttributes;
 @class FMUniformPointAttributesArray;

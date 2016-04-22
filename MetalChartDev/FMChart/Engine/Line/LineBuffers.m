@@ -10,12 +10,6 @@
 #import "Buffers.h"
 
 
-@interface FMUniformLineAttributes()
-
-@property (strong, nonatomic) id<MTLBuffer> buffer;
-
-@end
-
 @implementation FMUniformLineAttributes
 
 - (id)initWithResource:(FMDeviceResource *)resource
@@ -23,7 +17,6 @@
 	self = [super init];
 	if(self) {
 		_buffer = [resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceCPUCacheModeWriteCombined];
-		self.attributes->alpha = 1;
 	}
 	return self;
 }
@@ -53,30 +46,9 @@
 	[self attributes]->color = *color;
 }
 
-- (void)setAlpha:(float)alpha
-{
-	[self attributes]->alpha = MIN(1.0f, MAX(0, alpha));
-}
-
-- (void)setModifyAlphaOnEdge:(BOOL)modify
-{
-	[self attributes]->modify_alpha_on_edge = (modify ? 1 : 0);
-}
-
-- (void)setEnableOverlay:(BOOL)enableOverlay
-{
-	_enableOverlay = enableOverlay;
-	[self setModifyAlphaOnEdge:enableOverlay];
-}
-
 - (void)setLineLengthModifierStart:(float)start end:(float)end
 {
 	[self attributes]->length_mod = vector2(start, end);
-}
-
-- (void)setDepthValue:(float)depth
-{
-	[self attributes]->depth = depth;
 }
 
 - (void)setDashLineLength:(float)length
@@ -100,6 +72,50 @@
 }
 
 @end
+
+
+
+@implementation FMUniformLineConf
+
+- (id)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_line_conf) options:MTLResourceCPUCacheModeWriteCombined];
+		self.conf->alpha = 1;
+	}
+	return self;
+}
+
+- (uniform_line_conf *)conf
+{
+	return (uniform_line_conf *)([self.buffer contents]);
+}
+
+- (void)setAlpha:(float)alpha
+{
+	[self conf]->alpha = MIN(1.0f, MAX(0, alpha));
+}
+
+- (void)setModifyAlphaOnEdge:(BOOL)modify
+{
+	[self conf]->modify_alpha_on_edge = (modify ? 1 : 0);
+}
+
+- (void)setEnableOverlay:(BOOL)enableOverlay
+{
+	_enableOverlay = enableOverlay;
+	[self setModifyAlphaOnEdge:enableOverlay];
+}
+
+- (void)setDepthValue:(float)depth
+{
+	[self conf]->depth = depth;
+}
+
+@end
+
+
 
 
 

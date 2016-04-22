@@ -36,7 +36,7 @@ NS_DESIGNATED_INITIALIZER;
 @interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMLinePrimitive * _Nonnull line;
-@property (readonly, nonatomic) FMUniformLineAttributes * _Nonnull attributes;
+@property (readonly, nonatomic) FMUniformLineConf * _Nonnull conf;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 

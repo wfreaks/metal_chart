@@ -18,8 +18,6 @@
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_line_attr * _Nonnull attributes;
 
-@property (assign, nonatomic) BOOL enableOverlay;
-
 // 破線処理を考慮したシェーダは考慮しないものと比較するとGPU負荷が1.5倍程度になるので、
 // 明示的に切り替え用のフラグを用意する.
 @property (assign, nonatomic) BOOL enableDash;
@@ -32,11 +30,7 @@
 - (void)setColor:(vector_float4)color;
 - (void)setColorRef:(vector_float4 const * _Nonnull)color;
 
-- (void)setAlpha:(float)alpha;
-
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
-
-- (void)setDepthValue:(float)depth;
 
 - (void)setDashLineLength:(float)length;
 
@@ -45,6 +39,23 @@
 - (void)setDashLineAnchor:(float)anchor;
 
 - (void)setDashRepeatAnchor:(float)anchor;
+
+@end
+
+
+
+@interface FMUniformLineConf : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_line_conf * _Nonnull conf;
+
+@property (assign, nonatomic) BOOL enableOverlay;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
+
+- (void)setAlpha:(float)alpha;
+
+- (void)setDepthValue:(float)depth;
 
 @end
 
