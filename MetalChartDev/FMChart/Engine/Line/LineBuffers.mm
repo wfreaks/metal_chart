@@ -80,6 +80,8 @@
 	return self;
 }
 
++ (Class)attributesClass { return [FMUniformLineAttributes class]; }
+
 @end
 
 

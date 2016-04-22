@@ -163,6 +163,8 @@
 	return self;
 }
 
++ (Class)attributesClass { return [FMUniformBarAttributes class]; }
+
 @end
 
 
