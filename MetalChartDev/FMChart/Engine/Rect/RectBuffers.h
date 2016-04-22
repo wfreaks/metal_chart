@@ -43,10 +43,13 @@
 
 @end
 
-@interface FMUniformBarAttributes : NSObject
+@interface FMUniformBarAttributes : FMAttributesBuffer
 
-@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_bar_attr * _Nonnull attr;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+                                     size:(NSUInteger)size
+UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
@@ -66,19 +69,11 @@
 @end
 
 
-@interface FMUniformBarAttributesArray : FMArrayBuffer
-
-@property (nonatomic, readonly) NSArray<FMUniformBarAttributes*> * _Nonnull array;
+@interface FMUniformBarAttributesArray : FMAttributesArray<FMUniformBarAttributes*>
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 								 capacity:(NSUInteger)capacity
 ;
-
-- (instancetype _Nonnull)init
-UNAVAILABLE_ATTRIBUTE;
-
-// indexチェックは行わない、注意する事.
-- (FMUniformBarAttributes * _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
 
 @end
 

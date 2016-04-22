@@ -41,7 +41,7 @@
 		AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8301BAFE3020032A0CF /* FMAxisLabel.m */; };
 		AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85E1BAFE3020032A0CF /* Rects.m */; };
-		AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
+		AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.mm */; };
 		AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9B31BE3B5FA00ABDC1E /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9B41BE3B5FA00ABDC1E /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -139,7 +139,7 @@
 		AAC4A8851BAFE3020032A0CF /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8461BAFE3020032A0CF /* Series.m */; };
 		AAC4A8871BAFE3020032A0CF /* Line_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8491BAFE3020032A0CF /* Line_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */; };
+		AAC4A8891BAFE3020032A0CF /* LineBuffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84B1BAFE3020032A0CF /* LineBuffers.mm */; };
 		AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A84F1BAFE3020032A0CF /* Lines.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,7 +265,7 @@
 		AAC4A8471BAFE3020032A0CF /* Shader_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader_common.h; sourceTree = "<group>"; };
 		AAC4A8491BAFE3020032A0CF /* Line_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line_common.h; sourceTree = "<group>"; };
 		AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineBuffers.h; sourceTree = "<group>"; };
-		AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineBuffers.m; sourceTree = "<group>"; };
+		AAC4A84B1BAFE3020032A0CF /* LineBuffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LineBuffers.mm; sourceTree = "<group>"; };
 		AAC4A84C1BAFE3020032A0CF /* LineEngineShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineEngineShader.h; sourceTree = "<group>"; };
 		AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShader.metal; sourceTree = "<group>"; };
 		AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineEngineShaderAux.metal; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 				AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */,
 				AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */,
 				AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */,
-				AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */,
+				AAC4A84B1BAFE3020032A0CF /* LineBuffers.mm */,
 				AAC4A84F1BAFE3020032A0CF /* Lines.h */,
 				AAC4A8501BAFE3020032A0CF /* Lines.m */,
 			);
@@ -827,7 +827,7 @@
 				AA32A9AB1BE3B5FA00ABDC1E /* Points.m in Sources */,
 				AA32A9AD1BE3B5FA00ABDC1E /* FMAxisLabel.m in Sources */,
 				AA32A9AE1BE3B5FA00ABDC1E /* Rects.m in Sources */,
-				AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.m in Sources */,
+				AA32A9AF1BE3B5FA00ABDC1E /* LineBuffers.mm in Sources */,
 				AA85C7781BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -879,7 +879,7 @@
 				AAC4A8941BAFE3020032A0CF /* Points.m in Sources */,
 				AAC4A8711BAFE3020032A0CF /* FMAxisLabel.m in Sources */,
 				AAC4A89A1BAFE3020032A0CF /* Rects.m in Sources */,
-				AAC4A8891BAFE3020032A0CF /* LineBuffers.m in Sources */,
+				AAC4A8891BAFE3020032A0CF /* LineBuffers.mm in Sources */,
 				AA85C7771BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

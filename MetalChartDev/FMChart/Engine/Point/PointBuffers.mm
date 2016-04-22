@@ -10,21 +10,12 @@
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
 
-@interface FMUniformPointAttributes()
-
-- (instancetype)initWithBuffer:(id<MTLBuffer>)buffer;
-
-@end
-
 @implementation FMUniformPointAttributes
-
-@dynamic point;
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
 {
-	self = [super init];
+	self = [super initWithResource:resource size:sizeof(uniform_point_attr)];
 	if(self) {
-		_buffer = [resource.device newBufferWithLength:sizeof(uniform_point_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		[self setInnerRadius:5];
 		[self setOuterRadius:6];
 		[self setInnerColorRed:0.1 green:0.5 blue:0.8 alpha:0.6];
@@ -33,16 +24,7 @@
 	return self;
 }
 
-- (instancetype)initWithBuffer:(id<MTLBuffer>)buffer
-{
-	self = [super init];
-	if(self) {
-		_buffer = buffer;
-	}
-	return self;
-}
-
-- (uniform_point_attr *)point { return (uniform_point_attr *)([_buffer contents]); }
+- (uniform_point_attr *)point { return (uniform_point_attr *)([self.buffer contents]); }
 
 - (void)setInnerColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
@@ -87,53 +69,16 @@
 @end
 
 
-@interface FMUniformPointIndexedAttributes : FMUniformPointAttributes
-@property (nonatomic, readonly) NSInteger index;
-@end
-
-@implementation FMUniformPointIndexedAttributes
-
-- (instancetype)initWithBuffer:(id<MTLBuffer>)buffer index:(NSInteger)index
-{
-	self = [super initWithBuffer:buffer];
-	if(self) {
-		_index = index;
-	}
-	return self;
-}
-
-- (uniform_point_attr*)point { return [super point] + _index; }
-
-@end
-
 @implementation FMUniformPointAttributesArray
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
 	auto ptr = std::make_shared<MTLObjectBuffer<uniform_point_attr>>(resource.device, capacity);
 	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
-	if(self) {
-		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
-	}
 	return self;
 }
 
-+ (NSArray<FMUniformPointIndexedAttributes*>*)createArrayWithBuffer:(id<MTLBuffer>)buffer capacity:(NSUInteger)capacity
-{
-	NSMutableArray<FMUniformPointIndexedAttributes*>* array = [NSMutableArray arrayWithCapacity:capacity];
-	for(NSInteger i = 0; i < capacity; ++i) {
-		[array addObject:[[FMUniformPointIndexedAttributes alloc] initWithBuffer:buffer index:i]];
-	}
-	return [NSArray arrayWithArray:array];
-}
-
-- (void)reserve:(NSUInteger)capacity
-{
-	if(capacity > self.capacity) {
-		[super reserve:capacity];
-		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
-	}
-}
++ (Class)attributesClass { return [FMUniformPointAttributes class]; }
 
 @end
 

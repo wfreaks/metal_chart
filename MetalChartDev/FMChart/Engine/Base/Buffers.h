@@ -228,4 +228,39 @@ UNAVAILABLE_ATTRIBUTE;
 @end
 
 
+
+
+
+@interface FMAttributesBuffer : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) NSInteger index;
+
+- (instancetype _Nonnull)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype _Nonnull)initWithBuffer:(id<MTLBuffer> _Nonnull)buffer
+                                  index:(NSInteger)index
+;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+                                     size:(NSUInteger)size
+;
+
+@end
+
+
+
+@interface FMAttributesArray<AttributesType> : FMArrayBuffer
+
+@property (nonatomic, readonly) NSArray<AttributesType>* _Nonnull array;
+
+// FMAttributesBufferのサブクラスを返す事(initWithBuffer:index:が呼ばれる)
++ (Class _Nonnull)attributesClass;
+
+- (AttributesType _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
+
+@end
+
+
 #endif

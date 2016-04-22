@@ -291,3 +291,68 @@
 
 
 
+@implementation FMAttributesBuffer
+
+- (instancetype)initWithBuffer:(id<MTLBuffer>)buffer index:(NSInteger)index
+{
+    self = [super init];
+    if(self) {
+        _buffer = buffer;
+        _index = index;
+    }
+    return self;
+}
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource size:(NSUInteger)size
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:size options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_index = 0;
+	}
+	return self;
+}
+
+@end
+
+
+@implementation FMAttributesArray
+
+- (instancetype)initWithBuffer:(std::shared_ptr<MTLObjectBufferBase>)buffer
+{
+	self = [super initWithBuffer:buffer];
+	if(self) {
+		_array = [self.class createArrayWithBuffer:self.buffer capacity:buffer->capacity()];
+	}
+	return self;
+}
+
++ (NSArray<FMAttributesBuffer*>*)createArrayWithBuffer:(id<MTLBuffer>)buffer capacity:(NSUInteger)capacity
+{
+	Class cl = [self attributesClass];
+	NSMutableArray<FMAttributesBuffer*>* array = [NSMutableArray arrayWithCapacity:capacity];
+	for(NSInteger i = 0; i < capacity; ++i) {
+		[array addObject:[[cl alloc] initWithBuffer:buffer index:i]];
+	}
+	return [NSArray arrayWithArray:array];
+}
+
+- (void)reserve:(NSUInteger)capacity
+{
+	if(capacity > self.capacity) {
+		[super reserve:capacity];
+		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
+	}
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)index
+{
+	return _array[index];
+}
+
+
+
++ (Class)attributesClass { abort(); }
+
+@end
+

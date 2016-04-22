@@ -9,18 +9,21 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "Line_common.h"
-#import "Prototypes.h"
+#import "Buffers.h"
 
 @protocol MTLBuffer;
 
-@interface FMUniformLineAttributes : NSObject
+@interface FMUniformLineAttributes : FMAttributesBuffer
 
-@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_line_attr * _Nonnull attributes;
 
 // 破線処理を考慮したシェーダは考慮しないものと比較するとGPU負荷が1.5倍程度になるので、
 // 明示的に切り替え用のフラグを用意する.
 @property (assign, nonatomic) BOOL enableDash;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+                                     size:(NSUInteger)size
+UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
@@ -41,6 +44,17 @@
 - (void)setDashRepeatAnchor:(float)anchor;
 
 @end
+
+
+
+@interface FMUniformLineAttributesArray : FMAttributesArray<FMUniformLineAttributes*>
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+								 capacity:(NSUInteger)capacity
+NS_DESIGNATED_INITIALIZER;
+
+@end
+
 
 
 

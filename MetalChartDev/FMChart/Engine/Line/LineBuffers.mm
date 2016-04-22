@@ -9,21 +9,17 @@
 #import "LineBuffers.h"
 #import "Buffers.h"
 
-
 @implementation FMUniformLineAttributes
 
-- (id)initWithResource:(FMDeviceResource *)resource
+- (instancetype)initWithResource:(FMDeviceResource *)resource
 {
-	self = [super init];
-	if(self) {
-		_buffer = [resource.device newBufferWithLength:sizeof(uniform_line_attr) options:MTLResourceCPUCacheModeWriteCombined];
-	}
+	self = [super initWithResource:resource size:sizeof(uniform_line_attr)];
 	return self;
 }
 
 - (uniform_line_attr *)attributes
 {
-	return (uniform_line_attr *)([self.buffer contents]);
+	return ((uniform_line_attr *)([self.buffer contents]) + self.index);
 }
 
 - (void)setWidth:(float)width
@@ -72,6 +68,20 @@
 }
 
 @end
+
+
+
+@implementation FMUniformLineAttributesArray
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
+{
+	auto ptr = std::make_shared<MTLObjectBuffer<uniform_line_attr>>(resource.device, capacity);
+	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
+	return self;
+}
+
+@end
+
 
 
 

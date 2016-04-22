@@ -14,10 +14,13 @@
 
 @protocol MTLBuffer;
 
-@interface FMUniformPointAttributes : NSObject
+@interface FMUniformPointAttributes : FMAttributesBuffer
 
-@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_point_attr * _Nonnull point;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+									 size:(NSUInteger)size
+UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
@@ -34,12 +37,7 @@
 @end
 
 
-@interface FMUniformPointAttributesArray : FMArrayBuffer
-
-@property (nonatomic, readonly) NSArray<FMUniformPointAttributes*>* _Nonnull array;
-
-- (instancetype _Nonnull)initWithBuffer:(id<MTLBuffer> _Nonnull)buffer
-UNAVAILABLE_ATTRIBUTE;
+@interface FMUniformPointAttributesArray : FMAttributesArray<FMUniformPointAttributes*>
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
                                  capacity:(NSUInteger)capacity
