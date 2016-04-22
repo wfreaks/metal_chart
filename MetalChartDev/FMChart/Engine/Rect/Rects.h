@@ -8,19 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
+#import "Prototypes.h"
 
-@class FMEngine;
-@class FMUniformProjectionCartesian2D;
-@class FMUniformPlotRectAttributes;
-@class FMUniformBarConfiguration;
-@class FMUniformBarAttributes;
-@class FMUniformRectAttributes;
-@class FMUniformRectAttributesArray;
-@class FMOrderedSeries;
-@class FMOrderedAttributedSeries;
-
-@protocol MTLRenderCommandEncoder;
-@protocol FMSeries;
 
 @interface FMPlotRectPrimitive : NSObject
 

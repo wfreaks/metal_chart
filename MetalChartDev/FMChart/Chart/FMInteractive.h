@@ -7,12 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class FMGestureInterpreter;
-@class FMProjectionUpdater;
-@class FMDefaultFilter;
-@class FMAnimator;
-@class FMPanGestureRecognizer;
+#import "Prototypes.h"
 
 
 @protocol FMInteraction <NSObject>

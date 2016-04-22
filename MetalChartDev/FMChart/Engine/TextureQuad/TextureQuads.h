@@ -8,10 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
-
-@class FMEngine;
-@class FMUniformProjectionCartesian2D;
-@class FMUniformRegion;
+#import "Prototypes.h"
 
 @protocol MTLRenderCommandEncoder;
 @protocol MTLTexture;

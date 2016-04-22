@@ -16,27 +16,7 @@
 #import "FMAxisLabel.h"
 #import "FMRenderables.h"
 #import "FMRenderablesAux.h"
-
-@class MetalChart;
-@class FMDimensionalProjection;
-@class FMProjectionCartesian2D;
-@class FMProjectionPolar;
-@class FMProjectionUpdater;
-@class FMExclusiveAxis;
-@class FMAxisLabel;
-@class FMPlotArea;
-@class FMGestureInterpreter;
-@class FMEngine;
-@class FMOrderedSeries;
-@class FMOrderedAttributedSeries;
-@class FMPanGestureRecognizer;
-@class FMAnimator;
-
-@protocol FMSeries;
-@protocol FMInteraction;
-@protocol FMAxisConfigurator;
-@protocol FMInterpreterStateRestriction;
-
+#import "Prototypes.h"
 
 
 typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dimensionID);

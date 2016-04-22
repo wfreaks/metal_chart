@@ -113,8 +113,6 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-@class FMPlotRectPrimitive;
-
 @interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
 @property (readonly, nonatomic) FMUniformProjectionCartesian2D * _Nonnull projection;
@@ -130,7 +128,6 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-@class FMGridLinePrimitive;
 
 @interface FMGridLine : NSObject<FMDependentAttachment, FMPlotAreaClient>
 

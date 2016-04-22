@@ -8,10 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Metal/Metal.h>
+#import "Prototypes.h"
 
-@class FMDeviceResource;
-@class FMUniformProjectionCartesian2D;
-@class FMUniformProjectionPolar;
 
 @interface FMEngine : NSObject
 

@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FMInteractive.h"
-
-@class FMProjectionUpdater;
+#import "Prototypes.h"
 
 
 // FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.

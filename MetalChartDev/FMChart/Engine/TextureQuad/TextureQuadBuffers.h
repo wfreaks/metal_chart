@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
-
 #import "TextureQuad_common.h"
+#import "Prototypes.h"
 
-@class FMDeviceResource;
 @protocol MTLBuffer;
 
 @interface FMUniformRegion : NSObject

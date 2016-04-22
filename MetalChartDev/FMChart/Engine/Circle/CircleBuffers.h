@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "circle_shared.h"
+#import "Prototypes.h"
 
 @protocol MTLBuffer;
-
-@class FMDeviceResource;
 
 @interface FMUniformArcConfiguration : NSObject
 

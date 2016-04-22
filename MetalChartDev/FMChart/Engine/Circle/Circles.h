@@ -8,12 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Protocols.h"
-
-@class FMEngine;
-@class FMUniformArcConfiguration;
-@class FMUniformArcAttributesArray;
-@class FMUniformProjectionPolar;
-@class FMIndexedFloatBuffer;
+#import "Prototypes.h"
 
 @interface FMArcPrimitive : NSObject
 

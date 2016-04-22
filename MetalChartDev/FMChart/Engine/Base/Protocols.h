@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Prototypes.h"
 
 @protocol MTLRenderCommandEncoder;
 
-@class FMUniformProjectionCartesian2D;
 
 @protocol FMPrimitive <NSObject>
 

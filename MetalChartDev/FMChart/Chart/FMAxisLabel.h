@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Metal/MTLTypes.h>
 #import "FMAxis.h"
+#import "Prototypes.h"
 
 @protocol MTLTexture;
-
-@class FMDeviceResource;
-@class FMEngine;
-@class TextureQuad;
 
 @protocol FMAxisLabelDelegate<NSObject>
 

@@ -9,47 +9,56 @@
 #ifndef Prototypes_h
 #define Prototypes_h
 
-@protocol FMSeries;
 @protocol FMAxis;
+@protocol FMInteraction;
+@protocol FMInterpreterStateRestriction;
 @protocol FMPointPrimitive;
+@protocol FMRangeFilter;
+@protocol FMSeries;
 
-@class MetalChart;
+@class FMAnimator;
+@class FMAxisPrimitive;
+@class FMBarPrimitive;
+@class FMContinuosArcPrimitive;
 @class FMDeviceResource;
+@class FMDimensionalProjection;
+@class FMEngine;
+@class FMGestureInterpreter;
+@class FMGridLinePrimitive;
+@class FMIndexedFloatBuffer;
+@class FMLinePrimitive;
+@class FMOrderedAttributedBarPrimitive;
+@class FMOrderedAttributedPointPrimitive;
+@class FMOrderedAttributedSeries;
+@class FMOrderedBarPrimitive;
+@class FMOrderedPointPrimitive;
+@class FMOrderedPolyLinePrimitive;
+@class FMOrderedSeries;
+@class FMDefaultFilter;
+@class FMPanGestureRecognizer;
+@class FMPieDoughnutSeries;
 @class FMPlotArea;
-
+@class FMPlotRectPrimitive;
 @class FMProjectionCartesian2D;
 @class FMProjectionPolar;
-
-@class FMEngine;
-@class FMLinePrimitive;
-@class FMOrderedPolyLinePrimitive;
-@class FMBarPrimitive;
-@class FMOrderedPointPrimitive;
-@class FMOrderedAttributedPointPrimitive;
-@class FMOrderedBarPrimitive;
-@class FMOrderedAttributedBarPrimitive;
-@class FMUniformLineAttributes;
-@class FMUniformBarConfiguration;
-@class FMUniformBarAttributes;
-@class FMUniformRectAttributesArray;
-@class FMUniformPointAttributes;
-@class FMUniformPointAttributesArray;
-@class FMUniformPlotRectAttributes;
-@class FMUniformGridAttributes;
-@class FMUniformAxisConfiguration;
-@class FMUniformAxisAttributes;
-
-@class FMOrderedSeries;
-@class FMOrderedAttributedSeries;
-@class FMIndexedFloatBuffer;
-@class FMUniformSeriesInfo;
-@class FMContinuosArcPrimitive;
+@class FMProjectionUpdater;
 @class FMUniformArcAttributesArray;
 @class FMUniformArcConfiguration;
+@class FMUniformAxisAttributes;
+@class FMUniformAxisConfiguration;
+@class FMUniformBarAttributes;
+@class FMUniformBarConfiguration;
+@class FMUniformGridAttributes;
+@class FMUniformLineAttributes;
+@class FMUniformPlotRectAttributes;
+@class FMUniformPointAttributes;
+@class FMUniformPointAttributesArray;
 @class FMUniformProjectionCartesian2D;
 @class FMUniformProjectionPolar;
-
-@class FMPieDoughnutSeries;
-
+@class FMUniformRectAttributesArray;
+@class FMUniformRegion;
+@class FMUniformSeriesInfo;
+@class TextureQuad;
+@class MetalChart;
 
 #endif /* Prototypes_h */

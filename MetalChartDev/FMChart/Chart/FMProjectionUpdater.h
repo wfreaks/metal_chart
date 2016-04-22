@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
+#import "Prototypes.h"
 
-@protocol FMRangeFilter;
-@class FMDimensionalProjection;
 
 @interface FMProjectionUpdater : NSObject
 

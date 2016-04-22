@@ -10,8 +10,8 @@
 
 #import "Point_common.h"
 #import "Buffers.h"
+#import "Prototypes.h"
 
-@class FMDeviceResource;
 @protocol MTLBuffer;
 
 @interface FMUniformPointAttributes : NSObject

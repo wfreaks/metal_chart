@@ -9,12 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 #import "FMProjections.h"
-
-@class FMEngine;
-@class FMUniformLineAttributes;
-@class FMAxisPrimitive;
-@class FMUniformAxisConfiguration;
-@protocol FMAxis;
+#import "Prototypes.h"
 
 // orthogonalがnullableなのは、sharedの場合はprojectionに無関係に設定しなければ動作が担保できないため.
 // exclusiveならnonnullである.

@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "Line_common.h"
+#import "Prototypes.h"
 
 @protocol MTLBuffer;
-@class FMDeviceResource;
-@class FMUniformProjectionCartesian2D;
 
 @interface FMUniformLineAttributes : NSObject
 

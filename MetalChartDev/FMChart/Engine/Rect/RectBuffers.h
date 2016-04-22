@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
 #import "Rect_common.h"
+#import "Prototypes.h"
 
 @protocol MTLBuffer;
-@class FMDeviceResource;
 
 @interface FMUniformPlotRectAttributes : NSObject
 
