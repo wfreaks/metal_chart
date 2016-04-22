@@ -13,7 +13,7 @@
 template <typename OutType>
 inline void PointVertexCore(
 							const float2 pos_data,
-							constant uniform_point& attrs,
+							constant uniform_point_attr& attrs,
 							constant uniform_projection_cart2d& proj,
 							thread OutType& out
 							)
@@ -28,7 +28,7 @@ template <typename InType>
 inline float4 PointFragmentCore(
 								thread const InType& in,
 								thread const float2& pos_coord,
-								constant uniform_point& attrs,
+								constant uniform_point_attr& attrs,
 								constant uniform_projection_cart2d& proj
 								)
 {
@@ -62,11 +62,11 @@ struct out_vertex_indexed {
 };
 
 vertex out_vertex Point_VertexOrdered(
-									  device vertex_float2 *vertices [[ buffer(0) ]],
-									  constant uniform_point& point [[ buffer(1) ]],
-									  constant uniform_projection_cart2d& proj [[ buffer(2) ]],
-									  constant uniform_series_info& info [[ buffer(3) ]],
-									  const uint vid [[ vertex_id ]]
+									  device   vertex_float2 *            vertices [[ buffer(0) ]],
+									  constant uniform_point_attr&           point [[ buffer(1) ]],
+									  constant uniform_projection_cart2d&     proj [[ buffer(2) ]],
+									  constant uniform_series_info&           info [[ buffer(3) ]],
+									  const    uint                            vid [[ vertex_id ]]
 									  )
 {
 	const float2 pos_data = vertices[vid % info.vertex_capacity].position;
@@ -76,10 +76,10 @@ vertex out_vertex Point_VertexOrdered(
 }
 
 fragment out_fragment Point_Fragment(
-									 const out_vertex in [[ stage_in ]],
-									 const float2 pos_coord [[ point_coord ]],
-									 constant uniform_point& point [[ buffer(0) ]],
-									 constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+									 const    out_vertex                        in [[ stage_in ]],
+									 const    float2                     pos_coord [[ point_coord ]],
+									 constant uniform_point_attr&            point [[ buffer(0) ]],
+									 constant uniform_projection_cart2d&      proj [[ buffer(1) ]]
 									 )
 {
 	out_fragment out;
@@ -92,11 +92,11 @@ fragment out_fragment Point_Fragment(
 
 
 vertex out_vertex_indexed Point_VertexOrderedAttributed(
-														device   indexed_float2* vertices        [[ buffer(0)]],
-														constant uniform_point * attrs_array     [[ buffer(1)]],
-														constant uniform_projection_cart2d& proj [[ buffer(2) ]],
-														constant uniform_series_info& info       [[ buffer(3) ]],
-														const uint vid                           [[ vertex_id ]]
+														device   indexed_float2*                vertices [[ buffer(0) ]],
+														constant uniform_point_attr *        attrs_array [[ buffer(1) ]],
+														constant uniform_projection_cart2d&         proj [[ buffer(2) ]],
+														constant uniform_series_info&               info [[ buffer(3) ]],
+														const uint                                   vid [[ vertex_id ]]
 														)
 {
 	const indexed_float2 v = vertices[vid % info.vertex_capacity];
@@ -108,10 +108,10 @@ vertex out_vertex_indexed Point_VertexOrderedAttributed(
 }
 
 fragment out_fragment Point_FragmentAttributed(
-											   const out_vertex_indexed              in [[ stage_in ]],
-											   const float2                   pos_coord [[ point_coord ]],
-											   constant uniform_point*      attrs_array [[ buffer(0) ]],
-											   constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+											   const out_vertex_indexed                     in [[ stage_in ]],
+											   const float2                          pos_coord [[ point_coord ]],
+											   constant uniform_point_attr*        attrs_array [[ buffer(0) ]],
+											   constant uniform_projection_cart2d&        proj [[ buffer(1) ]]
 											   )
 {
 	out_fragment out;

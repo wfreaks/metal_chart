@@ -12,7 +12,6 @@
 @protocol FMAxis;
 @protocol FMInteraction;
 @protocol FMInterpreterStateRestriction;
-@protocol FMPointPrimitive;
 @protocol FMRangeFilter;
 @protocol FMSeries;
 
@@ -39,6 +38,7 @@
 @class FMPanGestureRecognizer;
 @class FMPieDoughnutSeries;
 @class FMPlotArea;
+@class FMPointPrimitive;
 @class FMPlotRectPrimitive;
 @class FMProjectionCartesian2D;
 @class FMProjectionPolar;

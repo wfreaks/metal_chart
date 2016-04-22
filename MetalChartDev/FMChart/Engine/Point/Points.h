@@ -10,16 +10,17 @@
 #import "Protocols.h"
 #import "Prototypes.h"
 
-@protocol FMPointPrimitive<FMPrimitive>
+@interface FMPointPrimitive : NSObject<FMPrimitive>
+
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
 - (id<FMSeries> _Nullable)series;
 
 @end
 
 
-@interface FMOrderedPointPrimitive : NSObject<FMPointPrimitive>
+@interface FMOrderedPointPrimitive : FMPointPrimitive
 
-@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
 @property (strong, nonatomic) FMOrderedSeries * _Nullable series;
 
@@ -30,9 +31,8 @@
 @end
 
 
-@interface FMOrderedAttributedPointPrimitive : NSObject<FMPointPrimitive>
+@interface FMOrderedAttributedPointPrimitive : FMPointPrimitive
 
-@property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformPointAttributesArray * _Nonnull attributesArray;
 @property (strong, nonatomic) FMOrderedAttributedSeries * _Nullable series;
 

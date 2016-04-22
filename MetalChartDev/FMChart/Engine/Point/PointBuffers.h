@@ -17,7 +17,7 @@
 @interface FMUniformPointAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
-@property (readonly, nonatomic) uniform_point * _Nonnull point;
+@property (readonly, nonatomic) uniform_point_attr * _Nonnull point;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 

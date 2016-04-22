@@ -107,7 +107,7 @@
 			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
 		}
 		
-		id<FMPointPrimitive> point = [self point];
+		FMPointPrimitive * point = [self point];
 		if(point) {
 			[point encodeWith:encoder projection:projection];
 		}

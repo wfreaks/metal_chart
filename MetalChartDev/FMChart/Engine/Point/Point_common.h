@@ -11,13 +11,13 @@
 
 #import <simd/simd.h>
 
-typedef struct uniform_point {
+typedef struct {
 	vector_float4 color_inner;
 	vector_float4 color_outer;
 	
 	float rad_inner;
 	float rad_outer;
-} uniform_point;
+} uniform_point_attr;
 
 
 #endif /* Point_common_h */

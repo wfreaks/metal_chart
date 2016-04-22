@@ -72,11 +72,11 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMPointSeries : NSObject<FMRenderable>
 
-@property (readonly, nonatomic) id<FMPointPrimitive> _Nonnull point;
+@property (readonly, nonatomic) FMPointPrimitive * _Nonnull point;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithPoint:(id<FMPointPrimitive> _Nonnull)point
+- (instancetype _Nonnull)initWithPoint:(FMPointPrimitive * _Nonnull)point
 							projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 

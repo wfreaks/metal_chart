@@ -164,7 +164,7 @@
 
 @implementation FMPointSeries
 
-- (instancetype)initWithPoint:(id<FMPointPrimitive>)point
+- (instancetype)initWithPoint:(FMPointPrimitive *)point
 				   projection:(FMProjectionCartesian2D *)projection
 {
 	self = [super init];

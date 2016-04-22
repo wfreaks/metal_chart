@@ -11,7 +11,7 @@
 　アベレージとったりゼロパディングが楽になったり効率的だったりクリーンだったり。
 
 ・attributedLine/Pointの追加
-・attributedBarがクラス構成/階層が明らかにおかしいので修正(シェーダもやばい感じ)
+・attributedBarの動作確認
 
 ・panアニメーションの速度がおかしい
 ・devアプリで初期表示がおかしい(setNeedsDisplayで治る)

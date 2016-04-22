@@ -473,10 +473,10 @@
 		AAC4A8481BAFE3020032A0CF /* Line */ = {
 			isa = PBXGroup;
 			children = (
+				AAC4A8491BAFE3020032A0CF /* Line_common.h */,
 				AAC4A84C1BAFE3020032A0CF /* LineEngineShader.h */,
 				AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */,
 				AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */,
-				AAC4A8491BAFE3020032A0CF /* Line_common.h */,
 				AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */,
 				AAC4A84B1BAFE3020032A0CF /* LineBuffers.m */,
 				AAC4A84F1BAFE3020032A0CF /* Lines.h */,
@@ -488,8 +488,8 @@
 		AAC4A8511BAFE3020032A0CF /* Point */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */,
 				AAC4A8521BAFE3020032A0CF /* Point_common.h */,
+				AAC4A8551BAFE3020032A0CF /* PointEngineShader.metal */,
 				AAC4A8531BAFE3020032A0CF /* PointBuffers.h */,
 				AAC4A8541BAFE3020032A0CF /* PointBuffers.mm */,
 				AAC4A8561BAFE3020032A0CF /* Points.h */,
@@ -501,8 +501,8 @@
 		AAC4A8581BAFE3020032A0CF /* Rect */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */,
 				AAC4A8591BAFE3020032A0CF /* Rect_common.h */,
+				AAC4A85C1BAFE3020032A0CF /* RectEngineShader.metal */,
 				AAC4A85A1BAFE3020032A0CF /* RectBuffers.h */,
 				AAC4A85B1BAFE3020032A0CF /* RectBuffers.mm */,
 				AAC4A85D1BAFE3020032A0CF /* Rects.h */,
@@ -514,8 +514,8 @@
 		AAC4A85F1BAFE3020032A0CF /* TextureQuad */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */,
 				AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */,
+				AAC4A8651BAFE3020032A0CF /* TextureQuadShader.metal */,
 				AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */,
 				AAC4A8621BAFE3020032A0CF /* TextureQuadBuffers.m */,
 				AAC4A8631BAFE3020032A0CF /* TextureQuads.h */,

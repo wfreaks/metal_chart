@@ -24,7 +24,7 @@
 {
 	self = [super init];
 	if(self) {
-		_buffer = [resource.device newBufferWithLength:sizeof(uniform_point) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_point_attr) options:MTLResourceOptionCPUCacheModeWriteCombined];
 		[self setInnerRadius:5];
 		[self setOuterRadius:6];
 		[self setInnerColorRed:0.1 green:0.5 blue:0.8 alpha:0.6];
@@ -42,7 +42,7 @@
 	return self;
 }
 
-- (uniform_point *)point { return (uniform_point *)([_buffer contents]); }
+- (uniform_point_attr *)point { return (uniform_point_attr *)([_buffer contents]); }
 
 - (void)setInnerColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
@@ -102,7 +102,7 @@
 	return self;
 }
 
-- (uniform_point*)point { return [super point] + _index; }
+- (uniform_point_attr*)point { return [super point] + _index; }
 
 @end
 
@@ -110,7 +110,7 @@
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource capacity:(NSUInteger)capacity
 {
-	auto ptr = std::make_shared<MTLObjectBuffer<uniform_point>>(resource.device, capacity);
+	auto ptr = std::make_shared<MTLObjectBuffer<uniform_point_attr>>(resource.device, capacity);
 	self = [super initWithBuffer:std::static_pointer_cast<MTLObjectBufferBase>(ptr)];
 	if(self) {
 		_array = [self.class createArrayWithBuffer:self.buffer capacity:capacity];
