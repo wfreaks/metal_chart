@@ -320,7 +320,7 @@
 	return line;
 }
 
-- (FMUniformPointAttributes*)setPointToLine:(FMLinePrimitive *)line
+- (FMUniformPointAttributes*)setPointToLine:(FMOrderedPolyLinePrimitive *)line
 {
 	FMUniformPointAttributes *attrs = [[FMUniformPointAttributes alloc] initWithResource:self.engine.resource];
 	line.pointAttributes = attrs;

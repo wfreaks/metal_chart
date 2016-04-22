@@ -14,7 +14,6 @@
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
 @property (nonatomic, readonly) FMUniformLineConf * _Nonnull conf;
-@property (strong  , nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
 - (id<FMSeries> _Nullable)series;
@@ -31,8 +30,9 @@
 
 @interface FMOrderedPolyLinePrimitive : FMPolyLinePrimitive
 
-@property (strong  , nonatomic) FMUniformLineAttributes * _Nonnull attributes;
-@property (strong, nonatomic) FMOrderedSeries * _Nullable series;
+@property (nonatomic) FMUniformLineAttributes * _Nonnull attributes;
+@property (nonatomic) FMUniformPointAttributes * _Nullable pointAttributes;
+@property (nonatomic) FMOrderedSeries * _Nullable series;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 								   orderedSeries:(FMOrderedSeries * _Nullable)series
@@ -41,6 +41,20 @@
 
 @end
 
+
+// attributedPointを追加すると、データ点にindexがふくまれてしまうのでかなり使い勝手が悪くなる.
+// なら手動でattributedPointを追加してもらった方が、ずっとよいと思われる. (そもそもlineにpointを追加できる必要性ってあんまりない)
+@interface FMOrderedAttributedPolylinePrimitive : FMPolyLinePrimitive
+
+@property (nonatomic) FMUniformLineAttributesArray * _Nonnull attributesArray;
+@property (nonatomic) FMOrderedAttributedSeries * _Nullable series;
+
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
+						  orderedSeries:(FMOrderedAttributedSeries * _Nullable)series
+                     attributesCapacity:(NSUInteger)capacity
+;
+
+@end
 
 
 

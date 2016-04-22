@@ -16,8 +16,6 @@
 
 @interface FMLinePrimitive()
 
-@property (strong, nonatomic) FMOrderedPointPrimitive * _Nullable point;
-
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 ;
 
@@ -26,6 +24,8 @@
 - (NSString *)vertexFunctionName;
 - (NSString *)fragmentFunctionName;
 - (id<MTLBuffer>)attributesBuffer;
+
+- (FMPointPrimitive * _Nullable)point;
 
 @end
 
@@ -105,18 +105,7 @@
 }
 
 - (id<FMSeries>)series { return nil; }
-
-- (void)setPointAttributes:(FMUniformPointAttributes *)pointAttributes
-{
-	if(_pointAttributes != pointAttributes) {
-		_pointAttributes = pointAttributes;
-		if(pointAttributes) {
-			_point = [[FMOrderedPointPrimitive alloc] initWithEngine:_engine series:[self series] attributes:pointAttributes];
-		} else {
-			_point = nil;
-		}
-	}
-}
+- (FMPointPrimitive*)point { return nil; }
 
 @end
 
@@ -131,8 +120,11 @@
 
 @end
 
+@interface FMOrderedPolyLinePrimitive()
 
+@property (nonatomic) FMOrderedPointPrimitive *point;
 
+@end
 @implementation FMOrderedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
@@ -167,7 +159,51 @@
 	self.point.series = series;
 }
 
+- (void)setPointAttributes:(FMUniformPointAttributes *)pointAttributes
+{
+	if(_pointAttributes != pointAttributes) {
+		_pointAttributes = pointAttributes;
+		if(pointAttributes) {
+			_point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:[self series] attributes:pointAttributes];
+		} else {
+			_point = nil;
+		}
+	}
+}
+
+
 @end
+
+
+
+
+
+@interface FMOrderedAttributedPolylinePrimitive()
+
+@end
+@implementation FMOrderedAttributedPolylinePrimitive
+
+- (instancetype)initWithEngine:(FMEngine *)engine
+				 orderedSeries:(FMOrderedAttributedSeries *)series
+			attributesCapacity:(NSUInteger)capacity
+{
+	self = [super initWithEngine:engine];
+	if(self) {
+		_attributesArray = [[FMUniformLineAttributesArray alloc] initWithResource:engine.resource capacity:capacity];
+		_series = series;
+	}
+	return self;
+}
+
+- (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrderedAttributed"; }
+- (NSString *)fragmentFunctionName { return @"PolyLineEngineFragmentOrderedAttributed"; }
+
+- (id<MTLBuffer>)attributesBuffer { return _attributesArray.buffer; }
+
+@end
+
+
+
 
 
 
