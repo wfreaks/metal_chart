@@ -48,37 +48,43 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 - (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time
 {
-	_value = value;
-	_velocity = 0;
-	_timestamp = time;
-	_dampingCoefficent = 0;
-	NSLog(@"halt");
+	@synchronized(self) {
+		_value = value;
+		_velocity = 0;
+		_timestamp = time;
+		_dampingCoefficent = 0;
+//		NSLog(@"halt");
+	}
 }
 
 - (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time
 {
-	const NSTimeInterval timeDiff = time - _timestamp;
-	const CGFloat valueDiff = value - _value;
-	_value = value;
-	_timestamp = time;
-	if(timeDiff > 0) {
-		_velocity = (0.3 * _velocity) + (0.7 * (valueDiff / timeDiff));
-		const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
-		_dampingCoefficent = MAX(4, k);
-		NSLog(@"velocity = %.1f", _velocity);
+	@synchronized(self) {
+		const NSTimeInterval timeDiff = time - _timestamp;
+		const CGFloat valueDiff = value - _value;
+		_value = value;
+		_timestamp = time;
+		if(timeDiff > 0) {
+			_velocity = (0.3 * _velocity) + (0.7 * (valueDiff / timeDiff));
+			const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
+			_dampingCoefficent = MAX(4, k);
+//			NSLog(@"velocity = %.1f", _velocity);
+		}
 	}
 }
 
 - (void)updateWithTime:(CFAbsoluteTime)time
 {
-	const NSTimeInterval diff = time - _timestamp;
-	_timestamp = time;
-	const CGFloat oldm = _velocity;
-	if(oldm != 0 && diff > 0) {
-		const CGFloat newm = oldm * exp(-(_dampingCoefficent * diff));
-		_value += (newm + oldm) * diff / 2;
-		_velocity = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
-		NSLog(@"velocity = %.1f", _velocity);
+	@synchronized(self) {
+		const NSTimeInterval diff = time - _timestamp;
+		_timestamp = time;
+		const CGFloat oldm = _velocity;
+		if(oldm != 0 && diff > 0) {
+			const CGFloat newm = oldm * exp(-(_dampingCoefficent * diff));
+			_value += (newm + oldm) * diff / 2;
+			_velocity = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
+//			NSLog(@"velocity = %.1f", _velocity);
+		}
 	}
 }
 
@@ -125,7 +131,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	return self;
 }
 
-- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> *)currentAnimations timestamp:(NSTimeInterval)timestamp
+- (BOOL)animator:(FMAnimator *)animator shouldStartAnimating:(CFAbsoluteTime)timestamp
 {
 	return YES;
 }
@@ -136,11 +142,13 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	return YES;
 }
 
-- (void)addedToPendingQueue:(NSTimeInterval)timestamp
+- (void)addedToPendingQueueOfAnimator:(FMAnimator *)animator timestamp:(CFAbsoluteTime)timestamp
 {
+//	NSArray<id<FMAnimation>> *anims = animator.runningAnimations;
+//	[self.class stopAnimationWithInterpreter:self.interpreter inQueue:anims];
 }
 
-- (BOOL)animate:(id<MTLCommandBuffer>)buffer timestamp:(NSTimeInterval)timestamp
+- (BOOL)animator:(FMAnimator *)animator animate:(id<MTLCommandBuffer>)buffer timestamp:(CFAbsoluteTime)timestamp
 {
 	if(_canceled) return YES;
 	
@@ -156,6 +164,18 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 + (instancetype)animation:(FMGestureInterpreter *)interpreter
 {
 	return [[self alloc] initWithInterpreter:interpreter];
+}
+
++ (void)stopAnimationWithInterpreter:(FMGestureInterpreter*)interpreter inQueue:(NSArray<id<FMAnimation>>*)animations
+{
+	for(id<FMAnimation> anim in animations) {
+		if([anim isKindOfClass:self.class]) {
+			FMInertialPanAnimatioin *a = anim;
+			if(a.interpreter == interpreter) {
+				[a requestCancel];
+			}
+		}
+	}
 }
 
 @end
@@ -221,6 +241,7 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 {
 	if(recognizer == self.panRecognizer) {
 		const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
+		[FMInertialPanAnimatioin stopAnimationWithInterpreter:self inQueue:self.momentumAnimator.runningAnimations];
 		[_transVX haltWithValue:_translationCumulative.x time:time];
 		[_transVY haltWithValue:_translationCumulative.y time:time];
 	}

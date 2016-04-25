@@ -13,5 +13,4 @@
 ・attributedLine/Pointの追加 -> あとはlineのシェーダを書くだけ
 ・attributedBarの動作確認
 
-・panアニメーションの速度がおかしい
 ・devアプリで初期表示がおかしい(setNeedsDisplayで治る)

@@ -9,26 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-@protocol FMAnimation
+@protocol FMAnimation <NSObject>
 
 // 他のアニメーションからキャンセルを要求したりする時用. 特にAnimatorでは利用しない. 戻り値は想定としては、受理されたか否か.
 - (BOOL)requestCancel;
 
 // まず追加された時このメソッドが呼ばれる. タイミング調整などに.
-- (void)addedToPendingQueue:(NSTimeInterval)timestamp;
+- (void)addedToPendingQueueOfAnimator:(FMAnimator* _Nonnull)animator timestamp:(CFAbsoluteTime)timestamp;
 
 // 次、描画開始前にループでpendingQueueの中身は一律このメソッドが呼ばれる.
 // ここでYESを返すとrunningQueueに移動し、animate:timestamp が呼ばれるようになる.
-- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> * _Nonnull)currentAnimations timestamp:(NSTimeInterval)timestamp;
+- (BOOL)animator:(FMAnimator* _Nonnull)animator shouldStartAnimating:(CFAbsoluteTime)timestamp;
 
 // YESを返すと終了したとみなされる.
-- (BOOL)animate:(id<MTLCommandBuffer> _Nonnull)buffer timestamp:(NSTimeInterval)timestamp;
+- (BOOL)animator:(FMAnimator* _Nonnull)animator animate:(id<MTLCommandBuffer> _Nonnull)buffer timestamp:(CFAbsoluteTime)timestamp;
  
 @end
 
 
 
 @interface FMAnimator : NSObject <FMCommandBufferHook>
+
+@property (nonatomic, readonly) NSArray<id<FMAnimation>> * _Nonnull runningAnimations;
+@property (nonatomic, readonly) NSArray<id<FMAnimation>> * _Nonnull pendingAnimations;
 
 @property (nonatomic, weak) MetalView * _Nullable metalView;
 

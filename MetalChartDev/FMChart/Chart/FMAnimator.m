@@ -11,9 +11,6 @@
 
 @interface FMAnimator()
 
-@property (strong, nonatomic) NSArray<id<FMAnimation>> * _Nonnull runningAnimations;
-@property (strong, nonatomic) NSArray<id<FMAnimation>> * _Nonnull pendingAnimations;
-
 @end
 
 @interface FMBlockAnimation()
@@ -47,7 +44,7 @@
 	}
 	
 	for(id<FMAnimation> a in pending) {
-		if([a shouldStartAnimating:running timestamp:timestamp]) {
+		if([a animator:self shouldStartAnimating:timestamp]) {
 			running = [running arrayByAddingObject:a];
 			[self removePendingAnimation:a];
 		}
@@ -55,7 +52,7 @@
 	
 	NSArray<id<FMAnimation>> * newRunning = running;
 	for(id<FMAnimation> a in running) {
-		if([a animate:buffer timestamp:timestamp]) {
+		if([a animator:self animate:buffer timestamp:timestamp]) {
 			newRunning = [newRunning arrayByRemovingObject:a];
 		}
 	}
@@ -75,7 +72,7 @@
 - (void)addAnimation:(id<FMAnimation>)animation
 {
 	@synchronized(self) {
-		[animation addedToPendingQueue:CFAbsoluteTimeGetCurrent()];
+		[animation addedToPendingQueueOfAnimator:self timestamp:CFAbsoluteTimeGetCurrent()];
 		_pendingAnimations = [_pendingAnimations arrayByAddingObjectIfNotExists:animation];
 		MetalView *view = self.metalView;
 		if(view) {
@@ -109,14 +106,14 @@
 }
 
 - (BOOL)requestCancel { return NO; }
-- (void)addedToPendingQueue:(NSTimeInterval)timestamp { _anchorTime = timestamp; }
+- (void)addedToPendingQueueOfAnimator:(FMAnimator *)animator timestamp:(CFAbsoluteTime)timestamp { _anchorTime = timestamp; }
 
-- (BOOL)shouldStartAnimating:(NSArray<id<FMAnimation>> *)currentAnimations timestamp:(NSTimeInterval)timestamp
+- (BOOL)animator:(FMAnimator *)animator shouldStartAnimating:(CFAbsoluteTime)timestamp
 {
 	return (_anchorTime + _delay <= timestamp);
 }
 
-- (BOOL)animate:(id<MTLCommandBuffer>)buffer timestamp:(NSTimeInterval)timestamp
+- (BOOL)animator:(FMAnimator *)animator animate:(id<MTLCommandBuffer>)buffer timestamp:(CFAbsoluteTime)timestamp
 {
 	const float progress = (float)((timestamp - (_anchorTime + _delay)) / _duration);
 	_block(progress);
