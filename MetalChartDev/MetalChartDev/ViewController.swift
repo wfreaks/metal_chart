@@ -125,6 +125,7 @@ class ViewController: UIViewController {
 		
 		let stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
 		let weightLine = configurator.addAttributedLineToSpace(weightSpace, series: weightSeries!, attributesCapacity: 2)
+		let weightPoint = configurator.addAttributedPointToSpace(weightSpace, series: weightSeries!, attributesCapacity: 2)
 		let systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		let diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
 		let systolicPoint = configurator.setPointToLine(systolicLine)
@@ -140,11 +141,14 @@ class ViewController: UIViewController {
 		weightLine.attributesArray[0].setWidth(8)
 		weightLine.attributesArray[0].setColor(weightColor)
 		weightLine.attributesArray[1].setWidth(6)
-		weightLine.attributesArray[1].setColor(weightColor)
+		weightLine.attributesArray[1].setColor(UIColor.blueColor().vector())
 		weightLine.attributesArray[1].setDashLineLength(2)
 		weightLine.attributesArray[1].setDashSpaceLength(1)
 		weightLine.conf.setAlpha(0.6)
 		weightLine.conf.enableOverlay = true
+		
+		configurePointAttributes(weightPoint.attributesArray[0] as! FMUniformPointAttributes, innerRadius: 8, outerColor: weightColor)
+		configurePointAttributes(weightPoint.attributesArray[1] as! FMUniformPointAttributes, innerRadius: 8, outerColor: weightColor)
 		
 		systolicLine.conf.enableOverlay = true
 		systolicLine.attributes.setColor(systolicColor)

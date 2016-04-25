@@ -24,7 +24,7 @@
 	return self;
 }
 
-- (uniform_point_attr *)point { return (uniform_point_attr *)([self.buffer contents]); }
+- (uniform_point_attr *)point { return ((uniform_point_attr *)([self.buffer contents])) + self.index; }
 
 - (void)setInnerColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {
