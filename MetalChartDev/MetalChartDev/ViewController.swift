@@ -25,7 +25,7 @@ class ViewController: UIViewController {
 	var refDate : NSDate? = nil
 	
 	let seriesCapacity : UInt = 4
-	var stepSeries : FMOrderedSeries? = nil
+	var stepSeries : FMOrderedAttributedSeries? = nil
 	var weightSeries : FMOrderedAttributedSeries? = nil
 	var systolicSeries : FMOrderedSeries? = nil
 	var diastolicSeries : FMOrderedSeries? = nil
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 		
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
 		
-		stepSeries = configurator.createSeries(seriesCapacity)
+		stepSeries = configurator.createAttributedSeries(seriesCapacity)
 		weightSeries = configurator.createAttributedSeries(seriesCapacity)
 		systolicSeries = configurator.createSeries(seriesCapacity)
 		diastolicSeries = configurator.createSeries(seriesCapacity)
@@ -123,7 +123,7 @@ class ViewController: UIViewController {
 			return self.pressureUpdater
 		}
 		
-		let stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
+		let stepBar = configurator.addAttributedBarToSpace(stepSpace, series: stepSeries!, attributesCapacity: 3)
 		let weightLine = configurator.addAttributedLineToSpace(weightSpace, series: weightSeries!, attributesCapacity: 2)
 		let weightPoint = configurator.addAttributedPointToSpace(weightSpace, series: weightSeries!, attributesCapacity: 2)
 		let systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
@@ -136,8 +136,15 @@ class ViewController: UIViewController {
 		let diastolicColor = UIColor(red: 0.9, green: 0.4, blue: 0.2, alpha: 1.0).vector()
 		let stepColor = UIColor(white: 0.5, alpha: 1.0).vector()
 		
-		stepBar.attributes.setBarWidth(20)
-		stepBar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar.attributesArray[0].setBarWidth(20)
+		stepBar.attributesArray[0].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar.attributesArray[0].setColor(UIColor(white: 0.7, alpha: 1).vector())
+		stepBar.attributesArray[1].setBarWidth(20)
+		stepBar.attributesArray[1].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar.attributesArray[1].setColor(UIColor(white: 0.5, alpha: 1).vector())
+		stepBar.attributesArray[2].setBarWidth(20)
+		stepBar.attributesArray[2].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar.attributesArray[2].setColor(UIColor(white: 0.3, alpha: 1).vector())
 		weightLine.attributesArray[0].setWidth(8)
 		weightLine.attributesArray[0].setColor(weightColor)
 		weightLine.attributesArray[1].setWidth(6)
@@ -250,7 +257,8 @@ class ViewController: UIViewController {
 					if let quantity = statistic.sumQuantity() {
 						let yValue = CGFloat(quantity.doubleValueForUnit(HKUnit.countUnit()))
 						let xValue = CGFloat(statistic.startDate.timeIntervalSinceDate(refDate))
-						self.stepSeries?.addPoint(CGPointMake(xValue, yValue))
+						let attr : UInt = (yValue < 5000) ? (0) : ((yValue < 10000) ? 1 : 2)
+						self.stepSeries?.addPoint(CGPointMake(xValue, yValue), attrIndex: attr)
 						self.stepUpdater?.addSourceValue(yValue, update: false)
 						self.dateUpdater?.addSourceValue(xValue, update: false)
 					}

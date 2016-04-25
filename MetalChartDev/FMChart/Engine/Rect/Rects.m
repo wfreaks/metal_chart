@@ -84,7 +84,7 @@
 	if(series) {
 		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
 		id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
-		[encoder pushDebugGroup:@"DrawBar"];
+		[encoder pushDebugGroup:NSStringFromClass(self.class)];
 		[encoder setRenderPipelineState:renderState];
 		[encoder setDepthStencilState:depthState];
 		

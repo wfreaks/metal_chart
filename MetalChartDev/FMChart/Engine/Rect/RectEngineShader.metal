@@ -223,7 +223,7 @@ vertex out_vertex_bar_attributed AttributedBar_VertexOrdered(
 	constant uniform_bar_attr& attrs = attrs_array[v.idx];
 	out_vertex_bar_attributed out;
 	out.idx = v.idx;
-	BarVertexCore(vid, v.value, conf, attrs, proj, out);
+	BarVertexCore(v_id, v.value, conf, attrs, proj, out);
 	
 	return out;
 }
