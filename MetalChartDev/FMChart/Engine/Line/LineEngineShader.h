@@ -34,6 +34,16 @@ struct out_vertex_LineDash {
 	float  depth_add [[ flat ]];
 };
 
+struct out_vertex_LineDashAttributed {
+	float4 position_ndc [[ position ]];
+	float2 position_scaled;
+	float  l_scaled  [[ flat ]];
+	float  scale	 [[ flat ]];
+	float  depth	 [[ flat ]];
+	float  depth_add [[ flat ]];
+	uint   idx       [[ flat ]];
+};
+
 
 template <typename OutputType>
 inline OutputType LineDashVertexCore(const float2 start_ndc, const float2 end_ndc, const uchar spec, const float line_width, constant uniform_projection_cart2d& projection)

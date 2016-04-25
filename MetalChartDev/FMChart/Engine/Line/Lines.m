@@ -178,10 +178,10 @@
 
 
 
-@interface FMOrderedAttributedPolylinePrimitive()
+@interface FMOrderedAttributedPolyLinePrimitive()
 
 @end
-@implementation FMOrderedAttributedPolylinePrimitive
+@implementation FMOrderedAttributedPolyLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
 				 orderedSeries:(FMOrderedAttributedSeries *)series
@@ -195,8 +195,12 @@
 	return self;
 }
 
-- (NSString *)vertexFunctionName { return @"PolyLineEngineVertexOrderedAttributed"; }
-- (NSString *)fragmentFunctionName { return @"PolyLineEngineFragmentOrderedAttributed"; }
+- (NSString *)vertexFunctionName { return @"AttributedPolyLineEngineVertexOrdered"; }
+
+- (NSString *)fragmentFunctionName
+{
+	return (self.conf.enableOverlay) ? @"AttributedLineFragment_Overlay" : @"AttributedLineFragment_NoOverlay";
+}
 
 - (id<MTLBuffer>)attributesBuffer { return _attributesArray.buffer; }
 

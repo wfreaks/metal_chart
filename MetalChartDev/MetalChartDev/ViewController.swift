@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 	
 	let seriesCapacity : UInt = 4
 	var stepSeries : FMOrderedSeries? = nil
-	var weightSeries : FMOrderedSeries? = nil
+	var weightSeries : FMOrderedAttributedSeries? = nil
 	var systolicSeries : FMOrderedSeries? = nil
 	var diastolicSeries : FMOrderedSeries? = nil
 	
@@ -71,7 +71,7 @@ class ViewController: UIViewController {
 		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
 		
 		stepSeries = configurator.createSeries(seriesCapacity)
-		weightSeries = configurator.createSeries(seriesCapacity)
+		weightSeries = configurator.createAttributedSeries(seriesCapacity)
 		systolicSeries = configurator.createSeries(seriesCapacity)
 		diastolicSeries = configurator.createSeries(seriesCapacity)
 		
@@ -124,10 +124,9 @@ class ViewController: UIViewController {
 		}
 		
 		let stepBar = configurator.addBarToSpace(stepSpace, series: stepSeries!)
-		let weightLine = configurator.addLineToSpace(weightSpace, series: weightSeries!)
+		let weightLine = configurator.addAttributedLineToSpace(weightSpace, series: weightSeries!, attributesCapacity: 2)
 		let systolicLine = configurator.addLineToSpace(pressureSpace, series: systolicSeries!)
 		let diastolicLine = configurator.addLineToSpace(pressureSpace, series: diastolicSeries!)
-		let weightPoint = configurator.setPointToLine(weightLine)
 		let systolicPoint = configurator.setPointToLine(systolicLine)
 		let diastolicPoint = configurator.setPointToLine(diastolicLine)
 		
@@ -138,11 +137,14 @@ class ViewController: UIViewController {
 		
 		stepBar.attributes.setBarWidth(20)
 		stepBar.attributes.setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		weightLine.attributes.setWidth(8)
-		weightLine.attributes.setColor(weightColor)
+		weightLine.attributesArray[0].setWidth(8)
+		weightLine.attributesArray[0].setColor(weightColor)
+		weightLine.attributesArray[1].setWidth(6)
+		weightLine.attributesArray[1].setColor(weightColor)
+		weightLine.attributesArray[1].setDashLineLength(2)
+		weightLine.attributesArray[1].setDashSpaceLength(1)
 		weightLine.conf.setAlpha(0.6)
 		weightLine.conf.enableOverlay = true
-		configurePointAttributes(weightPoint, innerRadius: 8, outerColor: weightColor)
 		
 		systolicLine.conf.enableOverlay = true
 		systolicLine.attributes.setColor(systolicColor)
@@ -260,12 +262,14 @@ class ViewController: UIViewController {
 		let weightQuery = HKSampleQuery(sampleType:weight, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: [sort]) { (query, samples, error) -> Void in
 			if let array = samples {
 				self.weightSeries?.reserve(UInt(array.count))
+				var idx : UInt = 0;
 				for sample in (array as! [HKQuantitySample]) {
 					let x = CGFloat(sample.startDate.timeIntervalSinceDate(refDate))
 					let val = CGFloat(sample.quantity.doubleValueForUnit(kg))
-					self.weightSeries?.addPoint(CGPointMake(x, val))
+					self.weightSeries?.addPoint(CGPointMake(x, val), attrIndex: idx%2)
 					self.weightUpdater?.addSourceValue(val, update: false)
 					self.dateUpdater?.addSourceValue(x, update: false)
+					idx += 1
 				}
 				self.weightUpdater?.updateTarget()
 				self.weightLabel?.clearCache()

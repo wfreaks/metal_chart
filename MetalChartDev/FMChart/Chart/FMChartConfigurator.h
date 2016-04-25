@@ -116,6 +116,11 @@ NS_DESIGNATED_INITIALIZER;
                                                  series:(FMOrderedSeries * _Nonnull)series
 ;
 
+- (FMOrderedAttributedPolyLinePrimitive * _Nonnull)addAttributedLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
+																	 series:(FMOrderedAttributedSeries *_Nonnull)series
+														 attributesCapacity:(NSUInteger)capacity
+;
+
 - (FMUniformPointAttributes* _Nonnull)setPointToLine:(FMOrderedPolyLinePrimitive* _Nonnull)line
 ;
 
@@ -125,7 +130,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (FMOrderedAttributedBarPrimitive * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
 															   series:(FMOrderedAttributedSeries * _Nonnull)series
-														 attrCapacity:(NSUInteger)capacity
+												   attributesCapacity:(NSUInteger)capacity
 ;
 
 - (FMOrderedPointPrimitive * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space

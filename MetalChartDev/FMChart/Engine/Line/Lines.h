@@ -44,7 +44,7 @@
 
 // attributedPointを追加すると、データ点にindexがふくまれてしまうのでかなり使い勝手が悪くなる.
 // なら手動でattributedPointを追加してもらった方が、ずっとよいと思われる. (そもそもlineにpointを追加できる必要性ってあんまりない)
-@interface FMOrderedAttributedPolylinePrimitive : FMPolyLinePrimitive
+@interface FMOrderedAttributedPolyLinePrimitive : FMPolyLinePrimitive
 
 @property (nonatomic) FMUniformLineAttributesArray * _Nonnull attributesArray;
 @property (nonatomic) FMOrderedAttributedSeries * _Nullable series;

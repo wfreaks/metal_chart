@@ -10,7 +10,7 @@
 　クラスにする必要があるのかも怪しいが、やっとくと使い方の幅は広がるかもしれない。
 　アベレージとったりゼロパディングが楽になったり効率的だったりクリーンだったり。
 
-・attributedLine/Pointの追加 -> あとはlineのシェーダを書くだけ
+・attributedLine/Pointの追加 -> 動作は確認、ただしDashLineのシェーダ（フラグメント？）の結果が若干おかしいとおもわれる.
 ・attributedBarの動作確認
 
-・devアプリで初期表示がおかしい(setNeedsDisplayで治る)
+・devアプリで初期表示がおかしい(setNeedsDisplayで治る) -> 急に再現しなくなった？

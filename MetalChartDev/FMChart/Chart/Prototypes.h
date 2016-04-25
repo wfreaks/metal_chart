@@ -29,6 +29,7 @@
 @class FMLinePrimitive;
 @class FMOrderedAttributedBarPrimitive;
 @class FMOrderedAttributedPointPrimitive;
+@class FMOrderedAttributedPolyLinePrimitive;
 @class FMOrderedAttributedSeries;
 @class FMOrderedBarPrimitive;
 @class FMOrderedPointPrimitive;

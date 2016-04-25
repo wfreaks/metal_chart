@@ -320,6 +320,17 @@
 	return line;
 }
 
+- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMProjectionCartesian2D *)space
+															series:(FMOrderedAttributedSeries *)series
+												attributesCapacity:(NSUInteger)capacity
+{
+	FMOrderedAttributedPolyLinePrimitive *line = [[FMOrderedAttributedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributesCapacity:capacity];
+	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
+	[_chart addRenderable:ls];
+	[_chart addProjection:space];
+	return line;
+}
+
 - (FMUniformPointAttributes*)setPointToLine:(FMOrderedPolyLinePrimitive *)line
 {
 	FMUniformPointAttributes *attrs = [[FMUniformPointAttributes alloc] initWithResource:self.engine.resource];
@@ -342,7 +353,7 @@
 
 - (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMProjectionCartesian2D *)space
 													  series:(FMOrderedAttributedSeries *)series
-												attrCapacity:(NSUInteger)capacity
+										  attributesCapacity:(NSUInteger)capacity
 {
 	FMOrderedAttributedBarPrimitive *bar = [[FMOrderedAttributedBarPrimitive alloc] initWithEngine:self.engine
 																							series:series
