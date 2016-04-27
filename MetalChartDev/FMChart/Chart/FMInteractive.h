@@ -19,9 +19,14 @@
 
 
 
-
+// gestureStateRestriction自体がそれを持っている事が好ましいといえば、好ましい（空間がどうなってるのかわからないのに制限をかけるのは、多分無理だと思う）
+// 次、bounceを実現するために何ができるかという話
+// 昨日思ったのは、stateRestrictionがwindowを見れている状況なら、普通にそれくらいの事はできるんじゃないか、という事.
+// ただしその場合、Animationの発行ができるようにならないといけないが.
 
 @protocol FMInterpreterStateRestriction<NSObject>
+
+- (CGFloat)translationScaleFactor; // 毎回これ呼ぶの、無駄な気がするんだけど, でもこれをしないと整合性が取れない.
 
 - (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
 	willScaleChange:(CGSize * _Nonnull)size;
