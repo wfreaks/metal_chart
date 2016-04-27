@@ -251,7 +251,6 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 {
 	FMAnimator *animator = self.momentumAnimator;
 	const UIGestureRecognizerState state = recognizer.state;
-	UIView *view = recognizer.view;
 	const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
 	const BOOL began = (state == UIGestureRecognizerStateBegan);
 	const BOOL progress = (state == UIGestureRecognizerStateChanged);
@@ -259,10 +258,9 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	if(began) {
 		_currentTranslation = [recognizer translationInView:recognizer.view];
 	} else if (progress || end) {
-		const CGSize size = view.bounds.size;
 		const CGPoint t = [recognizer translationInView:recognizer.view];
 		// window座標とグラフの座標ではy軸の向きが違う。この時点でyの値を反転させておく.
-		const CGPoint diff = {(t.x - _currentTranslation.x)/size.width, -(t.y - _currentTranslation.y)/size.height};
+		const CGPoint diff = {(t.x - _currentTranslation.x), -(t.y - _currentTranslation.y)};
 		_currentTranslation = t;
 		
 		const CGFloat dist = sqrt((diff.x*diff.x) + (diff.y*diff.y));
