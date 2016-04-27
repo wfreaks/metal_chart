@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FMInteractive.h"
-#import "Prototypes.h"
+#import "MetalChart.h"
 
 
 // FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
@@ -127,6 +127,40 @@ NS_DESIGNATED_INITIALIZER;
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+@end
+
+
+typedef NS_ENUM(NSInteger, FMDimOrientation) {
+    FMDimOrientationHorizontal = 0,
+    FMDimOrientationVertical = 1,
+};
+
+// data空間とview空間を結びつける, 本質的にはLengthFileterに近い.
+// このクラスはviewというより、物理サイズを意識したもの. (名前としてはこの方がわかりやすいかと)
+// anchorは[0, 1]で指定し、dataとviewのそれが重なるように配置する.
+// viewSizeが変わったら当然projectionをアップデートする必要がある.
+// scale は以下の計算式に従ってdata空間でのlengthを計算する際に使われる.
+// l_data = scale * (l_view - padding)
+// また、view空間ではy軸が反転するが、基本的にanchorとしては1が上となる事に注意.
+// 凄まじくパラメータ数多いが、二つの空間を結合して一意に決定するにはこのくらい必要.
+
+@interface FMViewSizeFilter : NSObject<FMRangeFilter>
+
+@property (nonatomic, readonly) FMDimOrientation orientation;
+@property (nonatomic, readonly, weak) UIView *_Nullable view;
+@property (nonatomic, readonly) CGFloat dataAnchor;
+@property (nonatomic, readonly) CGFloat viewAnchor;
+@property (nonatomic, readonly) CGFloat scale;
+@property (nonatomic, readonly) RectPadding padding;
+
+- (instancetype _Nonnull)initWithOrientation:(FMDimOrientation)orientation
+                                        view:(UIView * _Nonnull)view
+                                  dataAnchor:(CGFloat)dataAnchor
+                                  viewAnchor:(CGFloat)viewAnchor
+                                       scale:(CGFloat)scale
+									 padding:(RectPadding)padding
+;
 
 @end
 

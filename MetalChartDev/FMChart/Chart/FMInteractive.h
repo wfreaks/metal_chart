@@ -26,8 +26,6 @@
 
 @protocol FMInterpreterStateRestriction<NSObject>
 
-- (CGFloat)translationScaleFactor; // 毎回これ呼ぶの、無駄な気がするんだけど, でもこれをしないと整合性が取れない.
-
 - (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
 	willScaleChange:(CGSize * _Nonnull)size;
 

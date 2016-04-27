@@ -190,6 +190,49 @@
 @end
 
 
+
+@implementation FMViewSizeFilter
+
+- (instancetype)initWithOrientation:(FMDimOrientation)orientation
+							   view:(UIView *)view
+						 dataAnchor:(CGFloat)dataAnchor
+						 viewAnchor:(CGFloat)viewAnchor
+							  scale:(CGFloat)scale
+							padding:(RectPadding)padding
+{
+	self = [super init];
+	if(self) {
+		_orientation = orientation;
+		_view = view;
+		_dataAnchor = dataAnchor;
+		_viewAnchor = viewAnchor;
+		_scale = scale;
+		_padding = padding;
+	}
+	return self;
+}
+
+- (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
+{
+	const BOOL horizontal = (_orientation == FMDimOrientationHorizontal);
+	const CGFloat viewSize = (horizontal) ? _view.bounds.size.width : _view.bounds.size.height;
+	const CGFloat padSize = (horizontal) ? (_padding.left + _padding.right) : (_padding.top + _padding.bottom);
+	const CGFloat physicalSize = viewSize - padSize;
+	if(physicalSize > 0) {
+		const CGFloat vMin = *min, vMax = *max;
+		const CGFloat vAnchor = vMin + ((vMax-vMin) * _dataAnchor);
+		const CGFloat vLenNew = _scale * physicalSize;
+		const CGFloat vOffset = _viewAnchor * vLenNew;
+		const CGFloat vMinNew = vAnchor + vOffset;
+		*min = vMinNew;
+		*max = vMinNew + vLenNew;
+	}
+}
+
+@end
+
+
+
 @interface FMBlockFilter()
 
 @property (copy, nonatomic) FilterBlock _Nonnull block;

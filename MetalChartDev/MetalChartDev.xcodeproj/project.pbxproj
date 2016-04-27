@@ -82,7 +82,6 @@
 		AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */; };
-		AA858A391BFA259700C419F2 /* DevController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA858A381BFA259700C419F2 /* DevController.mm */; };
 		AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3E1BFA4E8200C419F2 /* FMProjections.m in Sources */ = {isa = PBXBuildFile; fileRef = AA858A3B1BFA4E8200C419F2 /* FMProjections.m */; };
@@ -212,8 +211,6 @@
 		AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utility.m"; sourceTree = "<group>"; };
 		AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MetalChartDev.entitlements; sourceTree = "<group>"; };
-		AA858A371BFA259700C419F2 /* DevController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DevController.h; sourceTree = "<group>"; };
-		AA858A381BFA259700C419F2 /* DevController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DevController.mm; sourceTree = "<group>"; };
 		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
 		AA858A3B1BFA4E8200C419F2 /* FMProjections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMProjections.m; sourceTree = "<group>"; };
 		AA85C75C1BFB533B0037253B /* base_shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base_shared.h; sourceTree = "<group>"; };
@@ -385,8 +382,6 @@
 				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
 				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
 				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
-				AA858A371BFA259700C419F2 /* DevController.h */,
-				AA858A381BFA259700C419F2 /* DevController.mm */,
 				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
 				AAB584E21B6F0D8C00480AAE /* Main.storyboard */,
 				AAB584E51B6F0D8C00480AAE /* Assets.xcassets */,
@@ -837,7 +832,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
-				AA858A391BFA259700C419F2 /* DevController.mm in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

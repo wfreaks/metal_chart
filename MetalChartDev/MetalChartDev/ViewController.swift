@@ -64,7 +64,8 @@ class ViewController: UIViewController {
 		let fps = 0;
 		let configurator : FMChartConfigurator = FMChartConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
-		chart.padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
+		let padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
+		chart.padding = padding
 		
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
 		
@@ -87,7 +88,9 @@ class ViewController: UIViewController {
 		dateUpdater?.addFilterToLast(FMPaddingFilter(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
 		let dateAccessibleRange = FMDefaultFilter()
 		dateUpdater?.addFilterToLast(dateAccessibleRange)
-		dateUpdater?.addFilterToLast(FMLengthFilter(length: dateLength, anchor: 1, offset: 0))
+		// 物理サイズで320px - paddingで見える分とする.
+		let dateScale : CGFloat = dateLength / 320
+		dateUpdater?.addFilterToLast(FMViewSizeFilter(orientation: FMDimOrientation.Horizontal, view: metalView, dataAnchor: 1, viewAnchor: 1, scale: dateScale, padding: padding))
 		let dateWindowRange = FMDefaultFilter()
 		dateUpdater?.addFilterToLast(dateWindowRange)
 		
@@ -219,12 +222,6 @@ class ViewController: UIViewController {
 		
 		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
 		
-		dateUpdater?.addFilterToLast(FMBlockFilter(block: { (updater, minPtr, maxPtr) in
-			// viewの大きさに合わせてminを調整する.
-			let len : CGFloat = maxPtr.memory - minPtr.memory
-			let ratio = (self.view.bounds.size.width - 80) / (320 - 80)
-			minPtr.memory = maxPtr.memory - (len * ratio)
-		}))
 	}
 	
 	func loadData() {

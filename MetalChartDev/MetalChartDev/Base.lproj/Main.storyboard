@@ -3,50 +3,19 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Dev Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="DevController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ygm-Ew-ej8" customClass="FMMetalView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ygm-Ew-ej8" secondAttribute="height" multiplier="1:1" id="C4u-gH-gO8"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ygm-Ew-ej8" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="Mol-kz-3bh"/>
-                            <constraint firstItem="ygm-Ew-ej8" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="V5q-gt-oDl"/>
-                            <constraint firstItem="ygm-Ew-ej8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vxX-V8-rO3"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="metalView" destination="ygm-Ew-ej8" id="Ec6-yL-nGu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="TAB-pm-xdG"/>
-                <pinchGestureRecognizer id="c54-rs-69b"/>
-                <tapGestureRecognizer id="dOG-xX-0k0"/>
-            </objects>
-            <point key="canvasLocation" x="220" y="462"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="HnK-dl-Suv">
             <objects>
+                <pinchGestureRecognizer id="QEL-UN-6PH"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="K9U-Xh-yst" customClass="FMPanGestureRecognizer"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOi-xM-qMu" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="GPk-0Y-oxU">
+                    <connections>
+                        <action selector="chartTapped:" destination="dM4-em-aFZ" id="trR-4f-Wtt"/>
+                    </connections>
+                </tapGestureRecognizer>
                 <viewController id="dM4-em-aFZ" customClass="ViewController" customModule="MetalChartDev" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Vj-LR-na1"/>
@@ -76,14 +45,6 @@
                         <outlet property="tapRecognizer" destination="GPk-0Y-oxU" id="NqV-09-otw"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fOi-xM-qMu" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="K9U-Xh-yst" customClass="FMPanGestureRecognizer"/>
-                <pinchGestureRecognizer id="QEL-UN-6PH"/>
-                <tapGestureRecognizer id="GPk-0Y-oxU">
-                    <connections>
-                        <action selector="chartTapped:" destination="dM4-em-aFZ" id="trR-4f-Wtt"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="220" y="462"/>
         </scene>
