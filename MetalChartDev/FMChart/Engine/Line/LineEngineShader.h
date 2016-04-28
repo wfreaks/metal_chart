@@ -86,18 +86,18 @@ template <typename InputType, typename ParamType>
 inline float LineDashFragmentExtra(thread const InputType input, constant ParamType& conf)
 {
 	const float _w = 1/conf.width;
-	const float _lr = conf.length_repeat * _w; // 実際のスケールとしては、座標変換的には1/2倍のものになる.
-	const float lr = ((_lr > 0) * _lr) + ((_lr <= 0) * input.l_scaled);
-	const float l = lr + (conf.length_space * _w) + 1;
+	const float _lr = conf.length_repeat * _w; // 線長lは使えず、繰り返しパターンのパラメータで決まる. 実際のスケールとしては、座標変換的には1/2倍のものになる.
+	const float lr = ((_lr > 0) * _lr) + ((_lr <= 0) * input.l_scaled); // 上記が負または0ならば線の長さを繰り返し単位としてただの線とする.
+	const float l = lr + (conf.length_space * _w) + 1; // 上記にスペースの分＋上下の丸めのためのスペースを含め、リピート単位とする.
 	const float offset_dash = l * conf.repeat_anchor_dash; // %をとる前に引く値、スケールがリピートサイズになる.
 	const float offset_line = input.l_scaled * conf.repeat_anchor_line; // 同上、ただしスケールは線全体.
 	float2 pos = input.position_scaled;
-	const float y2 = ((pos.y + offset_dash - offset_line) / (2*l)) + 0.5;
-	const float y3 = (2*l) * ((y2 - floor(y2)) - 0.5);
+	const float y2 = ((pos.y + offset_dash - offset_line) / (2*l)) + 0.5; // リピート長2lで正規化し、真ん中の位置へ持ってくる(floorを使うため).
+	const float y3 = (2*l) * ((y2 - floor(y2)) - 0.5); // 正規化された状態で整数部を捨て、リピート状態にし、ずらした分を戻し、スケールを戻す -> [-l, l]となる.
 	const float y4 = ((y3 >= lr) * (y3 - lr)) + ((y3 <= -lr) * (y3 + lr));
 	pos.y = y4;
 	
-	const float distance_from_circle_in_px = (input.scale * (length(pos) - 1)) + 0.5;
+	const float distance_from_circle_in_px = (input.scale * (length(pos) - 1)) + 1.0;
 	return saturate(1.0 - distance_from_circle_in_px);
 }
 
