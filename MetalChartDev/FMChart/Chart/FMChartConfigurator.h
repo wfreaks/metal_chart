@@ -74,8 +74,8 @@ NS_DESIGNATED_INITIALIZER;
 
 - (FMProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
 
-- (id<FMInteraction> _Nullable)connectSpace:(NSArray<FMProjectionCartesian2D*>* _Nonnull)space
-							  toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
+- (FMGestureDispatcher* _Nonnull)addGestureDispatcherToPan:(FMPanGestureRecognizer *_Nonnull)pan
+													 pinch:(UIPinchGestureRecognizer *_Nonnull)pinch
 ;
 
 - (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
@@ -96,11 +96,6 @@ NS_DESIGNATED_INITIALIZER;
 - (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(id<FMAxis> _Nonnull)axis;
 
 - (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
-
-- (FMGestureInterpreter * _Nonnull)addInterpreterToPanRecognizer:(FMPanGestureRecognizer *_Nullable)pan
-												 pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
-												stateRestriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
-;
 
 - (FMGridLine * _Nullable)addGridLineToDimensionWithId:(NSInteger)dimensionId
 										   belowSeries:(BOOL)below
@@ -159,6 +154,12 @@ NS_DESIGNATED_INITIALIZER;
 - (FMPieDoughnutSeries * _Nonnull)addPieSeriesToSpace:(FMProjectionPolar * _Nonnull)space
 											 capacity:(NSUInteger)capacity
 ;
+
+// protocolを使ったdelegate/hookなどを良く実装するため、外側でretainしておく必要が
+// 出る事が多いが、実際そのためにプロパティ増やすとかないわーな時に使う.
+// 決して良い方法ではないし何回も通るコードパスで使用するべきではないが, 結構便利だったりする.
+- (void)addRetainedObject:(id _Nonnull)object;
+
 
 @end
 

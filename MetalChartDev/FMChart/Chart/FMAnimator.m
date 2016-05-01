@@ -26,16 +26,16 @@
 {
 	self = [super init];
 	if(self) {
-		_runningAnimations = [NSArray array];
-		_pendingAnimations = [NSArray array];
+		_runningAnimations = [NSOrderedSet orderedSet];
+		_pendingAnimations = [NSOrderedSet orderedSet];
 	}
 	return self;
 }
 
 - (void)chart:(MetalChart *)chart willStartEncodingToBuffer:(id<MTLCommandBuffer>)buffer
 {
-	NSArray<id<FMAnimation>> * running;
-	NSArray<id<FMAnimation>> * pending;
+	NSOrderedSet<id<FMAnimation>> * running;
+	NSOrderedSet<id<FMAnimation>> * pending;
 	const NSTimeInterval timestamp = CFAbsoluteTimeGetCurrent();
 	
 	@synchronized(self) {
@@ -45,15 +45,15 @@
 	
 	for(id<FMAnimation> a in pending) {
 		if([a animator:self shouldStartAnimating:timestamp]) {
-			running = [running arrayByAddingObject:a];
+			running = [running orderedSetByAddingObject:a];
 			[self removePendingAnimation:a];
 		}
 	}
 	
-	NSArray<id<FMAnimation>> * newRunning = running;
+	NSOrderedSet<id<FMAnimation>> * newRunning = running;
 	for(id<FMAnimation> a in running) {
 		if([a animator:self animate:buffer timestamp:timestamp]) {
-			newRunning = [newRunning arrayByRemovingObject:a];
+			newRunning = [newRunning orderedSetByRemovingObject:a];
 		}
 	}
 	
@@ -73,7 +73,7 @@
 {
 	@synchronized(self) {
 		[animation addedToPendingQueueOfAnimator:self timestamp:CFAbsoluteTimeGetCurrent()];
-		_pendingAnimations = [_pendingAnimations arrayByAddingObjectIfNotExists:animation];
+		_pendingAnimations = [_pendingAnimations orderedSetByAddingObject:animation];
 		MetalView *view = self.metalView;
 		if(view) {
 			[view setNeedsDisplay];
@@ -84,7 +84,7 @@
 - (void)removePendingAnimation:(id<FMAnimation>)animation
 {
 	@synchronized(self) {
-		_pendingAnimations = [_pendingAnimations arrayByRemovingObject:animation];
+		_pendingAnimations = [_pendingAnimations orderedSetByRemovingObject:animation];
 	}
 }
 

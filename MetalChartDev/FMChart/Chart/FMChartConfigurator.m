@@ -30,12 +30,6 @@
 
 @property (nonatomic, readonly) NSMutableArray *retained;
 
-// protocolを使ったdelegate/hookなどを良く実装するため、外側でretainしておく必要が
-// 出る事が多いが、実際そのためにプロパティ増やすとかないわーな時に使う.
-// 決して良い方法ではないし何回も通るコードパスで使用するべきではないが.
-- (void)addRetainedObject:(id _Nonnull)object;
-
-
 @end
 
 @implementation FMChartConfigurator
@@ -145,40 +139,14 @@
 	return nil;
 }
 
-- (id<FMInteraction>)connectSpace:(NSArray<FMProjectionCartesian2D *> *)space
-					toInterpreter:(FMGestureInterpreter *)interpreter
+- (FMGestureDispatcher*)addGestureDispatcherToPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
 {
-	NSArray<FMProjectionCartesian2D *> *ar = self.space;
-	NSMutableArray<NSNumber*> * orientations = [NSMutableArray array];
-	NSMutableArray<FMProjectionUpdater*> *updaters = [NSMutableArray array];
-	for(FMProjectionCartesian2D *s in space) {
-		if([ar containsObject:s]) {
-			FMProjectionUpdater *x = [self updaterWithDimensionId:s.dimensions[0].dimensionId];
-			FMProjectionUpdater *y = [self updaterWithDimensionId:s.dimensions[1].dimensionId];
-			if(x && ![updaters containsObject:x]) {
-				[updaters addObject:x];
-				[orientations addObject:@(0)];
-			}
-			if(y && ![updaters containsObject:y]) {
-				[updaters addObject:y];
-				[orientations addObject:@(M_PI_2)];
-			}
-		}
-	}
-	id<FMInteraction> r = nil;
-	if(updaters.count > 0) {
-		r = [FMSimpleBlockInteraction connectUpdaters:updaters
-										toInterpreter:interpreter
-										 orientations:orientations];
-		const BOOL setNeedsDisplay = (_preferredFps <= 0);
-		if(setNeedsDisplay) {
-			__weak typeof(_view) view = _view;
-			[interpreter addInteraction:[[FMSimpleBlockInteraction alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull _interpreter) {
-				[view setNeedsDisplay];
-			}]];
-		}
-	}
-	return r;
+	[self.view addGestureRecognizer:pan];
+	[self.view addGestureRecognizer:pinch];
+	FMGestureDispatcher *dispatcher = [[FMGestureDispatcher alloc] initWithPanRecognizer:pan pinchRecognizer:pinch];
+	dispatcher.animator = self.animator;
+	[self addRetainedObject:dispatcher];
+	return dispatcher;
 }
 
 - (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
@@ -274,20 +242,6 @@
 	}
 	[_chart insertPreRenderable:area atIndex:0];
 	return area;
-}
-
-- (FMGestureInterpreter *)addInterpreterToPanRecognizer:(FMPanGestureRecognizer *)pan
-										pinchRecognizer:(UIPinchGestureRecognizer *)pinch
-									   stateRestriction:(id<FMInterpreterStateRestriction>)restriction
-{
-	FMGestureInterpreter *interpreter = [[FMGestureInterpreter alloc] initWithPanRecognizer:pan
-																			pinchRecognizer:pinch
-																				restriction:restriction];
-	interpreter.momentumAnimator = _animator;
-	[self addRetainedObject:interpreter];
-	[_view addGestureRecognizer:pan];
-	[_view addGestureRecognizer:pinch];
-	return interpreter;
 }
 
 - (FMGridLine *)addGridLineToDimensionWithId:(NSInteger)dimensionId

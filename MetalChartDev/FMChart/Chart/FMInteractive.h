@@ -8,175 +8,114 @@
 
 #import <UIKit/UIKit.h>
 #import "Prototypes.h"
+#import "FMRangeFilters.h"
 
+// 引数として渡されるのはいづれもフレーム間での差異（スケールはview空間のそれ、ただしy軸は上向き）であり、
+// 積算はリスナー側でする事（そもそも無次元の積算値を作ると解釈が非常に面倒で、さらにその積算値の値を操作したり
+// データに依存して制限をかけたりという話になると凄まじく面倒になって一度実装を破棄した）
 
-@protocol FMInteraction <NSObject>
+@class FMGestureDispatcher;
 
-- (void)didScaleChange:(FMGestureInterpreter * _Nonnull)interpreter;
-- (void)didTranslationChange:(FMGestureInterpreter * _Nonnull)interpreter;
+typedef NS_ENUM(NSInteger, FMGestureEvent) {
+	FMGestureEventBegin,
+	FMGestureEventProgress,
+	FMGestureEventEnd,
+};
+
+@protocol FMPanGestureListener <NSObject>
+
+- (void)dispatcher:(FMGestureDispatcher*_Nonnull)dispatcher
+			   pan:(CGFloat)delta
+		  velocity:(CGFloat)velocity
+		 timestamp:(CFAbsoluteTime)timestamp
+			 event:(FMGestureEvent)event;
+
+@end
+
+@protocol FMScaleGestureListener <NSObject>
+
+- (void)dispatcher:(FMGestureDispatcher*_Nonnull)dispatcher scale:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event;
 
 @end
 
 
-
-// gestureStateRestriction自体がそれを持っている事が好ましいといえば、好ましい（空間がどうなってるのかわからないのに制限をかけるのは、多分無理だと思う）
-// 次、bounceを実現するために何ができるかという話
-// 昨日思ったのは、stateRestrictionがwindowを見れている状況なら、普通にそれくらいの事はできるんじゃないか、という事.
-// ただしその場合、Animationの発行ができるようにならないといけないが.
-
-@protocol FMInterpreterStateRestriction<NSObject>
-
-- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
-	willScaleChange:(CGSize * _Nonnull)size;
-
-- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
-willTranslationChange:(CGPoint * _Nonnull)translation;
-
-@end
-
-
-
-
-
-@interface FMGestureInterpreter : NSObject
+// GestureRecognizerからの通知をうけ、適切に処理したのちにイベントを通知するための
+// オブジェクト. recognizerの癖を吸収するための処理のためにstateを持ちはするが、
+// それもジェスチャー（及び慣性アニメーション）のライフサイクルを超えないように作ってある.
+@interface FMGestureDispatcher : NSObject
 
 @property (strong, nonatomic) FMPanGestureRecognizer * _Nullable panRecognizer;
 @property (strong, nonatomic) UIPinchGestureRecognizer * _Nullable pinchRecognizer;
-@property (strong, nonatomic) id<FMInterpreterStateRestriction> _Nullable stateRestriction;
-
-@property (assign, nonatomic) CGFloat orientationStep;
-@property (assign, nonatomic) CGFloat orientationStepDegree;
-
-// readoly state properties (only user interaction & restriction cam modify these values).
-@property (readonly, nonatomic) CGPoint translationCumulative;
-@property (readonly, nonatomic) CGSize  scaleCumulative;
-
-@property (nonatomic, weak) FMAnimator * _Nullable momentumAnimator;
+@property (nonatomic, weak) FMAnimator * _Nullable animator;
 
 - (instancetype _Nonnull)initWithPanRecognizer:(FMPanGestureRecognizer * _Nullable)pan
 							   pinchRecognizer:(UIPinchGestureRecognizer * _Nullable)pinch
-								   restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
-- (void)resetStates;
-
-- (void)addInteraction:(id<FMInteraction> _Nonnull)object;
-- (void)removeInteraction:(id<FMInteraction> _Nonnull)object;
-
-@end
-
-
-
-
-
-
-@interface FMDefaultInterpreterRestriction : NSObject<FMInterpreterStateRestriction>
-
-@property (readonly, nonatomic) CGSize minScale;
-@property (readonly, nonatomic) CGSize maxScale;
-@property (readonly, nonatomic) CGPoint minTranslation;
-@property (readonly, nonatomic) CGPoint maxTranslation;
-
-- (instancetype _Nonnull)initWithScaleMin:(CGSize)minScale
-									  max:(CGSize)maxScale
-						   translationMin:(CGPoint)minTrans
-									  max:(CGPoint)maxTrans
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-
-@end
-
-
-
-
-// ２軸がくっついていると、正直細かいコントロールが効かないので分割して扱う事ができるようにする
-@protocol FMInterpreterDimensionalRestroction<NSObject>
-
-- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
-	willScaleChange:(CGFloat * _Nonnull)scale;
-
-- (void)interpreter:(FMGestureInterpreter * _Nonnull)interpreter
-willTranslationChange:(CGFloat * _Nonnull)translation;
-
-@end
-
-
-@interface FMDefaultDimensionalRestriction : NSObject<FMInterpreterDimensionalRestroction>
-
-@property (readonly, nonatomic) CGFloat minScale;
-@property (readonly, nonatomic) CGFloat maxScale;
-@property (readonly, nonatomic) CGFloat minTranslation;
-@property (readonly, nonatomic) CGFloat maxTranslation;
-
-- (instancetype _Nonnull)initWithScaleMin:(CGFloat)minScale
-									  max:(CGFloat)maxScale
-								 transMin:(CGFloat)minTrans
-									  max:(CGFloat)maxTrans
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-+ (instancetype _Nonnull)fixedRangeRestriction; // scaleもtranslateもしない.
-
-@end
-
-
-@interface FMRangedDimensionalRestriction : NSObject<FMInterpreterDimensionalRestroction>
-
-@property (readonly, nonatomic) FMDefaultFilter * _Nonnull accessibleRange;
-@property (readonly, nonatomic) FMDefaultFilter * _Nonnull windowRange;
-@property (readonly, nonatomic) CGFloat minLength;
-@property (readonly, nonatomic) CGFloat maxLength;
-
-- (instancetype _Nonnull)initWithAccessibleRange:(FMDefaultFilter * _Nonnull)accessible
-									 windowRange:(FMDefaultFilter * _Nonnull)window
-									   minLength:(CGFloat)minLength
-									   maxLength:(CGFloat)maxLength
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init
-UNAVAILABLE_ATTRIBUTE;
-
-@end
-
-
-@interface FMInterpreterDetailedRestriction : NSObject<FMInterpreterStateRestriction>
-
-@property (readonly, nonatomic) id<FMInterpreterDimensionalRestroction> _Nonnull x;
-@property (readonly, nonatomic) id<FMInterpreterDimensionalRestroction> _Nonnull y;
-
-- (instancetype _Nonnull)initWithXRestriction:(id<FMInterpreterDimensionalRestroction> _Nonnull)x
-								 yRestriction:(id<FMInterpreterDimensionalRestroction> _Nonnull)y
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-@end
-
-
-
-
-
-typedef void (^SimpleInteractionBlock)(FMGestureInterpreter * _Nonnull);
-
-@interface FMSimpleBlockInteraction : NSObject<FMInteraction>
-
-- (instancetype _Nonnull)initWithBlock:(SimpleInteractionBlock _Nonnull)block
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-
-+ (instancetype _Nonnull)connectUpdaters:(NSArray<FMProjectionUpdater*> * _Nonnull)updaters
-						   toInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
-							orientations:(NSArray<NSNumber*> * _Nonnull)orientations;
+- (void)addPanListener:(id<FMPanGestureListener>_Nonnull)listener
+		   orientation:(FMDimOrientation)orientation
 ;
 
+- (void)addScaleListener:(id<FMScaleGestureListener>_Nonnull)listener
+			 orientation:(FMDimOrientation)orientation
+;
+
+- (void)removeAllListeners;
+
 @end
+
+
+
+// 物理サイズをベースにしたscale(320あたりデータ空間の長さ10といった具合)に
+// 着目して窓長を決める. viewからpaddingを除いたサイズをlv, data range長をldとした時,
+// ld = scale * lv
+// であり、scaleを上げると感覚的にはデータ空間を切り取る窓は長くなる.
+@interface FMScaledWindowLength : NSObject <FMWindowLengthDelegate, FMScaleGestureListener>
+
+@property (nonatomic, readonly) CGFloat currentScale;
+@property (nonatomic, readonly) CGFloat minScale;
+@property (nonatomic, readonly) CGFloat maxScale;
+@property (nonatomic, readonly) CGFloat defaultScale;
+
+@property (nonatomic, weak) MetalView *_Nullable view;
+@property (nonatomic, weak) FMProjectionUpdater *_Nullable updater;
+
+- (instancetype _Nonnull)initWithMinScale:(CGFloat)min
+                                 maxScale:(CGFloat)max
+                             defaultScale:(CGFloat)def
+;
+
+- (void)reset;
+
+@end
+
+
+// inputはdata range, そしてwindow length.
+// outputはシンプルだが、inputがimutableである仮定をしなければ、理想的な振る舞いを考えるのは難しい.
+// このクラスはシンプルに、窓内で相対的なAnchorを決め、このanchorが指すデータ空間での位置を極力安定させる動作をする.
+@interface FMAnchoredWindowPosition : NSObject <FMWindowPositionDelegate, FMPanGestureListener>
+
+@property (nonatomic, readonly) CGFloat anchor; // inputが変化した時のwindowのanchor.
+@property (nonatomic, readonly) CGFloat currentValue; // anchorの現在data空間上での値.
+@property (nonatomic, readonly) CGFloat defaultValue;
+@property (nonatomic, readonly, weak) FMScaledWindowLength * _Nullable length; // panGestureの解釈にはどうやっても現在のscaleを必要とするため.
+
+@property (nonatomic, weak) MetalView *_Nullable view;
+@property (nonatomic, weak) FMProjectionUpdater *_Nullable updater;
+
+- (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
+						   defaultValue:(CGFloat)value
+						   windowLength:(FMScaledWindowLength* _Nonnull)length
+;
+
+- (void)reset;
+
+@end
+
+
+
 
 
 @protocol FMPanGestureRecognizerDelegate<NSObject>

@@ -10,8 +10,6 @@
 #define Prototypes_h
 
 @protocol FMAxis;
-@protocol FMInteraction;
-@protocol FMInterpreterStateRestriction;
 @protocol FMRangeFilter;
 @protocol FMSeries;
 
@@ -23,7 +21,7 @@
 @class FMDeviceResource;
 @class FMDimensionalProjection;
 @class FMEngine;
-@class FMGestureInterpreter;
+@class FMGestureDispatcher;
 @class FMGridLinePrimitive;
 @class FMIndexedFloatBuffer;
 @class FMLinePrimitive;
@@ -64,5 +62,11 @@
 @class FMUniformSeriesInfo;
 @class TextureQuad;
 @class MetalChart;
+
+
+typedef NS_ENUM(NSInteger, FMDimOrientation) {
+	FMDimOrientationHorizontal = 0,
+	FMDimOrientationVertical = 1,
+};
 
 #endif /* Prototypes_h */

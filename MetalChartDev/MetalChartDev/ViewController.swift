@@ -67,9 +67,8 @@ class ViewController: UIViewController {
 		let padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
 		chart.padding = padding
 		
+		let dispatcher = configurator.addGestureDispatcherToPan(panRecognizer, pinch: pinchRecognizer)
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
-		
-		let interpreter = configurator.addInterpreterToPanRecognizer(panRecognizer, pinchRecognizer: pinchRecognizer, stateRestriction: nil)
 		
 		stepSeries = configurator.createAttributedSeries(seriesCapacity)
 		weightSeries = configurator.createAttributedSeries(seriesCapacity)
@@ -86,18 +85,17 @@ class ViewController: UIViewController {
 		let dateLength = 7 * daySec;
 		dateUpdater?.addFilterToLast(FMSourceFilter(minValue: -5 * daySec, maxValue: 0, expandMin: true, expandMax: true))
 		dateUpdater?.addFilterToLast(FMPaddingFilter(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
-		let dateAccessibleRange = FMDefaultFilter()
-		dateUpdater?.addFilterToLast(dateAccessibleRange)
 		// 物理サイズで320px - paddingで見える分とする.
-		let dateScale : CGFloat = dateLength / 320
-		dateUpdater?.addFilterToLast(FMViewSizeFilter(orientation: FMDimOrientation.Horizontal, view: metalView, dataAnchor: 1, viewAnchor: 1, scale: dateScale, padding: padding))
-		let dateWindowRange = FMDefaultFilter()
-		dateUpdater?.addFilterToLast(dateWindowRange)
-		
-		let dateRangeRestriction = FMRangedDimensionalRestriction(accessibleRange: dateAccessibleRange, windowRange: dateWindowRange, minLength: dateLength, maxLength: dateLength)
-		let yRangeRestriction = FMDefaultDimensionalRestriction.fixedRangeRestriction()
-		let stateRestriction = FMInterpreterDetailedRestriction(XRestriction:dateRangeRestriction, yRestriction:yRangeRestriction)
-		interpreter.stateRestriction = stateRestriction
+		let dateScale : CGFloat = dateLength / (320 - 80)
+		let dateWindowLength = FMScaledWindowLength(minScale: dateScale, maxScale: dateScale, defaultScale: dateScale)
+		let dateWindowPos = FMAnchoredWindowPosition(anchor: 0.5, defaultValue: 0, windowLength: dateWindowLength)
+		let dateWindow = FMWindowFilter(orientation: FMDimOrientation.Horizontal, view: metalView, padding: padding, lengthDelegate: dateWindowLength, positionDelegate: dateWindowPos)
+		dateUpdater?.addFilterToLast(dateWindow)
+		configurator.addRetainedObject(dateWindowLength)
+		configurator.addRetainedObject(dateWindowPos)
+		dispatcher.addPanListener(dateWindowPos, orientation:FMDimOrientation.Horizontal)
+		dateWindowPos.view = metalView
+		dateWindowPos.updater = dateUpdater
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addFilterToLast(FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
@@ -219,8 +217,6 @@ class ViewController: UIViewController {
 		let dateLabel = configurator.axisLabelsToAxis(dateAxis!)!.first!
 		dateLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightThin))
 		dateLabel.setFrameOffset(CGPointMake(0, 5))
-		
-		configurator.connectSpace([stepSpace, weightSpace, pressureSpace], toInterpreter: interpreter)
 		
 	}
 	

@@ -191,23 +191,21 @@
 
 
 
-@implementation FMViewSizeFilter
+@implementation FMWindowFilter
 
 - (instancetype)initWithOrientation:(FMDimOrientation)orientation
 							   view:(UIView *)view
-						 dataAnchor:(CGFloat)dataAnchor
-						 viewAnchor:(CGFloat)viewAnchor
-							  scale:(CGFloat)scale
 							padding:(RectPadding)padding
+					 lengthDelegate:(id<FMWindowLengthDelegate> _Nonnull)lenDelegate
+				   positionDelegate:(id<FMWindowPositionDelegate> _Nonnull)posDelegate
 {
 	self = [super init];
 	if(self) {
 		_orientation = orientation;
 		_view = view;
-		_dataAnchor = dataAnchor;
-		_viewAnchor = viewAnchor;
-		_scale = scale;
 		_padding = padding;
+		_lengthDelegate = lenDelegate;
+		_positionDelegate = posDelegate;
 	}
 	return self;
 }
@@ -217,15 +215,18 @@
 	const BOOL horizontal = (_orientation == FMDimOrientationHorizontal);
 	const CGFloat viewSize = (horizontal) ? _view.bounds.size.width : _view.bounds.size.height;
 	const CGFloat padSize = (horizontal) ? (_padding.left + _padding.right) : (_padding.top + _padding.bottom);
-	const CGFloat physicalSize = viewSize - padSize;
-	if(physicalSize > 0) {
+	const CGFloat viewPort = viewSize - padSize;
+	if(viewPort > 0) {
+		id<FMWindowLengthDelegate> lenDelgate = self.lengthDelegate;
+		id<FMWindowPositionDelegate> posDelegate = self.positionDelegate;
 		const CGFloat vMin = *min, vMax = *max;
-		const CGFloat vAnchor = vMin + ((vMax-vMin) * _dataAnchor);
-		const CGFloat vLenNew = _scale * physicalSize;
-		const CGFloat vOffset = _viewAnchor * vLenNew;
-		const CGFloat vMinNew = vAnchor + vOffset;
-		*min = vMinNew;
-		*max = vMinNew + vLenNew;
+		
+		const CGFloat length = [lenDelgate lengthForViewPort:viewPort dataRange:(vMax-vMin)];
+		const CGFloat pos = [posDelegate positionInRangeWithMin:vMin max:vMax length:length];
+		const CGFloat margin = (vMax - vMin) - length;
+		const CGFloat newMin = vMin + (margin * pos);
+		*min = newMin;
+		*max = newMin + length;
 	}
 }
 
@@ -257,45 +258,6 @@
 
 @end
 
-@implementation FMUserInteractiveFilter
-
-- (instancetype)initWithGestureInterpreter:(FMGestureInterpreter *)interpreter
-							   orientation:(CGFloat)radian
-{
-	self = [super init];
-	if(self) {
-		_interpreter = interpreter;
-		_orientationRad = radian;
-	}
-	return self;
-}
-
-- (void)updater:(FMProjectionUpdater *)updater minValue:(CGFloat *)min maxValue:(CGFloat *)max
-{
-	typeof(_interpreter) interpreter = _interpreter;
-	if(interpreter) {
-		const CGFloat minValue = *min;
-		const CGFloat maxValue = *max;
-		const CGFloat mid = (minValue + maxValue) / 2;
-		const CGFloat len = maxValue - mid;
-		const CGSize scale = interpreter.scaleCumulative;
-		const CGPoint translation = interpreter.translationCumulative;
-		
-		const CGFloat rad = _orientationRad;
-		// 点P(sin(rad), cos(rad))を引き伸ばされた空間上に配置した時、引き伸ばす前の空間上でのOPのノルムが求めるべき倍率.
-		// ちなみにここでいう求める倍率は空間のではなくレンジの倍率なので逆数である.
-		const CGFloat px = (cos(rad) / scale.width);
-		const CGFloat py = (sin(rad) / scale.height);
-		const CGFloat dirScale = sqrt((px*px)+(py*py));
-		const CGFloat dirOffset = (cos(rad) * translation.x) + (sin(rad) * translation.y);
-		const CGFloat base = (mid - (len * dirOffset * 2)); // 実際のrangeの長さはlen*2なので.
-		
-		*min = base - (len * dirScale);
-		*max = base + (len * dirScale);
-	}
-}
-
-@end
 
 
 

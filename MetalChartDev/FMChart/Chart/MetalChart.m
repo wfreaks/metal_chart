@@ -64,6 +64,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);
 	if(timeout != 0) {
 		NSLog(@"timeout occurred.");
+		[view setNeedsDisplay];
 		return;
 	}
 	

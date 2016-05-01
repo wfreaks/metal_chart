@@ -17,3 +17,12 @@
 
 @end
 
+
+
+@interface NSOrderedSet (Utility)
+
+- (_Nonnull instancetype)orderedSetByAddingObject:(id _Nonnull)object;
+- (_Nonnull instancetype)orderedSetByRemovingObject:(id _Nonnull)object;
+
+@end
+

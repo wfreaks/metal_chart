@@ -30,8 +30,8 @@
 
 @interface FMAnimator : NSObject <FMCommandBufferHook>
 
-@property (nonatomic, readonly) NSArray<id<FMAnimation>> * _Nonnull runningAnimations;
-@property (nonatomic, readonly) NSArray<id<FMAnimation>> * _Nonnull pendingAnimations;
+@property (nonatomic, readonly) NSOrderedSet<id<FMAnimation>> * _Nonnull runningAnimations;
+@property (nonatomic, readonly) NSOrderedSet<id<FMAnimation>> * _Nonnull pendingAnimations;
 
 @property (nonatomic, weak) MetalView * _Nullable metalView;
 

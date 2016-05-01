@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMInteractive.h"
 #import "MetalChart.h"
-
+#import "Prototypes.h"
 
 // FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
 // どんな実装でも構わないが、対象のFMDimensionalProjectionのmin/max（現在値）を使うとフィードバックループが発生するので、
@@ -130,36 +129,45 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+// これまではデータ空間だけで調整が可能な場合には適用可能なものが多いが、
+// 現実的にはViewを意識したり、ユーザ操作等を考慮した形にする必要がある.
+// FMWindowFilterとは描画されないが潜在的に存在している、アクセス可能なデータ空間上の領域の
+// 一部を切り取って表示するための窓として働く.
+// すべてのユースケースに対応する実装は無理だと判断したため、ここでもプロトコルを用いる事にした.
+// これらの実装はユーザ操作を考慮するように作るため、別のファイルにおく.
+// 別の方法で実装しようかと試みたが、正直失敗したと言って差し支えない結果になった.
 
-typedef NS_ENUM(NSInteger, FMDimOrientation) {
-    FMDimOrientationHorizontal = 0,
-    FMDimOrientationVertical = 1,
-};
+@protocol FMWindowLengthDelegate <NSObject>
 
-// data空間とview空間を結びつける, 本質的にはLengthFileterに近い.
-// このクラスはviewというより、物理サイズを意識したもの. (名前としてはこの方がわかりやすいかと)
-// anchorは[0, 1]で指定し、dataとviewのそれが重なるように配置する.
-// viewSizeが変わったら当然projectionをアップデートする必要がある.
-// scale は以下の計算式に従ってdata空間でのlengthを計算する際に使われる.
-// l_data = scale * (l_view - padding)
-// また、view空間ではy軸が反転するが、基本的にanchorとしては1が上となる事に注意.
-// 凄まじくパラメータ数多いが、二つの空間を結合して一意に決定するにはこのくらい必要.
+- (CGFloat)lengthForViewPort:(CGFloat)viewPort
+                   dataRange:(CGFloat)length
+;
 
-@interface FMViewSizeFilter : NSObject<FMRangeFilter>
+@end
+
+@protocol FMWindowPositionDelegate <NSObject>
+
+- (CGFloat)positionInRangeWithMin:(CGFloat)minValue
+                              max:(CGFloat)maxValue
+                           length:(CGFloat)length
+;
+
+@end
+
+
+@interface FMWindowFilter : NSObject<FMRangeFilter>
 
 @property (nonatomic, readonly) FMDimOrientation orientation;
 @property (nonatomic, readonly, weak) UIView *_Nullable view;
-@property (nonatomic, readonly) CGFloat dataAnchor;
-@property (nonatomic, readonly) CGFloat viewAnchor;
-@property (nonatomic, readonly) CGFloat scale;
 @property (nonatomic, readonly) RectPadding padding;
+@property (nonatomic, readonly, weak) id<FMWindowLengthDelegate> _Nullable lengthDelegate;
+@property (nonatomic, readonly, weak) id<FMWindowPositionDelegate> _Nullable positionDelegate;
 
 - (instancetype _Nonnull)initWithOrientation:(FMDimOrientation)orientation
                                         view:(UIView * _Nonnull)view
-                                  dataAnchor:(CGFloat)dataAnchor
-                                  viewAnchor:(CGFloat)viewAnchor
-                                       scale:(CGFloat)scale
 									 padding:(RectPadding)padding
+                              lengthDelegate:(id<FMWindowLengthDelegate>_Nonnull)lenDelegate
+							positionDelegate:(id<FMWindowPositionDelegate>_Nonnull)posDelegate
 ;
 
 @end
@@ -179,42 +187,4 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// FMUserInteractiveFilter - Pan/Zoom操作を実現するコンポーネント.
-// 
-// 上記概要からわかるように、このクラスは少し毛並みが異なる.
-// このクラスだけが他の具体的な実装を持つFiltersとは異なり、statefullである。
-// （実際はstateを管理しているのはinterpreterで、このクラスはそれを反映する）.
-// また本来結びつかないはずのDimProjectionとUI操作を結合するために、orientationを指定している.
-// 対象のDimProjectionがorientationと一致しない場合はおかしな挙動となる事に注意が必要である.
-//
-// 補足しておくと、１つのプロットエリアに複数の空間/写像を持てる構造とUI操作の曖昧さから、その対応付けで
-// どこか無理をする必要は必ず存在し、orientationを用いない自然な対応付けは構造に制約を付加する事無しには
-// 実現ができない. (projection A/Bにそれぞれ0/1番目の次元として使われる共通のdimProjectionへのフィードバックは自然な方法では
-// 絶対に不可能であり、こういった構造を弾くチェック処理および方向を推定する処理が必要となる. 多分、誰も得をしないだろう)
-// そういった経緯からこうした方法を取っている. その分挙動は明快であり、各自の判断で自由に制御すれば良い.
-//
-// このクラス内でリミットの設定は行わない. ステートの管理はinterpreterが行っている(効率上)ため、これを
-// 適用する際に弄り回すと、ステートと実際のレンジとの間にギャップが生まれる（リミット以上の拡大もステート上は可能になる）.
-// 結果として例えば拡大率200%でリミットをかけてステートが400%に達したとき、縮小は400%->200%までの間は無反応になる.
-// 
-// もしもより細かいレベルのコントロールを行いたいのなら、FMGestureInterpreterの代替を用意すればよい.
-// あれはUIGestureRecognizerのtarget selector pairに設定してステートを管理するだけのユーティリティクラスで、
-// コアクラス(MetalChart.h内で宣言されるクラス)からは一切参照されない.
-// ただしこのクラスはGestureInterpreterありきのものなので、Filterも自分で書き直す必要がある.
-
-@interface FMUserInteractiveFilter : NSObject<FMRangeFilter>
-
-@property (readonly, nonatomic) CGFloat orientationRad;
-
-// updater -> Filter(self) -> interpreter -> interaction -> updater と循環参照になる.
-// 実際こいつが所有権をもつのは微妙.
-@property (readonly, nonatomic, weak) FMGestureInterpreter * _Nullable interpreter;
-
-- (instancetype _Nonnull)initWithGestureInterpreter:(FMGestureInterpreter * _Nonnull)interpreter
-										orientation:(CGFloat)radian
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-@end
 

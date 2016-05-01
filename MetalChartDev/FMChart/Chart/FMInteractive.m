@@ -9,14 +9,12 @@
 #import "FMInteractive.h"
 #import "NSArray+Utility.h"
 #import "FMProjectionUpdater.h"
-#import "FMRangeFilters.h"
 #import "FMAnimator.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
 
 @interface FMInertialState : NSObject
 
-@property (nonatomic, readonly) CGFloat value;
 @property (nonatomic, readonly) CGFloat velocity;
 @property (nonatomic, readonly) CFAbsoluteTime timestamp;
 @property (nonatomic, readonly) CGFloat dampingCoefficent;
@@ -28,14 +26,15 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype)init
 UNAVAILABLE_ATTRIBUTE;
 
-- (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time;
-- (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time;
-- (void)updateWithTime:(CFAbsoluteTime)time;
+- (void)halt:(CFAbsoluteTime)time;
+- (CGFloat)updateWithDelta:(CGFloat)delta velocity:(CGFloat)velocity time:(CFAbsoluteTime)time extForce:(CGFloat)force;
+- (CGFloat)updateWithTime:(CFAbsoluteTime)time extForce:(CGFloat)force;
 
 @end
 @implementation FMInertialState
 
-static const CGFloat VEC_THRESHOLD = 0.125;
+static const CGFloat VEC_THRESHOLD = 1;
+static const CGFloat MIN_DECAY = 4;
 
 - (instancetype)initWithMaxDuration:(CGFloat)duration
 {
@@ -46,10 +45,9 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	return self;
 }
 
-- (void)haltWithValue:(CGFloat)value time:(CFAbsoluteTime)time
+- (void)halt:(CFAbsoluteTime)time
 {
 	@synchronized(self) {
-		_value = value;
 		_velocity = 0;
 		_timestamp = time;
 		_dampingCoefficent = 0;
@@ -57,34 +55,36 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	}
 }
 
-- (void)updateWithValue:(CGFloat)value time:(CFAbsoluteTime)time
+- (CGFloat)updateWithDelta:(CGFloat)delta velocity:(CGFloat)velocity time:(CFAbsoluteTime)time extForce:(CGFloat)force
 {
 	@synchronized(self) {
+		CGFloat d = delta;
 		const NSTimeInterval timeDiff = time - _timestamp;
-		const CGFloat valueDiff = value - _value;
-		_value = value;
 		_timestamp = time;
 		if(timeDiff > 0) {
-			_velocity = (0.3 * _velocity) + (0.7 * (valueDiff / timeDiff));
+			_velocity = velocity;
 			const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
-			_dampingCoefficent = MAX(4, k);
+			_dampingCoefficent = MAX(MIN_DECAY, k);
 //			NSLog(@"velocity = %.1f", _velocity);
 		}
+		return d;
 	}
 }
 
-- (void)updateWithTime:(CFAbsoluteTime)time
+- (CGFloat)updateWithTime:(CFAbsoluteTime)time extForce:(CGFloat)force
 {
 	@synchronized(self) {
+		CGFloat displacement = 0;
 		const NSTimeInterval diff = time - _timestamp;
 		_timestamp = time;
 		const CGFloat oldm = _velocity;
 		if(oldm != 0 && diff > 0) {
 			const CGFloat newm = oldm * exp(-(_dampingCoefficent * diff));
-			_value += (newm + oldm) * diff / 2;
+			displacement = (newm + oldm) * diff / 2;
 			_velocity = (fabs(newm) > VEC_THRESHOLD) ? newm : 0;
 //			NSLog(@"velocity = %.1f", _velocity);
 		}
+		return displacement;
 	}
 }
 
@@ -93,199 +93,77 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 
 
-@interface FMGestureInterpreter() <FMPanGestureRecognizerDelegate>
+@interface FMGestureDispatcher() <FMPanGestureRecognizerDelegate>
 
 @property (readonly, nonatomic) CGPoint currentTranslation;
 @property (readonly, nonatomic) CGFloat currentScale;
-
-@property (assign, nonatomic) CGPoint translationCumulative;
-@property (assign, nonatomic) CGSize  scaleCumulative;
-
-@property (nonatomic, readonly) FMInertialState *transVX;
-@property (nonatomic, readonly) FMInertialState *transVY;
-
-@property (readonly, nonatomic) NSArray<id<FMInteraction>> *cumulatives;
+@property (readonly, nonatomic) NSOrderedSet<id<FMPanGestureListener>>* xPanListener;
+@property (readonly, nonatomic) NSOrderedSet<id<FMPanGestureListener>>* yPanListener;
+@property (readonly, nonatomic) NSOrderedSet<id<FMScaleGestureListener>>* xScaleListener;
+@property (readonly, nonatomic) NSOrderedSet<id<FMScaleGestureListener>>* yScaleListener;
 
 - (void)handlePanning:(FMPanGestureRecognizer *)recognizer;
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer;
 
 @end
-
-
-
-@interface FMInertialPanAnimatioin : NSObject<FMAnimation>
-
-@property (nonatomic, readonly) BOOL canceled;
-@property (nonatomic, readonly) FMGestureInterpreter *interpreter;
-
-@end
-@implementation FMInertialPanAnimatioin
-
-- (instancetype)initWithInterpreter:(FMGestureInterpreter *)interpreter
-{
-	self = [super init];
-	if(self) {
-		_interpreter = interpreter;
-		_canceled = NO;
-	}
-	return self;
-}
-
-- (BOOL)animator:(FMAnimator *)animator shouldStartAnimating:(CFAbsoluteTime)timestamp
-{
-	return YES;
-}
-
-- (BOOL)requestCancel
-{
-	_canceled = YES;
-	return YES;
-}
-
-- (void)addedToPendingQueueOfAnimator:(FMAnimator *)animator timestamp:(CFAbsoluteTime)timestamp
-{
-//	NSArray<id<FMAnimation>> *anims = animator.runningAnimations;
-//	[self.class stopAnimationWithInterpreter:self.interpreter inQueue:anims];
-}
-
-- (BOOL)animator:(FMAnimator *)animator animate:(id<MTLCommandBuffer>)buffer timestamp:(CFAbsoluteTime)timestamp
-{
-	if(_canceled) return YES;
-	
-	FMInertialState *x = self.interpreter.transVX;
-	FMInertialState *y = self.interpreter.transVY;
-	[x updateWithTime:timestamp];
-	[y updateWithTime:timestamp];
-	self.interpreter.translationCumulative = CGPointMake(x.value, y.value);
-	BOOL r = (x.velocity == 0 && y.velocity == 0);
-	return r;
-}
-
-+ (instancetype)animation:(FMGestureInterpreter *)interpreter
-{
-	return [[self alloc] initWithInterpreter:interpreter];
-}
-
-+ (void)stopAnimationWithInterpreter:(FMGestureInterpreter*)interpreter inQueue:(NSArray<id<FMAnimation>>*)animations
-{
-	for(id<FMAnimation> anim in animations) {
-		if([anim isKindOfClass:self.class]) {
-			FMInertialPanAnimatioin *a = anim;
-			if(a.interpreter == interpreter) {
-				[a requestCancel];
-			}
-		}
-	}
-}
-
-@end
-
-
-
-
-
-
-@implementation FMGestureInterpreter
-
-@dynamic orientationStepDegree;
+@implementation FMGestureDispatcher
 
 - (instancetype)initWithPanRecognizer:(FMPanGestureRecognizer *)pan
 					  pinchRecognizer:(UIPinchGestureRecognizer *)pinch
-						  restriction:(id<FMInterpreterStateRestriction> _Nullable)restriction
 {
 	self = [super init];
 	if(self) {
-		_cumulatives = [NSArray array];
-		_orientationStep = M_PI_4; // 45 degree.
-		_scaleCumulative = CGSizeMake(1, 1);
-		_translationCumulative = CGPointZero;
-		_transVX = [[FMInertialState alloc] initWithMaxDuration:2];
-		_transVY = [[FMInertialState alloc] initWithMaxDuration:2];
 		self.panRecognizer = pan;
 		self.pinchRecognizer = pinch;
-		_stateRestriction = restriction;
+		[self removeAllListeners];
 	}
 	return self;
-}
-
-- (CGFloat)orientationStepDegree { return _orientationStep * 180 / M_PI; }
-- (void)setOrientationStepDegree:(CGFloat)degree { _orientationStep = degree * M_PI / 180; }
-
-- (void)setStateRestriction:(id<FMInterpreterStateRestriction>)stateRestriction
-{
-	if(_stateRestriction != stateRestriction) {
-		BOOL changed = NO;
-		_stateRestriction = stateRestriction;
-		{
-			const CGPoint oldT = _translationCumulative;
-			self.translationCumulative = oldT;
-			const CGPoint newT = _translationCumulative;
-			changed |= (!CGPointEqualToPoint(oldT, newT));
-		}
-		{
-			const CGSize oldS = _scaleCumulative;
-			self.scaleCumulative = oldS;
-			const CGSize newS = _scaleCumulative;
-			changed |= (!CGSizeEqualToSize(oldS, newS));
-		}
-		if(changed) {
-			NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
-			for(id<FMInteraction> object in cumulatives) {
-				[object didTranslationChange:self];
-			}
-		}
-	}
 }
 
 - (void)didBeginTouchesInRecognizer:(FMPanGestureRecognizer *)recognizer
 {
 	if(recognizer == self.panRecognizer) {
 		const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
-		[FMInertialPanAnimatioin stopAnimationWithInterpreter:self inQueue:self.momentumAnimator.runningAnimations];
-		[_transVX haltWithValue:_translationCumulative.x time:time];
-		[_transVY haltWithValue:_translationCumulative.y time:time];
+		[self notifyPan:CGPointZero velocity:CGPointZero time:time event:FMGestureEventBegin];
 	}
 }
 
 - (void)handlePanning:(FMPanGestureRecognizer *)recognizer
 {
-	FMAnimator *animator = self.momentumAnimator;
 	const UIGestureRecognizerState state = recognizer.state;
 	const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
 	const BOOL began = (state == UIGestureRecognizerStateBegan);
 	const BOOL progress = (state == UIGestureRecognizerStateChanged);
 	const BOOL end = (state == UIGestureRecognizerStateEnded);
+	const CGPoint t = [recognizer translationInView:recognizer.view];
+	const CGPoint v = [recognizer velocityInView:recognizer.view];
 	if(began) {
-		_currentTranslation = [recognizer translationInView:recognizer.view];
-	} else if (progress || end) {
-		const CGPoint t = [recognizer translationInView:recognizer.view];
-		// window座標とグラフの座標ではy軸の向きが違う。この時点でyの値を反転させておく.
-		const CGPoint diff = {(t.x - _currentTranslation.x), -(t.y - _currentTranslation.y)};
 		_currentTranslation = t;
-		
-		const CGFloat dist = sqrt((diff.x*diff.x) + (diff.y*diff.y));
-		if(dist > 0 && !isnan(dist)) {
-			const CGFloat or_rad = atan2(diff.y, diff.x);
-			const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
-			const CGPoint oldT = _translationCumulative;
-			const CGFloat dx = (dist * cos(stepped) / (_scaleCumulative.width));
-			const CGFloat dy = (dist * sin(stepped) / (_scaleCumulative.height));
-			self.translationCumulative = CGPointMake(oldT.x + dx, oldT.y + dy);
-			const CGPoint newT = _translationCumulative;
-			[_transVX updateWithValue:newT.x time:time];
-			[_transVY updateWithValue:newT.y time:time];
-			
-		}
-		if(end && animator) {
-			[animator addAnimation:[FMInertialPanAnimatioin animation:self]];
-		}
+	} else if (progress || end) {
+		const CGPoint delta = CGPointMake(t.x - _currentTranslation.x, t.y - _currentTranslation.y);
+		_currentTranslation = t;
+		// window座標とグラフの座標ではy軸の向きが違う。この時点でyの値を反転させておく.
+		const FMGestureEvent e =  (end) ? FMGestureEventEnd : FMGestureEventProgress;
+		[self notifyPan:delta velocity:v time:time event:e];
 	} else {
+		
+	}
+}
+
+- (void)notifyPan:(const CGPoint)delta velocity:(CGPoint)velocity time:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
+{
+	for(id<FMPanGestureListener> l in _xPanListener) {
+		[l dispatcher:self pan:delta.x velocity:velocity.x timestamp:timestamp event:event];
+	}
+	for(id<FMPanGestureListener> l in _yPanListener) {
+		[l dispatcher:self pan:delta.y velocity:velocity.y timestamp:timestamp event:event];
 	}
 }
 
 - (void)handlePinching:(UIPinchGestureRecognizer *)reconginer
 {
 	const UIGestureRecognizerState state = reconginer.state;
+	const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
 	if(state == UIGestureRecognizerStateBegan) {
 		_currentScale = reconginer.scale;
 	} else if (state == UIGestureRecognizerStateChanged) {
@@ -301,39 +179,47 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 			const CGFloat dist = (diff.x*diff.x) + (diff.y*diff.y);
 			if(dist > 0 && !isnan(dist)) {
 				const CGFloat or_rad = atan2(diff.y, diff.x);
-				const CGFloat stepped = (_orientationStep > 0) ? round(or_rad/_orientationStep) * _orientationStep : or_rad;
-				const CGSize oldScale = _scaleCumulative;
-				const CGFloat dw = (1 + (scaleDiff * cos(stepped)));
-				const CGFloat dh = (1 + (scaleDiff * sin(stepped)));
-				self.scaleCumulative = CGSizeMake(oldScale.width * dw, oldScale.height * dh);
+				const CGFloat dw = (1 + (scaleDiff * cos(or_rad)));
+				const CGFloat dh = (1 + (scaleDiff * sin(or_rad)));
+				[self notifyScale:CGPointMake(dw, dh) timestamp:time event:FMGestureEventEnd];
 			}
 		}
 	}
 }
 
-- (void)setTranslationCumulative:(CGPoint)translationCumulative
+- (void)notifyScale:(CGPoint)scale timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
-	const CGPoint oldT = _translationCumulative;
-	[_stateRestriction interpreter:self willTranslationChange:&translationCumulative];
-	_translationCumulative = translationCumulative;
-	if(!CGPointEqualToPoint(oldT, translationCumulative)) {
-		NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
-		for(id<FMInteraction> object in cumulatives) {
-			[object didTranslationChange:self];
-		}
+	for(id<FMScaleGestureListener> l in _xScaleListener) {
+		[l dispatcher:self scale:scale.x timestamp:timestamp event:event];
+	}
+	for(id<FMScaleGestureListener> l in _yScaleListener) {
+		[l dispatcher:self scale:scale.y timestamp:timestamp event:event];
 	}
 }
 
-- (void)setScaleCumulative:(CGSize)scaleCumulative
+- (void)addPanListener:(id<FMPanGestureListener>)listener orientation:(FMDimOrientation)orientation
 {
-	const CGSize oldScale = _scaleCumulative;
-	[_stateRestriction interpreter:self willScaleChange:&scaleCumulative];
-	_scaleCumulative = scaleCumulative;
-	if(!CGSizeEqualToSize(oldScale, scaleCumulative)) {
-		NSArray<id<FMInteraction>> *cumulatives = _cumulatives;
-		for(id<FMInteraction> object in cumulatives) {
-			[object didScaleChange:self];
-		}
+	if(orientation == FMDimOrientationHorizontal) {
+		_xPanListener = [_xPanListener orderedSetByAddingObject:listener];
+	} else {
+		_yPanListener = [_yPanListener orderedSetByAddingObject:listener];
+	}
+}
+
+- (void)removeAllListeners
+{
+	_xPanListener = [NSOrderedSet orderedSet];
+	_yPanListener = [NSOrderedSet orderedSet];
+	_xScaleListener = [NSOrderedSet orderedSet];
+	_yScaleListener = [NSOrderedSet orderedSet];
+}
+
+- (void)addScaleListener:(id<FMScaleGestureListener>)listener orientation:(FMDimOrientation)orientation
+{
+	if(orientation == FMDimOrientationHorizontal) {
+		_xScaleListener = [_xScaleListener orderedSetByAddingObject:listener];
+	} else {
+		_yScaleListener = [_yScaleListener orderedSetByAddingObject:listener];
 	}
 }
 
@@ -342,21 +228,6 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	self.panRecognizer = nil;
 	self.pinchRecognizer = nil;
 }
-
-- (void)addInteraction:(id<FMInteraction>)object
-{
-	@synchronized(self) {
-		_cumulatives = [_cumulatives arrayByAddingObjectIfNotExists:object];
-	}
-}
-
-- (void)removeInteraction:(id<FMInteraction>)object
-{
-	@synchronized(self) {
-		_cumulatives = [_cumulatives arrayByRemovingObject:object];
-	}
-}
-
 
 - (void)setPanRecognizer:(FMPanGestureRecognizer *)panRecognizer
 {
@@ -390,45 +261,39 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 	}
 }
 
-- (void)resetStates
-{
-	_translationCumulative = CGPointZero;
-	_scaleCumulative = CGSizeMake(1, 1);
-}
-
 @end
 
 
 
 
 
-@implementation FMDefaultInterpreterRestriction
+@implementation FMScaledWindowLength
 
-- (instancetype)initWithScaleMin:(CGSize)minScale
-							 max:(CGSize)maxScale
-				  translationMin:(CGPoint)minTrans
-							 max:(CGPoint)maxTrans
+- (instancetype)initWithMinScale:(CGFloat)min maxScale:(CGFloat)max defaultScale:(CGFloat)def
 {
 	self = [super init];
 	if(self) {
-		_minScale = minScale;
-		_maxScale = maxScale;
-		_minTranslation = minTrans;
-		_maxTranslation = maxTrans;
+		_minScale = min;
+		_maxScale = max;
+		_defaultScale = def;
+		_currentScale = def;
 	}
 	return self;
 }
 
-- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
+- (CGFloat)lengthForViewPort:(CGFloat)viewPort dataRange:(CGFloat)length
 {
-	size->width = MIN(_maxScale.width, MAX(_minScale.width, size->width));
-	size->height = MIN(_maxScale.height, MAX(_minScale.height, size->height));
+	return viewPort * _currentScale;
 }
 
-- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
+- (void)dispatcher:(FMGestureDispatcher *)dispatcher scale:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
-	translation->x = MIN(_maxTranslation.x, MAX(_minTranslation.x, translation->x));
-	translation->y = MIN(_maxTranslation.y, MAX(_minTranslation.y, translation->y));
+	_currentScale = MIN(_maxScale, MAX(_minScale, _currentScale / factor));
+}
+
+- (void)reset
+{
+	_currentScale = _defaultScale;
 }
 
 @end
@@ -436,165 +301,91 @@ static const CGFloat VEC_THRESHOLD = 0.125;
 
 
 
+@interface FMAnchoredWindowPosition() <FMAnimation>
 
-@implementation FMDefaultDimensionalRestriction
+@property (nonatomic, readonly) CGFloat minAnchorValue;
+@property (nonatomic, readonly) CGFloat maxAnchorValue;
+@property (nonatomic, readonly) FMInertialState *state;
 
-- (instancetype)initWithScaleMin:(CGFloat)minScale
-							 max:(CGFloat)maxScale
-						transMin:(CGFloat)minTrans
-							 max:(CGFloat)maxTrans
+@end
+@implementation FMAnchoredWindowPosition
+
+- (instancetype)initWithAnchor:(CGFloat)anchor defaultValue:(CGFloat)value windowLength:(FMScaledWindowLength *)length
 {
 	self = [super init];
 	if(self) {
-		_minScale = minScale;
-		_maxScale = maxScale;
-		_minTranslation = minTrans;
-		_maxTranslation = maxTrans;
+		_anchor = anchor;
+		_defaultValue = value;
+		_currentValue = value;
+		_length = length;
+		_state = [[FMInertialState alloc] initWithMaxDuration:2];
 	}
 	return self;
 }
 
-+ (instancetype)fixedRangeRestriction
+- (CGFloat)positionInRangeWithMin:(CGFloat)minValue max:(CGFloat)maxValue length:(CGFloat)length
 {
-	return [[self alloc] initWithScaleMin:1 max:1 transMin:0 max:0];
+	const CGFloat margin = (maxValue - minValue) - length;
+	const CGFloat offset = length * _anchor;
+	_minAnchorValue = minValue + offset;
+	_maxAnchorValue = minValue + offset + margin;
+	const CGFloat pos = (_currentValue - _minAnchorValue) / margin;
+	return pos;
 }
 
-- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGFloat *)translation
+- (void)dispatcher:(FMGestureDispatcher *)dispatcher pan:(CGFloat)delta velocity:(CGFloat)velocity timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
-	*translation = MIN(_maxTranslation, MAX(_minTranslation, *translation));
-}
-
-- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGFloat *)scale
-{
-	*scale = MIN(_maxScale, MAX(_minScale, *scale));
-}
-
-@end
-
-@interface FMRangedDimensionalRestriction()
-
-@end
-@implementation FMRangedDimensionalRestriction
-
-- (instancetype)initWithAccessibleRange:(FMDefaultFilter *)accessible
-							windowRange:(FMDefaultFilter *)window
-							  minLength:(CGFloat)minLength
-							  maxLength:(CGFloat)maxLength
-{
-	self = [super init];
-	if(self) {
-		_accessibleRange = accessible;
-		_windowRange = window;
-		_minLength = minLength;
-		_maxLength = maxLength;
+	if(event == FMGestureEventBegin) {
+		[_state halt:timestamp];
+		return;
 	}
-	return self;
-}
-
-- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGFloat *)scale
-{
-	const CGFloat windowLen = self.windowRange.currentLength;
-	if(windowLen > 0) {
-		const CGFloat minScale = _maxLength / windowLen;
-		const CGFloat maxScale = _minLength / windowLen;
-		*scale = MIN(maxScale, MAX(minScale, *scale));
-	} else {
-		*scale = 1;
+	[self _updateWithDelta:-delta velocity:-velocity timestamp:timestamp useDelta:true]; // 符号が逆な事に注意.
+	if(event == FMGestureEventEnd) {
+		[dispatcher.animator addAnimation:self];
 	}
 }
 
-- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGFloat *)translation
+- (void)_updateWithDelta:(CGFloat)delta velocity:(CGFloat)velocity timestamp:(CFAbsoluteTime)timestamp useDelta:(BOOL)useDelta
 {
-	const CGFloat windowLen = self.windowRange.currentLength;
-	const CGFloat accessLen = self.accessibleRange.currentLength;
-	if(windowLen > 0 && accessLen > 0) {
-		const CGFloat max = - (self.accessibleRange.currentMin - self.windowRange.currentMin) / windowLen;
-		const CGFloat min = - (self.accessibleRange.currentMax - self.windowRange.currentMax) / windowLen;
-		*translation = MIN(max, MAX(min, *translation));
-	} else {
-		*translation = 0;
+	const CGFloat scale = _length.currentScale;
+	const CGFloat excess = (delta * scale) - (MIN(_maxAnchorValue, MAX(_minAnchorValue, _currentValue + (delta * scale))) - _currentValue);
+	const CGFloat tension = -excess * 5;
+	const CGFloat modifiedDelta = (useDelta) ? [_state updateWithDelta:delta velocity:velocity time:timestamp extForce:tension] : [_state updateWithTime:timestamp extForce:tension];
+	_currentValue += modifiedDelta * scale;
+	
+	[_view setNeedsDisplay];
+	[_updater updateTarget];
+}
+
+- (void)reset
+{
+	[_state halt:CFAbsoluteTimeGetCurrent()];
+	_currentValue = _defaultValue;
+}
+
+- (BOOL)requestCancel { return NO; }
+
+- (void)addedToPendingQueueOfAnimator:(FMAnimator *)animator timestamp:(CFAbsoluteTime)timestamp
+{
+}
+
+- (BOOL)animator:(FMAnimator *)animator shouldStartAnimating:(CFAbsoluteTime)timestamp { return YES; }
+
+- (BOOL)animator:(FMAnimator *)animator animate:(id<MTLCommandBuffer>)buffer timestamp:(CFAbsoluteTime)timestamp
+{
+	const BOOL stationary = (_state.velocity == 0);
+	const BOOL isInRange = (_minAnchorValue <= _currentValue && _currentValue <= _maxAnchorValue);
+	if(stationary && isInRange) {
+		return YES;
 	}
+	[self _updateWithDelta:0 velocity:0 timestamp:timestamp useDelta:NO];
+	return NO;
 }
 
 @end
 
 
 
-
-
-@implementation FMInterpreterDetailedRestriction
-
-- (instancetype)initWithXRestriction:(id<FMInterpreterDimensionalRestroction>)x
-						yRestriction:(id<FMInterpreterDimensionalRestroction>)y
-{
-	self = [super init];
-	if(self) {
-		_x = x;
-		_y = y;
-	}
-	return self;
-}
-
-- (void)interpreter:(FMGestureInterpreter *)interpreter willScaleChange:(CGSize *)size
-{
-	[_x interpreter:interpreter willScaleChange:&(size->width)];
-	[_y interpreter:interpreter willScaleChange:&(size->height)];
-}
-
-- (void)interpreter:(FMGestureInterpreter *)interpreter willTranslationChange:(CGPoint *)translation
-{
-	[_x interpreter:interpreter willTranslationChange:&(translation->x)];
-	[_y interpreter:interpreter willTranslationChange:&(translation->y)];
-}
-
-@end
-
-
-
-
-
-@interface FMSimpleBlockInteraction()
-
-@property (copy, nonatomic) SimpleInteractionBlock _Nonnull block;
-
-@end
-@implementation FMSimpleBlockInteraction
-
-- (instancetype)initWithBlock:(SimpleInteractionBlock)block
-{
-	self = [super init];
-	if(self) {
-		self.block = block;
-	}
-	return self;
-}
-
-- (void)didScaleChange:(FMGestureInterpreter *)interpreter { _block(interpreter); }
-
-- (void)didTranslationChange:(FMGestureInterpreter *)interpreter { _block(interpreter); }
-
-+ (instancetype)connectUpdaters:(NSArray<FMProjectionUpdater *> *)updaters
-				  toInterpreter:(FMGestureInterpreter *)interpreter
-				   orientations:(NSArray<NSNumber *> * _Nonnull)orientations
-{
-	if(updaters.count == orientations.count) {
-		const NSInteger count = updaters.count;
-		for(NSInteger i = 0; i < count; ++i) {
-			const CGFloat orientation = (CGFloat)(orientations[i].doubleValue);
-			id<FMRangeFilter> r = [[FMUserInteractiveFilter alloc] initWithGestureInterpreter:interpreter orientation:orientation];
-			[(updaters[i]) addFilterToLast:r];
-		}
-	}
-	FMSimpleBlockInteraction *obj = [[self alloc] initWithBlock:^(FMGestureInterpreter * _Nonnull interpreter) {
-		for(FMProjectionUpdater *updater in updaters) {
-			[updater updateTarget];
-		}
-	}];
-	[interpreter addInteraction:obj];
-	return obj;
-}
-
-@end
 
 
 @implementation FMPanGestureRecognizer
