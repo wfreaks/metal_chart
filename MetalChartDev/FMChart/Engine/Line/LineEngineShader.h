@@ -85,10 +85,9 @@ inline float LineDashFragmentCore(thread const InputType input)
 template <typename InputType, typename ParamType>
 inline float LineDashFragmentExtra(thread const InputType input, constant ParamType& conf)
 {
-	const float _w = 1/conf.width;
-	const float _lr = conf.length_repeat * _w; // 線長lは使えず、繰り返しパターンのパラメータで決まる. 実際のスケールとしては、座標変換的には1/2倍のものになる.
+	const float _lr = conf.length_repeat; // 線長lは使えず、繰り返しパターンのパラメータで決まる.
 	const float lr = ((_lr > 0) * _lr) + ((_lr <= 0) * input.l_scaled); // 上記が負または0ならば線の長さを繰り返し単位としてただの線とする.
-	const float l = lr + (conf.length_space * _w) + 1; // 上記にスペースの分＋上下の丸めのためのスペースを含め、リピート単位とする.
+	const float l = lr + (conf.length_space) + 0.5; // 上記にスペースの分＋端の丸めのためのスペース(片方分)を含め、リピート単位とする.
 	const float offset_dash = l * conf.repeat_anchor_dash; // %をとる前に引く値、スケールがリピートサイズになる.
 	const float offset_line = input.l_scaled * conf.repeat_anchor_line; // 同上、ただしスケールは線全体.
 	float2 pos = input.position_scaled;

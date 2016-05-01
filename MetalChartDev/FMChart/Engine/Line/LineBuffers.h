@@ -35,12 +35,18 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
 
+// 以下破線用の属性, lengthはすべてwidthとの関係で実際の長さが決まる(数値としては形状を決めるためのもの)
+// dashLineLengthは破線のうち描画される部分のキャップを除いた部分の長さ.
+// 0以下の値を設定するとフォールバックして直線となり, 微小な正の値を設定すると点線, 0.5で前述の点の半径だけ直線部分が現れる.
+// dashSpaceLengthは同じ単位で空白を表す, 0だと破線間がほぼ隣接し, 0.5で同様に点半径だけ間隔が空く.
 - (void)setDashLineLength:(float)length;
 
 - (void)setDashSpaceLength:(float)length;
 
+// 以下のanchorは線長と繰り返し長が一致しない時（がほぼすべてだが）に繰り返し範囲内のどの点を線内のどの点に配置するかを指定する属性.
+// dashLineAnchorは、線長の[-1,1]の範囲を指定する. 0が中央, -1,1は始点,終点 別に範囲外を指定しても良い.
 - (void)setDashLineAnchor:(float)anchor;
-
+// dashRepeatAnchorは繰り返し範囲の[-1,1]を指定する. -1,1は空白に当たり, 0は実線の中央に該当する.
 - (void)setDashRepeatAnchor:(float)anchor;
 
 @end

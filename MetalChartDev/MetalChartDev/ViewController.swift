@@ -153,8 +153,10 @@ class ViewController: UIViewController {
 		weightLine.attributesArray[0].setColor(weightColor)
 		weightLine.attributesArray[1].setWidth(16)
 		weightLine.attributesArray[1].setColor(UIColor.blueColor().vector())
-		weightLine.attributesArray[1].setDashLineLength(1)
+		weightLine.attributesArray[1].setDashLineLength(0.001)
 		weightLine.attributesArray[1].setDashSpaceLength(1)
+		weightLine.attributesArray[1].setDashRepeatAnchor(1)
+		weightLine.attributesArray[1].setDashLineAnchor(0)
 		weightLine.conf.setAlpha(0.6)
 		weightLine.conf.enableOverlay = true
 		
