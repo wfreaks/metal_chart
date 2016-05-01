@@ -337,10 +337,11 @@ class ViewController: UIViewController {
 	
 	override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
 		super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-		coordinator.animateAlongsideTransition(nil) { (context) in
-			self.dateUpdater?.updateTarget()
-			self.metalView.setNeedsDisplay()
-		}
+		coordinator.animateAlongsideTransition(
+			{ (context) in
+				self.dateUpdater?.updateTarget()
+				self.metalView.setNeedsDisplay()
+			}, completion: nil)
 	}
 	
 }
