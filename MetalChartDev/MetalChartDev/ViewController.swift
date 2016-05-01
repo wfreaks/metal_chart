@@ -87,15 +87,18 @@ class ViewController: UIViewController {
 		dateUpdater?.addFilterToLast(FMPaddingFilter(paddingLow: daySec, high: daySec, shrinkMin: false, shrinkMax: false, applyToCurrent:true))
 		// 物理サイズで320px - paddingで見える分とする.
 		let dateScale : CGFloat = dateLength / (320 - 80)
-		let dateWindowLength = FMScaledWindowLength(minScale: dateScale, maxScale: dateScale, defaultScale: dateScale)
+		let dateWindowLength = FMScaledWindowLength(minScale: dateScale * 0.5, maxScale: dateScale, defaultScale: dateScale)
 		let dateWindowPos = FMAnchoredWindowPosition(anchor: 0.5, defaultValue: 0, windowLength: dateWindowLength)
 		let dateWindow = FMWindowFilter(orientation: FMDimOrientation.Horizontal, view: metalView, padding: padding, lengthDelegate: dateWindowLength, positionDelegate: dateWindowPos)
 		dateUpdater?.addFilterToLast(dateWindow)
 		configurator.addRetainedObject(dateWindowLength)
 		configurator.addRetainedObject(dateWindowPos)
 		dispatcher.addPanListener(dateWindowPos, orientation:FMDimOrientation.Horizontal)
+		dispatcher.addScaleListener(dateWindowLength, orientation: FMDimOrientation.Horizontal)
 		dateWindowPos.view = metalView
 		dateWindowPos.updater = dateUpdater
+		dateWindowLength.view = metalView
+		dateWindowLength.updater = dateUpdater
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addFilterToLast(FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
@@ -148,9 +151,9 @@ class ViewController: UIViewController {
 		stepBar.attributesArray[2].setColor(UIColor(white: 0.3, alpha: 1).vector())
 		weightLine.attributesArray[0].setWidth(8)
 		weightLine.attributesArray[0].setColor(weightColor)
-		weightLine.attributesArray[1].setWidth(6)
+		weightLine.attributesArray[1].setWidth(16)
 		weightLine.attributesArray[1].setColor(UIColor.blueColor().vector())
-		weightLine.attributesArray[1].setDashLineLength(2)
+		weightLine.attributesArray[1].setDashLineLength(1)
 		weightLine.attributesArray[1].setDashSpaceLength(1)
 		weightLine.conf.setAlpha(0.6)
 		weightLine.conf.enableOverlay = true

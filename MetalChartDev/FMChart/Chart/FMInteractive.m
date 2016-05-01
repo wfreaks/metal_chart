@@ -315,6 +315,8 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 - (void)dispatcher:(FMGestureDispatcher *)dispatcher scale:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
 	_currentScale = MIN(_maxScale, MAX(_minScale, _currentScale / factor));
+	[_updater updateTarget];
+	[_view setNeedsDisplay];
 }
 
 - (void)reset
