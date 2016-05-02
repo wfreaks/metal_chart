@@ -70,9 +70,6 @@ MTLPixelFormat determineDepthPixelFormat()
 	
 	view.clearDepth = self.clearDepth;
 	
-	void (^willDraw)(MetalChart * _Nonnull) = _willDraw;
-	if(willDraw != nil) willDraw(self);
-	
 	NSArray<id<FMRenderable>> *seriesArray = nil;
 	NSArray<id<FMAttachment>> *preRenderables = nil;
 	NSArray<id<FMAttachment>> *postRenderables = nil;
@@ -142,9 +139,6 @@ MTLPixelFormat determineDepthPixelFormat()
 			[hook chart:self willCommitBuffer:buffer];
 		}
 	}
-	
-	void (^didDraw)(MetalChart * _Nonnull) = _didDraw;
-	if(didDraw != nil) didDraw(self);
 	
 	if(drawable) {
 		__block dispatch_semaphore_t semaphore = _semaphore;

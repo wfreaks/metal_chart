@@ -97,6 +97,8 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
+// Command Encoderを使ったGPU処理を挟みたい場合や、描画前後のタイミングで挟みたい処理を使う.
+// デフォルトのAnimation実装はこれを使っているが、今の所GPUは使っていない.
 @protocol FMCommandBufferHook <NSObject>
 
 - (void)chart:(MetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
@@ -105,22 +107,24 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
+// 座標変換を表すプロトコル、その目的はデータの描画の際に必要となる情報をGPUバッファとして提供する事、及びその
+// 設定のためのインタフェースを提供する事. 描画サイクル中に下記２つが呼ばれる.
+// 前者はビューやパディングのサイズを知る必要があったり、デフォルト実装ではprojectionがsampleCountやpixelFormatを維持しているため.
+// 多分これは修正すべき.
 @protocol FMProjection <NSObject>
 
-- (void)writeToBuffer;
-
 - (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
+
+- (void)writeToBuffer;
 
 @end
 
 
 @interface MetalChart : NSObject<MetalViewDelegate>
 
-@property (copy   , nonatomic) void (^ _Nullable willDraw)(MetalChart * _Nonnull);
-@property (copy   , nonatomic) void (^ _Nullable didDraw)(MetalChart * _Nonnull);
 @property (weak   , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
-@property (assign , nonatomic) RectPadding padding;
-@property (readonly, nonatomic) CGFloat clearDepth;
+@property (assign , nonatomic) RectPadding padding; // シザーテスト領域を指定するだけであり、やろうと思えば描画自体は外側にも可能. なお実際にはシザーテストではなくデプステストで代用されてる.
+@property (readonly, nonatomic) CGFloat clearDepth; // 特に気にする必要はない. viewのclearDepthが負値を受け付けないため, こちら側で調整してやる必要があった.
 
 // dictionaryとかのキーにするためのunique idプロパティ. 実体はただのアドレス文字列.
 @property (readonly, nonatomic) NSString * _Nonnull key;
