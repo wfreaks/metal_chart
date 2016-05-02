@@ -95,7 +95,7 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 
 @interface FMAxisLabel : NSObject<FMDependentAttachment>
 
-@property (readonly, nonatomic) TextureQuad * _Nonnull quad;
+@property (readonly, nonatomic) FMTextureQuadPrimitive * _Nonnull quad;
 @property (readonly, nonatomic, weak) id<FMAxisLabelDelegate> _Nullable delegate;
 @property (assign  , nonatomic) CGFloat lineSpace;
 @property (nonatomic) id<FMAxis> _Nullable axis;

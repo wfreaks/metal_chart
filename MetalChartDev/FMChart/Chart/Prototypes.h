@@ -61,7 +61,7 @@
 @class FMUniformBarAttributesArray;
 @class FMUniformRegion;
 @class FMUniformSeriesInfo;
-@class TextureQuad;
+@class FMTextureQuadPrimitive;
 @class MetalChart;
 
 

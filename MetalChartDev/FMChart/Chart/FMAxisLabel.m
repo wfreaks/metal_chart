@@ -178,7 +178,7 @@
 		const CGSize bufSize = CGSizeMake(ceil(scale * frameSize.width), ceil(scale * frameSize.height));
 		MTLTextureDescriptor *desc = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm width:bufSize.width height:bufSize.height * capacity mipmapped:NO];
 		id<MTLTexture> texture = [engine.resource.device newTextureWithDescriptor:desc];
-		_quad = [[TextureQuad alloc] initWithEngine:engine texture:texture];
+		_quad = [[FMTextureQuadPrimitive alloc] initWithEngine:engine texture:texture];
 		_buffer = [[FMLineRenderer alloc] initWithPixelWidth:bufSize.width height:bufSize.height];
 		_capacity = capacity;
 		_delegate = delegate;

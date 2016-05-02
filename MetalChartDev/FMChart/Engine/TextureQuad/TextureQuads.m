@@ -13,12 +13,12 @@
 #import "TextureQuad_common.h"
 #import "TextureQuadBuffers.h"
 
-@interface TextureQuad ()
+@interface FMTextureQuadPrimitive ()
 
 @property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
 
 @end
-@implementation TextureQuad
+@implementation FMTextureQuadPrimitive
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine *)engine
 										 texture:(id<MTLTexture>)texture

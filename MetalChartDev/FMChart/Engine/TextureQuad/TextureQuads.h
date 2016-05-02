@@ -13,7 +13,7 @@
 @protocol MTLRenderCommandEncoder;
 @protocol MTLTexture;
 
-@interface TextureQuad : NSObject
+@interface FMTextureQuadPrimitive : NSObject
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 @property (readonly, nonatomic) FMUniformRegion * _Nonnull dataRegion;
