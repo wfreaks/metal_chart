@@ -11,7 +11,21 @@
 #import "Rect_common.h"
 #import "Buffers.h"
 
-@protocol MTLBuffer;
+
+typedef struct {
+	float lt;
+	float rt;
+	float lb;
+	float rb;
+} FMRectCornerRadius;
+
+@interface NSValue (FMRectCornerRadius)
+
++ (instancetype _Nonnull)valueWithCornerRadius:(FMRectCornerRadius)radius;
+- (FMRectCornerRadius)FMRectCornerRadiusValue;
+
+@end
+
 
 @interface FMUniformPlotRectAttributes : NSObject
 
@@ -20,11 +34,14 @@
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const *_Nonnull)color;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
+
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
-- (void)setCornerRadius:(float)radius;
+- (void)setCornerRadius:(FMRectCornerRadius)radius;
+- (void)setAllCornerRadius:(float)radius;
 - (void)setDepthValue:(float)value;
 
 @end
@@ -53,11 +70,10 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const *_Nonnull)color;
-- (void)setCornerRadius:(float)radius;
-- (void)setBarWidth:(float)width;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 // 各頂点に個別の大きさを設定する. 注意すべきは、lt/rtがどこに来るかの自然な解釈が難しい事だ.
 // 現状では, t/bはそれぞれ、(direction＋値の正負を考慮した)Barの伸展方向を上にした時の上下だが、
@@ -65,6 +81,10 @@ UNAVAILABLE_ATTRIBUTE;
 // 正直な所、名前を変えるべきか挙動を変えるべきか、判断がついていない.
 // ただ、棒グラフとしては（機能の要不要は棚に上げると）この挙動が望ましいと考えている.
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb;
+
+- (void)setCornerRadius:(FMRectCornerRadius)radius;
+- (void)setAllCornerRadius:(float)radius;
+- (void)setBarWidth:(float)width;
 
 @end
 

@@ -67,7 +67,7 @@ class ViewController: UIViewController {
 		chart.padding = padding
 		
 		configurator.bindGestureRecognizersPan(panRecognizer, pinch: pinchRecognizer)
-		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
+		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setAllCornerRadius(5)
 		
 		stepSeries = configurator.createAttributedSeries(seriesCapacity)
 		weightSeries = configurator.createAttributedSeries(seriesCapacity)
@@ -125,28 +125,30 @@ class ViewController: UIViewController {
 		let systolicPoint = configurator.setPointToLine(systolicLine)
 		let diastolicPoint = configurator.setPointToLine(diastolicLine)
 		
-		let weightColor = UIColor(red: 0.4, green: 0.7, blue: 0.9, alpha: 1.0).vector()
+		let weightColor : vector_float4 = UIColor(red: 0.4, green: 0.7, blue: 0.9, alpha: 1.0).vector()
 		let systolicColor = UIColor(red: 0.9, green: 0.3, blue: 0.3, alpha: 1.0).vector()
 		let diastolicColor = UIColor(red: 0.9, green: 0.4, blue: 0.2, alpha: 1.0).vector()
 		let stepColor = UIColor(white: 0.5, alpha: 1.0).vector()
 		
 		stepBar.attributesArray[0].setBarWidth(20)
-		stepBar.attributesArray[0].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		stepBar.attributesArray[0].setColor(UIColor(white: 0.7, alpha: 1).vector())
+//		stepBar.attributesArray[0].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
+		stepBar.attributesArray[0].setValue(NSValue(cornerRadius:FMRectCornerRadius(lt: 5, rt:5, lb:0, rb:0)), forKey: "cornerRadius")
+		stepBar.attributesArray[0].setColor(UIColor(white: 0.7, alpha: 1))
 		stepBar.attributesArray[1].setBarWidth(20)
 		stepBar.attributesArray[1].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		stepBar.attributesArray[1].setColor(UIColor(white: 0.5, alpha: 1).vector())
+		stepBar.attributesArray[1].setColor(UIColor(white: 0.5, alpha: 1))
 		stepBar.attributesArray[2].setBarWidth(20)
 		stepBar.attributesArray[2].setCornerRadius(5, rt: 5, lb: 0, rb: 0)
-		stepBar.attributesArray[2].setColor(UIColor(white: 0.3, alpha: 1).vector())
+		stepBar.attributesArray[2].setColor(UIColor(white: 0.3, alpha: 1))
 		weightLine.attributesArray[0].setWidth(8)
-		weightLine.attributesArray[0].setColor(weightColor)
+		weightLine.attributesArray[0].setColorVec(weightColor)
 		weightLine.attributesArray[1].setWidth(6)
-		weightLine.attributesArray[1].setColor(UIColor.blueColor().vector())
+		weightLine.attributesArray[1].setColor(UIColor.blueColor())
 		weightLine.attributesArray[1].setDashLineLength(0.001)
 		weightLine.attributesArray[1].setDashSpaceLength(1)
 		weightLine.attributesArray[1].setDashRepeatAnchor(1)
 		weightLine.attributesArray[1].setDashLineAnchor(0)
+		
 		weightLine.conf.setAlpha(0.6)
 		weightLine.conf.enableOverlay = true
 		
@@ -154,10 +156,10 @@ class ViewController: UIViewController {
 		configurePointAttributes(weightPoint.attributesArray[1] as! FMUniformPointAttributes, innerRadius: 8, outerColor: weightColor)
 		
 		systolicLine.conf.enableOverlay = true
-		systolicLine.attributes.setColor(systolicColor)
+		systolicLine.attributes.setColorVec(systolicColor)
 		configurePointAttributes(systolicPoint, innerRadius: 6, outerColor: systolicColor)
 		diastolicLine.conf.enableOverlay = true
-		diastolicLine.attributes.setColor(diastolicColor)
+		diastolicLine.attributes.setColorVec(diastolicColor)
 		configurePointAttributes(diastolicPoint, innerRadius: 6, outerColor: diastolicColor)
 		
 		let weightConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, minorTicksFreq: 0, maxTickCount: 5, intervalOfInterval: 1)
@@ -172,8 +174,8 @@ class ViewController: UIViewController {
 			let strStep = String(format: "%.0f歩", Float(weightProjection.convertValue(val, to: stepProjection)))
 			return [NSMutableAttributedString(string: strWeight, attributes: weightAttributes), NSMutableAttributedString(string: strStep, attributes: stepAttributes)]
 		}
-		weightAxis!.axis.axisAttributes.setColor(weightColor)
-		weightAxis!.axis.majorTickAttributes.setColor(weightColor)
+		weightAxis!.axis.axisAttributes.setColorVec(weightColor)
+		weightAxis!.axis.majorTickAttributes.setColorVec(weightColor)
 		weightAxis!.axis.majorTickAttributes.setLengthModifierStart(0, end: 1)
 		let weightLabel = configurator.axisLabelsToAxis(weightAxis!)!.first!
 		weightLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightMedium))
@@ -191,8 +193,8 @@ class ViewController: UIViewController {
 			let str1 = String(format: "%.0f", Float(val))
 			return [NSMutableAttributedString(string: str1, attributes: pressureAttributes), str2]
 		}
-		pressureAxis!.axis.axisAttributes.setColor(systolicColor)
-		pressureAxis!.axis.majorTickAttributes.setColor(systolicColor)
+		pressureAxis!.axis.axisAttributes.setColorVec(systolicColor)
+		pressureAxis!.axis.majorTickAttributes.setColorVec(systolicColor)
 		let pressureLabel = configurator.axisLabelsToAxis(pressureAxis!)!.first!
 		pressureLabel.setFont(UIFont.systemFontOfSize(9, weight: UIFontWeightMedium))
 		pressureLabel.setFrameAnchorPoint(CGPointMake(0, 0.5))
@@ -323,8 +325,8 @@ class ViewController: UIViewController {
 	func configurePointAttributes(attrs : FMUniformPointAttributes, innerRadius : Float, outerColor : vector_float4) {
 		attrs.setInnerRadius(innerRadius)
 		attrs.setOuterRadius(innerRadius * 1.5)
-		attrs.setInnerColor(UIColor.whiteColor().vector())
-		attrs.setOuterColor(outerColor)
+		attrs.setInnerColor(UIColor.whiteColor())
+		attrs.setOuterColorVec(outerColor)
 	}
 	
 	@IBAction func chartTapped(sender: UITapGestureRecognizer) {

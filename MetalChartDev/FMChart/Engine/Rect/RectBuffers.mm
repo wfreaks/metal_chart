@@ -9,7 +9,24 @@
 #import "RectBuffers.h"
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
+#import "UIColor+Utility.h"
 
+
+@implementation NSValue (FMRectCornerRadius)
+
++ (instancetype)valueWithCornerRadius:(FMRectCornerRadius)radius
+{
+	return [self valueWithBytes:&radius objCType:@encode(FMRectCornerRadius)];
+}
+
+- (FMRectCornerRadius)FMRectCornerRadiusValue
+{
+	FMRectCornerRadius radius;
+	[self getValue:&radius];
+	return radius;
+}
+
+@end
 
 
 @implementation FMUniformPlotRectAttributes
@@ -35,14 +52,19 @@
 	self.rect->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColorRef:(vector_float4 const *)color
+- (void)setColor:(UIColor *)color
 {
-	self.rect->color = *color;
+	self.rect->color = [color vector];
 }
 
-- (void)setColor:(vector_float4)color
+- (void)setColorVec:(vector_float4)color
 {
 	self.rect->color = color;
+}
+
+- (void)setColorVecRef:(vector_float4 const *)color
+{
+	self.rect->color = *color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
@@ -50,7 +72,12 @@
 	self.rect->corner_radius = vector4(lt, rt, lb, rb);
 }
 
-- (void)setCornerRadius:(float)radius
+- (void)setCornerRadius:(FMRectCornerRadius)radius
+{
+	self.rect->corner_radius = vector4(radius.lt, radius.rt, radius.lb, radius.rb);
+}
+
+- (void)setAllCornerRadius:(float)radius
 {
 	self.rect->corner_radius = vector4(radius, radius, radius, radius);
 }
@@ -122,14 +149,19 @@
 	self.attr->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColorRef:(vector_float4 const *)color
+- (void)setColor:(UIColor *)color
 {
-	self.attr->color = *color;
+	self.attr->color = [color vector];
 }
 
-- (void)setColor:(vector_float4)color
+- (void)setColorVec:(vector_float4)color
 {
 	self.attr->color = color;
+}
+
+- (void)setColorVecRef:(vector_float4 const *)color
+{
+	self.attr->color = *color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
@@ -137,7 +169,12 @@
 	self.attr->corner_radius = vector4(lt, rt, lb, rb);
 }
 
-- (void)setCornerRadius:(float)radius
+- (void)setCornerRadius:(FMRectCornerRadius)radius
+{
+	self.attr->corner_radius = vector4(radius.lt, radius.rt, radius.lb, radius.rb);
+}
+
+- (void)setAllCornerRadius:(float)radius
 {
 	self.attr->corner_radius = vector4(radius, radius, radius, radius);
 }

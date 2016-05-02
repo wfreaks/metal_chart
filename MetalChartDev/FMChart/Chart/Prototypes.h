@@ -9,6 +9,10 @@
 #ifndef Prototypes_h
 #define Prototypes_h
 
+@protocol MTLBuffer;
+
+@class UIColor;
+
 @protocol FMAxis;
 @protocol FMRangeFilter;
 @protocol FMSeries;

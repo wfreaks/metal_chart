@@ -9,6 +9,7 @@
 #import "PointBuffers.h"
 #import <Metal/Metal.h>
 #import "DeviceResource.h"
+#import "UIColor+Utility.h"
 
 @implementation FMUniformPointAttributes
 
@@ -31,14 +32,19 @@
 	self.point->color_inner = vector4(r,g,b,a);
 }
 
-- (void)setInnerColorRef:(vector_float4 const *)color
+- (void)setInnerColor:(UIColor *)color
 {
-	self.point->color_inner = *color;
+	self.point->color_inner = [color vector];
 }
 
-- (void)setInnerColor:(vector_float4)color
+- (void)setInnerColorVec:(vector_float4)color
 {
 	self.point->color_inner = color;
+}
+
+- (void)setInnerColorVecRef:(vector_float4 const *)color
+{
+	self.point->color_inner = *color;
 }
 
 - (void)setOuterColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
@@ -46,14 +52,19 @@
 	self.point->color_outer = vector4(r,g,b,a);
 }
 
-- (void)setOuterColorRef:(vector_float4 const *)color
+- (void)setOuterColor:(UIColor *)color
 {
-	self.point->color_outer = *color;
+	self.point->color_outer = [color vector];
 }
 
-- (void)setOuterColor:(vector_float4)color
+- (void)setOuterColorVec:(vector_float4)color
 {
 	self.point->color_outer = color;
+}
+
+- (void)setOuterColorVecRef:(vector_float4 const *)color
+{
+	self.point->color_outer = *color;
 }
 
 - (void)setInnerRadius:(float)r

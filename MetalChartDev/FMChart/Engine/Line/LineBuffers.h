@@ -29,11 +29,15 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setWidth:(float)width;
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const * _Nonnull)color;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setLineLengthModifierStart:(float)start end:(float)end;
+- (void)setLineLengthModifierStart:(float)start;
+- (void)setLineLengthModifierEnd:(float)end;
+
 
 // 以下破線用の属性, lengthはすべてwidthとの関係で実際の長さが決まる(数値としては形状を決めるためのもの)
 // dashLineLengthは破線のうち描画される部分のキャップを除いた部分の長さ.
@@ -75,7 +79,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setAlpha:(float)alpha;
 
-- (void)setDepthValue:(float)depth;
+- (void)setDepthValue:(float)depth; // 通常は手動でこのメソッドを読んではならない.
 
 @end
 
@@ -89,19 +93,22 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setWidth:(float)width;
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const * _Nonnull)color;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setLineLength:(float)length;
 
 - (void)setLengthModifierStart:(float)start end:(float)end;
+- (void)setLengthModifierStart:(float)start;
+- (void)setLengthModifierEnd:(float)end;
 
 @end
 
 // 他のUniform系と異なりほとんどがreadableなプロパティで定義されているのは、
 // Attributeと違い設定はCPU側で参照される事が多いためである。
-// CPU/GPU共有バッファは出来れば書き込み専用にしたいので、プロパティへのミラリングをしている.
+// CPU/GPU共有バッファは出来れば書き込み専用にしたいので、プロパティへのミラーリングをしている.
 
 @interface FMUniformAxisConfiguration : NSObject
 
@@ -152,9 +159,10 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setWidth:(float)width;
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(vector_float4 const * _Nonnull)color;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
+- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setDepthValue:(float)depth;
 

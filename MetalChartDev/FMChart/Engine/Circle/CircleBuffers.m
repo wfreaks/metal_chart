@@ -8,6 +8,7 @@
 
 #import "CircleBuffers.h"
 #import "DeviceResource.h"
+#import "UIColor+Utility.h"
 
 @implementation FMUniformArcConfiguration
 
@@ -67,9 +68,9 @@
 	self.attr->radius_outer = outer;
 }
 
-
-- (void)setColor:(vector_float4)color { self.attr->color = color; }
-- (void)setColorRef:(const vector_float4 *)color { self.attr->color = *color; }
+- (void)setColor:(UIColor *)color { self.attr->color = [color vector]; }
+- (void)setColorVec:(vector_float4)color { self.attr->color = color; }
+- (void)setColorVecRef:(const vector_float4 *)color { self.attr->color = *color; }
 
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
 {

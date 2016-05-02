@@ -12,6 +12,7 @@
 #import "Prototypes.h"
 
 @protocol MTLBuffer;
+@class UIColor;
 
 @interface FMUniformArcConfiguration : NSObject
 
@@ -45,9 +46,10 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)setInnerRadius:(float)radius;
 - (void)setOuterRadius:(float)radius;
 - (void)setRadiusInner:(float)inner outer:(float)outer;
+- (void)setColor:(UIColor *_Nonnull)color;
+- (void)setColorVec:(vector_float4)color;
+- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
-- (void)setColor:(vector_float4)color;
-- (void)setColorRef:(const vector_float4 *_Nonnull)color;
 
 @end
 

@@ -8,6 +8,7 @@
 
 #import "LineBuffers.h"
 #import "Buffers.h"
+#import "UIColor+Utility.h"
 
 @implementation FMUniformLineAttributes
 
@@ -32,12 +33,17 @@
 	[self attributes]->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4)color
+- (void)setColor:(UIColor *)color
+{
+	[self attributes]->color = [color vector];
+}
+
+- (void)setColorVec:(vector_float4)color
 {
 	[self attributes]->color = color;
 }
 
-- (void)setColorRef:(vector_float4 const *)color
+- (void)setColorVecRef:(vector_float4 const *)color
 {
 	[self attributes]->color = *color;
 }
@@ -45,6 +51,16 @@
 - (void)setLineLengthModifierStart:(float)start end:(float)end
 {
 	[self attributes]->length_mod = vector2(start, end);
+}
+
+- (void)setLineLengthModifierStart:(float)start
+{
+	[self attributes]->length_mod[0] = start;
+}
+
+- (void)setLineLengthModifierEnd:(float)end
+{
+	[self attributes]->length_mod[1] = end;
 }
 
 - (void)setDashLineLength:(float)length
@@ -152,12 +168,17 @@
 	_attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4)color
+- (void)setColor:(UIColor *)color
+{
+	_attributes->color = [color vector];
+}
+
+- (void)setColorVec:(vector_float4)color
 {
 	_attributes->color = color;
 }
 
-- (void)setColorRef:(const vector_float4 *)color
+- (void)setColorVecRef:(const vector_float4 *)color
 {
 	_attributes->color = *color;
 }
@@ -165,6 +186,16 @@
 - (void)setLengthModifierStart:(float)start end:(float)end
 {
 	_attributes->length_mod = vector2(start, end);
+}
+
+- (void)setLengthModifierStart:(float)start
+{
+	_attributes->length_mod[0] = start;
+}
+
+- (void)setLengthModifierEnd:(float)end
+{
+	_attributes->length_mod[1] = end;
 }
 
 @end
@@ -290,12 +321,17 @@ static const float _ndc_anchor_invalid = 8;
 	self.attributes->color = vector4(red, green, blue, alpha);
 }
 
-- (void)setColor:(vector_float4)color
+- (void)setColor:(UIColor *)color
+{
+	self.attributes->color = [color vector];
+}
+
+- (void)setColorVec:(vector_float4)color
 {
 	self.attributes->color = color;
 }
 
-- (void)setColorRef:(const vector_float4 *)color
+- (void)setColorVecRef:(const vector_float4 *)color
 {
 	self.attributes->color = *color;
 }

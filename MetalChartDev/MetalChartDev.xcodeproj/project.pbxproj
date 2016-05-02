@@ -524,10 +524,10 @@
 			children = (
 				AAC4A8671BAFE3020032A0CF /* DeviceResource.h */,
 				AAC4A8681BAFE3020032A0CF /* DeviceResource.m */,
-				AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */,
-				AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */,
 				AA32A97E1BE3439600ABDC1E /* FMMetalView.h */,
 				AA32A97F1BE3439600ABDC1E /* FMMetalView.m */,
+				AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */,
+				AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */,
 				AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */,
 				AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */,
 			);
@@ -1058,7 +1058,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;
@@ -1078,7 +1078,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;

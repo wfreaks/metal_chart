@@ -11,6 +11,7 @@
 #import <Metal/Metal.h>
 #include "Engine_common.h"
 #import "DeviceResource.h"
+#import "Prototypes.h"
 
 #ifndef __Buffers_h__
 #define __Buffers_h__
