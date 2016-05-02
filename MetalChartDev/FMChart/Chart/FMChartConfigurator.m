@@ -99,6 +99,7 @@
 	}
 	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1] resource:self.engine.resource];
 	_space = [_space arrayByAddingObject:space];
+	[_chart addProjection:space];
 	return space;
 }
 
