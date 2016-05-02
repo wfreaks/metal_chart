@@ -48,6 +48,7 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 // インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
 + (void)configureMetalView:(MetalView * _Nonnull)view
 			  preferredFps:(NSInteger)fps
+                   surface:(FMSurfaceConfiguration * _Nonnull)surface
 ;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.

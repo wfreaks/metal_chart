@@ -40,7 +40,6 @@ class ViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		metalView.device = resource.device
-		metalView.sampleCount = 1
 		let v : Double = 0.9
 		let alpha : Double = 1
 		metalView.clearColor = MTLClearColorMake(v,v,v,alpha)
@@ -60,7 +59,7 @@ class ViewController: UIViewController {
 	}
 	
 	func setupChart() {
-		let engine = FMEngine(resource: resource)
+		let engine = FMEngine(resource: resource, surface: FMSurfaceConfiguration.defaultConfiguration())
 		let fps = 0;
 		let configurator : FMChartConfigurator = FMChartConfigurator(chart:chart, engine:engine, view:metalView, preferredFps: fps)
 		chartConf = configurator
@@ -151,7 +150,7 @@ class ViewController: UIViewController {
 		stepBar.attributesArray[2].setColor(UIColor(white: 0.3, alpha: 1).vector())
 		weightLine.attributesArray[0].setWidth(8)
 		weightLine.attributesArray[0].setColor(weightColor)
-		weightLine.attributesArray[1].setWidth(16)
+		weightLine.attributesArray[1].setWidth(6)
 		weightLine.attributesArray[1].setColor(UIColor.blueColor().vector())
 		weightLine.attributesArray[1].setDashLineLength(0.001)
 		weightLine.attributesArray[1].setDashSpaceLength(1)

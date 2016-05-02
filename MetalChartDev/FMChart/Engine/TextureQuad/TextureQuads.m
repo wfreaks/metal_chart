@@ -13,6 +13,11 @@
 #import "TextureQuad_common.h"
 #import "TextureQuadBuffers.h"
 
+@interface TextureQuad ()
+
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
+@end
 @implementation TextureQuad
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine *)engine
@@ -25,6 +30,9 @@
 		_dataRegion = [[FMUniformRegion alloc] initWithResource:resource];
 		_texRegion = [[FMUniformRegion alloc] initWithResource:resource];
 		_texture = texture;
+		id<MTLFunction> vertFunc = [engine functionWithName:@"TextureQuad_vertex" library:nil];
+		id<MTLFunction> fragFunc = [engine functionWithName:@"TextureQuad_fragment" library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:NO];
 	}
 	return self;
 }
@@ -37,7 +45,7 @@
 {
 	id<MTLTexture> texture = _texture;
 	if(texture) {
-		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLRenderPipelineState> renderState = _pipeline;
 		id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
 		[encoder pushDebugGroup:@"DrawTextureQuad"];
 		[encoder setRenderPipelineState:renderState];
@@ -61,11 +69,6 @@
 			 count:(NSUInteger)count
 {
 	[self encodeWith:encoder projection:projection count:count dataRegion:_dataRegion texRegion:_texRegion];
-}
-
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-{
-	return [_engine pipelineStateWithProjection:projection vertFunc:@"TextureQuad_vertex" fragFunc:@"TextureQuad_fragment" writeDepth:NO];
 }
 
 @end

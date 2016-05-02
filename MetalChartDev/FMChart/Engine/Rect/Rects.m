@@ -13,6 +13,11 @@
 #import "RectBuffers.h"
 #import "Series.h"
 
+@interface FMPlotRectPrimitive()
+
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
+@end
 @implementation FMPlotRectPrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
@@ -22,15 +27,18 @@
 		_engine = engine;
 		FMDeviceResource *res = engine.resource;
 		_attributes = [[FMUniformPlotRectAttributes alloc] initWithResource:res];
+		id<MTLFunction> vertFunc = [engine functionWithName:@"PlotRect_Vertex" library:nil];
+		id<MTLFunction> fragFunc = [engine functionWithName:@"PlotRect_Fragment" library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:YES];
 	}
 	return self;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(FMUniformProjectionCartesian2D *)projection
 {
-	id<MTLRenderPipelineState> renderState = [_engine pipelineStateWithProjection:projection vertFunc:@"PlotRect_Vertex" fragFunc:@"PlotRect_Fragment" writeDepth:YES];
+	id<MTLRenderPipelineState> renderState = _pipeline;
 	id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
-	[encoder pushDebugGroup:@"DrawPlotRect"];
+	[encoder pushDebugGroup:NSStringFromClass(self.class)];
 	[encoder setRenderPipelineState:renderState];
 	[encoder setDepthStencilState:depthState];
 	
@@ -50,16 +58,17 @@
 
 @interface FMBarPrimitive()
 
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 						  configuration:(FMUniformBarConfiguration * _Nullable)conf
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset;
 - (id<MTLBuffer> _Nullable)attributesBuffer;
-- (NSString * _Nonnull)vertexFunctionName;
-- (NSString * _Nonnull)fragmentFunctionName;
++ (NSString * _Nonnull)vertexFunctionName;
++ (NSString * _Nonnull)fragmentFunctionName;
 
 @end
 
@@ -73,6 +82,9 @@
 		_engine = engine;
 		FMDeviceResource *res = engine.resource;
 		_conf = (conf) ? conf : [[FMUniformBarConfiguration alloc] initWithResource:res];
+		id<MTLFunction> vertFunc = [engine functionWithName:[self.class vertexFunctionName] library:nil];
+		id<MTLFunction> fragFunc = [engine functionWithName:[self.class fragmentFunctionName] library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:YES];
 	}
 	return self;
 }
@@ -82,7 +94,7 @@
 {
 	id<FMSeries> const series = [self series];
 	if(series) {
-		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLRenderPipelineState> renderState = _pipeline;
 		id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
 		[encoder pushDebugGroup:NSStringFromClass(self.class)];
 		[encoder setRenderPipelineState:renderState];
@@ -111,17 +123,12 @@
 	}
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-{
-	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
-}
-
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return 6 * count; }
 
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return 6 * offset; }
 
-- (NSString *)vertexFunctionName { return @""; }
-- (NSString *)fragmentFunctionName { return @"GeneralBar_Fragment"; }
++ (NSString *)vertexFunctionName { return nil; }
++ (NSString *)fragmentFunctionName { return @"GeneralBar_Fragment"; }
 
 - (id<MTLBuffer>)attributesBuffer { return nil; }
 
@@ -145,7 +152,7 @@
 	return self;
 }
 
-- (NSString *)vertexFunctionName { return @"GeneralBar_VertexOrdered"; }
++ (NSString *)vertexFunctionName { return @"GeneralBar_VertexOrdered"; }
 
 - (id<MTLBuffer>)attributesBuffer { return _attributes.buffer; }
 
@@ -171,8 +178,8 @@
 	return self;
 }
 
-- (NSString *)vertexFunctionName { return @"AttributedBar_VertexOrdered"; }
-- (NSString *)fragmentFunctionName { return @"AttributedBar_Fragment"; }
++ (NSString *)vertexFunctionName { return @"AttributedBar_VertexOrdered"; }
++ (NSString *)fragmentFunctionName { return @"AttributedBar_Fragment"; }
 
 - (id<MTLBuffer>)attributesBuffer { return _attributesArray.buffer; }
 

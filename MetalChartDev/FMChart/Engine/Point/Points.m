@@ -15,10 +15,12 @@
 
 @interface FMPointPrimitive()
 
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
 - (instancetype)initWithEngine:(FMEngine*)engine;
 - (id<MTLBuffer>)attributesBuffer;
-- (NSString *)vertexFunctionName;
-- (NSString *)fragmentFunctionName;
++ (NSString *)vertexFunctionName;
++ (NSString *)fragmentFunctionName;
 
 @end
 @implementation FMPointPrimitive
@@ -28,6 +30,9 @@
 	self = [super init];
 	if(self) {
 		_engine = engine;
+		id<MTLFunction> vertFunc = [engine functionWithName:[self.class vertexFunctionName] library:nil];
+		id<MTLFunction> fragFunc = [engine functionWithName:[self.class fragmentFunctionName] library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:YES];
 	}
 	return self;
 }
@@ -37,7 +42,7 @@
 {
 	id<FMSeries> const series = self.series;
 	if(series) {
-		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLRenderPipelineState> renderState = _pipeline;
 		id<MTLDepthStencilState> depthState = self.engine.depthState_noDepth;
 		[encoder pushDebugGroup:NSStringFromClass(self.class)];
 		[encoder setRenderPipelineState:renderState];
@@ -63,16 +68,11 @@
 	}
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-{
-	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
-}
-
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count { return count; }
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset { return offset; }
 
-- (NSString *)vertexFunctionName { return nil; }
-- (NSString *)fragmentFunctionName { return nil; }
++ (NSString *)vertexFunctionName { return nil; }
++ (NSString *)fragmentFunctionName { return nil; }
 - (id<FMSeries>)series { return nil; }
 - (id<MTLBuffer>)attributesBuffer { return nil; }
 
@@ -94,8 +94,8 @@
 	return self;
 }
 
-- (NSString *)vertexFunctionName { return @"Point_VertexOrdered"; }
-- (NSString *)fragmentFunctionName { return @"Point_Fragment"; }
++ (NSString *)vertexFunctionName { return @"Point_VertexOrdered"; }
++ (NSString *)fragmentFunctionName { return @"Point_Fragment"; }
 - (id<MTLBuffer>)attributesBuffer { return _attributes.buffer; }
 
 @end
@@ -115,8 +115,8 @@
 	return self;
 }
 
-- (NSString *)vertexFunctionName { return @"Point_VertexOrderedAttributed"; }
-- (NSString *)fragmentFunctionName { return @"Point_FragmentAttributed"; }
++ (NSString *)vertexFunctionName { return @"Point_VertexOrderedAttributed"; }
++ (NSString *)fragmentFunctionName { return @"Point_FragmentAttributed"; }
 - (id<MTLBuffer>)attributesBuffer { return _attributesArray.buffer; }
 
 @end

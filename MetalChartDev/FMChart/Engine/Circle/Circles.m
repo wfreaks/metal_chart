@@ -43,9 +43,26 @@
 @end
 
 
+@interface FMContinuosArcPrimitive()
 
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
 
+@end
 @implementation FMContinuosArcPrimitive
+
+- (instancetype)initWithEngine:(FMEngine *)engine
+				 configuration:(FMUniformArcConfiguration *)conf
+					attributes:(FMUniformArcAttributesArray *)attr
+			attributesCapacity:(NSUInteger)capacity
+{
+	self = [super initWithEngine:engine configuration:conf attributes:attr attributesCapacity:capacity];
+	if(self) {
+		id<MTLFunction> vertFunc = [engine functionWithName:@"ArcContinuosVertex" library:nil];
+		id<MTLFunction> fragFunc = [engine functionWithName:@"ArcFragment" library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:NO];
+	}
+	return self;
+}
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(FMUniformProjectionPolar *)projection
@@ -54,8 +71,8 @@
 			 count:(NSUInteger)count
 {
 	if(count > 0) {
-		id<MTLRenderPipelineState> state = [self.engine pipelineStateWithPolar:projection vertFunc:@"ArcContinuosVertex" fragFunc:@"ArcFragment" writeDepth:NO];
-		[encoder pushDebugGroup:@"ContinuousArc"];
+		id<MTLRenderPipelineState> state = _pipeline;
+		[encoder pushDebugGroup:NSStringFromClass(self.class)];
 		
 		[encoder setRenderPipelineState:state];
 		

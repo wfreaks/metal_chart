@@ -224,8 +224,6 @@
 			  view:(MetalView *)view
 {
 	[_projection setPhysicalSize:view.bounds.size];
-	[_projection setSampleCount:view.sampleCount];
-	[_projection setColorPixelFormat:view.colorPixelFormat];
 	[_projection setPadding:chart.padding];
 	
 	[_rect encodeWith:encoder projection:_projection];

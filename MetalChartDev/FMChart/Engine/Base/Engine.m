@@ -11,72 +11,87 @@
 #import "Buffers.h"
 #import "MetalChart.h"
 
+
+@implementation FMSurfaceConfiguration
+
+- (instancetype)initWithFormat:(MTLPixelFormat)colorPixelFormat sampleCount:(NSUInteger)sampleCount
+{
+	self = [super init];
+	if(self) {
+		_colorPixelFormat = colorPixelFormat;
+		_sampleCount = sampleCount;
+	}
+	return self;
+}
+
++ (instancetype _Nonnull)defaultConfiguration
+{
+	return [[self alloc] initWithFormat:MTLPixelFormatBGRA8Unorm sampleCount:2];
+}
+
+@end
+
+
+
+
 @interface FMEngine()
 
-@property (strong, nonatomic) FMDeviceResource *resource;
+@property (nonatomic) FMDeviceResource *resource;
 
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_noDepth;
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthAny;
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthGreater;
-@property (strong, nonatomic) id<MTLDepthStencilState> depthState_depthLess;
+@property (nonatomic, readonly) NSMutableDictionary<NSString*, id<MTLFunction>> *functions;
 
 @end
 
 @implementation FMEngine
 
 - (instancetype)initWithResource:(FMDeviceResource *)resource
+						 surface:(FMSurfaceConfiguration *)surface
 {
 	self = [super init];
 	if(self) {
-		self.resource = [FMDeviceResource defaultResource];
-		self.depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO depthFunc:MTLCompareFunctionAlways];
-		self.depthState_depthAny = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionAlways];
-		self.depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
-		self.depthState_depthLess = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionLess];
+		_resource = resource;
+		_surface = surface;
+		_depthState_noDepth = [self.class depthStencilStateWithResource:resource writeDepth:NO depthFunc:MTLCompareFunctionAlways];
+		_depthState_depthAny = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionAlways];
+		_depthState_depthGreater = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionGreater];
+		_depthState_depthLess = [self.class depthStencilStateWithResource:resource writeDepth:YES depthFunc:MTLCompareFunctionLess];
+		_functions = [NSMutableDictionary dictionary];
+		
+		id<MTLDevice> device = resource.device;
+		NSBundle *bundle = [NSBundle bundleForClass:[FMEngine class]];
+		NSString *path = [bundle pathForResource:@"default" ofType:@"metallib"];
+		if(device && path) {
+			NSError *error = nil;
+			_defaultLibrary = [device newLibraryWithFile:path error:&error];
+			if(error) {
+				NSLog(@"error while loading metal lib file : %@", error);
+			}
+		} else {
+			self = nil;
+		}
 	}
 	return self;
 }
 
-- (id<MTLRenderPipelineState>)pipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-												 vertFunc:(NSString *)vertFuncName
-												 fragFunc:(NSString *)fragFuncName
-											   writeDepth:(BOOL)writeDepth
++ (instancetype)createDefaultEngine
 {
-	return [self pipelineStateWithFormat:projection.colorPixelFormat
-							 sampleCount:projection.sampleCount
-								vertFunc:vertFuncName
-								fragFunc:fragFuncName
-							  writeDepth:writeDepth];
+	return [[self alloc] initWithResource:[FMDeviceResource defaultResource] surface:[FMSurfaceConfiguration defaultConfiguration]];
 }
 
-- (id<MTLRenderPipelineState>)pipelineStateWithPolar:(FMUniformProjectionPolar *)projection
-											vertFunc:(NSString *)vertFuncName
-											fragFunc:(NSString *)fragFuncName
-										  writeDepth:(BOOL)writeDepth
+- (id<MTLRenderPipelineState>)pipelineStateWithVertFunc:(id<MTLFunction>)vertFunc
+											   fragFunc:(id<MTLFunction>)fragFunc
+											 writeDepth:(BOOL)writeDepth
 {
-	return [self pipelineStateWithFormat:projection.colorPixelFormat
-							 sampleCount:projection.sampleCount
-								vertFunc:vertFuncName
-								fragFunc:fragFuncName
-							  writeDepth:writeDepth];
-}
-
-- (id<MTLRenderPipelineState>)pipelineStateWithFormat:(MTLPixelFormat)pixelFormat
-										  sampleCount:(NSUInteger)sampleCount
-											 vertFunc:(NSString *)vertFuncName
-											 fragFunc:(NSString *)fragFuncName
-										   writeDepth:(BOOL)writeDepth
-{
-	NSString *label = [NSString stringWithFormat:@"%@_%@(%lu,%d)", vertFuncName, fragFuncName, (unsigned long)sampleCount, (int)pixelFormat];
+	NSString *label = [NSString stringWithFormat:@"%@_%@", [vertFunc name], [fragFunc name]];
 	id<MTLRenderPipelineState> state = _resource.renderStates[label];
 	if(state == nil) {
 		MTLRenderPipelineDescriptor *desc = [[MTLRenderPipelineDescriptor alloc] init];
 		desc.label = label;
-		desc.vertexFunction = [_resource.library newFunctionWithName:vertFuncName];
-		desc.fragmentFunction = [_resource.library newFunctionWithName:fragFuncName];
-		desc.sampleCount = sampleCount;
+		desc.vertexFunction = vertFunc;
+		desc.fragmentFunction = fragFunc;
+		desc.sampleCount = _surface.sampleCount;
 		MTLRenderPipelineColorAttachmentDescriptor *cd = desc.colorAttachments[0];
-		cd.pixelFormat = pixelFormat;
+		cd.pixelFormat = _surface.colorPixelFormat;
 		cd.blendingEnabled = YES;
 		cd.rgbBlendOperation = MTLBlendOperationAdd;
 		cd.alphaBlendOperation = MTLBlendOperationAdd;
@@ -108,6 +123,19 @@
 	desc.depthWriteEnabled = writeDepth;
 	
 	return [resource.device newDepthStencilStateWithDescriptor:desc];
+}
+
+- (id<MTLFunction>)functionWithName:(NSString *)name library:(id<MTLLibrary>)library
+{
+	@synchronized(_functions) {
+		id<MTLFunction> f = _functions[name];
+		if(!f) {
+			id<MTLLibrary> lib = (library) ? library : _defaultLibrary;
+			f = [lib newFunctionWithName:name];
+			_functions[name] = f;
+		}
+		return f;
+	}
 }
 
 @end

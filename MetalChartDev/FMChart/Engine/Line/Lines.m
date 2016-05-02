@@ -19,7 +19,7 @@
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection;
+- (id<MTLRenderPipelineState> _Nonnull)renderPipelineState;
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
 - (NSString *)vertexFunctionName;
 - (NSString *)fragmentFunctionName;
@@ -44,9 +44,11 @@
 	return self;
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
+- (id<MTLRenderPipelineState>)renderPipelineState
 {
-	return [_engine pipelineStateWithProjection:projection vertFunc:[self vertexFunctionName] fragFunc:[self fragmentFunctionName] writeDepth:YES];
+	id<MTLFunction> vertFunc = [_engine functionWithName:[self vertexFunctionName] library:nil];
+	id<MTLFunction> fragFunc = [_engine functionWithName:[self fragmentFunctionName] library:nil];
+	return [_engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:YES];
 }
 
 - (id<MTLDepthStencilState>)depthState
@@ -68,7 +70,7 @@
 {
 	id<FMSeries> const series = [self series];
 	if(series) {
-		id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+		id<MTLRenderPipelineState> renderState = [self renderPipelineState];
 		id<MTLDepthStencilState> depthState = [self depthState];
 		[encoder pushDebugGroup:@"DrawLine"];
 		[encoder setRenderPipelineState:renderState];
@@ -214,6 +216,7 @@
 @interface FMAxisPrimitive()
 
 @property (readonly, nonatomic) id<MTLBuffer> attributeBuffer;
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
 
 @end
 @implementation FMAxisPrimitive
@@ -228,6 +231,9 @@
 		_axisAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:0]];
 		_majorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:1]];
 		_minorTickAttributes = [[FMUniformAxisAttributes alloc] initWithAttributes:[self attributesAtIndex:2]];
+		_pipeline = [engine pipelineStateWithVertFunc:[engine functionWithName:@"AxisVertex" library:nil]
+											 fragFunc:[engine functionWithName:@"AxisFragment" library:nil]
+										   writeDepth:NO];
 	}
 	return self;
 }
@@ -237,19 +243,10 @@
 	return ((uniform_axis_attributes *)[_attributeBuffer contents]) + index;
 }
 
-
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-{
-	return [_engine pipelineStateWithProjection:projection
-									   vertFunc:@"AxisVertex"
-									   fragFunc:@"AxisFragment"
-									 writeDepth:NO];
-}
-
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(FMUniformProjectionCartesian2D *)projection
 {
-	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+	id<MTLRenderPipelineState> renderState = _pipeline;
 	id<MTLDepthStencilState> depthState = _engine.depthState_noDepth;
 	if(renderState == nil){
 		NSLog(@"render state is nil, returning...");
@@ -279,7 +276,11 @@
 
 @end
 
+@interface FMGridLinePrimitive()
 
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
+@end
 @implementation FMGridLinePrimitive
 
 - (instancetype)initWithEngine:(FMEngine *)engine
@@ -288,6 +289,9 @@
 	if(self) {
 		_attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
 		_engine = engine;
+		_pipeline = [engine pipelineStateWithVertFunc:[engine functionWithName:@"GridVertex" library:nil]
+											 fragFunc:[engine functionWithName:@"GridFragment" library:nil]
+										   writeDepth:YES];
 		[_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
 		[_attributes setWidth:0.5];
 		[_attributes setInterval:1];
@@ -296,20 +300,11 @@
 	return self;
 }
 
-- (id<MTLRenderPipelineState>)renderPipelineStateWithProjection:(FMUniformProjectionCartesian2D *)projection
-{
-	return [_engine pipelineStateWithProjection:projection
-									   vertFunc:@"GridVertex"
-									   fragFunc:@"GridFragment"
-									 writeDepth:YES
-			];
-}
-
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 		projection:(FMUniformProjectionCartesian2D *)projection
 		  maxCount:(NSUInteger)maxCount
 {
-	id<MTLRenderPipelineState> renderState = [self renderPipelineStateWithProjection:projection];
+	id<MTLRenderPipelineState> renderState = _pipeline;
 	id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
 	if(renderState == nil){
 		NSLog(@"render state is nil, returning...");

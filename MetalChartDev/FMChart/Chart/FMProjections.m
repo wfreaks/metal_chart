@@ -111,8 +111,6 @@
 - (void)configure:(MetalView *)view padding:(RectPadding)padding
 {
 	[_projection setPhysicalSize:view.bounds.size];
-	[_projection setSampleCount:view.sampleCount];
-	[_projection setColorPixelFormat:view.colorPixelFormat];
 	[_projection setPadding:padding];
 }
 
@@ -140,8 +138,6 @@
 - (void)configure:(FMMetalView *)view padding:(RectPadding)padding
 {
 	[_projection setPhysicalSize:view.bounds.size];
-	[_projection setSampleCount:view.sampleCount];
-	[_projection setColorPixelFormat:view.colorPixelFormat];
 	[_projection setPadding:padding];
 }
 

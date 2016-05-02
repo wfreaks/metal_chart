@@ -15,7 +15,6 @@
 @interface FMDeviceResource : NSObject
 
 @property (readonly, nonatomic) id<MTLDevice> _Nonnull device;
-@property (readonly, nonatomic) id<MTLLibrary> _Nonnull library;
 @property (readonly, nonatomic) NSDictionary *_Nonnull renderStates;
 @property (readonly, nonatomic) NSDictionary * _Nonnull computeStates;
 @property (readonly, nonatomic) NSDictionary * _Nonnull samplerStates;

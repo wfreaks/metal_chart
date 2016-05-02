@@ -42,6 +42,7 @@
 @class FMProjectionCartesian2D;
 @class FMProjectionPolar;
 @class FMProjectionUpdater;
+@class FMSurfaceConfiguration;
 @class FMUniformArcAttributesArray;
 @class FMUniformArcConfiguration;
 @class FMUniformAxisAttributes;

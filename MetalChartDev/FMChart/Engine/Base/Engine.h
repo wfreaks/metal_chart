@@ -11,35 +11,43 @@
 #import "Prototypes.h"
 
 
+@interface FMSurfaceConfiguration : NSObject
+
+@property (nonatomic, readonly) MTLPixelFormat colorPixelFormat;
+@property (nonatomic, readonly) NSUInteger sampleCount;
+
+- (instancetype _Nonnull)initWithFormat:(MTLPixelFormat)colorPixelFormat
+							sampleCount:(NSUInteger)sampleCount
+;
+
++ (instancetype _Nonnull)defaultConfiguration;
+
+@end
+
+
 @interface FMEngine : NSObject
 
-@property (readonly, nonatomic) FMDeviceResource * _Nonnull resource;
-@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
-@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthAny;
-@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthGreater;
-@property (readonly, nonatomic) id<MTLDepthStencilState> _Nonnull depthState_depthLess;
+@property (nonatomic, readonly) FMDeviceResource * _Nonnull resource;
+@property (nonatomic, readonly) FMSurfaceConfiguration * _Nonnull surface;
+@property (nonatomic, readonly) id<MTLLibrary> _Nonnull defaultLibrary;
+@property (nonatomic, readonly) id<MTLDepthStencilState> _Nonnull depthState_noDepth;
+@property (nonatomic, readonly) id<MTLDepthStencilState> _Nonnull depthState_depthAny;
+@property (nonatomic, readonly) id<MTLDepthStencilState> _Nonnull depthState_depthGreater;
+@property (nonatomic, readonly) id<MTLDepthStencilState> _Nonnull depthState_depthLess;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull) resource
+								  surface:(FMSurfaceConfiguration * _Nonnull)surface
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithProjection:(FMUniformProjectionCartesian2D * _Nonnull)projection
-														  vertFunc:(NSString * _Nonnull)vertFuncName
-														  fragFunc:(NSString * _Nonnull)fragFuncName
-														writeDepth:(BOOL)writeDepth
-;
-											
++ (instancetype _Nonnull)createDefaultEngine;
 
-- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithPolar:(FMUniformProjectionPolar * _Nonnull)projection
-													 vertFunc:(NSString * _Nonnull)vertFuncName
-													 fragFunc:(NSString * _Nonnull)fragFuncName
-												   writeDepth:(BOOL)writeDepth
+- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithVertFunc:(id<MTLFunction> _Nonnull)vertFunc
+														fragFunc:(id<MTLFunction> _Nonnull)fragFunc
+													  writeDepth:(BOOL)writeDepth
 ;
 
-- (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithFormat:(MTLPixelFormat)pixelFormat
-												   sampleCount:(NSUInteger)sampleCount
-													  vertFunc:(NSString * _Nonnull)vertFuncName
-													  fragFunc:(NSString * _Nonnull)fragFuncName
-										   writeDepth:(BOOL)writeDepth
-;
+// キャッシュされる, libraryがnilならdefautLibraryを使う. libraryは独自拡張とか使いたい時に指定する.
+- (id<MTLFunction> _Nonnull)functionWithName:(NSString * _Nonnull)name
+									 library:(id<MTLLibrary> _Nullable)library;
 
 @end

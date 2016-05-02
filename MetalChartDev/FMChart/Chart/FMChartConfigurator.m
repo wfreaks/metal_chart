@@ -36,12 +36,14 @@
 
 + (void)configureMetalView:(MetalView *)view
 			  preferredFps:(NSInteger)fps
+				   surface:(FMSurfaceConfiguration *)surface
 {
 	view.enableSetNeedsDisplay = (fps <= 0);
 	view.paused = (fps <= 0);
 	view.preferredFramesPerSecond = fps;
-	view.colorPixelFormat = MTLPixelFormatBGRA8Unorm;
+	view.colorPixelFormat = surface.colorPixelFormat;
 	view.depthStencilPixelFormat = determineDepthPixelFormat();
+	view.sampleCount = surface.sampleCount;
 	view.clearDepth = 0;
 }
 
@@ -59,7 +61,7 @@
 		_space = array;
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
-		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res];
+		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res surface:[FMSurfaceConfiguration defaultConfiguration]];
 		_engine = engine;
 		_preferredFps = fps;
 		FMAnimator *animator = [[FMAnimator alloc] init];
@@ -69,7 +71,7 @@
 		_view = view;
 		
 		if(view) {
-			[self.class configureMetalView:view preferredFps:fps];
+			[self.class configureMetalView:view preferredFps:fps surface:engine.surface];
 			view.device = engine.resource.device;
 			view.delegate = chart;
 		}
