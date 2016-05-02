@@ -44,6 +44,7 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 @property (readonly, nonatomic) NSInteger preferredFps;
 
 @property (readonly, nonatomic) FMAnimator * _Nonnull animator;
+@property (readonly, nonatomic) FMGestureDispatcher * _Nonnull dispatcher;
 
 // インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
 + (void)configureMetalView:(MetalView * _Nonnull)view
@@ -75,8 +76,14 @@ NS_DESIGNATED_INITIALIZER;
 
 - (FMProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
 
-- (FMGestureDispatcher* _Nonnull)addGestureDispatcherToPan:(FMPanGestureRecognizer *_Nonnull)pan
-													 pinch:(UIPinchGestureRecognizer *_Nonnull)pinch
+- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *_Nonnull)pan
+							pinch:(UIPinchGestureRecognizer *_Nonnull)pinch
+;
+
+- (FMWindowFilter* _Nullable)addWindowFilterToUpdater:(FMProjectionUpdater *_Nonnull)updater
+											   length:(FMScaledWindowLength *_Nonnull)length
+											 position:(FMAnchoredWindowPosition *_Nonnull)position
+										  orientation:(FMDimOrientation)orientation
 ;
 
 - (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId

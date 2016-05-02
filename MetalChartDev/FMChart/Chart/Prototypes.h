@@ -13,6 +13,7 @@
 @protocol FMRangeFilter;
 @protocol FMSeries;
 
+@class FMAnchoredWindowPosition;
 @class FMAnimator;
 @class FMArrayBuffer;
 @class FMAxisPrimitive;
@@ -42,6 +43,7 @@
 @class FMProjectionCartesian2D;
 @class FMProjectionPolar;
 @class FMProjectionUpdater;
+@class FMScaledWindowLength;
 @class FMSurfaceConfiguration;
 @class FMUniformArcAttributesArray;
 @class FMUniformArcConfiguration;
@@ -62,6 +64,7 @@
 @class FMUniformRegion;
 @class FMUniformSeriesInfo;
 @class FMTextureQuadPrimitive;
+@class FMWindowFilter;
 @class MetalChart;
 
 

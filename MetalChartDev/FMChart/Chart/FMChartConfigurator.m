@@ -68,6 +68,9 @@
 		animator.metalView = view;
 		chart.bufferHook = animator;
 		_animator = animator;
+		_dispatcher = [[FMGestureDispatcher alloc] initWithPanRecognizer:nil
+														 pinchRecognizer:nil];
+		_dispatcher.animator = animator;
 		_view = view;
 		
 		if(view) {
@@ -141,14 +144,41 @@
 	return nil;
 }
 
-- (FMGestureDispatcher*)addGestureDispatcherToPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
+- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
 {
 	[self.view addGestureRecognizer:pan];
 	[self.view addGestureRecognizer:pinch];
-	FMGestureDispatcher *dispatcher = [[FMGestureDispatcher alloc] initWithPanRecognizer:pan pinchRecognizer:pinch];
-	dispatcher.animator = self.animator;
-	[self addRetainedObject:dispatcher];
-	return dispatcher;
+	FMGestureDispatcher *dispatcher = _dispatcher;
+	dispatcher.panRecognizer = pan;
+	dispatcher.pinchRecognizer = pinch;
+}
+
+- (FMWindowFilter*)addWindowFilterToUpdater:(FMProjectionUpdater *)updater
+									 length:(FMScaledWindowLength *)length
+								   position:(FMAnchoredWindowPosition *)position
+								orientation:(FMDimOrientation)orientation
+{
+	if(updater) {
+		FMWindowFilter *filter = [[FMWindowFilter alloc] initWithOrientation:orientation
+																		view:self.view
+																	 padding:self.chart.padding
+															  lengthDelegate:length
+															positionDelegate:position];
+		[updater addFilterToLast:filter];
+		[self addRetainedObject:length];
+		[self addRetainedObject:position];
+		
+		[_dispatcher addPanListener:position orientation:orientation];
+		[_dispatcher addScaleListener:length orientation:orientation];
+		
+		length.view = self.view;
+		length.updater = updater;
+		position.view = self.view;
+		position.updater = updater;
+		
+		return filter;
+	}
+	return nil;
 }
 
 - (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId

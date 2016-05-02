@@ -66,7 +66,7 @@ class ViewController: UIViewController {
 		let padding = RectPadding(left: 45, top: 30, right: 35, bottom: 30)
 		chart.padding = padding
 		
-		let dispatcher = configurator.addGestureDispatcherToPan(panRecognizer, pinch: pinchRecognizer)
+		configurator.bindGestureRecognizersPan(panRecognizer, pinch: pinchRecognizer)
 		configurator.addPlotAreaWithColor(UIColor.whiteColor()).attributes.setCornerRadius(5)
 		
 		stepSeries = configurator.createAttributedSeries(seriesCapacity)
@@ -88,16 +88,7 @@ class ViewController: UIViewController {
 		let dateScale : CGFloat = dateLength / (320 - 80)
 		let dateWindowLength = FMScaledWindowLength(minScale: dateScale * 0.5, maxScale: dateScale, defaultScale: dateScale)
 		let dateWindowPos = FMAnchoredWindowPosition(anchor: 0.5, defaultValue: 0, windowLength: dateWindowLength)
-		let dateWindow = FMWindowFilter(orientation: FMDimOrientation.Horizontal, view: metalView, padding: padding, lengthDelegate: dateWindowLength, positionDelegate: dateWindowPos)
-		dateUpdater?.addFilterToLast(dateWindow)
-		configurator.addRetainedObject(dateWindowLength)
-		configurator.addRetainedObject(dateWindowPos)
-		dispatcher.addPanListener(dateWindowPos, orientation:FMDimOrientation.Horizontal)
-		dispatcher.addScaleListener(dateWindowLength, orientation: FMDimOrientation.Horizontal)
-		dateWindowPos.view = metalView
-		dateWindowPos.updater = dateUpdater
-		dateWindowLength.view = metalView
-		dateWindowLength.updater = dateUpdater
+		configurator.addWindowFilterToUpdater(dateUpdater!, length: dateWindowLength, position: dateWindowPos, orientation: FMDimOrientation.Horizontal)
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addFilterToLast(FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
