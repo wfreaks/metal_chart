@@ -37,7 +37,7 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 
 @property (readonly, nonatomic) NSArray<FMDimensionalProjection*> * _Nonnull dimensions;
 @property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
-@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> * _Nonnull space;
+@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> * _Nonnull spaceCartesian2D;
 @property (readonly, nonatomic) MetalChart * _Nonnull chart;
 @property (readonly, nonatomic) MetalView * _Nullable view;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;

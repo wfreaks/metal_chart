@@ -63,8 +63,10 @@ MTLPixelFormat determineDepthPixelFormat()
 	const CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 	const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);
 	if(timeout != 0) {
-		NSLog(@"timeout occurred.");
-		[view setNeedsDisplay];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			NSLog(@"timeout occurred.");
+			[view setNeedsDisplay];
+		});
 		return;
 	}
 	

@@ -58,7 +58,7 @@
 		NSArray *array = [NSArray array];
 		_dimensions = array;
 		_updaters = array;
-		_space = array;
+		_spaceCartesian2D = array;
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res surface:[FMSurfaceConfiguration defaultConfiguration]];
@@ -87,7 +87,7 @@
 {
 	if(ids.count != 2) return nil;
 	
-	for(FMProjectionCartesian2D *s in self.space) {
+	for(FMProjectionCartesian2D *s in self.spaceCartesian2D) {
 		if([s matchesDimensionIds:ids]) {
 			return s;
 		}
@@ -98,7 +98,7 @@
 		[dims addObject:dim];
 	}
 	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1] resource:self.engine.resource];
-	_space = [_space arrayByAddingObject:space];
+	_spaceCartesian2D = [_spaceCartesian2D arrayByAddingObject:space];
 	[_chart addProjection:space];
 	return space;
 }
@@ -186,7 +186,7 @@
 {
 	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
 	if(dim) {
-		NSArray<FMProjectionCartesian2D*> *space = self.space;
+		NSArray<FMProjectionCartesian2D*> *space = self.spaceCartesian2D;
 		for(FMProjectionCartesian2D *s in space) {
 			if([s.dimensions containsObject:dim]) {
 				return s;

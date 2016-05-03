@@ -75,12 +75,12 @@
 		AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
-		AA32AACC1BE7B87D00ABDC1E /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA32AAD21BE7BE1100ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5B2B801CD82C7000DAE037 /* FMChart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; };
+		AA5B2B811CD82C7000DAE037 /* FMChart.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */; };
 		AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -170,23 +170,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA32AACD1BE7B87D00ABDC1E /* PBXContainerItemProxy */ = {
+		AA5B2B821CD82C7000DAE037 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AA32A9921BE3B5FA00ABDC1E;
-			remoteInfo = FMChartSupport;
+			remoteGlobalIDString = AAC4A81C1BAFE2960032A0CF;
+			remoteInfo = FMChart;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AA32AACF1BE7B87D00ABDC1E /* Embed Frameworks */ = {
+		AA5B2B841CD82C7000DAE037 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AA32AACC1BE7B87D00ABDC1E /* FMChartSupport.framework in Embed Frameworks */,
+				AA5B2B811CD82C7000DAE037 /* FMChart.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,8 +309,8 @@
 			files = (
 				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
-				AA32AACB1BE7B87D00ABDC1E /* FMChartSupport.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
+				AA5B2B801CD82C7000DAE037 /* FMChart.framework in Frameworks */,
 				AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,12 +682,12 @@
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
-				AA32AACF1BE7B87D00ABDC1E /* Embed Frameworks */,
+				AA5B2B841CD82C7000DAE037 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AA32AACE1BE7B87D00ABDC1E /* PBXTargetDependency */,
+				AA5B2B831CD82C7000DAE037 /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
@@ -733,6 +733,7 @@
 					};
 					AAC4A81C1BAFE2960032A0CF = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = CN2TXAP2YW;
 					};
 				};
 			};
@@ -881,10 +882,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA32AACE1BE7B87D00ABDC1E /* PBXTargetDependency */ = {
+		AA5B2B831CD82C7000DAE037 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */;
-			targetProxy = AA32AACD1BE7B87D00ABDC1E /* PBXContainerItemProxy */;
+			target = AAC4A81C1BAFE2960032A0CF /* FMChart */;
+			targetProxy = AA5B2B821CD82C7000DAE037 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1058,7 +1059,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;
@@ -1078,7 +1079,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;

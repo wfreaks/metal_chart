@@ -8,7 +8,7 @@
 
 import UIKit
 import Metal
-import FMChartSupport
+import FMChart
 import HealthKit
 
 class ViewController: UIViewController {
