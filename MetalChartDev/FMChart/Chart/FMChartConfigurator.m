@@ -45,6 +45,7 @@
 	view.depthStencilPixelFormat = determineDepthPixelFormat();
 	view.sampleCount = surface.sampleCount;
 	view.clearDepth = 0;
+	view.layer.magnificationFilter = kCAFilterNearest;
 }
 
 - (instancetype)initWithChart:(MetalChart *)chart
