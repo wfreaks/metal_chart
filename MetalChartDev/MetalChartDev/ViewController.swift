@@ -30,6 +30,7 @@ class ViewController: UIViewController {
 	var systolicSeries : FMOrderedSeries? = nil
 	var diastolicSeries : FMOrderedSeries? = nil
 	
+	var windowPos : FMAnchoredWindowPosition? = nil;
 	var dateUpdater : FMProjectionUpdater? = nil;
 	var stepUpdater : FMProjectionUpdater? = nil;
 	var weightUpdater : FMProjectionUpdater? = nil;
@@ -87,8 +88,9 @@ class ViewController: UIViewController {
 		// 物理サイズで320px - paddingで見える分とする.
 		let dateScale : CGFloat = dateLength / (320 - 80)
 		let dateWindowLength = FMScaledWindowLength(minScale: dateScale * 0.5, maxScale: dateScale, defaultScale: dateScale)
-		let dateWindowPos = FMAnchoredWindowPosition(anchor: 0.5, defaultValue: 0, windowLength: dateWindowLength)
+		let dateWindowPos = FMAnchoredWindowPosition(anchor: 0.5, windowLength: dateWindowLength, defaultPosition: 1)
 		configurator.addWindowFilterToUpdater(dateUpdater!, length: dateWindowLength, position: dateWindowPos, orientation: FMDimOrientation.Horizontal)
+		windowPos = dateWindowPos;
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addFilterToLast(FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
@@ -254,6 +256,7 @@ class ViewController: UIViewController {
 				}
 				self.stepUpdater?.updateTarget()
 				self.weightLabel?.clearCache()
+				self.windowPos?.reset()
 				self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
@@ -274,6 +277,7 @@ class ViewController: UIViewController {
 				}
 				self.weightUpdater?.updateTarget()
 				self.weightLabel?.clearCache()
+				self.windowPos?.reset()
 				self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
@@ -290,6 +294,7 @@ class ViewController: UIViewController {
 					self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.pressureUpdater?.updateTarget()
+				self.windowPos?.reset()
 				self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}
@@ -305,6 +310,7 @@ class ViewController: UIViewController {
 					self.dateUpdater?.addSourceValue(x, update: false)
 				}
 				self.pressureUpdater?.updateTarget()
+				self.windowPos?.reset()
 				self.dateUpdater?.updateTarget()
 				self.metalView.setNeedsDisplay()
 			}

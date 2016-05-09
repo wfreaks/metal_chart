@@ -95,19 +95,32 @@ NS_DESIGNATED_INITIALIZER;
 // inputはdata range, そしてwindow length.
 // outputはシンプルだが、inputがimutableである仮定をしなければ、理想的な振る舞いを考えるのは難しい.
 // このクラスはシンプルに、窓内で相対的なAnchorを決め、このanchorが指すデータ空間での位置を極力安定させる動作をする.
+
+// anchorが差すcurrentValueはrange+position+lengthで一意となりその逆も成立する、それを利用したのがこのクラスだが、
+// 初期ではcurrentValueとpositionの２つが未知となるので、どちらかを指定してやる必要がある.
+// これはpositionを指定してcurrentValueを確定させるためのブロック. もちろん戻り値はvalueではなくposition.
+typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
+
 @interface FMAnchoredWindowPosition : NSObject <FMWindowPositionDelegate, FMPanGestureListener>
 
 @property (nonatomic, readonly) CGFloat anchor; // inputが変化した時のwindowのanchor.
 @property (nonatomic, readonly) CGFloat currentValue; // anchorの現在data空間上での値.
-@property (nonatomic, readonly) CGFloat defaultValue;
+@property (nonatomic, readonly) BOOL invalidated; // currentValueが有効かどうか
+@property (nonatomic, copy)     FMWindowPositionBlock _Nonnull valueInitializer; // currentValueを初期化するために必要なブロック.
+
 @property (nonatomic, readonly, weak) FMScaledWindowLength * _Nullable length; // panGestureの解釈にはどうやっても現在のscaleを必要とするため.
 
 @property (nonatomic, weak) MetalView *_Nullable view;
 @property (nonatomic, weak) FMProjectionUpdater *_Nullable updater;
 
 - (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
-						   defaultValue:(CGFloat)value
 						   windowLength:(FMScaledWindowLength* _Nonnull)length
+					   valueInitializer:(FMWindowPositionBlock _Nonnull)initializer
+;
+
+- (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
+						   windowLength:(FMScaledWindowLength* _Nonnull)length
+						defaultPosition:(CGFloat)defaultPosition
 ;
 
 - (void)reset;

@@ -339,17 +339,29 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 @end
 @implementation FMAnchoredWindowPosition
 
-- (instancetype)initWithAnchor:(CGFloat)anchor defaultValue:(CGFloat)value windowLength:(FMScaledWindowLength *)length
+- (instancetype)initWithAnchor:(CGFloat)anchor
+				  windowLength:(FMScaledWindowLength * _Nonnull)length
+			  valueInitializer:(FMWindowPositionBlock _Nonnull)initializer
 {
 	self = [super init];
 	if(self) {
 		_anchor = anchor;
-		_defaultValue = value;
-		_currentValue = value;
+		_valueInitializer = initializer;
+		_currentValue = 0;
+		_invalidated = YES;
 		_length = length;
 		_state = [[FMInertialState alloc] initWithMaxDuration:2];
 	}
 	return self;
+}
+
+- (instancetype)initWithAnchor:(CGFloat)anchor
+				  windowLength:(FMScaledWindowLength *)length
+			   defaultPosition:(CGFloat)defaultPosition
+{
+	return [self initWithAnchor:anchor windowLength:length valueInitializer:^CGFloat(CGFloat min, CGFloat max, CGFloat len) {
+		return defaultPosition;
+	}];
 }
 
 - (CGFloat)positionInRangeWithMin:(CGFloat)minValue max:(CGFloat)maxValue length:(CGFloat)length
@@ -358,7 +370,17 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 	const CGFloat offset = length * _anchor;
 	_minAnchorValue = minValue + offset;
 	_maxAnchorValue = minValue + offset + margin;
-	const CGFloat pos = (_currentValue - _minAnchorValue) / margin;
+	CGFloat pos = 0.5f;
+	typeof(_valueInitializer) vi = _valueInitializer;
+	if(_invalidated) {
+		if(vi) {
+			pos = vi(minValue, maxValue, length);
+		}
+		_currentValue = _minAnchorValue + (margin * pos);
+		_invalidated = NO;
+	} else {
+		pos = (_currentValue - _minAnchorValue) / margin;
+	}
 	return pos;
 }
 
@@ -390,7 +412,8 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 - (void)reset
 {
 	[_state halt:CFAbsoluteTimeGetCurrent()];
-	_currentValue = _defaultValue;
+	_currentValue = 0;
+	_invalidated = YES;
 }
 
 - (BOOL)requestCancel { return NO; }
