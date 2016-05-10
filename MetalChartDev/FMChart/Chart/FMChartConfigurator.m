@@ -56,10 +56,9 @@
 	self = [super init];
 	if(self) {
 		_chart = chart;
-		NSArray *array = [NSArray array];
-		_dimensions = array;
-		_updaters = array;
-		_spaceCartesian2D = array;
+		_dimensions = [NSArray array];
+		_updaters = [NSArray array];
+		_spaceCartesian2D = [NSArray array];
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res surface:[FMSurfaceConfiguration defaultConfiguration]];
