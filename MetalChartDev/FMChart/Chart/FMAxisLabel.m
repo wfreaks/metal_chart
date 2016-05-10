@@ -294,7 +294,7 @@
 	
 	NSInteger oldMin = _idxMin;
 	NSInteger oldMax = _idxMax;
-	const BOOL changed = (oldMin > newMin || oldMax < newMax);
+	const BOOL changed = (oldMin != newMin || oldMax != newMax);
 	
 	LabelCacheModifierBlock block = _cacheModifier;
 	if(block && changed) {
