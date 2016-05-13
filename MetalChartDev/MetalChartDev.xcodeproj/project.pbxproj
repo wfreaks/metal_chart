@@ -13,8 +13,6 @@
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
 		AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
-		AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A98C1BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
 		AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 		AA32A9961BE3B5FA00ABDC1E /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
@@ -79,8 +77,6 @@
 		AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD41BE7C1C500ABDC1E /* UIColor+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */; };
 		AA32AAD51BE7C1C800ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA5B2B801CD82C7000DAE037 /* FMChart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; };
-		AA5B2B811CD82C7000DAE037 /* FMChart.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAC4A81D1BAFE2960032A0CF /* FMChart.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */; };
 		AA858A3C1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA858A3D1BFA4E8200C419F2 /* FMProjections.h in Headers */ = {isa = PBXBuildFile; fileRef = AA858A3A1BFA4E8200C419F2 /* FMProjections.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -102,6 +98,12 @@
 		AA85C7781BFC6FDC0037253B /* FMRenderablesAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */; };
 		AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA7DA0B1CE5A24E004647E7 /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA7DA0C1CE5A257004647E7 /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
+		AAA7DA0D1CE5A280004647E7 /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
+		AAA7DA0E1CE5A280004647E7 /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		AAA7DA151CE5A3F1004647E7 /* common_private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA7DA141CE5A3F1004647E7 /* common_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AAA7DA161CE5A3F1004647E7 /* common_private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA7DA141CE5A3F1004647E7 /* common_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
 		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
@@ -170,23 +172,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA5B2B821CD82C7000DAE037 /* PBXContainerItemProxy */ = {
+		AAA7DA0F1CE5A280004647E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB584D31B6F0D8C00480AAE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AAC4A81C1BAFE2960032A0CF;
-			remoteInfo = FMChart;
+			remoteGlobalIDString = AA32A9921BE3B5FA00ABDC1E;
+			remoteInfo = FMChartSupport;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		AA5B2B841CD82C7000DAE037 /* Embed Frameworks */ = {
+		AAA7DA111CE5A280004647E7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				AA5B2B811CD82C7000DAE037 /* FMChart.framework in Embed Frameworks */,
+				AAA7DA0E1CE5A280004647E7 /* FMChartSupport.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,6 +223,7 @@
 		AA85C7731BFC6FDC0037253B /* FMRenderablesAux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMRenderablesAux.h; sourceTree = "<group>"; };
 		AA85C7741BFC6FDC0037253B /* FMRenderablesAux.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FMRenderablesAux.mm; sourceTree = "<group>"; };
 		AA97955D1BFBA60700BA9970 /* circle_shared.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = circle_shared.h; sourceTree = "<group>"; };
+		AAA7DA141CE5A3F1004647E7 /* common_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common_private.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -310,8 +313,8 @@
 				AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */,
 				AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */,
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
-				AA5B2B801CD82C7000DAE037 /* FMChart.framework in Frameworks */,
 				AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */,
+				AAA7DA0D1CE5A280004647E7 /* FMChartSupport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +332,7 @@
 			isa = PBXGroup;
 			children = (
 				AAC344D61CC0E4E000115113 /* Prototypes.h */,
+				AAA7DA141CE5A3F1004647E7 /* common_private.h */,
 				AA32A9881BE3B53E00ABDC1E /* ios8 */,
 				AA32A98B1BE3B53E00ABDC1E /* ios9 */,
 			);
@@ -599,6 +603,7 @@
 				AAC344D81CC0EB5000115113 /* Prototypes.h in Headers */,
 				AA32A9CB1BE3B5FA00ABDC1E /* FMChartConfigurator.h in Headers */,
 				AA32A9CC1BE3B5FA00ABDC1E /* RectBuffers.h in Headers */,
+				AAA7DA161CE5A3F1004647E7 /* common_private.h in Headers */,
 				AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */,
 				AA32A9CE1BE3B5FA00ABDC1E /* TextureQuadBuffers.h in Headers */,
 				AA85C7761BFC6FDC0037253B /* FMRenderablesAux.h in Headers */,
@@ -619,6 +624,7 @@
 				AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */,
 				AAC4A8781BAFE3020032A0CF /* FMRangeFilters.h in Headers */,
 				AAC4A8741BAFE3020032A0CF /* FMProjectionUpdater.h in Headers */,
+				AAA7DA0B1CE5A24E004647E7 /* chart_common.h in Headers */,
 				AAC4A8881BAFE3020032A0CF /* LineBuffers.h in Headers */,
 				AAC4A88D1BAFE3020032A0CF /* Lines.h in Headers */,
 				AA85C75D1BFB533B0037253B /* base_shared.h in Headers */,
@@ -644,12 +650,12 @@
 				AAC4A87A1BAFE3020032A0CF /* FMChartConfigurator.h in Headers */,
 				AAC344D71CC0EB4F00115113 /* Prototypes.h in Headers */,
 				AAC4A8961BAFE3020032A0CF /* RectBuffers.h in Headers */,
+				AAA7DA151CE5A3F1004647E7 /* common_private.h in Headers */,
 				AAC4A8901BAFE3020032A0CF /* PointBuffers.h in Headers */,
 				AAC4A89C1BAFE3020032A0CF /* TextureQuadBuffers.h in Headers */,
 				AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */,
 				AA85C7751BFC6FDC0037253B /* FMRenderablesAux.h in Headers */,
 				AA85C76E1BFC57090037253B /* Circles.h in Headers */,
-				AA32A9901BE3B53E00ABDC1E /* chart_common.h in Headers */,
 				AAC4A8201BAFE2960032A0CF /* FMChart.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -682,12 +688,12 @@
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
-				AA5B2B841CD82C7000DAE037 /* Embed Frameworks */,
+				AAA7DA111CE5A280004647E7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				AA5B2B831CD82C7000DAE037 /* PBXTargetDependency */,
+				AAA7DA101CE5A280004647E7 /* PBXTargetDependency */,
 			);
 			name = MetalChartDev;
 			productName = MetalChartDev;
@@ -722,6 +728,9 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = freaks;
 				TargetAttributes = {
+					AA32A9921BE3B5FA00ABDC1E = {
+						DevelopmentTeam = CN2TXAP2YW;
+					};
 					AAB584DA1B6F0D8C00480AAE = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = CN2TXAP2YW;
@@ -841,7 +850,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA32A9911BE3B53E00ABDC1E /* chart_common.swift in Sources */,
 				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
@@ -851,6 +859,7 @@
 				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
 				AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */,
 				AA85C7701BFC57090037253B /* Circles.m in Sources */,
+				AAA7DA0C1CE5A257004647E7 /* chart_common.swift in Sources */,
 				AA85C7691BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
@@ -882,10 +891,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA5B2B831CD82C7000DAE037 /* PBXTargetDependency */ = {
+		AAA7DA101CE5A280004647E7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AAC4A81C1BAFE2960032A0CF /* FMChart */;
-			targetProxy = AA5B2B821CD82C7000DAE037 /* PBXContainerItemProxy */;
+			target = AA32A9921BE3B5FA00ABDC1E /* FMChartSupport */;
+			targetProxy = AAA7DA0F1CE5A280004647E7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -919,10 +928,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = "FMChart/Info-Support.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1054,10 +1060,7 @@
 				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1099,10 +1102,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREFIX_HEADER = "";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = FMChart/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

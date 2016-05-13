@@ -6,6 +6,7 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
+#import "common_private.h"
 #import "FMInteractive.h"
 #import "NSArray+Utility.h"
 #import "FMProjectionUpdater.h"
@@ -54,7 +55,6 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 		_velocity = 0;
 		_timestamp = time;
 		_dampingCoefficent = 0;
-//		NSLog(@"halt");
 	}
 }
 
@@ -76,7 +76,7 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 			const CGFloat k = log(fabs(_velocity / VEC_THRESHOLD)) / _maxDuration;
 			_dampingCoefficent = MAX(MIN_DECAY, k);
 			_stationary = (_velocity == 0 && dest == 0);
-//			NSLog(@"velocity = %.1f", _velocity);
+//			DEBUG(@"velocity = %.1f", _velocity);
 		}
 		return d;
 	}
@@ -108,7 +108,7 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 				}
 			}
 			_stationary = (_velocity == 0 && displacement == 0);
-//			NSLog(@"velocity = %.1f", _velocity);
+//			DEBUG(@"velocity = %.1f", _velocity);
 		}
 		return displacement;
 	}

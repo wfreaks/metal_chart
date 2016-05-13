@@ -23,6 +23,7 @@
 @class FMAxisPrimitive;
 @class FMBarPrimitive;
 @class FMContinuosArcPrimitive;
+@class FMDefaultFilter;
 @class FMDeviceResource;
 @class FMDimensionalProjection;
 @class FMEngine;
@@ -30,6 +31,7 @@
 @class FMGridLinePrimitive;
 @class FMIndexedFloatBuffer;
 @class FMLinePrimitive;
+@class FMMetalView;
 @class FMOrderedAttributedBarPrimitive;
 @class FMOrderedAttributedPointPrimitive;
 @class FMOrderedAttributedPolyLinePrimitive;
@@ -38,7 +40,6 @@
 @class FMOrderedPointPrimitive;
 @class FMOrderedPolyLinePrimitive;
 @class FMOrderedSeries;
-@class FMDefaultFilter;
 @class FMPanGestureRecognizer;
 @class FMPieDoughnutSeries;
 @class FMPlotArea;

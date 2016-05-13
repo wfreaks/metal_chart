@@ -6,6 +6,8 @@
 //  Copyright © 2015年 freaks. All rights reserved.
 //
 
+#import "common_private.h"
+
 #import "MetalChart.h"
 #import "NSArray+Utility.h"
 #import "DeviceResource.h"
@@ -64,7 +66,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);
 	if(timeout != 0) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			NSLog(@"timeout occurred.");
+			DEBUG(@"timeout occurred.");
 			[view setNeedsDisplay];
 		});
 		return;
@@ -155,7 +157,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	}
 	const CFAbsoluteTime interval = (CFAbsoluteTimeGetCurrent() - startTime) * 1000;
 	if(interval > 8) {
-		NSLog(@"frame time was %.1f", interval);
+		DEBUG(@"frame time was %.1f", interval);
 	}
 }
 
