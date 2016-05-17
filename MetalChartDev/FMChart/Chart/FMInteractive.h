@@ -34,7 +34,11 @@ typedef NS_ENUM(NSInteger, FMGestureEvent) {
 
 @protocol FMScaleGestureListener <NSObject>
 
-- (void)dispatcher:(FMGestureDispatcher*_Nonnull)dispatcher scale:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event;
+- (void)dispatcher:(FMGestureDispatcher*_Nonnull)dispatcher
+			 scale:(CGFloat)factor
+		  velocity:(CGFloat)velocity
+		 timestamp:(CFAbsoluteTime)timestamp
+			 event:(FMGestureEvent)event;
 
 @end
 
@@ -129,14 +133,15 @@ typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
 
 
 
-
-
 @protocol FMPanGestureRecognizerDelegate<NSObject>
 
 - (void)didBeginTouchesInRecognizer:(FMPanGestureRecognizer * _Nonnull)recognizer;
 
 @end
 
+/**
+ * UIPanGestureRecognizer won't dispatch beginning of touches, thus using it disables stopping pan animation by a tap.
+ */
 
 @interface FMPanGestureRecognizer : UIPanGestureRecognizer
 

@@ -14,6 +14,67 @@
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
 
+@interface FMScaleState : NSObject
+
+@property (nonatomic, readonly) CFAbsoluteTime timestamp;
+@property (nonatomic, readonly) CGFloat dampingCoefficient;
+@property (nonatomic, readonly) BOOL stationary;
+
+- (instancetype)initWithDampingCoefficient:(CGFloat)coef
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init
+UNAVAILABLE_ATTRIBUTE;
+
+- (void)halt:(CFAbsoluteTime)timestamp;
+- (CGFloat)updateWithFactor:(CGFloat)factor time:(CFAbsoluteTime)time destination:(CGFloat)destination;
+- (CGFloat)updateWithTime:(CFAbsoluteTime)time destination:(CGFloat)destination;
+
+@end
+@implementation FMScaleState
+
+- (instancetype)initWithDampingCoefficient:(CGFloat)coef
+{
+	self = [super init];
+	if(self) {
+		_dampingCoefficient = coef;
+	}
+	return self;
+}
+
+- (void)halt:(CFAbsoluteTime)timestamp
+{
+	@synchronized (self) {
+		_timestamp = timestamp;
+	}
+}
+
+- (CGFloat)updateWithFactor:(CGFloat)factor time:(CFAbsoluteTime)time destination:(CGFloat)destination
+{
+	@synchronized (self) {
+		_timestamp = time;
+		return factor;
+	}
+}
+
+- (CGFloat)updateWithTime:(CFAbsoluteTime)time destination:(CGFloat)dest
+{
+	// fabs(log2(dest)) が閾値以下なら、return dest で stationaryとする事.
+	const CGFloat ld = log2(dest);
+	@synchronized (self) {
+		const NSTimeInterval dt = (time - _timestamp);
+		// 振る舞いとしては、∆t=0で戻り値は1, t->+∞で戻り値はdestである.よって、ret=dest^(f(t))として、
+		// f(0) = 0, f(+∞) = 1, かつ[0,∞)において単調減少、理想的には上に凸であるfが適切となる.
+		// とりあえずf(t) = 1-2^(-kt)を使おうと思う.(2は単純に速いから)
+		const CGFloat f_t = 1 - exp2(-(_dampingCoefficient * dt));
+		const CGFloat ret = pow(dest, f_t);
+		return ret;
+	}
+}
+
+@end
+
+
 @interface FMInertialState : NSObject
 
 @property (nonatomic, readonly) CGFloat velocity;
@@ -186,40 +247,44 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 	}
 }
 
-- (void)handlePinching:(UIPinchGestureRecognizer *)reconginer
+- (void)handlePinching:(UIPinchGestureRecognizer *)recognizer
 {
-	const UIGestureRecognizerState state = reconginer.state;
+	const UIGestureRecognizerState state = recognizer.state;
 	const CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
 	if(state == UIGestureRecognizerStateBegan) {
-		_currentScale = reconginer.scale;
+		_currentScale = recognizer.scale;
 	} else if (state == UIGestureRecognizerStateChanged) {
-		const CGFloat scale = reconginer.scale;
+		const CGFloat scale = recognizer.scale;
 		const CGFloat scaleDiff = (scale / _currentScale) - 1; // -1よりは大きい.
 		_currentScale = scale;
-		if(reconginer.numberOfTouches == 2) {
-			UIView *v = reconginer.view;
-			const CGPoint a = [reconginer locationOfTouch:0 inView:v];
-			const CGPoint b = [reconginer locationOfTouch:1 inView:v];
+		if(recognizer.numberOfTouches == 2) {
+			UIView *v = recognizer.view;
+			const CGPoint a = [recognizer locationOfTouch:0 inView:v];
+			const CGPoint b = [recognizer locationOfTouch:1 inView:v];
 			// a,bと指の対応関係は実行時に変わるが、すでにscaleが取れている以上、右側の指が上だろうが下だろうが結果は変わらない.
 			const CGPoint diff = {fabs(b.x-a.x), fabs(b.y-a.y)};
 			const CGFloat dist = (diff.x*diff.x) + (diff.y*diff.y);
 			if(dist > 0 && !isnan(dist)) {
 				const CGFloat or_rad = atan2(diff.y, diff.x);
-				const CGFloat dw = (1 + (scaleDiff * cos(or_rad)));
-				const CGFloat dh = (1 + (scaleDiff * sin(or_rad)));
-				[self notifyScale:CGPointMake(dw, dh) timestamp:time event:FMGestureEventEnd];
+				const CGFloat cosine = cos(or_rad), sine = sin(or_rad);
+				const CGFloat dw = (1 + (scaleDiff * cosine));
+				const CGFloat dh = (1 + (scaleDiff * sine));
+				const CGFloat vec = recognizer.velocity;
+				const CGPoint velocity = CGPointMake(vec * cosine, vec * sine);
+				DEBUG(@"scale : %.1f, velocity : %.1f", recognizer.scale, recognizer.velocity);
+				[self notifyScale:CGPointMake(dw, dh) velocity:velocity timestamp:time event:FMGestureEventEnd];
 			}
 		}
 	}
 }
 
-- (void)notifyScale:(CGPoint)scale timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
+- (void)notifyScale:(CGPoint)scale velocity:(CGPoint)velocity timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
 	for(id<FMScaleGestureListener> l in _xScaleListener) {
-		[l dispatcher:self scale:scale.x timestamp:timestamp event:event];
+		[l dispatcher:self scale:scale.x velocity:velocity.x timestamp:timestamp event:event];
 	}
 	for(id<FMScaleGestureListener> l in _yScaleListener) {
-		[l dispatcher:self scale:scale.y timestamp:timestamp event:event];
+		[l dispatcher:self scale:scale.y velocity:velocity.y timestamp:timestamp event:event];
 	}
 }
 
@@ -290,9 +355,12 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 @end
 
 
+@interface FMScaledWindowLength() <FMAnimation>
 
+@property (nonatomic, readonly) FMScaleState *state; // logを使ってlinearで扱う.
+@property (nonatomic, readonly) BOOL touchInProgress;
 
-
+@end
 @implementation FMScaledWindowLength
 
 - (instancetype)initWithMinScale:(CGFloat)min maxScale:(CGFloat)max defaultScale:(CGFloat)def
@@ -303,6 +371,8 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 		_maxScale = max;
 		_defaultScale = def;
 		_currentScale = def;
+		_touchInProgress = NO;
+		_state = [[FMScaleState alloc] initWithDampingCoefficient:10];
 	}
 	return self;
 }
@@ -312,9 +382,29 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 	return viewPort * _currentScale;
 }
 
-- (void)dispatcher:(FMGestureDispatcher *)dispatcher scale:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
+- (void)dispatcher:(FMGestureDispatcher *)dispatcher scale:(CGFloat)factor velocity:(CGFloat)velocity timestamp:(CFAbsoluteTime)timestamp event:(FMGestureEvent)event
 {
-	_currentScale = MIN(_maxScale, MAX(_minScale, _currentScale / factor));
+	if(event == FMGestureEventBegin) {
+		[_state halt:timestamp];
+		_touchInProgress = YES;
+	}
+	[self _updateWithFactor:factor timestamp:timestamp useFactor:YES];
+	if(event == FMGestureEventEnd) {
+		_touchInProgress = NO;
+		[dispatcher.animator addAnimation:self];
+	}
+}
+
+- (void)_updateWithFactor:(CGFloat)factor timestamp:(CFAbsoluteTime)timestamp useFactor:(BOOL)useFactor
+{
+	const CGFloat _f = 1/factor;
+	const CGFloat modifiedScale = _currentScale * _f;
+	const CGFloat cappedScale = MIN(_maxScale, MAX(_minScale, modifiedScale));
+	const CGFloat dest = cappedScale / _currentScale;
+	const CGFloat resultFactor = (useFactor) ? [_state updateWithFactor:_f time:timestamp destination:dest] :
+											   [_state updateWithTime:timestamp destination:dest];
+	_currentScale *= resultFactor;
+	
 	[_updater updateTarget];
 	[_view setNeedsDisplay];
 }
@@ -322,6 +412,24 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 - (void)reset
 {
 	_currentScale = _defaultScale;
+}
+
+- (BOOL)requestCancel { return NO; }
+
+- (void)addedToPendingQueueOfAnimator:(FMAnimator *)animator timestamp:(CFAbsoluteTime)timestamp
+{
+}
+
+- (BOOL)animator:(FMAnimator *)animator shouldStartAnimating:(CFAbsoluteTime)timestamp { return YES; }
+
+- (BOOL)animator:(FMAnimator *)animator animate:(id<MTLCommandBuffer>)buffer timestamp:(CFAbsoluteTime)timestamp
+{
+	if(_touchInProgress) return YES;
+	if(_state.stationary) {
+		return YES;
+	}
+	[self _updateWithFactor:0 timestamp:timestamp useFactor:NO];
+	return NO;
 }
 
 @end
