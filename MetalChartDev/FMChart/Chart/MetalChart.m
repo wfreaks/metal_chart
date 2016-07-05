@@ -66,7 +66,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);
 	if(timeout != 0) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-			DEBUG(@"timeout occurred.");
+			DebugLog(@"timeout occurred.");
 			[view setNeedsDisplay];
 		});
 		return;
@@ -157,7 +157,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	}
 	const CFAbsoluteTime interval = (CFAbsoluteTimeGetCurrent() - startTime) * 1000;
 	if(interval > 8) {
-		DEBUG(@"frame time was %.1f", interval);
+		DebugLog(@"frame time was %.1f", interval);
 	}
 }
 

@@ -13,11 +13,15 @@
 
 #ifdef __OBJC__
 
-#define DEBUG(...) NSLog(__VA_ARGS__)
+#ifdef DEBUG
+#define DebugLog(...) NSLog(__VA_ARGS__)
+#else
+#define DebugLog(...)
+#endif
 
 #else
 
-#define DEBUG(...)
+#define DebugLog(...)
 
 #endif
 
