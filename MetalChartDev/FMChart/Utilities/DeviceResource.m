@@ -10,9 +10,9 @@
 
 @implementation FMDeviceResource
 {
-	NSMutableDictionary *_renderStates;
-	NSMutableDictionary *_computeStates;
-	NSMutableDictionary *_samplerStates;
+	NSMutableDictionary <NSString*, id<MTLRenderPipelineState>> *_renderStates;
+	NSMutableDictionary <NSString*, id<MTLComputePipelineState>> *_computeStates;
+	NSMutableDictionary <NSString*, id<MTLSamplerState>> *_samplerStates;
 }
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device

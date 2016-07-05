@@ -28,8 +28,3 @@
 　多分ドローコールは終わってるんだがセマフォで止められてるタイミングだろうと思われる。ちょっと挙動としては度し難いな。
 　-> 結局一旦はFMMetalViewで統一する. MTKView使うメリットマジでねぇ.
 
-・一旦はscaledWindowLengthをプロトロル制御にする. つーかよく考えりゃ、anchoredWindowPositionもプロトコル使わなあかんのだが、だるすぎる.
-　ま所詮はデフォルト実装に過ぎないので、勝手に作って貰えばいい話なんだがね.
-　scaleはvelocityを使ってフレーム間の動きを予想するのが悪い。ていうか一番最初にmomentumPinchとか定義したアホが悪い。
-　常に現在のScaleとdestination（desiredScaleというよりも、desiredFactorという感じ？）とを近づけるように動くのが、望ましいだろうと思われる.
-　

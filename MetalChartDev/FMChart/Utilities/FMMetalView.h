@@ -12,6 +12,12 @@
 
 @class FMMetalView;
 
+/**
+ * FMMetalViewDelegate protocol mimicks MTKViewDelegate (this interface was first introduced to allow framework users to 
+ * support ios 8 without code midifcation.)
+ * This protocol SHOULD BE referred to using type alias 'MetalViewDelegate'(declared in Headers/iosX/chart_common.h).
+ */
+
 @protocol FMMetalViewDelegate
 
 - (void)mtkView:(FMMetalView *)metalView drawableSizeWillChange:(CGSize)size;
@@ -20,6 +26,14 @@
 
 @end
 
+/**
+ * FMMetalView class was (initially) written to mimics MTKView.
+ * This class SHOULD NOT be reffered to directory (use MetalView type alias, which is declared in Headers/iosX/chart_common.h).
+ * The only exception to above statement is Storyboard/Xib files (type alias is not usable in those files).
+ *
+ * Its interface is almost identical to MTKView (as of iOS9), but its behavior is slightly different from original.
+ * (FMMetalView calls delegate's draw method at constant timing even when set to event-driven mode, i.e. draw method never get called more than  60 per sec.)
+ */
 @interface FMMetalView : UIView
 
 @property (weak, nonatomic) id<FMMetalViewDelegate> delegate;
