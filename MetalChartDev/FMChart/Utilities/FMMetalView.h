@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <Metal/MTLTypes.h>
+#import <Metal/MTLPixelFormat.h>
 #import <Metal/MTLRenderPass.h>
 
 @class FMMetalView;
+@protocol CAMetalDrawable;
 
 /**
  * FMMetalViewDelegate protocol mimicks MTKViewDelegate (this interface was first introduced to allow framework users to 
