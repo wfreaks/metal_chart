@@ -13,12 +13,11 @@
 
 // orthogonalがnullableなのは、sharedの場合はprojectionに無関係に設定しなければ動作が担保できないため.
 // exclusiveならnonnullである.
-typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
-										FMDimensionalProjection *_Nonnull dimension,
-										FMDimensionalProjection *_Nullable orthogonal,
-										BOOL isFirst
-										);
 
+/**
+ * FMAxisConfiguration protocol object determin where axis and ticks should be drawn in chart using data/view coordinate
+ * in every draw loop taking data ranges into account.
+ */
 @protocol FMAxisConfigurator<NSObject>
 
 - (void)configureUniform:(FMUniformAxisConfiguration * _Nonnull)uniform
@@ -29,8 +28,15 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 @end
 
 
-
-
+/**
+ * FMAxis represents a single axis.
+ * It is just a visual element, and does not modify data ranges at all.
+ * An FMAxis instance consists of 'configuration'(where/how an axis and its ticks should be placed) and
+ * 'attributes'(width and colors).
+ * Grid lines and labels are handled by other classes (They may have references to FMAxis).
+ * Configurations (FMAxisConfiguration object) are not meant to be modified manually, leave them to FMAxisConfigurator delegate.
+ * (except cases that a setter method is provided in FMAxis class).
+ */
 
 @protocol FMAxis <FMDependentAttachment>
 
@@ -56,7 +62,10 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 @end
 
 
-
+/**
+ * FMExclusiveAxis represents a single axis which is not shared by multiple FMChart objects.
+ * Basically, you should use an instance of this class, intead of an FMSharedAxis instance.
+ */
 
 
 @interface FMExclusiveAxis : NSObject<FMAxis>
@@ -67,6 +76,12 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
 @property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
 
+/**
+ * @param engine
+ * @param projection
+ * @param dimsensionId id of which dimension this axis represents ([FMDimensionalProjection dimensionId]).
+ * @param conf
+ */
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
 							 Projection:(FMProjectionCartesian2D * _Nonnull)projection
 							  dimension:(NSInteger)dimensionId
@@ -119,6 +134,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+
+/**
+ * FMAxisConfigurationBlock
+ */
+typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
+										FMDimensionalProjection *_Nonnull dimension,
+										FMDimensionalProjection *_Nullable orthogonal,
+										BOOL isFirst
+										);
 
 // 全ての項目を自由に、かつ効率的にコントロールするためのクラス（だが宣言的ではない）
 // 固定機能クラスも作ろうと思ったけど全部代用できるのでやめた.

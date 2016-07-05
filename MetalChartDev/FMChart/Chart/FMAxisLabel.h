@@ -105,6 +105,7 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 @property (assign  , nonatomic) CGPoint textAlignment;
 @property (assign  , nonatomic) CGPoint textOffset;
 
+// hacky property, do not it them unless you REALLY need.
 @property (copy	, nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
 
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
@@ -120,8 +121,6 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setFrameOffset:(CGPoint)offset;
 - (void)setFrameAnchorPoint:(CGPoint)point;
 - (void)clearCache;
-
-// hacky methods, do not use them unless you REALLY need them.
 
 - (void)setClearColor:(int32_t)color;
 - (void)setLineDrawHook:(id<FMLineDrawHook> _Nullable)hook;
