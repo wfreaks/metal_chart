@@ -119,12 +119,10 @@
 - (instancetype)initWithEngine:(FMEngine *)engine
 					 dimension:(FMDimensionalProjection *)dimension
 				dimensionIndex:(NSUInteger)index
-				 configuration:(id<FMAxisConfigurator>)conf
 {
 	self = [super init];
 	if(self) {
 		_axis = [[FMAxisPrimitive alloc] initWithEngine:engine];
-		_conf = conf;
 		_dimension = dimension;
 		_projections = @{};
 		
@@ -144,10 +142,6 @@
 
 - (void)configure:(FMDimensionalProjection *)orthogonal
 {
-	[_conf configureUniform:_axis.configuration
-			  withDimension:_dimension
-				 orthogonal:orthogonal];
-	
 	const CGFloat len = _dimension.max - _dimension.min;
 	const NSUInteger majorTickCount = round(len/_axis.configuration.majorTickInterval) + 1;
 	_axis.configuration.maxMajorTicks = majorTickCount;
@@ -169,12 +163,6 @@
 
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
 {
-	if(_needsOrhogonal) {
-		FMProjectionCartesian2D *proj = [self projectionForChart:chart];
-		FMDimensionalProjection *dim = _dimension;
-		FMDimensionalProjection *orth = (proj.dimX == dim) ? proj.dimY : proj.dimX;
-		[self configure:orth];
-	}
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder

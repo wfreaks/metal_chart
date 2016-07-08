@@ -30,21 +30,18 @@
 
 /**
  * FMAxis represents a single axis.
- * It is just a visual element, and does not modify data ranges at all.
+ * It is a pure visual element, and does not modify data ranges at all.
  * An FMAxis instance consists of 'configuration'(where/how an axis and its ticks should be placed) and
  * 'attributes'(width and colors).
  * Grid lines and labels are handled by other classes (They may have references to FMAxis).
  * Configurations (FMAxisConfiguration object) are not meant to be modified manually, leave them to FMAxisConfigurator delegate.
- * (except cases that a setter method is provided in FMAxis class).
+ * (except for properties that the setter methods are defined in FMAxis protocol).
  */
 
 @protocol FMAxis <FMDependentAttachment>
 
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
-@property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
-
-- (void)setMinorTickCountPerMajor:(NSUInteger)count;
 
 // なんでProjectionはChartで切り替えられるのにDimensionは1つなのかと思うかもしれないが、
 // 複数Chartで軸を共有する場合、そもそも以下の条件を満たす必要がある.
@@ -57,14 +54,30 @@
 // 設計者が吟味する事. 面倒ならExclusiveを使うべきである(こちらのほうがずっと単純な作りである)
 // ライブラリ自体が整合性をチェックしてAssertする事はまずない.
 // 特に軸indexの一貫性は自分で担保する事 (そもそもxy反転する時点でどうかと思うが).
+
+/**
+ * In order to share an axis among FMChart instances, subordinate configurator must fullfill below conditions :
+ * 1. independent of ranges of orthognal dimension(s)
+ * 2. projections the axis resides shares FMDimensionalProjection instance and its dimensional index (position, not an id).
+ * if these condictions are not met, then FMUniformAxisConfiguration object may have different values depending on projection.
+ * To allow an axis to be shared among FMChart instances, this protocol define method below and hide FMUniformAxisConfiguration instance.
+ */
 - (FMProjectionCartesian2D * _Nullable)projectionForChart:(MetalChart * _Nonnull)chart;
+
+/**
+ * This method is defined because exposing FMUniformAxisConfiguration instances is not possible/reasonable (see above explanation).
+ */
+- (void)setMinorTickCountPerMajor:(NSUInteger)count;
 
 @end
 
 
 /**
- * FMExclusiveAxis represents a single axis which is not shared by multiple FMChart objects.
+ * FMExclusiveAxis represents an axis which is not shared by multiple FMChart objects.
  * Basically, you should use an instance of this class, intead of an FMSharedAxis instance.
+ * (Sharing an axis is a very complex use case. The purpose of providing FMSharedAxis is to allow you to share texture buffers for labels,
+ *  which are much more exepensive than other buffer objects, and in that case dependencies are so complex that you should know everything
+ *  in implementations. You should avoid using it when you can do so.)
  */
 
 
@@ -92,51 +105,55 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-
-// 字のごとく複数のChartで共有するためのAxisだが、まずはFMAxisのコメントを読む事.
-// 次に、単に同じ範囲を指定したいだけならconfiguratorとconfを指定するだけで済むし、
-// 細かいコントロールが効く事も理解した上で使う事.
-// 今のところの使い道は、AxisLabelが描画バッファとしてそれなりの量のGPUメモリを確保するとか、
-// 文字描画処理がCPUを食いつぶすとかいった事への対処くらいである.
-// ＊同じ時間軸を共有する複数グラフをTableViewで複数ならべる、というのが該当ケース.
-// 　ラベルの色を変えるとか云った事が必要になる場合は、labelだけでなくaxisも分けた方がわかりやすい.
+/**
+ * FMSharedAxis represents an axis that can be shared by multiple FMChart instance.
+ * Usage is almost identical to FMExcusiveAxis, but in addition to that, User must explicitly bind
+ * projection to chart, and unbind them afterwards.
+ * 
+ * This class does not use multiple FMUniformAxisConfiguration instances, and therefore, 
+ * an instance of FMUnfiromConfiguration will not be updated before drawing a frame.
+ * FMSharedAxis does not have a reference to fonfigurator. That means, you are responsible for configuring it.
+ */
 
 @interface FMSharedAxis : NSObject<FMAxis>
 
 @property (readonly, nonatomic) FMDimensionalProjection *	_Nonnull  dimension;
 
 @property (readonly, nonatomic) FMAxisPrimitive *			_Nonnull  axis;
-@property (readonly, nonatomic) id<FMAxisConfigurator>		_Nonnull  conf;
-
-// 非常に遺憾な事ながら、軸を「画面上の位置固定」にすると共有できないというわりかしヤバ目の
-// 設計上のミス（構造体がデータ空間での位置固定をデフォルトにしたため）をどうにか回避するために、
-// 直交軸に依存する場合の挙動を変更する必要がある.
-// そもそもこれはバグではないのでそのために設計を曲げるのはどうかという気もするが、
-// 回避策を用意する事自体は問題ないと考える(使うかは使用者の判断に委ねる)
-// この方法を使って回避する場合、60fpsでグラフ２個同時に走らせた場合、画面表示が乱れるかもしれない.
-// (要は同期上の問題が存在するという事.)
-// 多分ちゃんとuniformを(あるいはprimitiveごと)chart毎に分けるべきなのだろう.
-
-@property (nonatomic) BOOL											needsOrhogonal;
 
 // DimensionId ではなく、Index. x/yの位置指定である事に注意.
+/**
+ * @param engine
+ * @param dimension
+ * @param index The index (not an id) of dimension this axis resides, in bounded cartesian space (this index must be same for all projections).
+ */
 - (_Nonnull instancetype)initWithEngine:(FMEngine * _Nonnull)engine
 							  dimension:(FMDimensionalProjection * _Nonnull)dimension
 						 dimensionIndex:(NSUInteger)index
-						  configuration:(id<FMAxisConfigurator> _Nonnull)conf
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * A shared axis needs to know which cartesian space to be used to draw in a given chart.
+ * You are responsible for binding them to draw the axis in the chart.
+ */
+
 - (void)setProjection:(FMProjectionCartesian2D * _Nonnull)projection
 			 forChart:(MetalChart * _Nonnull)chart;
+
+/**
+ * Obviously you are also responsible for unbinding charts and projections when done.
+ * (but it won't harm you even if you do not unbind them actually)
+ */
 - (void)removeProjectionForChart:(MetalChart * _Nonnull)chart;
 
 @end
 
 
 /**
- * FMAxisConfigurationBlock
+ * FMAxisConfigurationBlock class provides a way to FMAxisConfigurator implementations using blocks, 
+ * and pre-defined implementations which cover the most of your needs.
  */
 typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axis,
 										FMDimensionalProjection *_Nonnull dimension,
@@ -159,6 +176,12 @@ NS_DESIGNATED_INITIALIZER;
 // 範囲外へ出てしまう時に軸を消すという動作は現在実装されていない（シザーテストは描画が崩れ、またラベルなどへも影響する）
 // ので、範囲外の時は端に留める挙動にしてあることに注意.
 // (結果としてこの実装は直交する次元の範囲に依存する)
+
+/**
+ * Creates a configurator that places an axis at an fixed position "in data space" (it can be scrolled by user interactions).
+ *
+ * @param axisAnchor a value (in the orhogonal dimension) on which an axis will be plcaed.
+ */
 + (instancetype _Nonnull)configuratorWithFixedAxisAnchor:(CGFloat)axisAnchor
 											  tickAnchor:(CGFloat)tickAnchor
 										   fixedInterval:(CGFloat)majorTickInterval
@@ -168,6 +191,12 @@ NS_DESIGNATED_INITIALIZER;
 // 基本は上と同じだが、画面上での軸位置を固定する時に使う.
 // 例えばy方向の範囲が[yMin,yMax]の時、axisPos=0としてx軸に設定すると、x軸はy=yMinの位置に表示される.
 // 同様に, axisPos=1とすれば、y=yMaxの位置に現れる.
+
+/**
+ * Creates a configurator that places an axis based on "view coordinate system".
+ *
+ * @param axisPosition a value (in the orhogonal direction) on which an axis will be plcaed, (0,0) is at bottom-left, (1,1)is at top-right. takes padding into account.
+ */
 + (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
 											   tickAnchor:(CGFloat)tickAnchor
 											fixedInterval:(CGFloat)tickInterval
@@ -182,6 +211,13 @@ NS_DESIGNATED_INITIALIZER;
 // max はちょっと注意が必要で、範囲長とintervalが決まっていてもanchorによっては
 // ラベル数が変化しうる事を考慮しない、ここでは可能な値のうち高い方、つまり両端にラベルが来る場合を取る.
 // maxの場合のintervalを逆算し、その値よりも大きくかつintervalOfIntervalの倍数となるものを取る.
+
+/**
+ * Creates a configurator that places an axis based on "view coordinate system", and manages label(tick) intervals using maxTickCount and intervalOfInterval.
+ *
+ * @param axisPosition a value (in the orhogonal direction) on which an axis will be plcaed, (0,0) is at bottom-left, (1,1)is at top-right. takes padding into account.
+ * @param interval an actual (run-time) interval of majtor ticks can be n * interval (n >= 1). Behavior of nagative interval value is undefined.
+ */
 
 + (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
 											   tickAnchor:(CGFloat)tickAnchor

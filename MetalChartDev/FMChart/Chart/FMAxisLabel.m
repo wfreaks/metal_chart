@@ -71,7 +71,7 @@
 {
 	const CGSize bufPxSize = _bufferPixelSize;
 	const CGSize bufLogSize = _bufferSize;
-	{ // 手動で_dataをクリアしないと、CoreTextが明るい色の文字をうまく描画できなくなる。この問題は本質的には描画色を必要とするが、ひとまずこの状態にしておく.
+	{
 		const int32_t color = _clearColor;
 		const int num = bufPxSize.width * bufPxSize.height;
 		int32_t * const ptr = (int32_t *)_data;
@@ -140,6 +140,7 @@
 
 @interface FMAxisLabel()
 
+@property (readonly, nonatomic) FMTextureQuadPrimitive * _Nonnull quad;
 @property (readonly, nonatomic) FMEngine *engine;
 @property (readonly, nonatomic) FMLineRenderer * _Nonnull buffer;
 @property (assign, nonatomic) NSInteger idxMin;
