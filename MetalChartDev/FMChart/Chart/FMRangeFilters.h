@@ -10,13 +10,15 @@
 #import "MetalChart.h"
 #import "Prototypes.h"
 
-// FMProjectionUpdaterに複数組み合わせ設定する事でrangeを設定・更新するための構成要素.
-// どんな実装でも構わないが、対象のFMDimensionalProjectionのmin/max（現在値）を使うとフィードバックループが発生するので、
-// これだけはオススメしない.
-// 基本的にはフィルタを重ねていくイメージ, inputは入力されたデータのmin/max、outputは「画面上に表示される」min/maxとなる.
-// ただし、入力データは正確にはinputではなく、それを取り込むフィルタを入れる事で考慮できるようになっている
-// (複数のフィルタで考慮したい時もあるだろうし、純粋なinputは+/-CGFloatMaxとなっている)
-
+/**
+ * FMRangeFilter protocol defines components of FMProjectionUpdater.
+ * An FMProjectionUpdater insatnce collects input values to determine min/max and provides them to filters,
+ * and each filter modifies given values to fullfill your requirments.
+ *
+ * You can provide your own implementation and do whatever you want, but avoid using current values of FMDimensionalProjection
+ * (doing so makes an feedback loop and may result in weird behavior ... )
+ * I strongly recommend you to avoid making filters that depends on mutable states/values.
+ */
 
 @protocol FMRangeFilter<NSObject>
 
@@ -27,9 +29,28 @@
 
 @end
 
-// 何も値を変更せず、記録と露出だけするFilter. ちゃんと使い道はある.
-// というより、他のFilterはほぼ全てimmutableにしてあるため、現在の値を見たければこれを使う事
-// (値をいじりつつ記録するとかすると、モデルがややこしくなる上にパフォーマンス上のメリットもほぼ無い)
+
+typedef void (^FilterBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
+
+/**
+ * A simple block wrapper class for FMRangeFilter.
+ */
+
+@interface FMBlockFilter : NSObject<FMRangeFilter>
+
+- (instancetype _Nonnull)initWithBlock:(FilterBlock _Nonnull)block
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+@end
+
+
+
+
+/**
+ * A filter that does not modify values but records them.
+ */
 @interface FMDefaultFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat currentMin;
@@ -44,6 +65,11 @@
 // 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
 // つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=0ならば中央値を固定してmin,maxを動かす.
 // offsetはlengthによらない移動を提供する.
+/**
+ * A filter that fixes a length (in data space) using anchor and offset.
+ * Anchor with value -1 is at min value, and +1 at max.
+ * This filter satisfies 'newAnchoredValue = oldAnchoredValue + offset' and 'newMax - newMin = length'.
+ */
 @interface FMLengthFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat length;
@@ -60,10 +86,10 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-// updaterのsource{Min,Max}Valueがnilの時、あるいは代替値に達しなかった場合には代替値で、
-// それ以外の場合にはsourceの値でmin/maxを更新する. このクラスはmin/maxの現在地を「完全に」無視する.
-// sourceの値が代替値に達していなくてもsourceの値を使いたい場合はexpand{Min,Max}をNOにする.
-// 優先度的に低い方(入力側)に来るのが普通の使い方だろう.
+/**
+ * This filter provides alternative values when source values are nil or do not reach the border.
+ * expandMin/Max controls whether to overwride value if min/max of data is above/below its criteria or to leave them unmodified.
+ */
 @interface FMSourceFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat min;
@@ -85,6 +111,16 @@ NS_DESIGNATED_INITIALIZER;
 // allowShrinkはsourceから計算した新しい値が範囲を狭める場合にその値を使うか否か,
 // applyToCurrentMinMaxはpaddingを現在値に加えるかどうか. 例えばAlternativeSourceの次に使う場合は
 // 現在のmin/maxが補正されてsourceMin/Maxのように働くため.
+
+/**
+ * A filter that adds margin to source(data min/max) and cuurent(given min/max) if specified,
+ * compare them, and chooses one for new value.
+ * Values of paddingLow/Hight must be >= 0.
+ * If shrinkMin is YES, then use dataMin+padding if dataMin+padding < currentMin(+padding)
+ *
+ * A simple usage is to set shrinkMin/Max to NO and applyToCurrentMinMax to YES.
+ * (ignore source min/max and add padding to current min/max)
+ */
 @interface FMPaddingFilter : NSObject<FMRangeFilter>
 
 @property (readonly, nonatomic) CGFloat paddingLow;
@@ -105,11 +141,10 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-/*
- * 両端を(anchor + (n*interval))に調整するためのクラス.
- * アンカー、倍数、min/maxそれぞれをどちらへ調整するかのパラメータのみ.
- * shrinkはYESならば範囲が狭くなる方向へ調整して揃える.
- * このクラスは直接ソースの値を参照しない、そういう事は他のFilterと繋げて行う
+/**
+ * A filter that sets min/max to multiples of given value.
+ * Anchor value specifies the starting point.
+ * shrinkMin/Max specifies a filter to shrink or expand range.
  */
 
 @interface FMIntervalFilter : NSObject<FMRangeFilter>
@@ -129,13 +164,9 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// これまではデータ空間だけで調整が可能な場合には適用可能なものが多いが、
-// 現実的にはViewを意識したり、ユーザ操作等を考慮した形にする必要がある.
-// FMWindowFilterとは描画されないが潜在的に存在している、アクセス可能なデータ空間上の領域の
-// 一部を切り取って表示するための窓として働く.
-// すべてのユースケースに対応する実装は無理だと判断したため、ここでもプロトコルを用いる事にした.
-// これらの実装はユーザ操作を考慮するように作るため、別のファイルにおく.
-// 別の方法で実装しようかと試みたが、正直失敗したと言って差し支えない結果になった.
+/**
+ * FMWindowLengthDelegate provides window length in data space, given (accessible) data range and physical size of view(-padding)
+ */
 
 @protocol FMWindowLengthDelegate <NSObject>
 
@@ -145,6 +176,10 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+/**
+ * FMWindowPositionDelegate determine how to place window inside given data range.
+ * 0 means window.minValue = range.minValue, 1 means window.maxValue = range.maxValue.
+ */
 @protocol FMWindowPositionDelegate <NSObject>
 
 - (CGFloat)positionInRangeWithMin:(CGFloat)minValue
@@ -154,6 +189,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+/**
+ * FMWindowFiler class provide the notion of a "viewport" to the given range (the range will be treated as accessble range).
+ * A viewport can be moved(pan) and scaled if delegate objects handle events, and of course default implementations do handle them.
+ * (Look for FMScaledWindowLength and FMAnchoredWindowPosition)
+ *
+ * This class (and its delegate) takes the physical size of view and padding into account (not a pixel size).
+ */
 
 @interface FMWindowFilter : NSObject<FMRangeFilter>
 
@@ -171,20 +213,4 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 @end
-
-
-
-typedef void (^FilterBlock)(FMProjectionUpdater *_Nonnull updater, CGFloat * _Nonnull min, CGFloat * _Nonnull max);
-
-
-
-@interface FMBlockFilter : NSObject<FMRangeFilter>
-
-- (instancetype _Nonnull)initWithBlock:(FilterBlock _Nonnull)block
-NS_DESIGNATED_INITIALIZER;
-
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
-
-@end
-
 

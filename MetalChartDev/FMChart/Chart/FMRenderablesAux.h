@@ -15,22 +15,35 @@
  *
  */
 
+/**
+ * FMPieDoughnutDataProxyElement is a struct that represents an element of pie doughnut chart
+ * used by FMPieDoughnutDataProxy.
+ * value represents a data value, which is need to be converted to ratio it occupies in major usecase.
+ * index represents an attribute index you want to use to show the element (colors and radius).
+ * dataID is an id number you need to specify to modify/remove after insertion. (you can ignore it if you do not need to perform these operations)
+ */
 
-typedef struct PieProxyElement {
-	NSInteger dataID; // IDはユニークである必要はない.
+typedef struct FMPieDoughnutDataProxyElement {
+	NSInteger dataID;
 	CGFloat   value;
 	uint32_t  index;
 #ifdef __cplusplus
-	PieProxyElement(NSInteger _id, CGFloat v, uint32_t idx) :
+	FMPieDoughnutDataProxyElement(NSInteger _id, CGFloat v, uint32_t idx) :
 	dataID(_id), value(v), index(idx)
 	{}
 #endif
 } FMPieDoughnutDataProxyElement;
 
+/**
+ * FMPieDoughnutDataProxy provides a simple way to use FMContinuousArcPrimitive,
+ * which is a bit hard to use directly in application codes (see Engine/Circle/Circles.h for details).
+ *
+ * Do not forget to flush data after modification (It has its own buffer on host/cpu side).
+ */
+
 @interface FMPieDoughnutDataProxy : NSObject
 
-
-@property (nonatomic, readonly) FMPieDoughnutSeries * _Nonnull series;
+@property (nonatomic, weak, readonly) FMPieDoughnutSeries * _Nullable series;
 
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
@@ -52,6 +65,16 @@ UNAVAILABLE_ATTRIBUTE;
 
 @end
 
+/**
+ * A class to present pie/doughnut chart.
+ *
+ * 1. set up attributes array to change colors and radius.
+ * 2. put data using data property (proxy object) and flush it to value buffer.
+ *    (do not modify values property directly when you use proxy object. proxy object writes data into value property)
+ * 3. add to a chart.
+ * 
+ * you can ignore conf property in most cases (attributes override conflicting prpperties if its values are valid).
+ */
 
 @interface FMPieDoughnutSeries : NSObject <FMRenderable>
 

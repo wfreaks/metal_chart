@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, FMGestureEvent) {
  * FMGestureDispatcher processes pan / scale gestures dispatched from UIScaleGestureRecognizer and FMPanGestureRecognizer,
  * then dispatches processed data to achieve panning / scaling of chart (projection).
  *
- * In order to an disptcher instance to work, you should set recognizers and register listeners you want to use.
+ * In order for an disptcher instance to work, you should set recognizers and register listeners you want to use.
  * A dispatcher does not use its animator property, but its listeners might use it.
  * (FMAnchoredWindowPosition does so to provide pan animation)
  */
@@ -121,8 +121,8 @@ typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
  * FMGestureDispatcher, animations, and screen rotation.
  * It must be used with an FMScaledWindowLength instance.
  *
- * The basic idea is that the window has an anchor which sits on same position(value) during changes in view size.
- * (otherwise behavior on size changes is implementation dependent)
+ * The basic idea is that the window has an anchor which sits on same position(value) during changes in view size and data range.
+ * (otherwise behavior on size/range changes is implementation dependent)
  *
  * Anchor value of 0 represents an anchor at the left(bottom) edge of window, and 1 at the right(top).
  * currentValue represents where an anchor is currently placed at in data space, but it may be invalid (uninitialized).

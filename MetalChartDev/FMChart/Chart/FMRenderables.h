@@ -110,7 +110,7 @@ NS_DESIGNATED_INITIALIZER;
 // GridLineのintervalをaxisのmajorTickIntervalと連動させたい事がある.
 // sticksToMinorTicksはmajor/minorどちらにあわせるかという話.
 @property (nonatomic)			id<FMAxis>				  _Nullable axis;
-@property (nonatomic)		   BOOL								sticksToMinorTicks;
+@property (nonatomic)			BOOL								sticksToMinorTicks;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine
 							   Projection:(FMProjectionCartesian2D * _Nonnull)projection
