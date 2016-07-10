@@ -195,7 +195,8 @@ NS_DESIGNATED_INITIALIZER;
 /**
  * Creates a configurator that places an axis based on "view coordinate system".
  *
- * @param axisPosition a value (in the orhogonal direction) on which an axis will be plcaed, (0,0) is at bottom-left, (1,1)is at top-right. takes padding into account.
+ * @param axisPosition a value (in the orhogonal direction) on which an axis will be plcaed.
+ * (0,0) is at the bottom-left, (1,1)is at the top-right, taking paddings into account.
  */
 + (instancetype _Nonnull)configuratorWithRelativePosition:(CGFloat)axisPosition
 											   tickAnchor:(CGFloat)tickAnchor

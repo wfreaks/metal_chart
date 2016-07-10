@@ -42,10 +42,14 @@ typedef NS_ENUM(NSInteger, FMGestureEvent) {
 
 @end
 
-
-// GestureRecognizerからの通知をうけ、適切に処理したのちにイベントを通知するための
-// オブジェクト. recognizerの癖を吸収するための処理のためにstateを持ちはするが、
-// それもジェスチャー（及び慣性アニメーション）のライフサイクルを超えないように作ってある.
+/**
+ * FMGestureDispatcher processes pan / scale gestures dispatched from UIScaleGestureRecognizer and FMPanGestureRecognizer,
+ * then dispatches processed data to achieve panning / scaling of chart (projection).
+ *
+ * In order to an disptcher instance to work, you should set recognizers and register listeners you want to use.
+ * A dispatcher does not use its animator property, but its listeners might use it.
+ * (FMAnchoredWindowPosition does so to provide pan animation)
+ */
 @interface FMGestureDispatcher : NSObject
 
 @property (strong, nonatomic) FMPanGestureRecognizer * _Nullable panRecognizer;
@@ -70,12 +74,15 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-
-
-// 物理サイズをベースにしたscale(320あたりデータ空間の長さ10といった具合)に
-// 着目して窓長を決める. viewからpaddingを除いたサイズをlv, data range長をldとした時,
-// ld = scale * lv
-// であり、scaleを上げると感覚的にはデータ空間を切り取る窓は長くなる.
+/**
+ * FMScaledWindowLength class is an FMWindowLengthDelegate implementation that handles scaling events dispatched from 
+ * an FMGestureDispatcher instance. (It does not support animations)
+ * scale properties define window length in data space(l_d) based on below equation with window length in view coordinates(l_v) :
+ * l_d = l_v * scale
+ * currentScale property is set to defaultScale on creating and resetting it.
+ *
+ * You must provide an updater (and an metal view if it set to event-driven mode) to update screen content automatically.
+ */
 @interface FMScaledWindowLength : NSObject <FMWindowLengthDelegate, FMScaleGestureListener>
 
 @property (nonatomic, readonly) CGFloat currentScale;
@@ -103,7 +110,26 @@ NS_DESIGNATED_INITIALIZER;
 // anchorが差すcurrentValueはrange+position+lengthで一意となりその逆も成立する、それを利用したのがこのクラスだが、
 // 初期ではcurrentValueとpositionの２つが未知となるので、どちらかを指定してやる必要がある.
 // これはpositionを指定してcurrentValueを確定させるためのブロック. もちろん戻り値はvalueではなくposition.
+
+/**
+ * Parameters and return value are equivalent to those of FMAnchoredWindowPosition.
+ */
 typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
+
+/**
+ * FMAnchoredWindowPosition class is an FMWindowPositionDelegate implementation that handles pan events dispatched from
+ * FMGestureDispatcher, animations, and screen rotation.
+ * It must be used with an FMScaledWindowLength instance.
+ *
+ * The basic idea is that the window has an anchor which sits on same position(value) during changes in view size.
+ * (otherwise behavior on size changes is implementation dependent)
+ *
+ * Anchor value of 0 represents an anchor at the left(bottom) edge of window, and 1 at the right(top).
+ * currentValue represents where an anchor is currently placed at in data space, but it may be invalid (uninitialized).
+ * To determine an initial value of currentValue property, you should provide a FMWindowPositionBlock.
+ *
+ * You must provide an updater (and an metal view if it set to event-driven mode) to update screen content automatically.
+ */
 
 @interface FMAnchoredWindowPosition : NSObject <FMWindowPositionDelegate, FMPanGestureListener>
 
@@ -122,11 +148,17 @@ typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
 					   valueInitializer:(FMWindowPositionBlock _Nonnull)initializer
 ;
 
+/**
+ * creates a value initializer block that returns a value of anchor regardless of given data range.
+ */
 - (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor
 						   windowLength:(FMScaledWindowLength* _Nonnull)length
 						defaultPosition:(CGFloat)defaultPosition
 ;
 
+/**
+ * Invalidates currentValue property and force resetting position.
+ */
 - (void)reset;
 
 @end
@@ -140,7 +172,7 @@ typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
 @end
 
 /**
- * UIPanGestureRecognizer won't dispatch beginning of touches, thus using it disables stopping pan animation by a tap.
+ * A UIPanGestureRecognizer instance does not dispatch events at beginning of touches, thus using it disables stopping pan animation by a tap.
  */
 
 @interface FMPanGestureRecognizer : UIPanGestureRecognizer

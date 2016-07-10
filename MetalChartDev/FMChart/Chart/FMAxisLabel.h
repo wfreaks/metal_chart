@@ -60,7 +60,7 @@ typedef void (^FMLineHookBlock)(NSAttributedString * _Nonnull string,
 								const CGRect *_Nonnull drawRect);
 
 /**
- * A simple wrapper to provide FMLineDrawHook using blocks.
+ * A blocks-wrapper class for FMLineDrawHook.
  */
 
 @interface FMBlockLineDrawHook : NSObject<FMLineDrawHook>
