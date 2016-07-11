@@ -10,8 +10,13 @@
 #import "MetalChart.h"
 #import "FMProjections.h"
 
+
 typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, MetalChart *_Nonnull chart);
 
+/**
+ * A simple block-wrapper class for FMRenderable.
+ * (this class is almost useless imo...)
+ */
 @interface FMBlockRenderable : NSObject<FMRenderable>
 
 @property (nonatomic, copy, readonly) _Nonnull FMRenderBlock block;
@@ -25,6 +30,13 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+/**
+ * FMPlotAreaClient defines methods that attachements and renderables which requires to be masked by plot area (and its corner) must implement.
+ * FMPlotArea handles values returned by its clients, and then write sum of them to depth buffer.
+ * Depth value range that each client can use is [min, min+r) where r represents return value.
+ * if this method was called (i.e. an FMPlotArea instance is below clients), then they can ignore (return 0) methods defined in FMDepthClient protocol.
+ */
+
 @protocol FMPlotAreaClient<FMDepthClient>
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *_Nonnull)area
@@ -33,6 +45,14 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+
+/**
+ * FMLineSeries represents renderable data series using polyline.
+ * If the line is attributed (FMAttributedLinePrimitive), then attribute index of last data will be ignored.
+ * (Attributes of a line segment between point 1 and 2 will be that of index specified by point 1).
+ *
+ * See Engine/Line/LineBuffers.h and Engine/Line/Lines.h for the list of properties.
+ */
 @interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMLinePrimitive * _Nonnull line;
@@ -46,6 +66,9 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * creates unattributed line series with vertex buffer(default size specified by capacity) with given projection.
+ */
 + (instancetype _Nonnull)orderedSeriesWithCapacity:(NSUInteger)capacity
 											engine:(FMEngine * _Nonnull)engine
 										projection:(FMProjectionCartesian2D * _Nonnull)projection
@@ -54,6 +77,13 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+/**
+ * FMBarSeries represents renderable data series using horizontal/vertical bars (orientation is configured using conf property).
+ * You can set an FMAttributedBarPrimitive instance to bar property (on creation).
+ *
+ * See Engine/Rect/RectBuffers.h and Engine/Rect/Rects.h for the list of properties.
+ */
+ 
 @interface FMBarSeries : NSObject<FMRenderable, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
@@ -70,6 +100,13 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+/**
+ * FMPointSeries represents renderable data series using points.
+ * You can use an FMAttributedPointPrimitive instance.
+ *
+ * See Engine/Point/PointBuffers.h and Engine/Point/Points.h for the list of properties.
+ */
+
 @interface FMPointSeries : NSObject<FMRenderable>
 
 @property (readonly, nonatomic) FMPointPrimitive * _Nonnull point;
@@ -84,6 +121,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+
+/**
+ * FMPlotArea represents an attachment that fills plot area (view - padding) using colors and radius for each corner.
+ * you can configure those using attributes property.
+ *
+ * See Engine/Rects/Rects.h for more details.
+ */
 
 @interface FMPlotArea : NSObject<FMAttachment, FMDepthClient>
 
@@ -101,15 +145,28 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+/**
+ * FMGridLine is an attachment that draw (dashed) lines which is perpendicular to an axis from an edge of underlying plot area to the other.
+ * (you can use a grid line without an axis, but you have to configure it by yourself in that case.)
+ *
+ * See Engine/Lines/LineBuffers.h and Engine/Lines/Lines.h for more details.
+ */
+
 @interface FMGridLine : NSObject<FMDependentAttachment, FMPlotAreaClient>
 
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) FMGridLinePrimitive		* _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;
 
-// GridLineのintervalをaxisのmajorTickIntervalと連動させたい事がある.
-// sticksToMinorTicksはmajor/minorどちらにあわせるかという話.
+/**
+ * set an axis you want to synchronize configuration (anchor and interval) with it.
+ * make sure that an axis and a grid line share a same instance of FMProjectionCartesian2D and a dimensionId.
+ */
 @property (nonatomic)			id<FMAxis>				  _Nullable axis;
+
+/**
+ * if axis property is not nil, then sticksToMinorTicks property controls interval of each gridline (that of major ticks or minor ticks).
+ */
 @property (nonatomic)			BOOL								sticksToMinorTicks;
 
 - (_Nonnull instancetype)initWithGridLine:(FMGridLinePrimitive * _Nonnull)gridLine

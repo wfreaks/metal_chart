@@ -148,24 +148,29 @@ typedef void (^LabelCacheModifierBlock)(const NSInteger newMinIdx,
 // この余白をどう配分するかを制御するプロパティ, (0, 0)で全て右と下へ配置、(0.5,0.5)で等分に配置する.
 
 /**
- *
+ * sets how text should be placed inside its frame.
+ * (0.5, 0.5) is center-aligned, (0, 0.5) is left-aligned (center-vertical), and (0.5, 0) is top-aligned (center-horizontal).
  */
 @property (assign  , nonatomic) CGPoint textAlignment;
 
 /**
- *
+ * sets offset that is used when drawing text.
+ * (origin is at the left-top corner)
  */
 @property (assign  , nonatomic) CGPoint textOffset;
 
 /**
- *
+ * sets vertical margin between lines (logical point).
  */
 @property (assign  , nonatomic) CGFloat lineSpace;
 
 @property (copy	, nonatomic) LabelCacheModifierBlock  _Nullable cacheModifier;
 
 /**
- *
+ * @param frameSize maximum box size that a single label (lines for a tick) may requires.
+ *          be aware that passing bigger size results in greater amount of gpu (texure) memory allocation.
+ * @param bufferCapacity maximum number of labels that can be displayed at the same time.
+ *          be aware that passing greater number results in greater amount of gpu (texture) memory allocation.
  */
 - (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
 							  frameSize:(CGSize)frameSize
@@ -176,32 +181,34 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 /**
- *
+ * sets default font for text rendering (avoid using this method if you want to switch colors depending on line index or values).
  */
 - (void)setFont:(UIFont * _Nonnull)font;
 
 /**
- *
+ * sets frame offsets in logical size (origin at the top-left corner)
  */
 - (void)setFrameOffset:(CGPoint)offset;
 
 /**
- *
+ * sets anchor point (where overlaps the position of the associated tick when offest is (0,0)).
+ * an anchor with value (0,0) is at the left-top corner of the frame, (1,1) is at the bottom-right.
  */
 - (void)setFrameAnchorPoint:(CGPoint)point;
 
 /**
- *
+ * invalidates all label caches.
  */
 - (void)clearCache;
 
 /**
- *
+ * set color bits that is used for clearing CGBitmapContext before drawing text.
+ * (drawing light text on context cleared using 0x00000000 results in text with gray-colored edge due to inappropriate color blending of CoreText)
  */
 - (void)setClearColor:(int32_t)color;
 
 /**
- *
+ * set a hook object. see FMLineDrawHook for details, or read ViewController.swift of MetalChartDev for sample codes.
  */
 - (void)setLineDrawHook:(id<FMLineDrawHook> _Nullable)hook;
 

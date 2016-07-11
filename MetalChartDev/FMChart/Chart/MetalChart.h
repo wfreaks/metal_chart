@@ -10,32 +10,33 @@
 #import "chart_common.h"
 #import "Engine_common.h"
 
+/**
+ * This header file defines all components that are not replacable.
+ * The interest of those components is 'projection' (mapping from data space to view space).
+ * While Axis, ticks, managing visible ranges and user interactions are provided by default implementations,
+ * they are all replaceable by custom implementations (I dont think it's easy though).
+ * you can define your own renderables (visualizable data series) by writing shaders and wrapper class.
+ */
+
+/**
+ * Determine a pixel format that is suitable for the device and the os version.
+ */
+
 MTLPixelFormat determineDepthPixelFormat();
 
-/*
- * このヘッダファイル内で宣言されたクラスは代替の利かないコアなコンポーネントの「全て」である.
- * その目的と興味はプロットエリアにおける座標変換のみに絞られている.
- * 軸・メモリ・レンジの制御・UI操作フィードバックなどはデフォルト実装を提供しているが、すべて独自定義クラスで代替可能.
- * 描画エンジンもFMRenderableを通して利用しているため、これらも独自定義可能である.
- * もちろんコード量と煩雑さはそこそこなのでオススメはできない.
+/**
+ * FMDepthClient protocol defines methods that all attachements and renderables utilizing depth test must implement.
+ * clients must record parameter min and return value r and use those values in order to get correct drawing results.
+ * r should be a positive value of zero if you do not require special behavior described below.
+ * (available depth range to the client will be [min, min+r). )
+ *
+ * returning negative value requests a chart to allocate range below depth clear value.
+ * (returning -r means chart.clearValue will be increased by r if r > 0.)
+ *
+ * It is not considered that multiple clients returns negative values for now.
+ * (there might be future changes in protocol)
  */
 
-/*
- * Renderable/AttachmentがDepthTestを必要とする場合、このプロトコルを実装する. 
- * 複数のドローコールが発行される関係上、Depthバッファの値の取りうる範囲（領域ではない）のうち、
- * どの範囲をどれが使用するかを把握していないと描画上の不整合を起こすため. 強制力は無い.
- * clientが使用可能な値は, 戻り値 R を用いて (minDepth < v <= minDepth + |R|) を満たすvである.
- * Rの絶対値を取るのは、R < 0 の場合はclearDepthよりも小さい値をデプスバッファに書き込む事を意味し、
- * かつdepthテストでは負値を使えないようなので逆にclearDepthを上げる事で対処するためのものである.
- * ちなみに、この「掘り下げる」のはプロット領域を角丸にしつつ、そこでマスクをするなどの機能で使う.
- *
- * MetalChartの想定は、MTKView の clearDepthの値が0となっている事, depthが浮動小数点である事である.
- * また, 少なくともデフォルト実装では depthTestはMTLCompareFunctionGreaterを使う.
- *
- * また、当然ではあるがハンドリングされるのは
- * [MetalChart (add/remove)(Series/PreRenderable/PostRenderable):]
- * の引数に渡されたオブジェクトだけである.
- */
 @protocol FMDepthClient <NSObject>
 
 - (CGFloat)requestDepthRangeFrom:(CGFloat)min
@@ -43,16 +44,18 @@ MTLPixelFormat determineDepthPixelFormat();
 
 @end
 
-/*
- * FMRenderableは系列データ（プロットされる実際のデータ）が実装するべきプロトコル.
- * いわゆるaddSeriesでChartに追加するもの.
- * requiredは以下のenocdeWith:chart:だけだが、大抵は内部でProjectionへの参照が必要になる.
- * （要は画面上の点にマッピングできればそれで構わない、デフォルト実装はそういう思想にのっとっているというだけ.
- * 　ただそのマッピング情報は本当に他の系列と共有する必要がないのか、FMProjectionへのサポートなしで
- * 　問題ないかを検討はすべきである）
- * ちなみに系列データはデータであるべきで、正常な描画に軸などのAttachmentへの依存関係などを作るべきではない.
- */
 
+/**
+ * FMRenderable represents series of visualizable data.
+ * encodeWith:chart: will be called after updating projections, executing hooks, and rendering pre-series attachements (filling plot area and etc),
+ * then post-series attachments will be drawn.
+ * this protocol does not tell anything about projections, but a usual renderable object requires a projection.
+ * 
+ * to draw a renderable object, it must be added to chart using addRenderable: method.
+ * 
+ * An FMRenderable object SHOULD NOT have dependencies to other data series or attachments since it's series of visualizable data.
+ * If it has any dependency, then make it an FMDependentAttachment object.
+ */
 
 @protocol FMRenderable<NSObject>
 
@@ -63,16 +66,13 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
-/*
- * FMAttachmentは軸などの付加的な描画要素が実装するべきプロトコル.
- * ただし目盛りのラベルは軸に依存する場合など、あらかじめ依存しているAttachmentが準備を終わらせておかなければ
- * いけない状況が存在する. このような問題に対して、描画順に依存せずに対処すりために、描画とは別の
- * メソッドを要求する. また、この依存関係を順序として解決するためのoptionalメソッドも必要に応じて実装する.
- * 
- * こういった依存関係を解決するような処理は描画時にやるものではない.
- * もちろんそうすれば変更後の反映は即時行われるようになるが、addする前に正しく設定しないとか
- * 実行時に途中で変更するとかいう割と珍しいニーズは、専用の方法で満たしてもらう.
- * 具体的には[FMChat requestResolveAttachmentDependencies]を使用する事.
+/**
+ * FMAttachment represents an additional element that is drawn on chart, including axis and labels.
+ * To allow attachments to access more contextual info, encodeWith:chart:view passes an extra argument 'view',
+ * but its roll is very similar to that of FMRenderable.
+ *
+ * Attachments can have dependencies regardless of their drawing(z-dimensinal) order.
+ * See FMDependentAttachment protocol for details.
  */
 
 @protocol FMAttachment <NSObject>
@@ -83,6 +83,22 @@ MTLPixelFormat determineDepthPixelFormat();
 ;
 
 @end
+
+
+/**
+ * FMDependentAttachment represents an attachement that has preparation procedure before issueing draw calls (such as an axis to decide its position),
+ * or an attachment that has an other dependent attachment (such as an label depending on an axis)
+ *
+ * Any attachments that has preparation stage (i.e. updating properties or gpu buffers) must implement this element, even if if does not have any dependency,
+ * since it has no way to know whether there is any attachment that depends on it or not.
+ * (the protocol name is not really a right one i guess...)
+ *
+ * prepare:view: will be called in order regarding the dependency tree (not drawing order), and the tree get calculated
+ * every time FMDependentAttachment is added/removed into/from a chart.
+ * if you modify dependencies by operation other than that, then you are responsible for calling [chart requestResolveAttachmentDependencies].
+ *
+ * And one more thing, you MUST NOT make a cyclic dependency (though it won't throw any exception nor cause stack overflow).
+ */
 
 @protocol FMDependentAttachment <FMAttachment>
 
@@ -97,8 +113,14 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
-// Command Encoderを使ったGPU処理を挟みたい場合や、描画前後のタイミングで挟みたい処理を使う.
-// デフォルトのAnimation実装はこれを使っているが、今の所GPUは使っていない.
+/**
+ * FMCommandBufferHook provides a customizing point for a chart.
+ * Implementation objects can use MTLCommandBuffer to execute custom processings (i.e. perform gpu calculation).
+ *
+ * Default animation class implement this protocol.
+ * if you want to use multiple hooks on a single chart, then you can make hook array class to delegate calls.
+ */
+
 @protocol FMCommandBufferHook <NSObject>
 
 - (void)chart:(MetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
@@ -107,35 +129,48 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 
-// 座標変換を表すプロトコル、その目的はデータの描画の際に必要となる情報をGPUバッファとして提供する事、及びその
-// 設定のためのインタフェースを提供する事. 描画サイクル中に下記２つが呼ばれる.
-// 前者はビューやパディングのサイズを知る必要があったり、デフォルト実装ではprojectionがsampleCountやpixelFormatを維持しているため.
-// 多分これは修正すべき.
+/**
+ * FMProjection protocol provides information about view dimensions that mapping objects (having GPU buffers)
+ * need to know, and notify that it should update gpu buffers it have.
+ */
 @protocol FMProjection <NSObject>
 
 - (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
 
-- (void)writeToBuffer;
-
 @end
 
+/**
+ * MetalChart class is a MetalViewDelegate object that manages elements of a chart.
+ * It can be shared by multiple MetalView instance, but may cause problems (not considered on the design phase).
+ * I can't think of any meaningfull usecase of sharing a chart.
+ *
+ * Adding attachments/series in an order of A->B results in B drawn over A.
+ * Adding an attachment/series that is already added does nothing, and is same for removing an item which is not added yet.
+ * 
+ * Since FMRenderable and FMAttachment do not require implementations to provide projection it uses, 
+ * you must explicitly register/unregister FMProjection objects in order to draw renderables/attachment that needs projections to be updated/flushed.
+ */
 
 @interface MetalChart : NSObject<MetalViewDelegate>
 
 @property (weak   , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
-@property (assign , nonatomic) RectPadding padding; // シザーテスト領域を指定するだけであり、やろうと思えば描画自体は外側にも可能. なお実際にはシザーテストではなくデプステストで代用されてる.
-@property (readonly, nonatomic) CGFloat clearDepth; // 特に気にする必要はない. viewのclearDepthが負値を受け付けないため, こちら側で調整してやる必要があった.
 
-// dictionaryとかのキーにするためのunique idプロパティ. 実体はただのアドレス文字列.
+/**
+ * padding doesn't do anything by itself, but default implementations (such as FMProjectionCartesian2D) use it to configure their appearance and behavior.
+ */
+@property (assign , nonatomic) RectPadding padding;
+
+/**
+ * You don't have to check this value.
+ */
+@property (readonly, nonatomic) CGFloat clearDepth;
+
+/**
+ * address string for this instance to be used as a dictionary key.
+ */
 @property (readonly, nonatomic) NSString * _Nonnull key;
 
 - (instancetype _Nonnull)init NS_DESIGNATED_INITIALIZER;
-
-// 以下でArrayごと追加するメソッドは、単純にクライアントコードをシンプルにするためだけのものであって、
-// 最適化などはしていないので注意.
-
-// また、すでに追加されているものを再度追加しようとした場合、あるいは追加されていないものを除こうとした場合、
-// そのメソッドは何もしない. 他の条件が不正な呼び出しもそれに準ずる.
 
 - (void)addRenderable:(id<FMRenderable> _Nonnull)renderable;
 - (void)addRenderableArray:(NSArray<id<FMRenderable>> *_Nonnull)renderables;

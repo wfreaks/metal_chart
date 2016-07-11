@@ -10,6 +10,12 @@
 #import <CoreGraphics/CGGeometry.h>
 #import "MetalChart.h"
 
+/**
+ * FMDimensionalProjection defines an element of FMProjectionCartesian2D.
+ * It represents an source(data) range of 1-dimensional mapping.
+ * mid and length are calculated properties from min/max.
+ */
+
 @interface FMDimensionalProjection : NSObject
 
 @property (readonly, nonatomic) NSInteger dimensionId;
@@ -17,7 +23,6 @@
 @property (assign  , nonatomic) CGFloat	 max;
 @property (readonly, nonatomic) CGFloat	 mid;
 @property (readonly, nonatomic) CGFloat	 length;
-@property (copy	, nonatomic) void (^ _Nullable willUpdate)(CGFloat * _Nullable newMin, CGFloat * _Nullable newMax);
 
 - (instancetype _Nonnull)initWithDimensionId:(NSInteger)dimId
 									minValue:(CGFloat)min
@@ -28,12 +33,22 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setMin:(CGFloat)min max:(CGFloat)max;
 
-// 画面上での位置が重なるような値を算出する.
+/**
+ * converts a given value to that of another FMDimensinalProjection instance using view coordinates system,
+ * assuming that the given instance shares a same view and a dimension index (x/y).
+ */
 - (CGFloat)convertValue:(CGFloat)value
 					 to:(FMDimensionalProjection * _Nonnull)to
 ;
 
 @end
+
+
+/**
+ * FMProjectionCartesian2D is a fundamental class that implements FMProjection protocol and represents a mapping from a 2-dimensional cartesian space to a view space.
+ * A instance of this class has an gpu buffer internally, and writes mapping data into it when the method defined by FMProjection protocol called.
+ * Be aware of difference between dimension id (identifier) and dimension index (x/y).
+ */
 
 @interface FMProjectionCartesian2D : NSObject<FMProjection>
 
@@ -51,12 +66,24 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * returns dimension with given dimension id if exists.
+ */
 - (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
 
+/**
+ * return if given list of dimension ids matches to that of dimensions property.
+ */
 - (BOOL)matchesDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids;
 
 @end
 
+
+/**
+ * FMProjectionPolar is an implementation of FMProjection protocol which represents mapping from a poloar coordinate system to a view coordinate system.
+ * An insatnce of this class does not provide any methods to configure a backing gpu buffer object currently.
+ * (may be implemented in future, if neccessary.)
+ */
 
 @interface FMProjectionPolar : NSObject<FMProjection>
 
@@ -69,14 +96,5 @@ NS_DESIGNATED_INITIALIZER;
 UNAVAILABLE_ATTRIBUTE;
 
 @end
-
-
-
-
-
-
-
-
-
 
 

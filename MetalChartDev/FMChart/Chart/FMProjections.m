@@ -33,30 +33,8 @@
 	return self;
 }
 
-- (void)setMin:(CGFloat)min
-{
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(&min, nil);
-	}
-	_min = min;
-}
-
-- (void)setMax:(CGFloat)max
-{
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(nil, &max);
-	}
-	_max = max;
-}
-
 - (void)setMin:(CGFloat)min max:(CGFloat)max
 {
-	void (^ willUpdate)(CGFloat * _Nullable, CGFloat * _Nullable) = _willUpdate;
-	if(willUpdate != nil) {
-		willUpdate(&min, &max);
-	}
 	_min = min;
 	_max = max;
 }
@@ -93,14 +71,6 @@
 	return self;
 }
 
-- (void)writeToBuffer
-{
-	FMDimensionalProjection *xDim = _dimX;
-	FMDimensionalProjection *yDim = _dimY;
-	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
-	[_projection setValueOffset:CGPointMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
-}
-
 - (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
 {
 	if(_dimX.dimensionId == dimensionId) return _dimX;
@@ -110,8 +80,12 @@
 
 - (void)configure:(MetalView *)view padding:(RectPadding)padding
 {
+	FMDimensionalProjection *xDim = _dimX;
+	FMDimensionalProjection *yDim = _dimY;
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setPadding:padding];
+	[_projection setValueScale:CGSizeMake((xDim.max-xDim.min)/2, (yDim.max-yDim.min)/2)];
+	[_projection setValueOffset:CGPointMake(-(xDim.max+xDim.min)/2, -(yDim.max+yDim.min)/2)];
 }
 
 - (BOOL)matchesDimensionIds:(NSArray<NSNumber *> *)ids
@@ -139,11 +113,6 @@
 {
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setPadding:padding];
-}
-
-- (void)writeToBuffer
-{
-	
 }
 
 @end

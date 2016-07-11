@@ -9,12 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "MetalChart.h"
 
-/*
- * 通常のRenderableと違って、ほとんどGPU側で仕事をするプリミティブだけでは対応できないような、
- * 面倒なものをこちらに突っ込む. C++を使う事を余儀なくされるものもこちら.
- *
- */
-
 /**
  * FMPieDoughnutDataProxyElement is a struct that represents an element of pie doughnut chart
  * used by FMPieDoughnutDataProxy.
@@ -50,7 +44,6 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (FMPieDoughnutDataProxyElement * _Nullable)elementWithID:(NSInteger)_id;
 
-// IDはユニークでなくても良い(後から参照できなくなるだけ)
 - (void)addElementWithValue:(CGFloat)value
 					  index:(uint32_t)index
 						 ID:(NSInteger)_id

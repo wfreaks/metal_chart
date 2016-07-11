@@ -92,7 +92,6 @@ MTLPixelFormat determineDepthPixelFormat()
 	
 	for(id<FMProjection> projection in projections) {
 		[projection configure:view padding:_padding];
-		[projection writeToBuffer];
 	}
 	
 	id<MTLCommandBuffer> buffer = nil;
