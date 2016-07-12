@@ -11,6 +11,11 @@
 #import "Prototypes.h"
 
 
+/**
+ * FMSurfaceConfiguration class defines immutable object that contains metal surface information
+ * which can be used when configuring metal view and creating MTLRenderPipelineDescription instances.
+ */
+
 @interface FMSurfaceConfiguration : NSObject
 
 @property (nonatomic, readonly) MTLPixelFormat colorPixelFormat;
@@ -24,6 +29,9 @@
 
 @end
 
+/**
+ * FMEngine is a core utility class that provides surface info, resource caches, and an easy way to create pipeline state objects.
+ */
 
 @interface FMEngine : NSObject
 
@@ -41,12 +49,18 @@
 
 + (instancetype _Nonnull)createDefaultEngine;
 
+/**
+ * search pipeline state object , create one if not cached, then return it.
+ */
 - (id<MTLRenderPipelineState> _Nonnull)pipelineStateWithVertFunc:(id<MTLFunction> _Nonnull)vertFunc
 														fragFunc:(id<MTLFunction> _Nonnull)fragFunc
 													  writeDepth:(BOOL)writeDepth
 ;
 
-// キャッシュされる, libraryがnilならdefautLibraryを使う. libraryは独自拡張とか使いたい時に指定する.
+/**
+ * search function object from cache, create one using given library object (defaultLibrary will be used if nil), then return it.
+ * you can provide a library object to use your custom shaders.
+ */
 - (id<MTLFunction> _Nonnull)functionWithName:(NSString * _Nonnull)name
 									 library:(id<MTLLibrary> _Nullable)library;
 

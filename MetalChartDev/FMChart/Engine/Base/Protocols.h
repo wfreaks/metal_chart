@@ -11,6 +11,9 @@
 
 @protocol MTLRenderCommandEncoder;
 
+/**
+ * Well this protocol is COMPLETE USELESS so please ignore.
+ */
 
 @protocol FMPrimitive <NSObject>
 

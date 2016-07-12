@@ -12,20 +12,42 @@
 #ifndef __Series_h__
 #define __Series_h__
 
+/**
+ * FMSeries represents sereis of plain data (not associated with any visual attributes or presentation style).
+ * It does not tell anything about underlying element format.
+ * It provides : 
+ *
+ * 1. MTLBuffer object to be passed to render command encoder.
+ * 2. series info for determining primitive count to draw on issueing command.
+ * 3. abstracted methods for putting data (but actually it's useless for attributed data, so use one that is provided by a derived/concrete class in that case).
+ * 4. a method for extending buffer capacity.
+ */
+
 @protocol FMSeries<NSObject>
 
 - (id<MTLBuffer> _Nonnull)vertexBuffer;
 - (FMUniformSeriesInfo * _Nonnull)info;
 
-- (void)addPoint:(CGPoint)point; // increment count.
-- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max; // increment offset if info.count has reached max.
+- (void)addPoint:(CGPoint)point;
 
-// see std::vector<T>::reserve().
-// should not be used with cyclic accessed buffers.
-// this operation involves allocating, copying, and deallocating(avoid incremental extension).
+/**
+ * increment offset if info.count >= info.capacity.
+ */
+- (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max;
+
+/**
+ * mimics std::vector<T>::reserve().
+ * should not be used with cyclic accessed buffers (offset >= capacity).
+ * this operation involves allocating, copying, and deallocating so avoid incremental extension.
+ */
 - (void)reserve:(NSUInteger)capacity;
 
 @end
+
+/**
+ * reprensents a series of non-attributed, ordered data.
+ * use addPoint: to add a data point.
+ */
 
 @interface FMOrderedSeries : NSObject<FMSeries>
 
@@ -38,6 +60,11 @@
 
 @end
 
+/**
+ * reprensents a series of attributed, ordered data.
+ * use addPoint:attrIndex: to add a data point.
+ */
+
 @interface FMOrderedAttributedSeries : NSObject<FMSeries>
 
 @property (readonly, nonatomic) FMIndexedFloat2Buffer * _Nonnull vertices;
@@ -48,6 +75,10 @@
 ;
 
 - (void)addPoint:(CGPoint)point attrIndex:(NSUInteger)attrIndex;
+
+/**
+ * increment offset if info.count >= info.capacity.
+ */
 - (void)addPoint:(CGPoint)point maxCount:(NSUInteger)max attrIndex:(NSUInteger)attrIndex;
 
 @end

@@ -22,6 +22,10 @@
 
 #include <memory>
 
+/**
+ * A base struct to provide common functionalities and interface to MTLObjectBuffer<T> regardless of type parameters.
+ */
+
 struct MTLObjectBufferBase {
 	
 	MTLObjectBufferBase(id<MTLDevice> _Nonnull device,
@@ -62,6 +66,9 @@ private :
 	
 };
 
+/**
+ * A templated struct that provides a member method that casts a pointer referencing underlying buffer region to a reference of typed element.
+ */
 template <typename T>
 struct MTLObjectBuffer : MTLObjectBufferBase {
 	
@@ -85,6 +92,11 @@ private :
 #endif
 
 
+/**
+ * A buffer object that owns a gpu buffer, and can extend region by calling reserve: on it.
+ * Obviously it is a mere obj-c wrapper of MTLObjectBufferBase.
+ * (Subclasses allocate MTLObjectBuffer<T> depending on an element type they need, and pass them to super(this class)).
+ */
 @interface FMArrayBuffer : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
@@ -109,7 +121,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
-
+/**
+ * A wrapper class for MTLObjectBuffer<vertex_float2>.
+ */
 
 @interface FMFloat2Buffer : FMArrayBuffer
 
@@ -122,7 +136,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
-
+/**
+ * A wrapper cass for MTLObjectBuffer<indexed_float>.
+ */
 
 @interface FMIndexedFloatBuffer : FMArrayBuffer
 
@@ -138,6 +154,11 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+
+/**
+ * A wrapper cass for MTLObjectBuffer<indexed_float2>.
+ */
+
 @interface FMIndexedFloat2Buffer : FMArrayBuffer
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
@@ -152,9 +173,10 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
-
-// このクラスだけScissorRectやらscreenScaleやらを考慮した上でvalueOffsetとかsizeとvalueScaleを
-// 設定しなければいけないので煩雑になる。
+/**
+ * A wrapper class that hosts gpu buffer for FMProejctionCartesian2D and that provides methods to modify its members.
+ * You won't have to use this class unless you are writing custom shaders for visualizing data in 2-dimensional cartesian space.
+ */
 
 @interface FMUniformProjectionCartesian2D : NSObject
 
@@ -172,6 +194,9 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * sets physicalSize (size in logical pixels) property using physical pixels (device pixels) using screenScale property.
+ */
 - (void)setPixelSize:(CGSize)size;
 
 - (void)setOrigin:(CGPoint)origin;
@@ -180,6 +205,10 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
+/**
+ * A wrapper class that hosts gpu buffer for FMProjectionPolar and that provides methods to modify its members.
+ * You won't have to use this class unless you are writing custom shaders for visualizing data in 2-dimensional polar space.
+ */
 
 @interface FMUniformProjectionPolar : NSObject
 
@@ -209,6 +238,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
+/**
+ * A wrapper class that hosts gpu buffer for FMSeriesInfo and that provides methods to modify its members.
+ */
 
 @interface FMUniformSeriesInfo : NSObject
 
@@ -220,6 +252,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (uniform_series_info * _Nonnull)info;
 
+/**
+ * clears count and offset properties to zero.
+ */
 - (void)clear;
 
 @end
@@ -227,6 +262,13 @@ UNAVAILABLE_ATTRIBUTE;
 
 
 
+/**
+ * A helper class for FMAttributesArray<Type>.
+ * A class that can be an element type of FMAttributesArray class should be derived from this.
+ *
+ * Subclass must takes care of index property when provides a getter method/property for an underlying element
+ * since the parameter buffer of initWithBuffer:index can be an array buffer.
+ */
 
 @interface FMAttributesBuffer : NSObject
 
@@ -247,12 +289,22 @@ UNAVAILABLE_ATTRIBUTE;
 @end
 
 
+/**
+ * A base class that helps implementing a class that holds an array of an attributes class (gpu-backed objc class that provides getter/setter methods).
+ *
+ * Subclasses must override attributesClass and provide initWithResource:capacity or such.
+ * (it's more precise to specify UNAVAILABLE_ATTRIBUTES for initWithResource:size: but you may ignore this)
+ * subclasses can be used with indexed subscription (i.e. [array[idx] setAttributeA:someValue].
+ */
 
 @interface FMAttributesArray<AttributesType> : FMArrayBuffer
 
 @property (nonatomic, readonly) NSArray<AttributesType>* _Nonnull array;
 
-// FMAttributesBufferのサブクラスを返す事(initWithBuffer:index:が呼ばれる)
+/**
+ * subclasses must return a class that is derived from FMAttributesBuffer and from type parameter AttributesType.
+ * instances of the class returned will be created and initialized with initWithBuffer:index.
+ */
 + (Class _Nonnull)attributesClass;
 
 - (AttributesType _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
