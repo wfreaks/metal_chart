@@ -15,6 +15,17 @@
 
 /**
  * FMUniformRegion is a wrapper class for struct uniform_region that provides setter methods.
+ *
+ * an anchor position for region idx is defined by :
+ * pos_anchor(idx) = basePosition + ((iterationOffset + idx) * iterationVector)
+ *
+ * and region frame is defined by : 
+ * (origin, size) = (pos_anchor + positionOffset + (anchorPoint-center) * size), size).
+ * where center = (0.5, 0.5).
+ *
+ * note : size and positionOffset for FMTextureQuadPrimitive.dataRegion are treated as view(logical pixel) size and offset.
+ * this strage behavior is to allow FMAxisLabel to perform effective processing.
+ * you must write an alternative shader and subclass FMTextureQuadPrimitive to replace it to change the behavior.
  */
 
 @interface FMUniformRegion : NSObject
@@ -28,13 +39,6 @@
 - (void)setAnchorPoint:(CGPoint)anchor;
 - (void)setIterationVector:(CGPoint)vec;
 - (void)setIterationOffset:(CGFloat)offset;
-
-// 以下2つのパラメータは他のものと解釈が（TextureQuadのシェーダ側で）
-// 異なるので注意する事（変則は避けるべきなのは承知の上で、使い勝手の問題からそうしている）
-//
-// 具体的には、uvRegionの場合はそのままuv空間で捉えられる(offsetは実質いらない)が、
-// dataRegionでは以下2つがview座標空間でのものとして解釈される.
-// まともにラベル描画用に使えるシェーダとしては必須だったと言い訳しておく.
 
 /**
  * Interpretation of size is shader-dependent.

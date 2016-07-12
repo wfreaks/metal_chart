@@ -149,7 +149,7 @@
 - (NSString *)fragmentFunctionName
 {
 	static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
-	NSInteger index = (self.attributes.enableDash ? 2 : 0) + (self.conf.enableOverlay ? 0 : 1);
+	NSInteger index = (self.conf.enableDash ? 2 : 0) + (self.conf.enableOverlay ? 0 : 1);
 	return names[index];
 }
 

@@ -48,21 +48,6 @@
 	[self attributes]->color = *color;
 }
 
-- (void)setLineLengthModifierStart:(float)start end:(float)end
-{
-	[self attributes]->length_mod = vector2(start, end);
-}
-
-- (void)setLineLengthModifierStart:(float)start
-{
-	[self attributes]->length_mod[0] = start;
-}
-
-- (void)setLineLengthModifierEnd:(float)end
-{
-	[self attributes]->length_mod[1] = end;
-}
-
 - (void)setDashLineLength:(float)length
 {
 	self.attributes->length_repeat = length;

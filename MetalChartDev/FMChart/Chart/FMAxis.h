@@ -161,8 +161,6 @@ typedef void (^FMAxisConfiguratorBlock)(FMUniformAxisConfiguration *_Nonnull axi
 										BOOL isFirst
 										);
 
-// 全ての項目を自由に、かつ効率的にコントロールするためのクラス（だが宣言的ではない）
-// 固定機能クラスも作ろうと思ったけど全部代用できるのでやめた.
 @interface FMBlockAxisConfigurator : NSObject<FMAxisConfigurator>
 
 - (instancetype _Nonnull)initWithBlock:(FMAxisConfiguratorBlock _Nonnull)block
@@ -170,12 +168,6 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
-
-// 1度だけ与えられた値をそのままconfへ設定する.
-// axisAnchorはデータ空間での位置なので、グラフを動かすと一緒に動く.
-// 範囲外へ出てしまう時に軸を消すという動作は現在実装されていない（シザーテストは描画が崩れ、またラベルなどへも影響する）
-// ので、範囲外の時は端に留める挙動にしてあることに注意.
-// (結果としてこの実装は直交する次元の範囲に依存する)
 
 /**
  * Creates a configurator that places an axis at an fixed position "in data space" (it can be scrolled by user interactions).
@@ -188,9 +180,6 @@ NS_DESIGNATED_INITIALIZER;
 										  minorTicksFreq:(uint8_t)minorPerMajor
 ;
 
-// 基本は上と同じだが、画面上での軸位置を固定する時に使う.
-// 例えばy方向の範囲が[yMin,yMax]の時、axisPos=0としてx軸に設定すると、x軸はy=yMinの位置に表示される.
-// 同様に, axisPos=1とすれば、y=yMaxの位置に現れる.
 
 /**
  * Creates a configurator that places an axis based on "view coordinate system".
@@ -204,14 +193,6 @@ NS_DESIGNATED_INITIALIZER;
 										   minorTicksFreq:(uint8_t)minorPerMajor
 ;
 
-
-// ラベルなどの数を一定の範囲に抑えながら、その値が半端な値にならないように調整するためのクラス。
-// つまり範囲長が連続的に変化していく際、intervalがステップ上の変化をしつつラベルの数を一定範囲に
-// 抑える.
-// position, anchor, minorTicksは他のと変わらない.
-// max はちょっと注意が必要で、範囲長とintervalが決まっていてもanchorによっては
-// ラベル数が変化しうる事を考慮しない、ここでは可能な値のうち高い方、つまり両端にラベルが来る場合を取る.
-// maxの場合のintervalを逆算し、その値よりも大きくかつintervalOfIntervalの倍数となるものを取る.
 
 /**
  * Creates a configurator that places an axis based on "view coordinate system", and manages label(tick) intervals using maxTickCount and intervalOfInterval.

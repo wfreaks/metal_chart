@@ -11,9 +11,12 @@
 
 #include <simd/simd.h>
 
+/**
+ * See FMUniformLineAttributes (LineBuffers.h) for details.
+ */
+
 typedef struct {
 	vector_float4 color;
-	vector_float2 length_mod;
 	float width;
 	float length_repeat;
 	float length_space;
@@ -21,11 +24,21 @@ typedef struct {
 	float repeat_anchor_dash;
 } uniform_line_attr;
 
+
+/**
+ * See FMUniformLineConf (LineBuffer.h) for details.
+ */
+
 typedef struct {
 	float alpha;
 	float depth;
 	uint8_t modify_alpha_on_edge;
 } uniform_line_conf;
+
+
+/**
+ * See FMUniformAxisConfiguration (LineBuffer.h) for details.
+ */
 
 typedef struct uniform_axis_configuration {
 	float		   axis_anchor_value_data;
@@ -38,12 +51,22 @@ typedef struct uniform_axis_configuration {
 	uint8_t		 max_major_ticks;
 } uniform_axis_configuration;
 
+
+/**
+ * See FMUniformAxisAttributes (LineBuffer.h) for details.
+ */
+
 typedef struct uniform_axis_attributes {
 	vector_float4   color;
 	vector_float2   length_mod;
 	float		   line_length;
 	float		   width;
 } uniform_axis_attributes;
+
+
+/**
+ * See FMUniformGridAttributes (LineBuffer.h) for details.
+ */
 
 typedef struct uniform_grid_attributes {
 	vector_float4 color;
