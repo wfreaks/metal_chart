@@ -14,6 +14,13 @@
 
 @protocol MTLBuffer;
 
+/**
+ * FMUniformPointAttributes is a wrapper class for uniform_point_attr that provides setter methods.
+ * Inner/outer radius and colors are configurable.
+ * vector_float4 colors are in RGBA order.
+ * behavior is undefined if (innerRadius > outRadius || innerRadius < 0 || outerRadius < 0).
+ */
+
 @interface FMUniformPointAttributes : FMAttributesBuffer
 
 @property (readonly, nonatomic) uniform_point_attr * _Nonnull point;
@@ -39,6 +46,9 @@ UNAVAILABLE_ATTRIBUTE;
 
 @end
 
+/**
+ * See FMAttribuesArray, FMArrayBuffer and FMUniformPointAttributes for details.
+ */
 
 @interface FMUniformPointAttributesArray : FMAttributesArray<FMUniformPointAttributes*>
 

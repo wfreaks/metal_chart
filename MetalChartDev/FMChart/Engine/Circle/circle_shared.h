@@ -17,12 +17,20 @@ using namespace simd;
 
 #endif
 
+/**
+ * see FMUniformArcConfiguration (CircleBuffers.h).
+ */
+
 struct arc_conf {
 	float  radius_inner;
 	float  radius_outer;
 	float  radian_offset;
 	float  radian_scale;
 };
+
+/**
+ * see FMUniformArcAttributes (CircleBuffers.h).
+ */
 
 struct arc_attr {
 	vector_float4 color;

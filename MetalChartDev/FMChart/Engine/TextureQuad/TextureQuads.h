@@ -13,6 +13,11 @@
 @protocol MTLRenderCommandEncoder;
 @protocol MTLTexture;
 
+/**
+ * FMTextureQuadPrimitive maps series of box regions in texture buffer to series of (box) regions in data space.
+ * FMAxisLabel uses this to draw rendering caches of labels onto screen.
+ */
+
 @interface FMTextureQuadPrimitive : NSObject
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;

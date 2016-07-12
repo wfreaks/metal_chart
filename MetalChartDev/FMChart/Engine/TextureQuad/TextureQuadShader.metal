@@ -7,16 +7,7 @@
 //
 
 #include "../Base/Shader_common.h"
-
-struct uniform_region {
-	float2 base_pos;
-	float2 iter_vec;
-	float2 anchor;
-	float2 size;   // size, offsetは他のフィールドと異なり、文脈によって意味合い、座標空間が変わる.
-	float2 offset; // uv(texture)ではそのままuv, dataではview空間での値となる.
-	
-	float iter_offset;
-};
+#include "TextureQuad_common.h"
 
 struct out_vertex {
 	float4 position [[ position ]];

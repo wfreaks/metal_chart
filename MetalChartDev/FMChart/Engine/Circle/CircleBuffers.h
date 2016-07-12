@@ -14,6 +14,11 @@
 @protocol MTLBuffer;
 @class UIColor;
 
+/**
+ * FMUniformArcConfiguration represents configurations applied to all data points when drawn using FMArcPrimitive.
+ * If conflicting attributes are supplied by indivisual data, then attributes of specified by data will be used.
+ */
+
 @interface FMUniformArcConfiguration : NSObject
 
 @property (nonatomic, readonly) id<MTLBuffer> _Nonnull buffer;
@@ -29,12 +34,20 @@ UNAVAILABLE_ATTRIBUTE;
 - (void)setOuterRadius:(float)radius;
 - (void)setRadiusInner:(float)inner outer:(float)outer;
 - (void)setRadianOffset:(float)radian;
+
+/**
+ * a scaling factor that will be applied to radius components of all data.
+ */
+ 
 - (void)setRadianScale:(float)scale;
 
 @end
 
 
-
+/**
+ * A wrapper class for struct arc_attrs that provide setter methods.
+ * Interpretations for Inner/outer radius and colors are equivalent to FMUniformArcConfiguration.
+ */
 
 @interface FMUniformArcAttributes : NSObject
 
@@ -54,7 +67,9 @@ UNAVAILABLE_ATTRIBUTE;
 @end
 
 
-
+/**
+ * See FMAttribuesArray, FMArrayBuffer and FMUniformArcAttributes for details.
+ */
 
 @interface FMUniformArcAttributesArray : NSObject
 
@@ -68,7 +83,6 @@ UNAVAILABLE_ATTRIBUTE;
 - (instancetype _Nonnull)init
 UNAVAILABLE_ATTRIBUTE;
 
-// indexチェックは行わない、注意する事.
 - (FMUniformArcAttributes * _Nonnull)objectAtIndexedSubscript:(NSUInteger)index;
 
 @end

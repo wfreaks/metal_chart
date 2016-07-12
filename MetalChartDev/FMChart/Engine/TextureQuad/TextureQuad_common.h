@@ -11,6 +11,11 @@
 
 #import <simd/simd.h>
 
+/**
+ * See FMUniformRegion (TextureQuadBuffers.h) for details.
+ *
+ * I can't recall the reason why I use float for iter_offset...
+ */
 typedef struct uniform_region {
 	vector_float2 base_pos;
 	vector_float2 iter_vec;
