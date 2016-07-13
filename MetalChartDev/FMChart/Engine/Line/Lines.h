@@ -11,6 +11,12 @@
 #import "Protocols.h"
 #import "Prototypes.h"
 
+/**
+ * FMLinePrimitive draws line segments between points of given FMSeries.
+ * It can be polyline or separated but currently only polyline are provided.
+ * (I implemented separated line primitive, but it wasn's used and it was making shaders harder to maintain)
+ */
+
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
 @property (nonatomic, readonly) FMUniformLineConf * _Nonnull conf;
@@ -27,6 +33,11 @@
 @end
 
 
+/**
+ * Draws a polyline defined by given FMOrderedSeries in the given order,
+ * with a single set of visual attributes.
+ * It also draws points (circles) on the joints if given the point attributes.
+ */
 
 @interface FMOrderedPolyLinePrimitive : FMPolyLinePrimitive
 
@@ -42,8 +53,14 @@
 @end
 
 
-// attributedPointを追加すると、データ点にindexがふくまれてしまうのでかなり使い勝手が悪くなる.
-// なら手動でattributedPointを追加してもらった方が、ずっとよいと思われる. (そもそもlineにpointを追加できる必要性ってあんまりない)
+/**
+ * Draws a plyline defined by given FMOrderedAttributedSeries in the given order,
+ * with the attribute set of index the data point specifies.
+ * An attribute index of the line segment p1 -> p2 will be the one specified by p1 (p1.idx).
+ * 
+ * It doest not support drawing point on it. (creating another attributed series and point primitive will be much more flexible)
+ */
+
 @interface FMOrderedAttributedPolyLinePrimitive : FMPolyLinePrimitive
 
 @property (nonatomic) FMUniformLineAttributesArray * _Nonnull attributesArray;
@@ -57,6 +74,12 @@
 @end
 
 
+/**
+ * Draws an axis using its configuration and axis/ticks attributes.
+ * managing configuration is the responsibility of a wrapper class that implements FMAttachment (FMAxis).
+ *
+ * See FMUniformAxisConfiguration and FMUniformAxisAttributes for interpretations of their properties.
+ */
 
 @interface FMAxisPrimitive : NSObject
 
@@ -77,7 +100,12 @@
 @end
 
 
-
+/**
+ * Draws grid line using its attributes object (it contains configuration properties).
+ * Managing attributes and configuration are the responsibility of a wrapper class that implmenents FMAttachment (FMGridLine).
+ * 
+ * See FMUniformGridAttributes for interpretations of properties.
+ */
 
 @interface FMGridLinePrimitive : NSObject
 

@@ -19,6 +19,11 @@
 @end
 
 
+/**
+ * Draws points (circles) defined by given FMOrderedSeries in the given order,
+ * with a single set of visual attributes.
+ */
+
 @interface FMOrderedPointPrimitive : FMPointPrimitive
 
 @property (readonly, nonatomic) FMUniformPointAttributes * _Nonnull attributes;
@@ -30,6 +35,11 @@
 ;
 @end
 
+
+/**
+ * Draws points (circles) defined by given FMOrderedAttributedSeries in the given order,
+ * with the attribute sets of the index data specify.
+ */
 
 @interface FMOrderedAttributedPointPrimitive : FMPointPrimitive
 

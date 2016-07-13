@@ -38,7 +38,7 @@ UNAVAILABLE_ATTRIBUTE;
  * A class that visualize data (θ1, θ2, θ3, θ4) as an series of arc ([0,θ1], [θ1, θ2], [θ2, θ3], [θ3, θ4])
  * with the specified (inner/outer) radius and colors. if the order of series θn is not coherent, rendering results are undefined.
  *
- * All angular values are treated as an radian value.
+ * All angular values are treated as radian.
  * This class does not provide any way of sorting or normalizing data.
  */
 
