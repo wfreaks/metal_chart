@@ -10,6 +10,13 @@
 #import "Protocols.h"
 #import "Prototypes.h"
 
+/**
+ * FMPlotRectPrimitive fills view area ([-1,1],[-1,1]) with the color specified
+ * using space defined by FMUniformProjectionCartesian2D, except padding area (through projection params).
+ * (FMPlotArea provides a configured projection object)
+ *
+ * You will never use this class directory (all you have to use is its attributes).
+ */
 
 @interface FMPlotRectPrimitive : NSObject
 
@@ -25,6 +32,12 @@
 @end
 
 
+
+/**
+ * FMBarPrimitive draws bars that extends to the positions of given FMSeries.
+ * its direction and roots are configurable.
+ */
+
 @interface FMBarPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
@@ -33,6 +46,12 @@
 - (id<FMSeries> _Nullable)series;
 
 @end
+
+
+
+/**
+ * Draws bars with given FMOrderedSeries in order, with a single set of visual attributes.
+ */
 
 @interface FMOrderedBarPrimitive : FMBarPrimitive
 
@@ -46,6 +65,12 @@
 ;
 
 @end
+
+
+
+/**
+ * Draws bars with given FMAttributedOrderedSeries in order, with the attribute sets of the index data specify.
+ */
 
 @interface FMOrderedAttributedBarPrimitive : FMBarPrimitive
 

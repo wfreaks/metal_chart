@@ -34,7 +34,7 @@
 
 
 /**
- * Draws a polyline defined by given FMOrderedSeries in the given order,
+ * Draws a polyline defined by given FMOrderedSeries in order,
  * with a single set of visual attributes.
  * It also draws points (circles) on the joints if given the point attributes.
  */
@@ -54,8 +54,8 @@
 
 
 /**
- * Draws a plyline defined by given FMOrderedAttributedSeries in the given order,
- * with the attribute set of index the data point specifies.
+ * Draws a plyline defined by given FMOrderedAttributedSeries in order,
+ * with the attribute sets of the index data specifies.
  * An attribute index of the line segment p1 -> p2 will be the one specified by p1 (p1.idx).
  * 
  * It doest not support drawing point on it. (creating another attributed series and point primitive will be much more flexible)

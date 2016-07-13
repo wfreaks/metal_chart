@@ -10,6 +10,11 @@
 #import "Protocols.h"
 #import "Prototypes.h"
 
+
+/**
+ * FMPointPrimitive draws circles at the positions of given FMSeries.
+ */
+
 @interface FMPointPrimitive : NSObject<FMPrimitive>
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
@@ -20,7 +25,7 @@
 
 
 /**
- * Draws points (circles) defined by given FMOrderedSeries in the given order,
+ * Draws points (circles) defined by given FMOrderedSeries in order,
  * with a single set of visual attributes.
  */
 
@@ -37,7 +42,7 @@
 
 
 /**
- * Draws points (circles) defined by given FMOrderedAttributedSeries in the given order,
+ * Draws points (circles) defined by given FMOrderedAttributedSeries in order,
  * with the attribute sets of the index data specify.
  */
 
