@@ -5,6 +5,7 @@ The main features are :
 + thin (total number of lines is < 12000 including empty lines)
 + flexible (all unreplaceable components are defined in single header)
 + fast
++ low CPU loads
 
 ## 
 
