@@ -57,6 +57,7 @@
 @class FMUniformBarAttributes;
 @class FMUniformBarConfiguration;
 @class FMUniformGridAttributes;
+@class FMUniformGridConfiguration;
 @class FMUniformLineAttributes;
 @class FMUniformLineAttributesArray;
 @class FMUniformLineConf;

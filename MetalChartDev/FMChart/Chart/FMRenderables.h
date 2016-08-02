@@ -154,6 +154,7 @@ NS_DESIGNATED_INITIALIZER;
 
 @interface FMGridLine : NSObject<FMDependentAttachment, FMPlotAreaClient>
 
+@property (readonly, nonatomic) FMUniformGridConfiguration * _Nonnull configuration;
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 @property (readonly, nonatomic) FMGridLinePrimitive		* _Nonnull gridLine;
 @property (readonly, nonatomic) FMProjectionCartesian2D * _Nonnull projection;

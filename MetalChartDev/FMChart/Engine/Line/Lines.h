@@ -101,14 +101,15 @@
 
 
 /**
- * Draws grid line using its attributes object (it contains configuration properties).
+ * Draws grid line using its attributes and configuration object.
  * Managing attributes and configuration are the responsibility of a wrapper class that implmenents FMAttachment (FMGridLine).
  * 
- * See FMUniformGridAttributes for interpretations of properties.
+ * See FMUniformGridAttributes, FMUniformGridConfiguration for interpretations of properties.
  */
 
 @interface FMGridLinePrimitive : NSObject
 
+@property (readonly, nonatomic) FMUniformGridConfiguration * _Nonnull configuration;
 @property (readonly, nonatomic) FMUniformGridAttributes * _Nonnull attributes;
 
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;

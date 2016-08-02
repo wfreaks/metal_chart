@@ -94,14 +94,17 @@ class ViewController: UIViewController {
 		
 		stepUpdater = FMProjectionUpdater()
 		stepUpdater?.addFilter(toLast: FMSourceFilter(minValue: 0, maxValue: 2000, expandMin: true, expandMax: true))
+		stepUpdater?.addFilter(toLast: FMPaddingFilter(paddingLow: 0, high: 1000, shrinkMin: false, shrinkMax: false, applyToCurrent: true))
 		stepUpdater?.addFilter(toLast: FMIntervalFilter(anchor: 0, interval: 1000, shrinkMin: false, shrinkMax: false))
 		
 		weightUpdater = FMProjectionUpdater()
-		weightUpdater?.addFilter(toLast: FMSourceFilter(minValue: 50, maxValue: 60, expandMin: false, expandMax: false))
+		weightUpdater?.addFilter(toLast: FMSourceFilter(minValue: 51, maxValue: 59, expandMin: false, expandMax: false))
+		weightUpdater?.addFilter(toLast: FMPaddingFilter(paddingLow: 1, high: 1, shrinkMin: false, shrinkMax: false, applyToCurrent: true))
 		weightUpdater?.addFilter(toLast: FMIntervalFilter(anchor: 0, interval: 5.001, shrinkMin: false, shrinkMax: false))
 		
 		pressureUpdater = FMProjectionUpdater()
-		pressureUpdater?.addFilter(toLast: FMSourceFilter(minValue: 60, maxValue: 120, expandMin: false, expandMax: false))
+		pressureUpdater?.addFilter(toLast: FMSourceFilter(minValue: 65, maxValue: 115, expandMin: false, expandMax: false))
+		pressureUpdater?.addFilter(toLast: FMPaddingFilter(paddingLow: 5, high: 5, shrinkMin: false, shrinkMax: false, applyToCurrent: true))
 		pressureUpdater?.addFilter(toLast: FMIntervalFilter(anchor: 0, interval: 5, shrinkMin: false, shrinkMax: false))
  		
 		let stepSpace : FMProjectionCartesian2D = configurator.space(withDimensionIds: [dateDim,stepDim]) { (dimId) -> FMProjectionUpdater? in
@@ -203,19 +206,36 @@ class ViewController: UIViewController {
 		pressureLabel.textAlignment = CGPoint(x: 0, y: 0.5)
 		
 		let dateConf = FMBlockAxisConfigurator(relativePosition: 0, tickAnchor: 0, fixedInterval: daySec, minorTicksFreq: 0)
-		let dateSize = CGSize(width: 30, height: 15)
+		let dateSize = CGSize(width: 40, height: 15)
 		let dateFmt = DateFormatter()
-		dateFmt.dateFormat = "M/d"
+		let monthFmt = DateFormatter()
+		dateFmt.dateFormat = "d"
+		monthFmt.dateFormat = "M/d"
+		let dayAttrs = [NSForegroundColorAttributeName : UIColor.gray()]
+		let monthAttrs = [NSForegroundColorAttributeName : UIColor.red()]
+		let cal = Calendar(identifier:Calendar.Identifier.gregorian)!
 		let dateAxis = configurator.addAxisToDimension(withId: dateDim, belowSeries:false, configurator:dateConf, labelFrameSize: dateSize, labelBufferCount: 24) {
 			(val, index, lastIndex, projection) -> [NSMutableAttributedString] in
-			let date = NSDate(timeInterval: TimeInterval(val), since: self.refDate!)
-			let str = dateFmt.string(from: date as Date)
-			return [NSMutableAttributedString(string: str)]
+			let date = Date(timeInterval: TimeInterval(val), since: self.refDate!)
+			let day = cal.component(Calendar.Unit.day, from: date)
+			let maxDay = cal.range(of: Calendar.Unit.day, in: Calendar.Unit.month, for: date).length
+			let useMonth = (day == 1) || (index == 0 && day != maxDay)
+			let fmt = (useMonth) ? monthFmt : dateFmt
+			let attrs = (useMonth) ? monthAttrs : dayAttrs
+			let str = fmt.string(from: date as Date)
+			return [NSMutableAttributedString(string:str, attributes: attrs)]
 		}
 		let dateLabel = configurator.axisLabels(to: dateAxis!)!.first!
-		dateLabel.setFont(UIFont.systemFont(ofSize: 9, weight: UIFontWeightThin))
+		dateLabel.setFont(UIFont.systemFont(ofSize: 9, weight: UIFontWeightMedium))
 		dateLabel.setFrameOffset(CGPoint(x: 0, y: 5))
-		
+		dateLabel.cacheModifier = { (oldMin:Int, oldMax:Int, newMin:UnsafeMutablePointer<Int>, newMax:UnsafeMutablePointer<Int>) in
+			let aMin = newMin.pointee
+			if (aMin > oldMin) {
+				newMin.pointee = max(oldMin+2, aMin+1)
+			} else if (aMin < oldMin) {
+				newMin.pointee = max(oldMin+1, aMin+2)
+			}
+		}
 	}
 	
 	func loadData() {

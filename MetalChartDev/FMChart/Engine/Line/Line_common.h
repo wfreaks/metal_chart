@@ -71,15 +71,21 @@ typedef struct uniform_axis_attributes {
 typedef struct uniform_grid_attributes {
 	vector_float4 color;
 	float width;
-	
-	float anchor_value;
-	float interval;
-	float depth;
 	float length_repeat;
 	float length_space;
 	float repeat_anchor_line;
 	float repeat_anchor_dash;
-	uint8_t dimIndex;
 } uniform_grid_attributes;
+
+/**
+ * See FMUniformGridConfiguration (LineBuffer.h) for details.
+ */
+
+typedef struct uniform_grid_configuration {
+	float anchor_value;
+	float interval;
+	float depth;
+	uint8_t dimIndex;
+} uniform_grid_configuration;
 
 #endif /* Lines_common_h */

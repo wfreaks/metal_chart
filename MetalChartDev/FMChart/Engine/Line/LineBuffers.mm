@@ -321,33 +321,6 @@ static const float _ndc_anchor_invalid = 8;
 	self.attributes->color = *color;
 }
 
-- (void)setAnchorValue:(float)anchorValue
-{
-	if(_anchorValue != anchorValue) {
-		_anchorValue = anchorValue;
-		self.attributes->anchor_value = anchorValue;
-	}
-}
-
-- (void)setInterval:(float)interval
-{
-	if(_interval != interval) {
-		_interval = interval;
-		self.attributes->interval = interval;
-	}
-}
-
-- (void)setDimensionIndex:(uint8_t)dimensionIndex
-{
-	_dimensionIndex = dimensionIndex;
-	self.attributes->dimIndex = dimensionIndex;
-}
-
-- (void)setDepthValue:(float)depth
-{
-	self.attributes->depth = depth;
-}
-
 - (void)setDashLineLength:(float)length
 {
 	self.attributes->length_repeat = length;
@@ -370,3 +343,48 @@ static const float _ndc_anchor_invalid = 8;
 
 @end
 
+
+
+
+@implementation FMUniformGridConfiguration
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_grid_configuration) options:MTLResourceOptionCPUCacheModeWriteCombined];
+	}
+	return self;
+}
+
+- (uniform_grid_configuration *)conf { return (uniform_grid_configuration *)[_buffer contents]; }
+
+- (void)setAnchorValue:(float)anchorValue
+{
+	if(_anchorValue != anchorValue) {
+		_anchorValue = anchorValue;
+		self.conf->anchor_value = anchorValue;
+	}
+}
+
+- (void)setInterval:(float)interval
+{
+	if(_interval != interval) {
+		_interval = interval;
+		self.conf->interval = interval;
+	}
+}
+
+- (void)setDimensionIndex:(uint8_t)dimensionIndex
+{
+	_dimensionIndex = dimensionIndex;
+	self.conf->dimIndex = dimensionIndex;
+}
+
+- (void)setDepthValue:(float)depth
+{
+	self.conf->depth = depth;
+}
+
+
+@end

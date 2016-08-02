@@ -29,7 +29,7 @@
 @end
 
 /**
- * FMMetalView class was (initially) written to mimics MTKView.
+ * FMMetalView class was (initially) written to mimic MTKView.
  * This class SHOULD NOT be reffered to directory (use MetalView type alias, which is declared in Headers/iosX/chart_common.h).
  * The only exception to above statement is Storyboard/Xib files (type alias is not usable in those files).
  *

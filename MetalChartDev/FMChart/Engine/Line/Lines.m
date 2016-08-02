@@ -287,6 +287,7 @@
 {
 	self = [super init];
 	if(self) {
+		_configuration = [[FMUniformGridConfiguration alloc] initWithResource:engine.resource];
 		_attributes = [[FMUniformGridAttributes alloc] initWithResource:engine.resource];
 		_engine = engine;
 		_pipeline = [engine pipelineStateWithVertFunc:[engine functionWithName:@"GridVertex" library:nil]
@@ -294,8 +295,8 @@
 										   writeDepth:YES];
 		[_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
 		[_attributes setWidth:0.5];
-		[_attributes setInterval:1];
-		[_attributes setAnchorValue:0];
+		[_configuration setInterval:1];
+		[_configuration setAnchorValue:0];
 	}
 	return self;
 }
@@ -314,14 +315,16 @@
 	[encoder setRenderPipelineState:renderState];
 	[encoder setDepthStencilState:depthState];
 	
-	FMUniformGridAttributes *const attr = self.attributes;
-	id<MTLBuffer> attributesBuffer = attr.buffer;
+	id<MTLBuffer> attributesBuffer = self.attributes.buffer;
+	id<MTLBuffer> configurationBuffer = self.configuration.buffer;
 	
-	[encoder setVertexBuffer:attributesBuffer offset:0 atIndex:0];
-	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:1];
+	[encoder setVertexBuffer:configurationBuffer offset:0 atIndex:0];
+	[encoder setVertexBuffer:attributesBuffer offset:0 atIndex:1];
+	[encoder setVertexBuffer:projection.buffer offset:0 atIndex:2];
 	
-	[encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:0];
-	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:1];
+	[encoder setFragmentBuffer:configurationBuffer offset:0 atIndex:0];
+	[encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:1];
+	[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:2];
 	
 	const NSUInteger vertCount = 6 * maxCount;
 	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];

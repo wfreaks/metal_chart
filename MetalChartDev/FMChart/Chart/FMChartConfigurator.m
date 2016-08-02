@@ -285,8 +285,8 @@
 	FMProjectionCartesian2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
 	if(space) {
 		FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
-		[line.attributes setAnchorValue:anchorValue];
-		[line.attributes setInterval:interval];
+		[line.configuration setAnchorValue:anchorValue];
+		[line.configuration setInterval:interval];
 		if(below) {
 			[_chart addPreRenderable:line];
 		} else {

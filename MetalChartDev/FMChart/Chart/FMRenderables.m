@@ -273,7 +273,7 @@
 		}
 		
 		const NSUInteger dimIndex = [projection.dimensions indexOfObject:_dimension];
-		[_gridLine.attributes setDimensionIndex:dimIndex];
+		[_gridLine.configuration setDimensionIndex:dimIndex];
 	}
 	return self;
 }
@@ -282,15 +282,19 @@
 	return self.gridLine.attributes;
 }
 
+- (FMUniformGridConfiguration*)configuration {
+	return self.gridLine.configuration;
+}
+
 - (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
 {
 	FMUniformAxisConfiguration *conf = _axis.axis.configuration;
-	FMUniformGridAttributes *attr = _gridLine.attributes;
+	FMUniformGridConfiguration *lineConf = _gridLine.configuration;
 	if(conf) {
 		const NSInteger minFreq = conf.minorTicksPerMajor;
 		const BOOL minor = _sticksToMinorTicks;
-		attr.anchorValue = conf.tickAnchorValue;
-		attr.interval = (minFreq > 0 && minor) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
+		lineConf.anchorValue = conf.tickAnchorValue;
+		lineConf.interval = (minFreq > 0 && minor) ? conf.majorTickInterval / minFreq : conf.majorTickInterval;
 	}
 }
 
@@ -304,10 +308,10 @@
 			 chart:(MetalChart *)chart
 			  view:(MetalChart *)view
 {
-	FMUniformGridAttributes *attr = _gridLine.attributes;
+	FMUniformGridConfiguration *conf = _gridLine.configuration;
 	const CGFloat len = _dimension.max - _dimension.min;
-	const CGFloat interval = attr.interval;
-	const NSUInteger maxCount = (interval > 0) ? floor(len/attr.interval) + 1 : 0;
+	const CGFloat interval = conf.interval;
+	const NSUInteger maxCount = (interval > 0) ? floor(len/conf.interval) + 1 : 0;
 	[_gridLine encodeWith:encoder projection:_projection.projection maxCount:maxCount];
 }
 
@@ -318,13 +322,13 @@
 			return 0;
 		}
 	}
-	[self.attributes setDepthValue:min+0.05];
+	[self.configuration setDepthValue:min+0.05];
 	return 0.1;
 }
 
 - (CGFloat)allocateRangeInPlotArea:(FMPlotArea *)area minValue:(CGFloat)min
 {
-	[self.attributes setDepthValue:min+0.05];
+	[self.configuration setDepthValue:min+0.05];
 	return 0.1;
 }
 

@@ -200,18 +200,12 @@ NS_DESIGNATED_INITIALIZER;
  * FMUniformGridAttributes is a wrapper for struct unifim_gird_attributes that provides setter methods.
  * 
  * Interpretations of width, color, dashing attributes, anchorValue, interval are equivalent to those of FMUniformAxisAttributes.
- * dimensionIndex is an id of the dimension of an axis (if any) that this grid line intersects.
- * (decides dimIndex in FMGridLine initializer and therefore you should not modify it directly)
  */
 
 @interface FMUniformGridAttributes : NSObject
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_grid_attributes * _Nonnull attributes;
-
-@property (assign  , nonatomic) float anchorValue;
-@property (assign  , nonatomic) float interval;
-@property (assign  , nonatomic) uint8_t dimensionIndex;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 NS_DESIGNATED_INITIALIZER;
@@ -225,8 +219,6 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
 - (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
-- (void)setDepthValue:(float)depth;
-
 - (void)setDashLineLength:(float)length;
 
 - (void)setDashSpaceLength:(float)length;
@@ -235,6 +227,30 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setDashRepeatAnchor:(float)anchor;
 
+@end
+
+/**
+ * FMUniformGridConfiguration is a wrapper for struct unifim_gird_configuration that provides setter methods.
+ *
+ * dimensionIndex is an id of the dimension of an axis (if any) that this grid line intersects.
+ * (decides dimIndex in FMGridLine initializer and therefore you should not modify it directly)
+ */
+@interface FMUniformGridConfiguration : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_grid_configuration * _Nonnull conf;
+
+@property (assign  , nonatomic) float anchorValue;
+@property (assign  , nonatomic) float interval;
+@property (assign  , nonatomic) uint8_t dimensionIndex;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+- (void)setDepthValue:(float)depth;
 
 @end
+
 
