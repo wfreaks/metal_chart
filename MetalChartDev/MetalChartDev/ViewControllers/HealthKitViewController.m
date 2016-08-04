@@ -308,7 +308,7 @@
 	NSDateFormatter *dateFmt = [[NSDateFormatter alloc] init];
 	NSDateFormatter *monthFmt = [[NSDateFormatter alloc] init];
 	dateFmt.dateFormat = @"d";
-	monthFmt.dateFormat = @"M/d";
+	monthFmt.dateFormat = @"yy/M/d";
 	NSDictionary *dayAttrs = @{NSForegroundColorAttributeName : [UIColor grayColor]};
 	NSDictionary *monthAttrs = @{NSForegroundColorAttributeName : [UIColor redColor]};
 	NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
@@ -344,6 +344,20 @@
 			*newMin = MAX(oldMin+1, aMin+2);
 		}
 	};
+	UIColor *fillColor = [UIColor colorWithWhite:1 alpha:1];
+	id<FMLineDrawHook> hook = [FMBlockLineDrawHook hookWithBlock:^(NSAttributedString * _Nonnull string,
+																   CGContextRef  _Nonnull context,
+																   const CGRect * _Nonnull drawRect)
+	{
+		if([string.string containsString:@"/"]) {
+			CGContextSetFillColorWithColor(context, fillColor.CGColor);
+			const CGRect rect = CGRectInset(*drawRect, -2, -1);
+			CGContextAddPath(context, [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:2].CGPath);
+			CGContextFillPath(context);
+		}
+	}];
+	[self.configurator addRetainedObject:hook];
+	[dateLabel setLineDrawHook:hook];
 }
 
 + (void)configurePointAttributes:(FMUniformPointAttributes*)attrs
@@ -420,14 +434,24 @@
 	{
 		if (samples) {
 			[self.weightSeries reserve:samples.count];
-			NSUInteger idx = 0;
-			for (HKQuantitySample *sample in samples) {
+			NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+			NSDateComponents *baseDateComp = [[NSDateComponents alloc] init];
+			baseDateComp.year = 1970;
+			baseDateComp.month = 1;
+			baseDateComp.day = 1;
+			NSDate *d = [cal dateFromComponents:baseDateComp]; // [NSDate date]とは違いTimeZoneを考慮.
+			const NSInteger count = samples.count;
+			for (NSInteger i = 0; i < count; ++i) {
+				HKQuantitySample *sample = samples[i];
+				HKQuantitySample *ns = (count-1 > i) ? samples[i+1] : nil;
+				const NSInteger cd = [cal components:NSCalendarUnitDay fromDate:d toDate:sample.startDate options:0].day;
+				const NSInteger nd = (ns) ? [cal components:NSCalendarUnitDay fromDate:d toDate:ns.startDate options:0].day : -1;
 				const CGFloat x = [sample.startDate timeIntervalSinceDate:refDate];
 				const CGFloat val = [sample.quantity doubleValueForUnit:kg];
-				[self.weightSeries addPoint:CGPointMake(x, val) attrIndex:idx%2];
+				const BOOL dashed = (nd >= 0 && abs((int)(cd-nd)) > 1);
+				[self.weightSeries addPoint:CGPointMake(x, val) attrIndex:(dashed ? 1 : 0)];
 				[self.weightUpdater addSourceValue:val update:NO];
 				[self.dateUpdater addSourceValue:x update:NO];
-				idx += 1;
 			}
 			[self.weightUpdater updateTarget];
 			[self.weightLabel clearCache];
