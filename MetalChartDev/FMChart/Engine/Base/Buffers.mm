@@ -159,9 +159,9 @@
 	self.physicalSize = CGSizeMake(w, h);
 }
 
-- (void)setPadding:(RectPadding)padding
+- (void)setPadding:(FMRectPadding)padding
 {
-	if(!RectPaddingEqualsTo(_padding, padding)) {
+	if(!FMRectPaddingEqualsTo(_padding, padding)) {
 		_padding = padding;
 		self.projection->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
 	}
@@ -227,9 +227,9 @@
 	self.physicalSize = CGSizeMake(w, h);
 }
 
-- (void)setPadding:(RectPadding)padding
+- (void)setPadding:(FMRectPadding)padding
 {
-	if(!RectPaddingEqualsTo(_padding, padding)) {
+	if(!FMRectPaddingEqualsTo(_padding, padding)) {
 		_padding = padding;
 		self.projection->rect_padding = vector4((float)padding.left, (float)padding.top, (float)padding.right, (float)padding.bottom);
 	}

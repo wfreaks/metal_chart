@@ -201,13 +201,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, readonly) FMDimOrientation orientation;
 @property (nonatomic, readonly, weak) UIView *_Nullable view;
-@property (nonatomic, readonly) RectPadding padding;
+@property (nonatomic, readonly) FMRectPadding padding;
 @property (nonatomic, readonly, weak) id<FMWindowLengthDelegate> _Nullable lengthDelegate;
 @property (nonatomic, readonly, weak) id<FMWindowPositionDelegate> _Nullable positionDelegate;
 
 - (instancetype _Nonnull)initWithOrientation:(FMDimOrientation)orientation
                                         view:(UIView * _Nonnull)view
-									 padding:(RectPadding)padding
+									 padding:(FMRectPadding)padding
                               lengthDelegate:(id<FMWindowLengthDelegate>_Nonnull)lenDelegate
 							positionDelegate:(id<FMWindowPositionDelegate>_Nonnull)posDelegate
 ;

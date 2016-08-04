@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E2066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dM4-em-aFZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11173.2" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dM4-em-aFZ">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11143.2"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Health Kit View Controller-->
         <scene sceneID="HnK-dl-Suv">
             <objects>
-                <viewController id="dM4-em-aFZ" customClass="ViewController" customModule="MetalChartDev" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="dM4-em-aFZ" customClass="HealthKitViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Vj-LR-na1"/>
                         <viewControllerLayoutGuide type="bottom" id="VHy-0u-Gua"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="X2q-VG-j8U">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="evS-Pu-3nH" customClass="FMMetalView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="QEL-UN-6PH" appends="YES" id="lFJ-iE-XZz"/>
+                                    <outletCollection property="gestureRecognizers" destination="K9U-Xh-yst" appends="YES" id="WbQ-64-yHe"/>
+                                </connections>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="evS-Pu-3nH" firstAttribute="centerX" secondItem="X2q-VG-j8U" secondAttribute="centerX" id="Mvs-8v-BrM"/>
                             <constraint firstItem="evS-Pu-3nH" firstAttribute="width" secondItem="X2q-VG-j8U" secondAttribute="width" id="ZWG-xp-HFc"/>
@@ -30,20 +34,15 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="metalView" destination="evS-Pu-3nH" id="wLh-ao-s4i"/>
-                        <outlet property="panRecognizer" destination="K9U-Xh-yst" id="E4b-cp-7kM"/>
-                        <outlet property="pinchRecognizer" destination="QEL-UN-6PH" id="3pO-Cp-AF7"/>
-                        <outlet property="tapRecognizer" destination="GPk-0Y-oxU" id="NqV-09-otw"/>
+                        <outlet property="metalView" destination="evS-Pu-3nH" id="dtP-IJ-CvS"/>
+                        <outlet property="panRec" destination="K9U-Xh-yst" id="CSz-YA-Iza"/>
+                        <outlet property="pinchRec" destination="QEL-UN-6PH" id="3iI-b9-c4v"/>
                     </connections>
                 </viewController>
                 <pinchGestureRecognizer id="QEL-UN-6PH"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="K9U-Xh-yst" customClass="FMPanGestureRecognizer"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOi-xM-qMu" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="GPk-0Y-oxU">
-                    <connections>
-                        <action selector="chartTapped:" destination="dM4-em-aFZ" id="trR-4f-Wtt"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="GPk-0Y-oxU"/>
             </objects>
             <point key="canvasLocation" x="220" y="462"/>
         </scene>

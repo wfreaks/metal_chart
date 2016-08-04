@@ -115,7 +115,7 @@ MTLPixelFormat determineDepthPixelFormat()
 				[renderable encodeWith:encoder chart:self view:view];
 			}
 			
-			const RectPadding pad = _padding;
+			const FMRectPadding pad = _padding;
 			const CGSize size = view.drawableSize;
 			const CGFloat scale = [UIScreen mainScreen].scale;
 			const NSUInteger w  = size.width, h = size.height;

@@ -184,7 +184,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) uniform_projection_cart2d * _Nonnull projection;
 @property (readonly, nonatomic) CGFloat screenScale;
 @property (assign, nonatomic) CGSize physicalSize;
-@property (assign, nonatomic) RectPadding padding;
+@property (assign, nonatomic) FMRectPadding padding;
 @property (assign, nonatomic) CGSize valueScale;
 @property (assign, nonatomic) CGPoint valueOffset;
 
@@ -216,7 +216,7 @@ UNAVAILABLE_ATTRIBUTE;
 @property (nonatomic, readonly) uniform_projection_polar * _Nonnull projection;
 @property (nonatomic, readonly) CGFloat screenScale;
 @property (nonatomic) CGSize physicalSize;
-@property (nonatomic) RectPadding padding;
+@property (nonatomic) FMRectPadding padding;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
 NS_DESIGNATED_INITIALIZER;

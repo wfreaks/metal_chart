@@ -105,7 +105,6 @@
 		AAA7DA151CE5A3F1004647E7 /* common_private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA7DA141CE5A3F1004647E7 /* common_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAA7DA161CE5A3F1004647E7 /* common_private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA7DA141CE5A3F1004647E7 /* common_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */; };
-		AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB584E01B6F0D8C00480AAE /* ViewController.swift */; };
 		AAB584E41B6F0D8C00480AAE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E21B6F0D8C00480AAE /* Main.storyboard */; };
 		AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E51B6F0D8C00480AAE /* Assets.xcassets */; };
 		AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */; };
@@ -167,6 +166,7 @@
 		AAC4A8A21BAFE3020032A0CF /* DeviceResource.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8681BAFE3020032A0CF /* DeviceResource.m */; };
 		AAC4A8A31BAFE3020032A0CF /* NSArray+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8691BAFE3020032A0CF /* NSArray+Utility.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
+		AAF6265F1D51F6E9004AE567 /* HealthKitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF6265E1D51F6E9004AE567 /* HealthKitViewController.m */; };
 		AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.1"; }; };
 		AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */; settings = {COMPILER_FLAGS = "-std=ios-metal1.0"; }; };
 /* End PBXBuildFile section */
@@ -227,7 +227,6 @@
 		AAA7DA141CE5A3F1004647E7 /* common_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common_private.h; sourceTree = "<group>"; };
 		AAB584DB1B6F0D8C00480AAE /* MetalChartDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MetalChartDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AAB584E01B6F0D8C00480AAE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AAB584E31B6F0D8C00480AAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AAB584E51B6F0D8C00480AAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAB584E81B6F0D8C00480AAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -296,6 +295,8 @@
 		AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utility.m"; sourceTree = "<group>"; };
 		AACD43101B708EB300A83B69 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		AADC1AC21B8F2002002F455D /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		AAF6265D1D51F6E9004AE567 /* HealthKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthKitViewController.h; sourceTree = "<group>"; };
+		AAF6265E1D51F6E9004AE567 /* HealthKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthKitViewController.m; sourceTree = "<group>"; };
 		AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = CircleEngineShader.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -364,7 +365,6 @@
 				AA4858B21D35ECA800BDD9F8 /* REAME.md */,
 				AAC4A81E1BAFE2960032A0CF /* FMChart */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
-				AAB584DC1B6F0D8C00480AAE /* Products */,
 				AADC1AC41B8F20D8002F455D /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -378,21 +378,23 @@
 				AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		AAB584DD1B6F0D8C00480AAE /* MetalChartDev */ = {
 			isa = PBXGroup;
 			children = (
-				AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */,
+				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
+				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
+				AAF6265A1D51F6CD004AE567 /* ViewControllers */,
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
 				AA1648EC1BAD4A9B00E5B73D /* README_JA.txt */,
-				AAB5850C1B6F0E0A00480AAE /* MetalChartDev-Bridging-Header.h */,
-				AAB584E01B6F0D8C00480AAE /* ViewController.swift */,
-				AAB584DE1B6F0D8C00480AAE /* AppDelegate.swift */,
+				AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */,
 				AAB584E21B6F0D8C00480AAE /* Main.storyboard */,
 				AAB584E51B6F0D8C00480AAE /* Assets.xcassets */,
-				AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */,
 				AAB584EA1B6F0D8C00480AAE /* Info.plist */,
+				AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */,
+				AAB584DC1B6F0D8C00480AAE /* Products */,
 			);
 			path = MetalChartDev;
 			sourceTree = "<group>";
@@ -550,6 +552,15 @@
 				AACD43101B708EB300A83B69 /* Metal.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAF6265A1D51F6CD004AE567 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AAF6265D1D51F6E9004AE567 /* HealthKitViewController.h */,
+				AAF6265E1D51F6E9004AE567 /* HealthKitViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		AAFB9A781BF1DDF700F966E7 /* Circle */ = {
@@ -845,7 +856,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB584E11B6F0D8C00480AAE /* ViewController.swift in Sources */,
+				AAF6265F1D51F6E9004AE567 /* HealthKitViewController.m in Sources */,
 				AAB584DF1B6F0D8C00480AAE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

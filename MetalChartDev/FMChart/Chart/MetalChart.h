@@ -135,7 +135,7 @@ MTLPixelFormat determineDepthPixelFormat();
  */
 @protocol FMProjection <NSObject>
 
-- (void)configure:(MetalView * _Nonnull)view padding:(RectPadding)padding;
+- (void)configure:(MetalView * _Nonnull)view padding:(FMRectPadding)padding;
 
 @end
 
@@ -158,7 +158,7 @@ MTLPixelFormat determineDepthPixelFormat();
 /**
  * padding doesn't do anything by itself, but default implementations (such as FMProjectionCartesian2D) use it to configure their appearance and behavior.
  */
-@property (assign , nonatomic) RectPadding padding;
+@property (assign , nonatomic) FMRectPadding padding;
 
 /**
  * You don't have to check this value.

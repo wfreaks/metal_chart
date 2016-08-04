@@ -195,7 +195,7 @@
 
 - (instancetype)initWithOrientation:(FMDimOrientation)orientation
 							   view:(UIView *)view
-							padding:(RectPadding)padding
+							padding:(FMRectPadding)padding
 					 lengthDelegate:(id<FMWindowLengthDelegate> _Nonnull)lenDelegate
 				   positionDelegate:(id<FMWindowPositionDelegate> _Nonnull)posDelegate
 {

@@ -1,6 +1,6 @@
 # FMChart Documentation
 
-FMChart is a charting framework that utilizes Metal API on iOS devices that are running iOS 8 or later.  
+FMChart is a charting framework that utilizes Metal API on A7+ iOS devices running iOS 8 or later.  
 
 ## Main Features
 

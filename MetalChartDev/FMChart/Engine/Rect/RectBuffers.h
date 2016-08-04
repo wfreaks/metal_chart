@@ -10,17 +10,8 @@
 #import <CoreGraphics/CGGeometry.h>
 #import "Rect_common.h"
 #import "Buffers.h"
+#import "Engine.h"
 
-/**
- * position of each corner will be differ depending on context (the direction 'top' and 'right' may differ from that of the device).
- */
-
-typedef struct {
-	float lt;
-	float rt;
-	float lb;
-	float rb;
-} FMRectCornerRadius;
 
 @interface NSValue (FMRectCornerRadius)
 
