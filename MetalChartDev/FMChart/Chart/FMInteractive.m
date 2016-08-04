@@ -326,7 +326,7 @@ static const CGFloat DEST_THREASHOLD = 0.2;
 	const CGFloat _f = 1/factor;
 	const CGFloat modifiedScale = _currentScale * _f;
 	const CGFloat cappedScale = MIN(_maxScale, MAX(_minScale, modifiedScale));
-	_currentScale *= cappedScale;
+	_currentScale = cappedScale;
 	
 	[_updater updateTarget];
 	[_view setNeedsDisplay];
