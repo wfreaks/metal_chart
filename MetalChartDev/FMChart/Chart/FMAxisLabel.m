@@ -221,7 +221,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
+			 chart:(FMMetalChart *)chart
 			  view:(FMMetalView *)view
 {
 	id<FMAxis> axis = _axis;
@@ -236,7 +236,7 @@
 	}
 }
 
-- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+- (void)prepare:(FMMetalChart *)chart view:(FMMetalView *)view
 {
 	if(_axis) {
 		[self configure:_axis chart:chart view:view];
@@ -260,7 +260,7 @@
 	return _quad.dataRegion;
 }
 
-- (void)configure:(id<FMAxis>)axis chart:(MetalChart *)chart view:(MetalView *)view
+- (void)configure:(id<FMAxis>)axis chart:(FMMetalChart *)chart view:(MetalView *)view
 {
 	FMDimensionalProjection *dimension = axis.dimension;
 	const CGFloat min = dimension.min;

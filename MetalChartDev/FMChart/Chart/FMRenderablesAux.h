@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 
 /**
  * FMPieDoughnutDataProxyElement is a struct that represents an element of pie doughnut chart

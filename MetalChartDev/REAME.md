@@ -50,7 +50,7 @@ Note that a [FMChartConfigurator](FMChart/Chart/FMChartConfigurator.h) instance 
 #### Chart & Configurator
 
 See 
-+ [MetalChart](FMChart/Chart/MetalChart.h)
++ [FMMetalChart](FMChart/Chart/FMMetalChart.h)
 + [FMChartConfigurator](FMChart/Chart/FMChartConfigurator.h)
 
 If you are not using FMChartConfigurator, you should follow : 
@@ -63,7 +63,7 @@ If you are not using FMChartConfigurator, you should follow :
 #### Creating Dimensions & Spaces
 
 See  
-+ [FMProjection](FMChart/Chart/MetalChart.h)
++ [FMProjection](FMChart/Chart/FMMetalChart.h)
 + [FMDimensionalProjection](FMChart/Chart/FMProjections)
 + [FMProjectionCartesian2D](FMChart/Chart/FMProjections)
 + [FMProjectionUpdater](FMChart/Chart/FMProjectionUpdater.h)

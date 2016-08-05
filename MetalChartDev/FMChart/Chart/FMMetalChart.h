@@ -1,5 +1,5 @@
 //
-//  MetalChart.h
+//  FMMetalChart.h
 //  FMChart
 //
 //  Created by Keisuke Mori on 2015/08/09.
@@ -60,7 +60,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMRenderable<NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-			 chart:(MetalChart * _Nonnull)chart
+			 chart:(FMMetalChart * _Nonnull)chart
 ;
 
 @end
@@ -78,7 +78,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMAttachment <NSObject>
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
-			 chart:(MetalChart * _Nonnull)chart
+			 chart:(FMMetalChart * _Nonnull)chart
 			  view:(MetalView * _Nonnull)view
 ;
 
@@ -102,7 +102,7 @@ MTLPixelFormat determineDepthPixelFormat();
 
 @protocol FMDependentAttachment <FMAttachment>
 
-- (void)prepare:(MetalChart * _Nonnull)chart
+- (void)prepare:(FMMetalChart * _Nonnull)chart
 		   view:(MetalView * _Nonnull)view
 ;
 
@@ -123,8 +123,8 @@ MTLPixelFormat determineDepthPixelFormat();
 
 @protocol FMCommandBufferHook <NSObject>
 
-- (void)chart:(MetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
-- (void)chart:(MetalChart * _Nonnull)chart willCommitBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
+- (void)chart:(FMMetalChart * _Nonnull)chart willStartEncodingToBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
+- (void)chart:(FMMetalChart * _Nonnull)chart willCommitBuffer:(id<MTLCommandBuffer> _Nonnull)buffer;
 
 @end
 
@@ -140,7 +140,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 /**
- * MetalChart class is a MetalViewDelegate object that manages elements of a chart.
+ * FMMetalChart class is a MetalViewDelegate object that manages elements of a chart.
  * It can be shared by multiple MetalView instance, but may cause problems (not considered on the design phase).
  * I can't think of any meaningfull usecase of sharing a chart.
  *
@@ -151,7 +151,7 @@ MTLPixelFormat determineDepthPixelFormat();
  * you must explicitly register/unregister FMProjection objects in order to draw renderables/attachment that needs projections to be updated/flushed.
  */
 
-@interface MetalChart : NSObject<MetalViewDelegate>
+@interface FMMetalChart : NSObject<MetalViewDelegate>
 
 @property (weak   , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 

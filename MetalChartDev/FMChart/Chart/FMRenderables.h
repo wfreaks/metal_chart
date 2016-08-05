@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 #import "FMProjections.h"
 
 
-typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, MetalChart *_Nonnull chart);
+typedef void (^FMRenderBlock)(id<MTLRenderCommandEncoder>_Nonnull encoder, FMMetalChart *_Nonnull chart);
 
 /**
  * A simple block-wrapper class for FMRenderable.

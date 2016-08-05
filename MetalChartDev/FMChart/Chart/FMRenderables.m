@@ -31,7 +31,7 @@
 	return self;
 }
 
-- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder chart:(MetalChart *)chart
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder chart:(FMMetalChart *)chart
 {
 	_block(encoder, chart);
 }
@@ -61,7 +61,7 @@
 - (FMUniformLineConf *)conf { return _line.conf; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart * _Nonnull)chart
+			 chart:(FMMetalChart * _Nonnull)chart
 {
 	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
@@ -135,7 +135,7 @@
 - (id<FMSeries>)series { return [_bar series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart * _Nonnull)chart
+			 chart:(FMMetalChart * _Nonnull)chart
 {
 	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
@@ -178,7 +178,7 @@
 - (id<FMSeries>)series { return [_point series]; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart * _Nonnull)chart
+			 chart:(FMMetalChart * _Nonnull)chart
 {
 	FMUniformProjectionCartesian2D *projection = _projection.projection;
 	if(projection) {
@@ -220,7 +220,7 @@
 - (FMUniformPlotRectAttributes *)attributes { return _rect.attributes; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
+			 chart:(FMMetalChart *)chart
 			  view:(MetalView *)view
 {
 	[_projection setPhysicalSize:view.bounds.size];
@@ -286,7 +286,7 @@
 	return self.gridLine.configuration;
 }
 
-- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+- (void)prepare:(FMMetalChart *)chart view:(FMMetalView *)view
 {
 	FMUniformAxisConfiguration *conf = _axis.axis.configuration;
 	FMUniformGridConfiguration *lineConf = _gridLine.configuration;
@@ -305,8 +305,8 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
-			  view:(MetalChart *)view
+			 chart:(FMMetalChart *)chart
+			  view:(FMMetalView *)view
 {
 	FMUniformGridConfiguration *conf = _gridLine.configuration;
 	const CGFloat len = _dimension.max - _dimension.min;

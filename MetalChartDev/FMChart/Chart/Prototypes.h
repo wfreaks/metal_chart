@@ -71,7 +71,7 @@
 @class FMUniformSeriesInfo;
 @class FMTextureQuadPrimitive;
 @class FMWindowFilter;
-@class MetalChart;
+@class FMMetalChart;
 
 
 typedef NS_ENUM(NSInteger, FMDimOrientation) {

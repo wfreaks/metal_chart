@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 #import "FMProjections.h"
 #import "Prototypes.h"
 
@@ -62,7 +62,7 @@
  * if these condictions are not met, then FMUniformAxisConfiguration object may have different values depending on projection.
  * To allow an axis to be shared among FMChart instances, this protocol define method below and hide FMUniformAxisConfiguration instance.
  */
-- (FMProjectionCartesian2D * _Nullable)projectionForChart:(MetalChart * _Nonnull)chart;
+- (FMProjectionCartesian2D * _Nullable)projectionForChart:(FMMetalChart * _Nonnull)chart;
 
 /**
  * This method is defined because exposing FMUniformAxisConfiguration instances is not possible/reasonable (see above explanation).
@@ -140,13 +140,13 @@ NS_DESIGNATED_INITIALIZER;
  */
 
 - (void)setProjection:(FMProjectionCartesian2D * _Nonnull)projection
-			 forChart:(MetalChart * _Nonnull)chart;
+			 forChart:(FMMetalChart * _Nonnull)chart;
 
 /**
  * Obviously you are also responsible for unbinding charts and projections when done.
  * (but it won't harm you even if you do not unbind them actually)
  */
-- (void)removeProjectionForChart:(MetalChart * _Nonnull)chart;
+- (void)removeProjectionForChart:(FMMetalChart * _Nonnull)chart;
 
 @end
 

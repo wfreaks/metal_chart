@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 
 /**
  * FMAnimation protocol defines methods to behave as a animation.

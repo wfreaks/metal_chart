@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 #import "Prototypes.h"
 
 /**

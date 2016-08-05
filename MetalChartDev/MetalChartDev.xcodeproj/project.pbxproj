@@ -28,7 +28,7 @@
 		AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8361BAFE3020032A0CF /* FMRenderables.m */; };
 		AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8341BAFE3020032A0CF /* FMProjectionUpdater.m */; };
 		AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8461BAFE3020032A0CF /* Series.m */; };
-		AA32A9A31BE3B5FA00ABDC1E /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* MetalChart.m */; };
+		AA32A9A31BE3B5FA00ABDC1E /* FMMetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* FMMetalChart.m */; };
 		AA32A9A41BE3B5FA00ABDC1E /* NSArray+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A86A1BAFE3020032A0CF /* NSArray+Utility.m */; };
 		AA32A9A51BE3B5FA00ABDC1E /* FMAxis.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82E1BAFE3020032A0CF /* FMAxis.m */; };
 		AA32A9A71BE3B5FA00ABDC1E /* FMAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A82C1BAFE3020032A0CF /* FMAnimator.m */; };
@@ -60,7 +60,7 @@
 		AA32A9C31BE3B5FA00ABDC1E /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8411BAFE3020032A0CF /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9C41BE3B5FA00ABDC1E /* FMInteractive.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8311BAFE3020032A0CF /* FMInteractive.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9C51BE3B5FA00ABDC1E /* TextureQuads.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8631BAFE3020032A0CF /* TextureQuads.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32A9C61BE3B5FA00ABDC1E /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA32A9C61BE3B5FA00ABDC1E /* FMMetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* FMMetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9C71BE3B5FA00ABDC1E /* TextureQuad_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8601BAFE3020032A0CF /* TextureQuad_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8671BAFE3020032A0CF /* DeviceResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9C91BE3B5FA00ABDC1E /* FMAxisLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A82F1BAFE3020032A0CF /* FMAxisLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -127,8 +127,8 @@
 		AAC4A8791BAFE3020032A0CF /* FMRangeFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */; };
 		AAC4A87A1BAFE3020032A0CF /* FMChartConfigurator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8391BAFE3020032A0CF /* FMChartConfigurator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A87B1BAFE3020032A0CF /* FMChartConfigurator.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83A1BAFE3020032A0CF /* FMChartConfigurator.m */; };
-		AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* MetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* MetalChart.m */; };
+		AAC4A87C1BAFE3020032A0CF /* FMMetalChart.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83B1BAFE3020032A0CF /* FMMetalChart.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC4A87D1BAFE3020032A0CF /* FMMetalChart.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A83C1BAFE3020032A0CF /* FMMetalChart.m */; };
 		AAC4A87E1BAFE3020032A0CF /* Buffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A83F1BAFE3020032A0CF /* Buffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8401BAFE3020032A0CF /* Buffers.mm */; };
 		AAC4A8801BAFE3020032A0CF /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8411BAFE3020032A0CF /* Engine.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -252,8 +252,8 @@
 		AAC4A8381BAFE3020032A0CF /* FMRangeFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMRangeFilters.m; sourceTree = "<group>"; };
 		AAC4A8391BAFE3020032A0CF /* FMChartConfigurator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMChartConfigurator.h; sourceTree = "<group>"; };
 		AAC4A83A1BAFE3020032A0CF /* FMChartConfigurator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMChartConfigurator.m; sourceTree = "<group>"; };
-		AAC4A83B1BAFE3020032A0CF /* MetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetalChart.h; sourceTree = "<group>"; };
-		AAC4A83C1BAFE3020032A0CF /* MetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetalChart.m; sourceTree = "<group>"; };
+		AAC4A83B1BAFE3020032A0CF /* FMMetalChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalChart.h; sourceTree = "<group>"; };
+		AAC4A83C1BAFE3020032A0CF /* FMMetalChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalChart.m; sourceTree = "<group>"; };
 		AAC4A83F1BAFE3020032A0CF /* Buffers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffers.h; sourceTree = "<group>"; };
 		AAC4A8401BAFE3020032A0CF /* Buffers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Buffers.mm; sourceTree = "<group>"; };
 		AAC4A8411BAFE3020032A0CF /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
@@ -417,8 +417,8 @@
 		AAC4A8291BAFE3020032A0CF /* Chart */ = {
 			isa = PBXGroup;
 			children = (
-				AAC4A83B1BAFE3020032A0CF /* MetalChart.h */,
-				AAC4A83C1BAFE3020032A0CF /* MetalChart.m */,
+				AAC4A83B1BAFE3020032A0CF /* FMMetalChart.h */,
+				AAC4A83C1BAFE3020032A0CF /* FMMetalChart.m */,
 				AA858A3A1BFA4E8200C419F2 /* FMProjections.h */,
 				AA858A3B1BFA4E8200C419F2 /* FMProjections.m */,
 				AAC4A8351BAFE3020032A0CF /* FMRenderables.h */,
@@ -608,7 +608,7 @@
 				AA32A9C41BE3B5FA00ABDC1E /* FMInteractive.h in Headers */,
 				AA32A9C51BE3B5FA00ABDC1E /* TextureQuads.h in Headers */,
 				AA85C7681BFC4D730037253B /* CircleBuffers.h in Headers */,
-				AA32A9C61BE3B5FA00ABDC1E /* MetalChart.h in Headers */,
+				AA32A9C61BE3B5FA00ABDC1E /* FMMetalChart.h in Headers */,
 				AA32A9C71BE3B5FA00ABDC1E /* TextureQuad_common.h in Headers */,
 				AA32A9C81BE3B5FA00ABDC1E /* DeviceResource.h in Headers */,
 				AA32A9C91BE3B5FA00ABDC1E /* FMAxisLabel.h in Headers */,
@@ -654,7 +654,7 @@
 				AAC4A8801BAFE3020032A0CF /* Engine.h in Headers */,
 				AAC4A8721BAFE3020032A0CF /* FMInteractive.h in Headers */,
 				AAC4A89E1BAFE3020032A0CF /* TextureQuads.h in Headers */,
-				AAC4A87C1BAFE3020032A0CF /* MetalChart.h in Headers */,
+				AAC4A87C1BAFE3020032A0CF /* FMMetalChart.h in Headers */,
 				AA85C7671BFC4D730037253B /* CircleBuffers.h in Headers */,
 				AAC4A89B1BAFE3020032A0CF /* TextureQuad_common.h in Headers */,
 				AAC4A8A11BAFE3020032A0CF /* DeviceResource.h in Headers */,
@@ -837,7 +837,7 @@
 				AA32A9A01BE3B5FA00ABDC1E /* FMRenderables.m in Sources */,
 				AA32A9A11BE3B5FA00ABDC1E /* FMProjectionUpdater.m in Sources */,
 				AA32A9A21BE3B5FA00ABDC1E /* Series.m in Sources */,
-				AA32A9A31BE3B5FA00ABDC1E /* MetalChart.m in Sources */,
+				AA32A9A31BE3B5FA00ABDC1E /* FMMetalChart.m in Sources */,
 				AA32A9A41BE3B5FA00ABDC1E /* NSArray+Utility.m in Sources */,
 				AA32A9A51BE3B5FA00ABDC1E /* FMAxis.m in Sources */,
 				AA32A9A71BE3B5FA00ABDC1E /* FMAnimator.m in Sources */,
@@ -888,7 +888,7 @@
 				AAC4A8771BAFE3020032A0CF /* FMRenderables.m in Sources */,
 				AAC4A8751BAFE3020032A0CF /* FMProjectionUpdater.m in Sources */,
 				AAC4A8851BAFE3020032A0CF /* Series.m in Sources */,
-				AAC4A87D1BAFE3020032A0CF /* MetalChart.m in Sources */,
+				AAC4A87D1BAFE3020032A0CF /* FMMetalChart.m in Sources */,
 				AAC4A8A41BAFE3020032A0CF /* NSArray+Utility.m in Sources */,
 				AAC4A86F1BAFE3020032A0CF /* FMAxis.m in Sources */,
 				AAC4A86D1BAFE3020032A0CF /* FMAnimator.m in Sources */,

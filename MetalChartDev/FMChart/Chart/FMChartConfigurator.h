@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) NSArray<FMDimension*> *dimensions;
 @property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> *spaceCartesian2D;
-@property (readonly, nonatomic) MetalChart *chart;
+@property (readonly, nonatomic) FMMetalChart *chart;
 @property (readonly, nonatomic) MetalView * _Nullable view;
 @property (readonly, nonatomic) FMEngine *engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 ;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
-- (instancetype)initWithChart:(MetalChart *)chart
+- (instancetype)initWithChart:(FMMetalChart *)chart
                        engine:(FMEngine * _Nullable)engine
                          view:(MetalView * _Nullable)view
                  preferredFps:(NSInteger)fps

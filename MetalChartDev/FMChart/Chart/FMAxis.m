@@ -57,12 +57,12 @@
 	return self;
 }
 
-- (FMProjectionCartesian2D *)projectionForChart:(MetalChart *)chart
+- (FMProjectionCartesian2D *)projectionForChart:(FMMetalChart *)chart
 {
 	return _projection;
 }
 
-- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+- (void)prepare:(FMMetalChart *)chart view:(FMMetalView *)view
 {
 	[_conf configureUniform:_axis.configuration withDimension:_dimension orthogonal:_orthogonal];
 	const CGFloat len = _dimension.max - _dimension.min;
@@ -73,7 +73,7 @@
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
+			 chart:(FMMetalChart *)chart
 			  view:(MetalView *)view
 {
 	[_axis encodeWith:encoder projection:_projection.projection];
@@ -147,7 +147,7 @@
 	_axis.configuration.maxMajorTicks = majorTickCount;
 }
 
-- (FMProjectionCartesian2D *)projectionForChart:(MetalChart *)chart
+- (FMProjectionCartesian2D *)projectionForChart:(FMMetalChart *)chart
 {
 	FMProjectionCartesian2D *projection = _projections[chart.key];
 #ifdef DEBUG
@@ -161,18 +161,18 @@
 	[_axis.configuration setMinorTicksPerMajor:count];
 }
 
-- (void)prepare:(MetalChart *)chart view:(FMMetalView *)view
+- (void)prepare:(FMMetalChart *)chart view:(FMMetalView *)view
 {
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
+			 chart:(FMMetalChart *)chart
 			  view:(FMMetalView *)view
 {
 	[_axis encodeWith:encoder projection:[self projectionForChart:chart].projection];
 }
 
-- (void)setProjection:(FMProjectionCartesian2D *)projection forChart:(MetalChart *)chart
+- (void)setProjection:(FMProjectionCartesian2D *)projection forChart:(FMMetalChart *)chart
 {
 	@synchronized(self) {
 		NSMutableDictionary *dict = _projections.mutableCopy;
@@ -181,7 +181,7 @@
 	}
 }
 
-- (void)removeProjectionForChart:(MetalChart *)chart
+- (void)removeProjectionForChart:(FMMetalChart *)chart
 {
 	@synchronized(self) {
 		NSMutableDictionary *dict = _projections.mutableCopy;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CGGeometry.h>
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 
 /**
  * FMDimensionalProjection defines an element of FMProjectionCartesian2D.

@@ -1,5 +1,5 @@
 //
-//  MetalChart.m
+//  FMMetalChart.m
 //  FMChart
 //
 //  Created by Keisuke Mori on 2015/08/09.
@@ -8,7 +8,7 @@
 
 #import "common_private.h"
 
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 #import "NSArray+Utility.h"
 #import "DeviceResource.h"
 
@@ -19,7 +19,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	MTLPixelFormatDepth32Float;
 }
 
-@interface MetalChart()
+@interface FMMetalChart()
 
 @property (strong, nonatomic) NSArray<id<FMRenderable>> *renderables;
 @property (strong, nonatomic) NSSet<id<FMProjection>> *projectionSet;
@@ -32,7 +32,7 @@ MTLPixelFormat determineDepthPixelFormat()
 
 @end
 
-@implementation MetalChart
+@implementation FMMetalChart
 
 - (instancetype)init
 {

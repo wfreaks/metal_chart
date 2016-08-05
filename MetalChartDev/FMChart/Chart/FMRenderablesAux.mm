@@ -127,7 +127,7 @@
 - (NSUInteger)capacity { return _values.capacity; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
-			 chart:(MetalChart *)chart
+			 chart:(FMMetalChart *)chart
 {
 	FMProjectionPolar *projection = _projection;
 	const NSUInteger count = _count;

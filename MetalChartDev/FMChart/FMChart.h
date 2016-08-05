@@ -21,7 +21,7 @@ FOUNDATION_EXPORT const unsigned char FMChartVersionString[];
 #import <FMChart/UIColor+Utility.h>
 
 #import <FMChart/chart_common.h>
-#import <FMChart/MetalChart.h>
+#import <FMChart/FMMetalChart.h>
 #import <FMChart/FMProjections.h>
 #import <FMChart/FMRenderables.h>
 #import <FMChart/FMRenderablesAux.h>

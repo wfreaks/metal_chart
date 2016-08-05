@@ -32,7 +32,7 @@
 	return self;
 }
 
-- (void)chart:(MetalChart *)chart willStartEncodingToBuffer:(id<MTLCommandBuffer>)buffer
+- (void)chart:(FMMetalChart *)chart willStartEncodingToBuffer:(id<MTLCommandBuffer>)buffer
 {
 	NSOrderedSet<id<FMAnimation>> * running;
 	NSOrderedSet<id<FMAnimation>> * pending;
@@ -60,7 +60,7 @@
 	_runningAnimations = newRunning;
 }
 
-- (void)chart:(MetalChart *)chart willCommitBuffer:(id<MTLCommandBuffer>)buffer
+- (void)chart:(FMMetalChart *)chart willCommitBuffer:(id<MTLCommandBuffer>)buffer
 {
 	@synchronized (self) {
 		if(_runningAnimations.count + _pendingAnimations.count > 0) {

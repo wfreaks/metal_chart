@@ -17,7 +17,7 @@
 @property (nonatomic, weak) IBOutlet FMPanGestureRecognizer *panRec;
 @property (nonatomic, weak) IBOutlet UIPinchGestureRecognizer *pinchRec;
 
-@property (nonatomic, readonly) MetalChart *chart;
+@property (nonatomic, readonly) FMMetalChart *chart;
 @property (nonatomic, readonly) FMChartConfigurator *configurator;
 @property (nonatomic, readonly) HKHealthStore *store;
 @property (nonatomic, readonly) NSDate *refDate;
@@ -55,7 +55,7 @@
 {
 	// 1 : configure view and chart.
 	self.metalView.clearColor = MTLClearColorMake(0.9, 0.9, 0.9, 1);
-	_chart = [[MetalChart alloc] init];
+	_chart = [[FMMetalChart alloc] init];
 	FMEngine *engine = [FMEngine createDefaultEngine];
 	_configurator = [[FMChartConfigurator alloc] initWithChart:self.chart
 														engine:engine

@@ -9,7 +9,7 @@
 #import "Engine.h"
 #import "DeviceResource.h"
 #import "Buffers.h"
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 
 
 @implementation FMSurfaceConfiguration

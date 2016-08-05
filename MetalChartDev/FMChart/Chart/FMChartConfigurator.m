@@ -7,7 +7,7 @@
 //
 
 #import "FMChartConfigurator.h"
-#import "MetalChart.h"
+#import "FMMetalChart.h"
 #import "FMProjectionUpdater.h"
 #import "FMAxis.h"
 #import "FMAxisLabel.h"
@@ -89,7 +89,7 @@
 	view.layer.magnificationFilter = kCAFilterNearest;
 }
 
-- (instancetype)initWithChart:(MetalChart *)chart
+- (instancetype)initWithChart:(FMMetalChart *)chart
 					   engine:(FMEngine *)engine
 						view:(MetalView *)view
 				 preferredFps:(NSInteger)fps
