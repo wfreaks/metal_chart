@@ -3,7 +3,7 @@
 //  FMChart
 //
 //  Created by Keisuke Mori on 2014/08/22.
-//  Copyright (c) 2014年 freaks. All rights reserved.
+//  Copyright (c) 2014 Keisuke Mori. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

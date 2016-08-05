@@ -1,6 +1,6 @@
 # FMChart Documentation
 
-FMChart is a charting framework that utilizes Metal API on A7+ iOS devices running iOS 8 or later.  
+FMChart is a charting framework that utilizes Metal API on A7+ iOS devices running iOS 8 or later. 
 
 ## Main Features
 
@@ -27,7 +27,7 @@ You need to allocate them, configure their properties and
 
 ## Sample Codes
 
-See [HealthKit sample](MetalChartDev/ViewController.swift).
+See [HealthKit sample](MetalChartDev/ViewControllers/HealthKitViewController.m).
 The view controller queries all systolic/diastolic
 blood pressures, weights and daily step counts from HealthKit, 
 and then show them simultaneously.
@@ -93,3 +93,8 @@ See
 + [FMUniformGridAttributes](FMChart/Engine/Line/LineBuffers.h)
 
 A grid line instance can be used without an axis (in this case you should manage configurations manually).
+
+
+## License 
+
+This software is released under the [MIT License](LICENSE.txt).

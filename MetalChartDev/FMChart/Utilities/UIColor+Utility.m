@@ -3,7 +3,7 @@
 //  FMChart
 //
 //  Created by Keisuke Mori on 2015/11/03.
-//  Copyright © 2015年 freaks. All rights reserved.
+//  Copyright © 2015 Keisuke Mori. All rights reserved.
 //
 
 #import "UIColor+Utility.h"

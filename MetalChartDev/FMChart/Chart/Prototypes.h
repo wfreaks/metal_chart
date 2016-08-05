@@ -3,7 +3,7 @@
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2016/04/15.
-//  Copyright © 2016年 freaks. All rights reserved.
+//  Copyright © 2016 Keisuke Mori. All rights reserved.
 //
 
 #ifndef Prototypes_h

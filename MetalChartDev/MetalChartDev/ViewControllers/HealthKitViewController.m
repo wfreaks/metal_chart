@@ -3,7 +3,7 @@
 //  MetalChartDev
 //
 //  Created by Keisuke Mori on 2016/08/03.
-//  Copyright © 2016年 freaks. All rights reserved.
+//  Copyright © 2016 Keisuke Mori. All rights reserved.
 //
 
 #import "HealthKitViewController.h"
