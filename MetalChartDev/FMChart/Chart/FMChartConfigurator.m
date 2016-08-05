@@ -67,6 +67,52 @@
 
 
 
+@implementation FMSpace2D
+
+- (instancetype)initWithDimX:(FMDimension*)x Y:(FMDimension*)y resource:(FMDeviceResource*)resource
+{
+	self = [super init];
+	if(self) {
+		_x = x;
+		_y = y;
+		_space = [[FMProjectionCartesian2D alloc] initWithDimensionX:x.dim Y:y.dim resource:resource];
+	}
+	return self;
+}
+
++ (instancetype)spaceWithDimensionX:(FMDimension *)x Y:(FMDimension *)y engine:(FMDeviceResource *)resource
+{
+	return [[self alloc] initWithDimX:x Y:y resource:resource];
+}
+
+- (void)addValueX:(CGFloat)x Y:(CGFloat)y
+{
+	[self.x addValue:x];
+	[self.y addValue:y];
+}
+
+- (void)clearValues
+{
+	[self.x clearValues];
+	[self.y clearValues];
+}
+
+- (void)updateRanges
+{
+	[self.x updateRange];
+	[self.y updateRange];
+	[self.metalView setNeedsDisplay];
+}
+
+- (BOOL)containsDimension:(FMDimension *)dim
+{
+	return (self.x == dim || self.y == dim);
+}
+
+@end
+
+
+
 @interface FMChartConfigurator()
 
 @property (nonatomic, readonly) NSMutableArray *retained;
@@ -98,7 +144,7 @@
 	if(self) {
 		_chart = chart;
 		_dimensions = [NSArray array];
-		_spaceCartesian2D = [NSArray array];
+		_space = [NSArray array];
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
 		engine = (engine) ? engine : [[FMEngine alloc] initWithResource:res surface:[FMSurfaceConfiguration defaultConfiguration]];
@@ -122,20 +168,32 @@
 	return self;
 }
 
-- (FMProjectionCartesian2D *)spaceWithDims:(NSArray<FMDimension*>*)dims
+- (FMSpace2D *)spaceWithDimX:(FMDimension *)x Y:(FMDimension *)y
 {
-	if(dims.count != 2) return nil;
-	NSArray<NSNumber*>* ids = @[@(dims[0].dim.dimensionId), @(dims[1].dim.dimensionId)];
+	NSArray<NSNumber*>* ids = @[@(x.dim.dimensionId), @(y.dim.dimensionId)];
 	
-	for(FMProjectionCartesian2D *s in self.spaceCartesian2D) {
-		if([s matchesDimensionIds:ids]) {
+	for(FMSpace2D *s in self.space) {
+		if([s.space matchesDimensionIds:ids]) {
 			return s;
 		}
 	}
-	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0].dim Y:dims[1].dim resource:self.engine.resource];
-	_spaceCartesian2D = [_spaceCartesian2D arrayByAddingObject:space];
-	[_chart addProjection:space];
+	FMSpace2D *space = [FMSpace2D spaceWithDimensionX:x Y:y engine:self.engine.resource];
+	space.metalView = self.view;
+	_space = [_space arrayByAddingObject:space];
+	[_chart addProjection:space.space];
 	return space;
+}
+
+- (FMSpace2D *)findSpaceWithIdX:(NSInteger)x Y:(NSInteger)y
+{
+	NSArray<NSNumber*>* ids = @[@(x), @(y)];
+	NSArray<FMSpace2D*> *space = self.space;
+	for(FMSpace2D *s in space) {
+		if([s.space matchesDimensionIds:ids]) {
+			return s;
+		}
+	}
+	return nil;
 }
 
 - (FMDimension *)dimWithId:(NSInteger)dimensionId
@@ -159,6 +217,14 @@
 		_dimensions = [_dimensions arrayByAddingObject:r];
 	}
 	return r;
+}
+
+- (void)clearValuesForAllDimensions
+{
+	typeof(self.dimensions) dims = self.dimensions;
+	for(FMDimension *d in dims) {
+		[d clearValues];
+	}
 }
 
 - (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
@@ -199,13 +265,13 @@
 	return nil;
 }
 
-- (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
+- (FMSpace2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
 {
 	FMDimension *dim = [self dimWithId:dimensionId];
 	if(dim) {
-		NSArray<FMProjectionCartesian2D*> *space = self.spaceCartesian2D;
-		for(FMProjectionCartesian2D *s in space) {
-			if([s.dimensions containsObject:dim.dim]) {
+		NSArray<FMSpace2D*> *space = self.space;
+		for(FMSpace2D *s in space) {
+			if([s containsDimension:dim]) {
 				return s;
 			}
 		}
@@ -230,10 +296,10 @@
 {
 	FMDimension *dim = [self dimWithId:dimensionId];
 	if(dim) {
-		FMProjectionCartesian2D *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
-		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim.dim];
+		FMSpace2D *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
+		NSUInteger dimIndex = [targetSpace.space.dimensions indexOfObject:dim.dim];
 		if(targetSpace) {
-			FMExclusiveAxis *axis = [[FMExclusiveAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
+			FMExclusiveAxis *axis = [[FMExclusiveAxis alloc] initWithEngine:_engine Projection:targetSpace.space dimension:dimensionId configuration:configurator];
 			if(below) {
 				[_chart addPreRenderable:axis];
 			} else {
@@ -299,9 +365,9 @@
 									  anchor:(CGFloat)anchorValue
 									interval:(CGFloat)interval
 {
-	FMProjectionCartesian2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
+	FMSpace2D *space = [self firstSpaceContainingDimensionWithId:dimensionId];
 	if(space) {
-		FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space dimension:dimensionId];
+		FMGridLine *line = [FMGridLine gridLineWithEngine:self.engine projection:space.space dimension:dimensionId];
 		[line.configuration setAnchorValue:anchorValue];
 		[line.configuration setInterval:interval];
 		if(below) {
@@ -314,24 +380,24 @@
 	return nil;
 }
 
-- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMSpace2D *)space
 										series:(FMOrderedSeries *)series
 {
 	FMOrderedPolyLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
-	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
+	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
 	[_chart addRenderable:ls];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return line;
 }
 
-- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMSpace2D *)space
 															series:(FMOrderedAttributedSeries *)series
 												attributesCapacity:(NSUInteger)capacity
 {
 	FMOrderedAttributedPolyLinePrimitive *line = [[FMOrderedAttributedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributesCapacity:capacity];
-	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space];
+	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
 	[_chart addRenderable:ls];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return line;
 }
 
@@ -342,20 +408,20 @@
 	return attrs;
 }
 
-- (FMOrderedBarPrimitive *)addBarToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedBarPrimitive *)addBarToSpace:(FMSpace2D *)space
 								  series:(FMOrderedSeries *)series
 {
 	FMOrderedBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine
 																 series:series
 														  configuration:nil
 															 attributes:nil];
-	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
+	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
 	[_chart addRenderable:bs];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return bar;
 }
 
-- (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMSpace2D *)space
 													  series:(FMOrderedAttributedSeries *)series
 										  attributesCapacity:(NSUInteger)capacity
 {
@@ -364,29 +430,29 @@
 																					 configuration:nil
 																				   attributesArray:nil
 																		attributesCapacityOnCreate:capacity];
-	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space];
+	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
 	[_chart addRenderable:bs];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return bar;
 }
 
-- (FMOrderedPointPrimitive *)addPointToSpace:(FMProjectionCartesian2D *)space series:(FMOrderedSeries *)series
+- (FMOrderedPointPrimitive *)addPointToSpace:(FMSpace2D *)space series:(FMOrderedSeries *)series
 {
 	FMOrderedPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
-	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
+	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
 	[_chart addRenderable:ps];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return point;
 }
 
-- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMSpace2D *)space
 														  series:(FMOrderedAttributedSeries *)series
 											  attributesCapacity:(NSUInteger)capacity
 {
 	FMOrderedAttributedPointPrimitive *point = [[FMOrderedAttributedPointPrimitive alloc] initWithEngine:self.engine series:series attributesCapacity:capacity];
-	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space];
+	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
 	[_chart addRenderable:ps];
-	[_chart addProjection:space];
+	[_chart addProjection:space.space];
 	return point;
 }
 

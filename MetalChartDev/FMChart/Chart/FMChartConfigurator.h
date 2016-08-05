@@ -8,11 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-// モジュラーな設計を心がけると、使いかたの幅が広がると同時に、クラス階層と関係性の理解を強制されるが、
-// アプリケーションコードはある意味では迂遠なものになる（実際にはそれが正しい姿だが、往々にして典型的なコードを要求される）。
-// そのあたりの不満を解消するためのルーチン集がここに集められる.
-// また、クラス関係を理解するためのエントリポイントとしての意味もある.
-
 #import "FMAxisLabel.h"
 #import "FMRenderables.h"
 #import "FMRenderablesAux.h"
@@ -20,10 +15,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+// モジュラーな設計を心がけると、使いかたの幅が広がると同時に、クラス階層と関係性の理解を強制されるが、
+// アプリケーションコードはある意味では迂遠なものになる（実際にはそれが正しい姿だが、往々にして典型的なコードを要求される）。
+// そのあたりの不満を解消するためのルーチン集がここに集められる.
+// また、クラス関係を理解するためのエントリポイントとしての意味もある.
+
+/*
+ * Classes defined in this file are utility class.
+ * Although core components are flexible and there are solid reasons for the design,
+ * It is not easy nor reasonable to repeat lines of allocating and configuring them in application codes.
+ * Following classes shorten your codes of typical use, and make it easy to understand core components.
+ */
+
+/**
+ * A wrapper class for dimension and its range updater.
+ */
+
 @interface FMDimension : NSObject
 
 @property (nonatomic, readonly) FMDimensionalProjection *dim;
 @property (nonatomic, readonly) FMProjectionUpdater *updater;
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 + (instancetype)dimensionWithId:(NSInteger)dimensionId
                         filters:(NSArray<id<FMRangeFilter>>*)filters
@@ -32,6 +45,31 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addValue:(CGFloat)value;
 - (void)updateRange;
 - (void)clearValues;
+
+@end
+
+
+/**
+ * A wrapper class for FMProjectionCartesian2D and its dimensions.
+ */
+@interface FMSpace2D : NSObject
+
+@property (nonatomic, readonly) FMProjectionCartesian2D *space;
+@property (nonatomic, readonly) FMDimension *x;
+@property (nonatomic, readonly) FMDimension *y;
+@property (nonatomic, weak) FMMetalView *metalView;
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype)spaceWithDimensionX:(FMDimension*)x
+                                  Y:(FMDimension*)y
+                             engine:(FMDeviceResource*)resource;
+
+- (void)addValueX:(CGFloat)x Y:(CGFloat)y;
+- (void)clearValues;
+- (void)updateRanges;
+
+- (BOOL)containsDimension:(FMDimension*)dim;
 
 @end
 
@@ -51,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FMChartConfigurator : NSObject
 
 @property (readonly, nonatomic) NSArray<FMDimension*> *dimensions;
-@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> *spaceCartesian2D;
+@property (readonly, nonatomic) NSArray<FMSpace2D*> *space;
 @property (readonly, nonatomic) FMMetalChart *chart;
 @property (readonly, nonatomic) FMMetalView * _Nullable view;
 @property (readonly, nonatomic) FMEngine *engine;
@@ -81,8 +119,10 @@ NS_DESIGNATED_INITIALIZER;
                          filters:(NSArray<id<FMRangeFilter>>* _Nullable)filters
 ;
 
-- (FMProjectionCartesian2D *_Nullable)spaceWithDims:(NSArray<FMDimension*> *)dims
-;
+- (void)clearValuesForAllDimensions;
+
+- (FMSpace2D *)spaceWithDimX:(FMDimension*)x Y:(FMDimension*)y;
+- (FMSpace2D *_Nullable)findSpaceWithIdX:(NSInteger)x Y:(NSInteger)y;
 
 - (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan
 							pinch:(UIPinchGestureRecognizer *)pinch
@@ -123,58 +163,58 @@ NS_DESIGNATED_INITIALIZER;
 // これはLineSeriesなどはほとんど抽象化されラッパーとして機能しており、これを返すと細かいコントロールができないため.
 // 各々適切に処理されてるので気にする必要はない.
 
-- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMProjectionCartesian2D *)space
+- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMSpace2D *)space
                                         series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedPolyLinePrimitive * _Nonnull)addAttributedLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
-																	 series:(FMOrderedAttributedSeries *_Nonnull)series
-														 attributesCapacity:(NSUInteger)capacity
+- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMSpace2D *)space
+															series:(FMOrderedAttributedSeries *)series
+												attributesCapacity:(NSUInteger)capacity
 ;
 
-- (FMUniformPointAttributes* _Nonnull)setPointToLine:(FMOrderedPolyLinePrimitive* _Nonnull)line
+- (FMUniformPointAttributes*)setPointToLine:(FMOrderedPolyLinePrimitive*)line
 ;
 
-- (FMOrderedBarPrimitive * _Nonnull)addBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-										   series:(FMOrderedSeries * _Nonnull)series
+- (FMOrderedBarPrimitive *)addBarToSpace:(FMSpace2D *)space
+								  series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedBarPrimitive * _Nonnull)addAttributedBarToSpace:(FMProjectionCartesian2D *_Nonnull)space
-															   series:(FMOrderedAttributedSeries * _Nonnull)series
-												   attributesCapacity:(NSUInteger)capacity
+- (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMSpace2D *)space
+													  series:(FMOrderedAttributedSeries *)series
+										  attributesCapacity:(NSUInteger)capacity
 ;
 
-- (FMOrderedPointPrimitive * _Nonnull)addPointToSpace:(FMProjectionCartesian2D *_Nonnull)space
-											   series:(FMOrderedSeries * _Nonnull)series
+- (FMOrderedPointPrimitive *)addPointToSpace:(FMSpace2D *)space
+									  series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedPointPrimitive * _Nonnull)addAttributedPointToSpace:(FMProjectionCartesian2D * _Nonnull)space
-                                                                   series:(FMOrderedAttributedSeries * _Nonnull)series
-													   attributesCapacity:(NSUInteger)capacity
+- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMSpace2D *)space
+														  series:(FMOrderedAttributedSeries *)series
+											  attributesCapacity:(NSUInteger)capacity
 ;
 
-- (void)removeRenderable:(id<FMRenderable> _Nonnull)renderable;
+- (void)removeRenderable:(id<FMRenderable>)renderable;
 
-- (FMBlockRenderable * _Nonnull)addBlockRenderable:(FMRenderBlock _Nonnull)block;
+- (FMBlockRenderable *)addBlockRenderable:(FMRenderBlock)block;
 
-- (FMOrderedSeries * _Nonnull)createSeries:(NSUInteger)capacity
+- (FMOrderedSeries *)createSeries:(NSUInteger)capacity
 ;
 
-- (FMOrderedAttributedSeries * _Nonnull)createAttributedSeries:(NSUInteger)capacity
+- (FMOrderedAttributedSeries *)createAttributedSeries:(NSUInteger)capacity
 ;
 
 
-- (FMProjectionPolar * _Nonnull)addPolarSpace;
+- (FMProjectionPolar *)addPolarSpace;
 ;
 
-- (FMPieDoughnutSeries * _Nonnull)addPieSeriesToSpace:(FMProjectionPolar * _Nonnull)space
+- (FMPieDoughnutSeries *)addPieSeriesToSpace:(FMProjectionPolar *)space
 											 capacity:(NSUInteger)capacity
 ;
 
 // protocolを使ったdelegate/hookなどを良く実装するため、外側でretainしておく必要が
 // 出る事が多いが、実際そのためにプロパティ増やすとかないわーな時に使う.
 // 決して良い方法ではないし何回も通るコードパスで使用するべきではないが, 結構便利だったりする.
-- (void)addRetainedObject:(id _Nonnull)object;
+- (void)addRetainedObject:(id)object;
 
 
 @end

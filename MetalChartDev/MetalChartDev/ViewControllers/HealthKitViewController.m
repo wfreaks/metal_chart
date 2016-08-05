@@ -28,10 +28,6 @@
 @property (nonatomic, readonly) FMOrderedSeries *diastolicSeries;
 
 @property (nonatomic, readonly) FMAnchoredWindowPosition *windowPos;
-@property (nonatomic, readonly) FMDimension *dateDim;
-@property (nonatomic, readonly) FMDimension *stepDim;
-@property (nonatomic, readonly) FMDimension *weightDim;
-@property (nonatomic, readonly) FMDimension *pressureDim;
 
 @property (nonatomic, readonly) FMAxisLabel *weightLabel;
 
@@ -69,11 +65,11 @@
 							  pinch:self.pinchRec];
 	
 	// 2 : create dimensions, space and updaters
-	const NSInteger dateDim = 1, stepDim = 2, weightDim = 3, pressureDim = 4;
+	const NSInteger dDate = 1, dStep = 2, dWeight = 3, dPressure = 4;
 	
 	const NSTimeInterval daySec = 24 * 60 * 60;
-	_dateDim = [conf createDimWithId:dateDim filters:@[[FMSourceFilter expandWithMin:-6*daySec max:daySec],
-													   [FMPaddingFilter paddingWithLow:daySec high:daySec]]];
+	FMDimension *dateDim = [conf createDimWithId:dDate filters:@[[FMSourceFilter expandWithMin:-6*daySec max:daySec],
+																 [FMPaddingFilter paddingWithLow:daySec high:daySec]]];
 	
 	// 7 days visible on 4 inch devices (320 - padding).
 	const CGFloat dateScale = 7*daySec / (320-80);
@@ -86,53 +82,53 @@
 																		defaultPosition:1];
 	
 	_windowPos = winPos;
-	[conf addWindowToDim:self.dateDim length:winLen position:winPos horizontal:YES];
+	[conf addWindowToDim:dateDim length:winLen position:winPos horizontal:YES];
 	
-	_stepDim = [conf createDimWithId:stepDim filters:@[[FMSourceFilter expandWithMin:0 max:3000],
-													   [FMPaddingFilter paddingWithLow:0 high:1000],
-													   [FMIntervalFilter filterWithAnchor:0 interval:1000]]];
+	FMDimension *stepDim = [conf createDimWithId:dStep filters:@[[FMSourceFilter expandWithMin:0 max:3000],
+																 [FMPaddingFilter paddingWithLow:0 high:1000],
+																 [FMIntervalFilter filterWithAnchor:0 interval:1000]]];
 	
-	_weightDim = [conf createDimWithId:weightDim filters:@[[FMSourceFilter expandWithMin:50 max:60],
-														   [FMPaddingFilter paddingWithLow:1 high:1],
-														   [FMIntervalFilter filterWithAnchor:0 interval:5.0001]]];
+	FMDimension *weightDim = [conf createDimWithId:dWeight filters:@[[FMSourceFilter expandWithMin:50 max:60],
+																	 [FMPaddingFilter paddingWithLow:1 high:1],
+																	 [FMIntervalFilter filterWithAnchor:0 interval:5.0001]]];
 	
-	_pressureDim = [conf createDimWithId:pressureDim filters:@[[FMSourceFilter expandWithMin:60 max:120],
-															   [FMPaddingFilter paddingWithLow:5 high:5],
-															   [FMIntervalFilter filterWithAnchor:0 interval:5]]];
+	FMDimension *pressureDim = [conf createDimWithId:dPressure filters:@[[FMSourceFilter expandWithMin:60 max:120],
+																		 [FMPaddingFilter paddingWithLow:5 high:5],
+																		 [FMIntervalFilter filterWithAnchor:0 interval:5]]];
 	
-	FMProjectionCartesian2D *weightSpace = [conf spaceWithDims:@[self.dateDim, self.weightDim]];
-	FMProjectionCartesian2D *stepSpace = [conf spaceWithDims:@[self.dateDim, self.stepDim]];
-	FMProjectionCartesian2D *pressureSpace = [conf spaceWithDims:@[self.dateDim, self.pressureDim]];
+	FMSpace2D *weightSpace = [conf spaceWithDimX:dateDim Y:weightDim];
+	FMSpace2D *stepSpace = [conf spaceWithDimX:dateDim Y:stepDim];
+	FMSpace2D *pressureSpace = [conf spaceWithDimX:dateDim Y:pressureDim];
 	
-	// 3 : create data containers and renderers
-	_weightSeries = [self.configurator createAttributedSeries:4];
-	_stepSeries = [self.configurator createAttributedSeries:4];
-	_systolicSeries = [self.configurator createSeries:4];
-	_diastolicSeries = [self.configurator createSeries:4];
+	// 3 : create data containers and renderers (their size get extended when loading data)
+	_weightSeries = [conf createAttributedSeries:4];
+	_stepSeries = [conf createAttributedSeries:4];
+	_systolicSeries = [conf createSeries:4];
+	_diastolicSeries = [conf createSeries:4];
 	
-	FMOrderedAttributedPolyLinePrimitive *weightLine = [self.configurator addAttributedLineToSpace:weightSpace
-																							series:self.weightSeries
-																				attributesCapacity:2];
+	FMOrderedAttributedPolyLinePrimitive *weightLine = [conf addAttributedLineToSpace:weightSpace
+																			   series:self.weightSeries
+																   attributesCapacity:2];
 	
-	FMOrderedAttributedPointPrimitive *weightPoint = [self.configurator addAttributedPointToSpace:weightSpace
-																						   series:self.weightSeries
-																			   attributesCapacity:2];
+	FMOrderedAttributedPointPrimitive *weightPoint = [conf addAttributedPointToSpace:weightSpace
+																			  series:self.weightSeries
+																  attributesCapacity:2];
 	
-	FMOrderedAttributedBarPrimitive *stepBar = [self.configurator addAttributedBarToSpace:stepSpace
-																				   series:self.stepSeries
-																	   attributesCapacity:3];
+	FMOrderedAttributedBarPrimitive *stepBar = [conf addAttributedBarToSpace:stepSpace
+																	  series:self.stepSeries
+														  attributesCapacity:3];
 	
-	FMOrderedPolyLinePrimitive *systolicLine = [self.configurator addLineToSpace:pressureSpace
-																		  series:self.systolicSeries];
+	FMOrderedPolyLinePrimitive *systolicLine = [conf addLineToSpace:pressureSpace
+															 series:self.systolicSeries];
 	
-	FMOrderedPolyLinePrimitive *diastolicLine = [self.configurator addLineToSpace:pressureSpace
-																		   series:self.diastolicSeries];
+	FMOrderedPolyLinePrimitive *diastolicLine = [conf addLineToSpace:pressureSpace
+															  series:self.diastolicSeries];
 	
-	FMOrderedPointPrimitive *systolicPoint = [self.configurator addPointToSpace:pressureSpace
-																		 series:self.systolicSeries];
+	FMOrderedPointPrimitive *systolicPoint = [conf addPointToSpace:pressureSpace
+															series:self.systolicSeries];
 	
-	FMOrderedPointPrimitive *diastolicPoint = [self.configurator addPointToSpace:pressureSpace
-																		  series:self.diastolicSeries];
+	FMOrderedPointPrimitive *diastolicPoint = [conf addPointToSpace:pressureSpace
+															 series:self.diastolicSeries];
 	
 	// 4 : manage visual attributes
 	vector_float4 weightColor = [[UIColor colorWithRed: 0.4 green: 0.7 blue: 0.9 alpha: 1.0] vector];
@@ -181,9 +177,9 @@
 	const CGSize weightSize = CGSizeMake(45, 25);
 	NSDictionary *weightAttributes= @{NSForegroundColorAttributeName : [UIColor colorWithVector:weightColor]};
 	NSDictionary *stepAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithVector:stepColor]};
-	FMDimensionalProjection *stepProjection = self.stepDim.dim;
-	FMDimensionalProjection *weightProjection = self.weightDim.dim;
-	FMExclusiveAxis *weightAxis = [self.configurator addAxisToDimWithId:weightDim
+	FMDimensionalProjection *stepProjection = stepDim.dim;
+	FMDimensionalProjection *weightProjection = weightDim.dim;
+	FMExclusiveAxis *weightAxis = [self.configurator addAxisToDimWithId:dWeight
 															belowSeries:NO
 																 configurator:weightConf
 														 labelFrameSize:weightSize
@@ -217,7 +213,7 @@
 	const CGSize pressureSize = CGSizeMake(30, 25);
 	NSDictionary* pressureAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithVector:systolicColor]};
 	NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:@"mg/dL" attributes: pressureAttributes];
-	FMExclusiveAxis *pressureAxis = [self.configurator addAxisToDimWithId:pressureDim
+	FMExclusiveAxis *pressureAxis = [self.configurator addAxisToDimWithId:dPressure
 															  belowSeries:NO
 															 configurator:pressureConf
 														   labelFrameSize:pressureSize
@@ -251,7 +247,7 @@
 	NSDictionary *monthAttrs = @{NSForegroundColorAttributeName : [UIColor redColor]};
 	NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
 	__weak typeof(self) weakSelf = self;
-	FMExclusiveAxis *dateAxis = [self.configurator addAxisToDimWithId:dateDim
+	FMExclusiveAxis *dateAxis = [self.configurator addAxisToDimWithId:dDate
 														  belowSeries:NO
 														 configurator:dateConf
 													   labelFrameSize:dateSize
@@ -316,10 +312,10 @@
 	[self.systolicSeries.info clear];
 	[self.diastolicSeries.info clear];
 	
-	[self.dateDim clearValues];
-	[self.stepDim clearValues];
-	[self.weightDim clearValues];
-	[self.pressureDim clearValues];
+	[self.configurator clearValuesForAllDimensions];
+	FMSpace2D *stepSpace = [self.configurator findSpaceWithIdX:1 Y:2];
+	FMSpace2D *weightSpace = [self.configurator findSpaceWithIdX:1 Y:3];
+	FMSpace2D *pressureSpace = [self.configurator findSpaceWithIdX:1 Y:4];
 	
 	NSDate *refDate = [self.class startOfDate:[NSDate date]];
 	_refDate = refDate;
@@ -349,15 +345,12 @@
 					const CGFloat xValue = [statistic.startDate timeIntervalSinceDate:refDate];
 					const NSUInteger attr = (yValue < 5000) ? (0) : ((yValue < 10000) ? 1 : 2);
 					[self.stepSeries addPoint:CGPointMake(xValue, yValue) attrIndex:attr];
-					[self.stepDim addValue:yValue];
-					[self.dateDim addValue:xValue];
+					[stepSpace addValueX:xValue Y:yValue];
 				}
 			}
-			[self.stepDim updateRange];
 			[self.weightLabel clearCache];
 			[self.windowPos reset];
-			[self.dateDim updateRange];
-			[self.metalView setNeedsDisplay];
+			[stepSpace updateRanges];
 		}
 	};
 	
@@ -388,14 +381,11 @@
 				const CGFloat val = [sample.quantity doubleValueForUnit:kg];
 				const BOOL dashed = (nd >= 0 && abs((int)(cd-nd)) > 1);
 				[self.weightSeries addPoint:CGPointMake(x, val) attrIndex:(dashed ? 1 : 0)];
-				[self.weightDim addValue:val];
-				[self.dateDim addValue:x];
+				[weightSpace addValueX:x Y:val];
 			}
-			[self.weightDim updateRange];
 			[self.weightLabel clearCache];
 			[self.windowPos reset];
-			[self.dateDim updateRange];
-			[self.metalView setNeedsDisplay];
+			[weightSpace updateRanges];
 		}
 	}];
 	HKUnit *mmHg = [HKUnit millimeterOfMercuryUnit];
@@ -413,13 +403,10 @@
 				const CGFloat x = [sample.startDate timeIntervalSinceDate:refDate];
 				const CGFloat val = [sample.quantity doubleValueForUnit:mmHg];
 				[self.systolicSeries addPoint:CGPointMake(x, val)];
-				[self.pressureDim addValue:val];
-				[self.dateDim addValue:x];
+				[pressureSpace addValueX:x Y:val];
 			}
-			[self.pressureDim updateRange];
 			[self.windowPos reset];
-			[self.dateDim updateRange];
-			[self.metalView setNeedsDisplay];
+			[pressureSpace updateRanges];
 		}
 	}];
 	HKSampleQuery *diastolicQuery = [[HKSampleQuery alloc] initWithSampleType:diastolic
@@ -436,13 +423,10 @@
 				const CGFloat x = [sample.startDate timeIntervalSinceDate:refDate];
 				const CGFloat val = [sample.quantity doubleValueForUnit:mmHg];
 				[self.diastolicSeries addPoint:CGPointMake(x, val)];
-				[self.pressureDim addValue:val];
-				[self.dateDim addValue:x];
+				[pressureSpace addValueX:x Y:val];
 			}
-			[self.pressureDim updateRange];
 			[self.windowPos reset];
-			[self.dateDim updateRange];
-			[self.metalView setNeedsDisplay];
+			[pressureSpace updateRanges];
 		}
 	}];
 	
@@ -456,9 +440,10 @@
 	   withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
 	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context)
+	FMDimension *dateDim = [self.configurator dimWithId:1];
+	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> _Nonnull context)
 	{
-		[self.dateDim updateRange];
+		[dateDim updateRange];
 		[self.metalView setNeedsDisplay];
 	} completion:nil];
 }
