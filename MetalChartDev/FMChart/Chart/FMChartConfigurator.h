@@ -81,7 +81,7 @@ NS_DESIGNATED_INITIALIZER;
                          filters:(NSArray<id<FMRangeFilter>>* _Nullable)filters
 ;
 
-- (FMProjectionCartesian2D *)spaceWithDims:(NSArray<FMDimension*> *)dims
+- (FMProjectionCartesian2D *_Nullable)spaceWithDims:(NSArray<FMDimension*> *)dims
 ;
 
 - (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan

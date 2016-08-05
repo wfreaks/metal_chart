@@ -67,8 +67,8 @@
 - (NSUInteger)vertexCountWithCount:(NSUInteger)count;
 - (NSUInteger)vertexOffsetWithOffset:(NSUInteger)offset;
 - (id<MTLBuffer> _Nullable)attributesBuffer;
-+ (NSString * _Nonnull)vertexFunctionName;
-+ (NSString * _Nonnull)fragmentFunctionName;
++ (NSString *)vertexFunctionName;
++ (NSString *)fragmentFunctionName;
 
 @end
 
