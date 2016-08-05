@@ -260,7 +260,7 @@
 	return _quad.dataRegion;
 }
 
-- (void)configure:(id<FMAxis>)axis chart:(FMMetalChart *)chart view:(MetalView *)view
+- (void)configure:(id<FMAxis>)axis chart:(FMMetalChart *)chart view:(FMMetalView *)view
 {
 	FMDimensionalProjection *dimension = axis.dimension;
 	const CGFloat min = dimension.min;

@@ -55,7 +55,7 @@
 @property (nonatomic, readonly) NSOrderedSet<id<FMAnimation>> * _Nonnull runningAnimations;
 @property (nonatomic, readonly) NSOrderedSet<id<FMAnimation>> * _Nonnull pendingAnimations;
 
-@property (nonatomic, weak) MetalView * _Nullable metalView;
+@property (nonatomic, weak) FMMetalView * _Nullable metalView;
 
 - (void)addAnimation:(id<FMAnimation> _Nonnull)animation;
 

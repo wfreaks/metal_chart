@@ -31,7 +31,7 @@
 @class FMGridLinePrimitive;
 @class FMIndexedFloatBuffer;
 @class FMLinePrimitive;
-@class FMMetalView;
+@class _FMMetalView;
 @class FMOrderedAttributedBarPrimitive;
 @class FMOrderedAttributedPointPrimitive;
 @class FMOrderedAttributedPolyLinePrimitive;

@@ -221,7 +221,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(FMMetalChart *)chart
-			  view:(MetalView *)view
+			  view:(FMMetalView *)view
 {
 	[_projection setPhysicalSize:view.bounds.size];
 	[_projection setPadding:chart.padding];

@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Metal/Metal.h>
 
-@interface FMMetalView()
+@interface _FMMetalView()
 
 @property (nonatomic, readonly, weak) CAMetalLayer *	metalLayer;
 @property (nonatomic, readonly) CADisplayLink *		 display;
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation FMMetalView
+@implementation _FMMetalView
 
 + (Class)layerClass
 {

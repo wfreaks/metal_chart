@@ -11,7 +11,7 @@
 #import <Metal/MTLPixelFormat.h>
 #import <Metal/MTLRenderPass.h>
 
-@class FMMetalView;
+@class _FMMetalView;
 @protocol CAMetalDrawable;
 
 /**
@@ -22,21 +22,21 @@
 
 @protocol FMMetalViewDelegate
 
-- (void)mtkView:(FMMetalView *)metalView drawableSizeWillChange:(CGSize)size;
+- (void)mtkView:(_FMMetalView *)metalView drawableSizeWillChange:(CGSize)size;
 
-- (void)drawInMTKView:(FMMetalView *)metalView;
+- (void)drawInMTKView:(_FMMetalView *)metalView;
 
 @end
 
 /**
  * FMMetalView class was (initially) written to mimic MTKView.
- * This class SHOULD NOT be reffered to directory (use MetalView type alias, which is declared in Headers/iosX/chart_common.h).
+ * This class SHOULD NOT be reffered to directory (use FMMetalView type alias, which is declared in Headers/iosX/chart_common.h).
  * The only exception to above statement is Storyboard/Xib files (type alias is not usable in those files).
  *
  * Its interface is almost identical to MTKView (as of iOS9), but its behavior is slightly different from original.
  * (FMMetalView calls delegate's draw method at constant timing even when set to event-driven mode, i.e. draw method never get called more than  60 per sec.)
  */
-@interface FMMetalView : UIView
+@interface _FMMetalView : UIView
 
 @property (weak, nonatomic) id<FMMetalViewDelegate> delegate;
 

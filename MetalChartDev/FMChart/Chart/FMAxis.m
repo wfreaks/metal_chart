@@ -74,7 +74,7 @@
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(FMMetalChart *)chart
-			  view:(MetalView *)view
+			  view:(FMMetalView *)view
 {
 	[_axis encodeWith:encoder projection:_projection.projection];
 }

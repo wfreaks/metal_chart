@@ -75,7 +75,7 @@
 
 @implementation FMChartConfigurator
 
-+ (void)configureMetalView:(MetalView *)view
++ (void)configureMetalView:(FMMetalView *)view
 			  preferredFps:(NSInteger)fps
 				   surface:(FMSurfaceConfiguration *)surface
 {
@@ -91,7 +91,7 @@
 
 - (instancetype)initWithChart:(FMMetalChart *)chart
 					   engine:(FMEngine *)engine
-						view:(MetalView *)view
+						view:(FMMetalView *)view
 				 preferredFps:(NSInteger)fps
 {
 	self = [super init];

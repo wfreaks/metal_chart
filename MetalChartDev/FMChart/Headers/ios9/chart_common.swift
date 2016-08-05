@@ -10,5 +10,5 @@ import Foundation
 
 import MetalKit
 
-//public typealias MetalView = MTKView;
-public typealias MetalView = FMMetalView;
+//public typealias FMMetalView = MTKView;
+public typealias FMMetalView = _FMMetalView;

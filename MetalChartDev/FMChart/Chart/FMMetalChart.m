@@ -50,7 +50,7 @@ MTLPixelFormat determineDepthPixelFormat()
 	return self;
 }
 
-- (void)mtkView:(MetalView *)view drawableSizeWillChange:(CGSize)size
+- (void)mtkView:(FMMetalView *)view drawableSizeWillChange:(CGSize)size
 {
 	// 描画前にバッファへ書き込むのでここは無視する.
 }
@@ -60,7 +60,7 @@ MTLPixelFormat determineDepthPixelFormat()
 // ・semaphore_wait 内では preRenderable / renderables / postRenderable を描画
 // ・semaphore_signale 後は レンダリング結果をキューに入れてコミット
 // という流れになる. 実際サブルーチン化してリファクタリングするのは容易である.
-- (void)drawInMTKView:(MetalView *)view
+- (void)drawInMTKView:(FMMetalView *)view
 {
 	const CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
 	const long timeout = dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_NOW);

@@ -78,7 +78,7 @@
 	return nil;
 }
 
-- (void)configure:(MetalView *)view padding:(FMRectPadding)padding
+- (void)configure:(FMMetalView *)view padding:(FMRectPadding)padding
 {
 	FMDimensionalProjection *xDim = _dimX;
 	FMDimensionalProjection *yDim = _dimY;

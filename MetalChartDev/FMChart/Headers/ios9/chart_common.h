@@ -24,7 +24,7 @@
 // 変わらない事に注意（インタフェース互換ではあるのでMTKViewを指定してもクラッシュはしないが、上述の挙動をする）
 // 当分はios8/の方を参照し、このヘッダは使われない.
 
-@compatibility_alias MetalView MTKView;
+@compatibility_alias FMMetalView MTKView;
 
 @protocol MetalViewDelegate<MTKViewDelegate>
 @end

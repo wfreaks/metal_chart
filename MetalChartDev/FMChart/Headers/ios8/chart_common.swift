@@ -8,5 +8,5 @@
 
 import Foundation
 
-public typealias MetalView = FMMetalView;
+public typealias FMMetalView = _FMMetalView;
 

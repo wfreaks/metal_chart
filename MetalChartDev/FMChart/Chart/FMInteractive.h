@@ -90,7 +90,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (nonatomic, readonly) CGFloat maxScale;
 @property (nonatomic, readonly) CGFloat defaultScale;
 
-@property (nonatomic, weak) MetalView *_Nullable view;
+@property (nonatomic, weak) FMMetalView *_Nullable view;
 @property (nonatomic, weak) FMProjectionUpdater *_Nullable updater;
 
 - (instancetype _Nonnull)initWithMinScale:(CGFloat)min
@@ -140,7 +140,7 @@ typedef CGFloat (^FMWindowPositionBlock)(CGFloat min, CGFloat max, CGFloat len);
 
 @property (nonatomic, readonly, weak) FMScaledWindowLength * _Nullable length; // panGestureの解釈にはどうやっても現在のscaleを必要とするため.
 
-@property (nonatomic, weak) MetalView *_Nullable view;
+@property (nonatomic, weak) FMMetalView *_Nullable view;
 @property (nonatomic, weak) FMProjectionUpdater *_Nullable updater;
 
 - (instancetype _Nonnull)initWithAnchor:(CGFloat)anchor

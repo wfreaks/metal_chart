@@ -79,7 +79,7 @@ MTLPixelFormat determineDepthPixelFormat();
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder> _Nonnull)encoder
 			 chart:(FMMetalChart * _Nonnull)chart
-			  view:(MetalView * _Nonnull)view
+			  view:(FMMetalView * _Nonnull)view
 ;
 
 @end
@@ -103,7 +103,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @protocol FMDependentAttachment <FMAttachment>
 
 - (void)prepare:(FMMetalChart * _Nonnull)chart
-		   view:(MetalView * _Nonnull)view
+		   view:(FMMetalView * _Nonnull)view
 ;
 
 @optional
@@ -135,13 +135,13 @@ MTLPixelFormat determineDepthPixelFormat();
  */
 @protocol FMProjection <NSObject>
 
-- (void)configure:(MetalView * _Nonnull)view padding:(FMRectPadding)padding;
+- (void)configure:(FMMetalView * _Nonnull)view padding:(FMRectPadding)padding;
 
 @end
 
 /**
  * FMMetalChart class is a MetalViewDelegate object that manages elements of a chart.
- * It can be shared by multiple MetalView instance, but may cause problems (not considered on the design phase).
+ * It can be shared by multiple FMMetalView instance, but may cause problems (not considered on the design phase).
  * I can't think of any meaningfull usecase of sharing a chart.
  *
  * Adding attachments/series in an order of A->B results in B drawn over A.
