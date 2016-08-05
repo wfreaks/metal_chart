@@ -135,7 +135,7 @@
 			[self setNeedsDisplay];
 		}
 	}
-	[_delegate mtkView:self drawableSizeWillChange:drawableSize];
+	[_delegate mtkView:(FMMetalView*)self drawableSizeWillChange:drawableSize];
 }
 
 - (BOOL)frameBufferOnly { return self.metalLayer.framebufferOnly; }
@@ -170,7 +170,7 @@
 		_needsRedraw = NO;
 		id<FMMetalViewDelegate> delegate = _delegate;
 		if(delegate && self.device) {
-			[delegate drawInMTKView:self];
+			[delegate drawInMTKView:(FMMetalView*)self];
 			_currentDrawable = nil;
 			_currentRenderPassDescriptor = nil;
 		} else {
@@ -322,3 +322,9 @@
 }
 
 @end
+
+
+@implementation FMMetalView
+
+@end
+

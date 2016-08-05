@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "chart_common.h"
 #import "Engine_common.h"
+#import "FMMetalView.h"
 
 /**
  * This header file defines all components that are not replacable.
@@ -140,7 +141,7 @@ MTLPixelFormat determineDepthPixelFormat();
 @end
 
 /**
- * FMMetalChart class is a MetalViewDelegate object that manages elements of a chart.
+ * FMMetalChart class is a FMMetalViewDelegate object that manages elements of a chart.
  * It can be shared by multiple FMMetalView instance, but may cause problems (not considered on the design phase).
  * I can't think of any meaningfull usecase of sharing a chart.
  *
@@ -151,7 +152,7 @@ MTLPixelFormat determineDepthPixelFormat();
  * you must explicitly register/unregister FMProjection objects in order to draw renderables/attachment that needs projections to be updated/flushed.
  */
 
-@interface FMMetalChart : NSObject<MetalViewDelegate>
+@interface FMMetalChart : NSObject<FMMetalViewDelegate>
 
 @property (weak   , nonatomic) id<FMCommandBufferHook> _Nullable bufferHook;
 

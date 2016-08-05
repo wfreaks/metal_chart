@@ -14,12 +14,8 @@
 #endif
 
 #import <Metal/Metal.h>
-#import "FMMetalView.h"
 #import "Prototypes.h"
 
-@compatibility_alias FMMetalView _FMMetalView;
 
-@protocol MetalViewDelegate<FMMetalViewDelegate>
-@end
 
 #endif /* chart_common_h */

@@ -14,7 +14,6 @@
 #endif
 
 #import <MetalKit/MetalKit.h>
-#import "FMMetalView.h"
 #import "Prototypes.h"
 
 // 当初はMTKViewを使って開発されていたが、event-drivenモードにて挙動が好ましくない部分があった
@@ -24,9 +23,6 @@
 // 変わらない事に注意（インタフェース互換ではあるのでMTKViewを指定してもクラッシュはしないが、上述の挙動をする）
 // 当分はios8/の方を参照し、このヘッダは使われない.
 
-@compatibility_alias FMMetalView MTKView;
-
-@protocol MetalViewDelegate<MTKViewDelegate>
-@end
+#define USE_METALKIT 1
 
 #endif /* chart_common_h */

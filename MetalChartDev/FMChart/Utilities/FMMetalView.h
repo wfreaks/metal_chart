@@ -10,23 +10,36 @@
 #import <Metal/MTLTypes.h>
 #import <Metal/MTLPixelFormat.h>
 #import <Metal/MTLRenderPass.h>
+#import "chart_common.h"
 
-@class _FMMetalView;
+@class FMMetalView;
 @protocol CAMetalDrawable;
 
 /**
  * FMMetalViewDelegate protocol mimicks MTKViewDelegate (this interface was first introduced to allow framework users to 
  * support ios 8 without code midifcation.)
- * This protocol SHOULD BE referred to using type alias 'MetalViewDelegate'(declared in Headers/iosX/chart_common.h).
+ * This protocol SHOULD BE referred to using type alias 'FMMetalViewDelegate'.
  */
+
+#ifdef USE_METALKIT
+
+#import <MetalKit/MetalKit.h>
+
+@protocol FMMetalViewDelegate <MTKViewDelegate>
+
+@end
+
+#else
 
 @protocol FMMetalViewDelegate
 
-- (void)mtkView:(_FMMetalView *)metalView drawableSizeWillChange:(CGSize)size;
+- (void)mtkView:(FMMetalView *)metalView drawableSizeWillChange:(CGSize)size;
 
-- (void)drawInMTKView:(_FMMetalView *)metalView;
+- (void)drawInMTKView:(FMMetalView *)metalView;
 
 @end
+
+#endif
 
 /**
  * FMMetalView class was (initially) written to mimic MTKView.
@@ -77,3 +90,16 @@ NS_DESIGNATED_INITIALIZER;
 UNAVAILABLE_ATTRIBUTE;
 
 @end
+
+
+#ifdef USE_METALKIT
+
+@interface FMMetalView : MTKView
+@endif
+
+#else
+
+@interface FMMetalView : _FMMetalView
+@end
+
+#endif

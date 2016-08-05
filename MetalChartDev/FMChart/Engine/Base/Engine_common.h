@@ -10,6 +10,7 @@
 #define Engine_common_h
 
 #import "base_shared.h"
+#import <CoreGraphics/CGGeometry.h>
 
 #define FM_INLINE static inline
 

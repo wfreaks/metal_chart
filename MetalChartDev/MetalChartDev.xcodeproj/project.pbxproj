@@ -70,7 +70,6 @@
 		AA32A9CD1BE3B5FA00ABDC1E /* PointBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8531BAFE3020032A0CF /* PointBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9CE1BE3B5FA00ABDC1E /* TextureQuadBuffers.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC4A8611BAFE3020032A0CF /* TextureQuadBuffers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9CF1BE3B5FA00ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AA32A9D91BE3B64000ABDC1E /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9E41BE3B99600ABDC1E /* FMChartSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32AAD21BE7BE1100ABDC1E /* UIColor+Utility.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -99,7 +98,6 @@
 		AA97955E1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA97955F1BFBB6F500BA9970 /* circle_shared.h in Headers */ = {isa = PBXBuildFile; fileRef = AA97955D1BFBA60700BA9970 /* circle_shared.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA7DA0B1CE5A24E004647E7 /* chart_common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A9891BE3B53E00ABDC1E /* chart_common.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAA7DA0C1CE5A257004647E7 /* chart_common.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */; };
 		AAA7DA0D1CE5A280004647E7 /* FMChartSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; };
 		AAA7DA0E1CE5A280004647E7 /* FMChartSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AAA7DA151CE5A3F1004647E7 /* common_private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA7DA141CE5A3F1004647E7 /* common_private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -203,9 +201,7 @@
 		AA32A97E1BE3439600ABDC1E /* FMMetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalView.h; sourceTree = "<group>"; };
 		AA32A97F1BE3439600ABDC1E /* FMMetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalView.m; sourceTree = "<group>"; };
 		AA32A9891BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
-		AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
 		AA32A98C1BE3B53E00ABDC1E /* chart_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chart_common.h; sourceTree = "<group>"; };
-		AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chart_common.swift; sourceTree = "<group>"; };
 		AA32A9D61BE3B5FA00ABDC1E /* FMChartSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FMChartSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA32A9E21BE3B98400ABDC1E /* FMChartSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMChartSupport.h; sourceTree = "<group>"; };
 		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
@@ -345,7 +341,6 @@
 			isa = PBXGroup;
 			children = (
 				AA32A9891BE3B53E00ABDC1E /* chart_common.h */,
-				AA32A98A1BE3B53E00ABDC1E /* chart_common.swift */,
 			);
 			path = ios8;
 			sourceTree = "<group>";
@@ -354,7 +349,6 @@
 			isa = PBXGroup;
 			children = (
 				AA32A98C1BE3B53E00ABDC1E /* chart_common.h */,
-				AA32A98D1BE3B53E00ABDC1E /* chart_common.swift */,
 			);
 			path = ios9;
 			sourceTree = "<group>";
@@ -814,7 +808,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA32A9D81BE3B63C00ABDC1E /* chart_common.swift in Sources */,
 				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
@@ -874,7 +867,6 @@
 				AAC4A8731BAFE3020032A0CF /* FMInteractive.m in Sources */,
 				AAC4A87F1BAFE3020032A0CF /* Buffers.mm in Sources */,
 				AA85C7701BFC57090037253B /* Circles.m in Sources */,
-				AAA7DA0C1CE5A257004647E7 /* chart_common.swift in Sources */,
 				AA85C7691BFC4D730037253B /* CircleBuffers.m in Sources */,
 				AAC4A89D1BAFE3020032A0CF /* TextureQuadBuffers.m in Sources */,
 				AA32AAD31BE7BE1100ABDC1E /* UIColor+Utility.m in Sources */,
@@ -1073,7 +1065,6 @@
 		AAB585041B6F0D8C00480AAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
@@ -1095,7 +1086,6 @@
 		AAB585051B6F0D8C00480AAE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MetalChartDev/MetalChartDev.entitlements;
