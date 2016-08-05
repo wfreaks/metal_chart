@@ -18,8 +18,23 @@
 #import "FMRenderablesAux.h"
 #import "Prototypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
-typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dimensionID);
+@interface FMDimension : NSObject
+
+@property (nonatomic, readonly) FMDimensionalProjection *dim;
+@property (nonatomic, readonly) FMProjectionUpdater *updater;
+
++ (instancetype)dimensionWithId:(NSInteger)dimensionId
+                        filters:(NSArray<id<FMRangeFilter>>*)filters
+;
+
+- (void)addValue:(CGFloat)value;
+- (void)updateRange;
+- (void)clearValues;
+
+@end
+
 
 // Chartに対しての設定を簡潔にするためのオブジェクト.
 // ただし、効率性や柔軟性を重視するなら、このクラスを使わずに手で設定することをお勧めする.
@@ -35,75 +50,68 @@ typedef FMProjectionUpdater * _Nullable (^DimensionConfigureBlock)(NSInteger dim
 
 @interface FMChartConfigurator : NSObject
 
-@property (readonly, nonatomic) NSArray<FMDimensionalProjection*> * _Nonnull dimensions;
-@property (readonly, nonatomic) NSArray<FMProjectionUpdater*> * _Nonnull updaters;
-@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> * _Nonnull spaceCartesian2D;
-@property (readonly, nonatomic) MetalChart * _Nonnull chart;
+@property (readonly, nonatomic) NSArray<FMDimension*> *dimensions;
+@property (readonly, nonatomic) NSArray<FMProjectionCartesian2D*> *spaceCartesian2D;
+@property (readonly, nonatomic) MetalChart *chart;
 @property (readonly, nonatomic) MetalView * _Nullable view;
-@property (readonly, nonatomic) FMEngine * _Nonnull engine;
+@property (readonly, nonatomic) FMEngine *engine;
 @property (readonly, nonatomic) NSInteger preferredFps;
 
-@property (readonly, nonatomic) FMAnimator * _Nonnull animator;
-@property (readonly, nonatomic) FMGestureDispatcher * _Nonnull dispatcher;
+@property (readonly, nonatomic) FMAnimator *animator;
+@property (readonly, nonatomic) FMGestureDispatcher *dispatcher;
 
 // インスタンス化するといろいろ面倒な時、とりあえずMetalViewの初期設定を行うためのメソッド.
-+ (void)configureMetalView:(MetalView * _Nonnull)view
++ (void)configureMetalView:(MetalView *)view
 			  preferredFps:(NSInteger)fps
-                   surface:(FMSurfaceConfiguration * _Nonnull)surface
+                   surface:(FMSurfaceConfiguration *)surface
 ;
 
 // fps <= 0 では setNeedsRedraw がセットされた時のみ描画するようにMTKViewを調整する.
-- (instancetype _Nonnull)initWithChart:(MetalChart * _Nonnull)chart
-								engine:(FMEngine * _Nullable)engine
-								  view:(MetalView * _Nullable)view
-						  preferredFps:(NSInteger)fps
+- (instancetype)initWithChart:(MetalChart *)chart
+                       engine:(FMEngine * _Nullable)engine
+                         view:(MetalView * _Nullable)view
+                 preferredFps:(NSInteger)fps
 NS_DESIGNATED_INITIALIZER;
 
-- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
-- (FMDimensionalProjection * _Nullable)dimensionWithId:(NSInteger)dimensionId;
+- (FMDimension * _Nullable)dimWithId:(NSInteger)dimensionId;
 
-- (FMDimensionalProjection * _Nonnull)dimensionWithId:(NSInteger)dimensionId
-								   confBlock:(DimensionConfigureBlock _Nonnull)block
+- (FMDimension *)createDimWithId:(NSInteger)dimensionId
+                         filters:(NSArray<id<FMRangeFilter>>* _Nullable)filters
 ;
 
-// もしもidに対応するFMDimensionalProjectionがなければ、作成してblockを呼び出す. 
-// 逆にすでに作成済みの場合はそれを使い、blockは呼ばれない.
-// blockの戻り値でNonnullを返した場合は登録され、connectSpace:メソッドで自動的に使用される.
-- (FMProjectionCartesian2D * _Nonnull)spaceWithDimensionIds:(NSArray<NSNumber*> * _Nonnull)ids
-										 configureBlock:(DimensionConfigureBlock _Nullable)block
+- (FMProjectionCartesian2D *)spaceWithDims:(NSArray<FMDimension*> *)dims
 ;
 
-- (FMProjectionUpdater * _Nullable)updaterWithDimensionId:(NSInteger)dimensionId;
-
-- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *_Nonnull)pan
-							pinch:(UIPinchGestureRecognizer *_Nonnull)pinch
+- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan
+							pinch:(UIPinchGestureRecognizer *)pinch
 ;
 
-- (FMWindowFilter* _Nullable)addWindowFilterToUpdater:(FMProjectionUpdater *_Nonnull)updater
-											   length:(FMScaledWindowLength *_Nonnull)length
-											 position:(FMAnchoredWindowPosition *_Nonnull)position
-										  orientation:(FMDimOrientation)orientation
+- (FMWindowFilter* _Nullable)addWindowToDim:(FMDimension *)dim
+									 length:(FMScaledWindowLength *)length
+								   position:(FMAnchoredWindowPosition *)position
+								 horizontal:(BOOL)horizontal
 ;
 
-- (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
-								   belowSeries:(BOOL)below
-								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
-										 label:(FMAxisLabelDelegateBlock _Nullable)block
+- (FMExclusiveAxis * _Nullable)addAxisToDimWithId:(NSInteger)dimensionId
+                                      belowSeries:(BOOL)below
+                                     configurator:(id<FMAxisConfigurator>)configurator
+                                            label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
-- (FMExclusiveAxis * _Nullable)addAxisToDimensionWithId:(NSInteger)dimensionId
-								   belowSeries:(BOOL)below
-								  configurator:(id<FMAxisConfigurator> _Nonnull)configurator
-								labelFrameSize:(CGSize)size
-							  labelBufferCount:(NSUInteger)count
-										 label:(FMAxisLabelDelegateBlock _Nullable)block
+- (FMExclusiveAxis * _Nullable)addAxisToDimWithId:(NSInteger)dimensionId
+                                      belowSeries:(BOOL)below
+                                     configurator:(id<FMAxisConfigurator>)configurator
+                                   labelFrameSize:(CGSize)size
+                                 labelBufferCount:(NSUInteger)count
+                                            label:(FMAxisLabelDelegateBlock _Nullable)block
 ;
 
 // 上記２つのメソッドにはAxisLabelへアクセスする手段がない・・・ので、検索して返す必要がある.
-- (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(id<FMAxis> _Nonnull)axis;
+- (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(id<FMAxis>)axis;
 
-- (FMPlotArea * _Nonnull)addPlotAreaWithColor:(UIColor * _Nonnull)color;
+- (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color;
 
 - (FMGridLine * _Nullable)addGridLineToDimensionWithId:(NSInteger)dimensionId
 										   belowSeries:(BOOL)below
@@ -115,8 +123,8 @@ NS_DESIGNATED_INITIALIZER;
 // これはLineSeriesなどはほとんど抽象化されラッパーとして機能しており、これを返すと細かいコントロールができないため.
 // 各々適切に処理されてるので気にする必要はない.
 
-- (FMOrderedPolyLinePrimitive * _Nonnull)addLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
-                                                 series:(FMOrderedSeries * _Nonnull)series
+- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMProjectionCartesian2D *)space
+                                        series:(FMOrderedSeries *)series
 ;
 
 - (FMOrderedAttributedPolyLinePrimitive * _Nonnull)addAttributedLineToSpace:(FMProjectionCartesian2D *_Nonnull)space
@@ -171,5 +179,6 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+NS_ASSUME_NONNULL_END
 
 

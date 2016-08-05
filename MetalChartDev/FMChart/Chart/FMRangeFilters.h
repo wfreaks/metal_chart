@@ -20,6 +20,8 @@
  * I strongly recommend you to avoid making filters that depends on mutable states/values.
  */
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol FMRangeFilter<NSObject>
 
 - (void)updater:(FMProjectionUpdater * _Nonnull)updater
@@ -105,6 +107,9 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
++ (instancetype _Nonnull)expandWithMin:(CGFloat)min max:(CGFloat)max;
++ (instancetype _Nonnull)ifNullWithMin:(CGFloat)min max:(CGFloat)max;
+
 @end
 
 // sourceまたは現在のmin/maxにpaddingを加える.
@@ -138,6 +143,8 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
++ (instancetype)paddingWithLow:(CGFloat)low high:(CGFloat)high;
+
 @end
 
 
@@ -161,6 +168,8 @@ NS_DESIGNATED_INITIALIZER;
 NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype)filterWithAnchor:(CGFloat)anchor interval:(CGFloat)interval;
 
 @end
 
@@ -214,3 +223,4 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+NS_ASSUME_NONNULL_END

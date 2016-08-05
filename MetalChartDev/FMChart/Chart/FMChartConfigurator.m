@@ -26,6 +26,47 @@
 #import "Series.h"
 
 
+
+@implementation FMDimension
+
+- (instancetype)initWithId:(NSInteger)dimensionId filters:(NSArray<id<FMRangeFilter>> *)filters
+{
+	self = [super init];
+	if(self) {
+		_dim = [[FMDimensionalProjection alloc] initWithDimensionId:dimensionId minValue:-1 maxValue:1];
+		_updater = [[FMProjectionUpdater alloc] initWithTarget:_dim];
+		for(id<FMRangeFilter> f in filters) {
+			[_updater addFilterToLast:f];
+		}
+		[_updater updateTarget];
+	}
+	return self;
+}
+
++ (instancetype)dimensionWithId:(NSInteger)dimensionId filters:(NSArray<id<FMRangeFilter>> *)filters
+{
+	return [[self alloc] initWithId:dimensionId filters:filters];
+}
+
+- (void)addValue:(CGFloat)value
+{
+	[self.updater addSourceValue:value update:NO];
+}
+
+- (void)clearValues
+{
+	[self.updater clearSourceValues:NO];
+}
+
+- (void)updateRange
+{
+	[self.updater updateTarget];
+}
+
+@end
+
+
+
 @interface FMChartConfigurator()
 
 @property (nonatomic, readonly) NSMutableArray *retained;
@@ -57,7 +98,6 @@
 	if(self) {
 		_chart = chart;
 		_dimensions = [NSArray array];
-		_updaters = [NSArray array];
 		_spaceCartesian2D = [NSArray array];
 		_retained = [NSMutableArray array];
 		FMDeviceResource *res = [FMDeviceResource defaultResource];
@@ -82,33 +122,28 @@
 	return self;
 }
 
-- (FMProjectionCartesian2D *)spaceWithDimensionIds:(NSArray<NSNumber *> *)ids
-								configureBlock:(DimensionConfigureBlock)block
+- (FMProjectionCartesian2D *)spaceWithDims:(NSArray<FMDimension*>*)dims
 {
-	if(ids.count != 2) return nil;
+	if(dims.count != 2) return nil;
+	NSArray<NSNumber*>* ids = @[@(dims[0].dim.dimensionId), @(dims[1].dim.dimensionId)];
 	
 	for(FMProjectionCartesian2D *s in self.spaceCartesian2D) {
 		if([s matchesDimensionIds:ids]) {
 			return s;
 		}
 	}
-	NSMutableArray<FMDimensionalProjection*> *dims = [NSMutableArray array];
-	for(NSNumber *dimId in ids) {
-		FMDimensionalProjection *dim = [self dimensionWithId:dimId.integerValue confBlock:block];
-		[dims addObject:dim];
-	}
-	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0] Y:dims[1] resource:self.engine.resource];
+	FMProjectionCartesian2D *space = [[FMProjectionCartesian2D alloc] initWithDimensionX:dims[0].dim Y:dims[1].dim resource:self.engine.resource];
 	_spaceCartesian2D = [_spaceCartesian2D arrayByAddingObject:space];
 	[_chart addProjection:space];
 	return space;
 }
 
-- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId
+- (FMDimension *)dimWithId:(NSInteger)dimensionId
 {
 	NSArray *dims = self.dimensions;
-	FMDimensionalProjection *r = nil;
-	for(FMDimensionalProjection *dim in dims) {
-		if(dim.dimensionId == dimensionId) {
+	FMDimension *r = nil;
+	for(FMDimension *dim in dims) {
+		if(dim.dim.dimensionId == dimensionId) {
 			r = dim;
 			break;
 		}
@@ -116,33 +151,14 @@
 	return r;
 }
 
-- (FMDimensionalProjection *)dimensionWithId:(NSInteger)dimensionId confBlock:(DimensionConfigureBlock)block
+- (FMDimension *)createDimWithId:(NSInteger)dimensionId filters:(NSArray<id<FMRangeFilter>> *)filters
 {
-	FMDimensionalProjection *r = [self dimensionWithId:dimensionId];
+	FMDimension *r = [self dimWithId:dimensionId];
 	if(r == nil) {
-		r = [[FMDimensionalProjection alloc] initWithDimensionId:dimensionId minValue:-1 maxValue:1];
-		if(block) {
-			FMProjectionUpdater *updater = block(dimensionId);
-			if(updater) {
-				_updaters = [_updaters arrayByAddingObject:updater];
-				updater.target = r;
-				[updater updateTarget];
-			}
-		}
+		r = [FMDimension dimensionWithId:dimensionId filters:filters];
 		_dimensions = [_dimensions arrayByAddingObject:r];
 	}
 	return r;
-}
-
-- (FMProjectionUpdater *)updaterWithDimensionId:(NSInteger)dimensionId
-{
-	NSArray<FMProjectionUpdater *> *updaters = self.updaters;
-	for(FMProjectionUpdater *u in updaters) {
-		if(u.target.dimensionId == dimensionId) {
-			 return u;
-		}
-	}
-	return nil;
 }
 
 - (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
@@ -154,18 +170,19 @@
 	dispatcher.pinchRecognizer = pinch;
 }
 
-- (FMWindowFilter*)addWindowFilterToUpdater:(FMProjectionUpdater *)updater
-									 length:(FMScaledWindowLength *)length
-								   position:(FMAnchoredWindowPosition *)position
-								orientation:(FMDimOrientation)orientation
+- (FMWindowFilter*)addWindowToDim:(FMDimension *)dim
+						   length:(FMScaledWindowLength *)length
+						 position:(FMAnchoredWindowPosition *)position
+					   horizontal:(BOOL)horizontal
 {
-	if(updater) {
+	if(dim) {
+		const FMDimOrientation orientation = (horizontal) ? FMDimOrientationHorizontal : FMDimOrientationVertical;
 		FMWindowFilter *filter = [[FMWindowFilter alloc] initWithOrientation:orientation
 																		view:self.view
 																	 padding:self.chart.padding
 															  lengthDelegate:length
 															positionDelegate:position];
-		[updater addFilterToLast:filter];
+		[dim.updater addFilterToLast:filter];
 		[self addRetainedObject:length];
 		[self addRetainedObject:position];
 		
@@ -173,9 +190,9 @@
 		[_dispatcher addScaleListener:length orientation:orientation];
 		
 		length.view = self.view;
-		length.updater = updater;
+		length.updater = dim.updater;
 		position.view = self.view;
-		position.updater = updater;
+		position.updater = dim.updater;
 		
 		return filter;
 	}
@@ -184,11 +201,11 @@
 
 - (FMProjectionCartesian2D *)firstSpaceContainingDimensionWithId:(NSInteger)dimensionId
 {
-	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
+	FMDimension *dim = [self dimWithId:dimensionId];
 	if(dim) {
 		NSArray<FMProjectionCartesian2D*> *space = self.spaceCartesian2D;
 		for(FMProjectionCartesian2D *s in space) {
-			if([s.dimensions containsObject:dim]) {
+			if([s.dimensions containsObject:dim.dim]) {
 				return s;
 			}
 		}
@@ -196,25 +213,25 @@
 	return nil;
 }
 
-- (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-								  belowSeries:(BOOL)below
-								 configurator:(id<FMAxisConfigurator>)configurator
-										label:(FMAxisLabelDelegateBlock)block
+- (FMExclusiveAxis *)addAxisToDimWithId:(NSInteger)dimensionId
+							belowSeries:(BOOL)below
+						   configurator:(id<FMAxisConfigurator>)configurator
+								  label:(FMAxisLabelDelegateBlock)block
 {
-	return [self addAxisToDimensionWithId:dimensionId belowSeries:below configurator:configurator labelFrameSize:CGSizeMake(45, 30) labelBufferCount:8 label:block];
+	return [self addAxisToDimWithId:dimensionId belowSeries:below configurator:configurator labelFrameSize:CGSizeMake(45, 30) labelBufferCount:8 label:block];
 }
 
-- (FMExclusiveAxis *)addAxisToDimensionWithId:(NSInteger)dimensionId
-								  belowSeries:(BOOL)below
-								 configurator:(id<FMAxisConfigurator>)configurator
-							   labelFrameSize:(CGSize)size
-							 labelBufferCount:(NSUInteger)count
-										label:(FMAxisLabelDelegateBlock)block
+- (FMExclusiveAxis *)addAxisToDimWithId:(NSInteger)dimensionId
+							belowSeries:(BOOL)below
+						   configurator:(id<FMAxisConfigurator>)configurator
+						 labelFrameSize:(CGSize)size
+					   labelBufferCount:(NSUInteger)count
+								  label:(FMAxisLabelDelegateBlock)block
 {
-	FMDimensionalProjection *dim = [self dimensionWithId:dimensionId];
+	FMDimension *dim = [self dimWithId:dimensionId];
 	if(dim) {
 		FMProjectionCartesian2D *targetSpace = [self firstSpaceContainingDimensionWithId:dimensionId];
-		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim];
+		NSUInteger dimIndex = [targetSpace.dimensions indexOfObject:dim.dim];
 		if(targetSpace) {
 			FMExclusiveAxis *axis = [[FMExclusiveAxis alloc] initWithEngine:_engine Projection:targetSpace dimension:dimensionId configuration:configurator];
 			if(below) {

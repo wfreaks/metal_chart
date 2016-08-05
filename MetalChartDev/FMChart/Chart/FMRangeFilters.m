@@ -94,6 +94,16 @@
 	*max = newMax;
 }
 
++ (instancetype)expandWithMin:(CGFloat)min max:(CGFloat)max
+{
+	return [[self alloc] initWithMinValue:min maxValue:max expandMin:YES expandMax:YES];
+}
+
++ (instancetype)ifNullWithMin:(CGFloat)min max:(CGFloat)max
+{
+	return [[self alloc] initWithMinValue:min maxValue:max expandMin:YES expandMax:YES];
+}
+
 @end
 
 @implementation FMPaddingFilter
@@ -147,6 +157,11 @@
 	}
 }
 
++ (instancetype)paddingWithLow:(CGFloat)low high:(CGFloat)high
+{
+	return [[self alloc] initWithPaddingLow:low high:high shrinkMin:NO shrinkMax:NO applyToCurrent:NO];
+}
+
 @end
 
 
@@ -185,6 +200,14 @@
 	if(rMax != 0) {
 		*max = (vMax - rMax) + ((_shrinkMax) ? 0 : interval);
 	}
+}
+
++ (instancetype)filterWithAnchor:(CGFloat)anchor interval:(CGFloat)interval
+{
+	return [[self alloc] initWithAnchor:anchor
+							   interval:interval
+							  shrinkMin:NO
+							  shrinkMax:NO];
 }
 
 @end

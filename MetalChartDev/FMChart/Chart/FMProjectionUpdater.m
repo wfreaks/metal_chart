@@ -59,6 +59,9 @@
 {
 	_srcMinValue = +CGFLOAT_MAX;
 	_srcMaxValue = -CGFLOAT_MAX;
+	if(update) {
+		[self updateTarget];
+	}
 }
 
 - (void)addFilterToLast:(id<FMRangeFilter>)object
@@ -108,8 +111,8 @@
 - (void)updateTarget
 {
 	FMDimensionalProjection *projection = _target;
-	if(projection) {
-		NSArray<id<FMRangeFilter>> *restrictions = _filters;
+	NSArray<id<FMRangeFilter>> *restrictions = _filters;
+	if(projection && restrictions.count > 0) {
 		CGFloat min = +CGFLOAT_MAX;
 		CGFloat max = -CGFLOAT_MAX;
 		for(id<FMRangeFilter> restriction in restrictions.objectEnumerator) {

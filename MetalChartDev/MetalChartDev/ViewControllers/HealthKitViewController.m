@@ -28,10 +28,10 @@
 @property (nonatomic, readonly) FMOrderedSeries *diastolicSeries;
 
 @property (nonatomic, readonly) FMAnchoredWindowPosition *windowPos;
-@property (nonatomic, readonly) FMProjectionUpdater *dateUpdater;
-@property (nonatomic, readonly) FMProjectionUpdater *stepUpdater;
-@property (nonatomic, readonly) FMProjectionUpdater *weightUpdater;
-@property (nonatomic, readonly) FMProjectionUpdater *pressureUpdater;
+@property (nonatomic, readonly) FMDimension *dateDim;
+@property (nonatomic, readonly) FMDimension *stepDim;
+@property (nonatomic, readonly) FMDimension *weightDim;
+@property (nonatomic, readonly) FMDimension *pressureDim;
 
 @property (nonatomic, readonly) FMAxisLabel *weightLabel;
 
@@ -53,7 +53,7 @@
 
 - (void)setupChart
 {
-	// configure view and chart.
+	// 1 : configure view and chart.
 	self.metalView.clearColor = MTLClearColorMake(0.9, 0.9, 0.9, 1);
 	_chart = [[MetalChart alloc] init];
 	FMEngine *engine = [FMEngine createDefaultEngine];
@@ -61,28 +61,20 @@
 														engine:engine
 														  view:self.metalView
 												  preferredFps:0];
+	FMChartConfigurator *conf = self.configurator;
 	self.chart.padding = FMRectPaddingMake(45, 30, 35, 30);
 	
-	[[self.configurator addPlotAreaWithColor:[UIColor whiteColor]].attributes setAllCornerRadius:5];
-	[self.configurator bindGestureRecognizersPan:self.panRec
-										   pinch:self.pinchRec];
+	[[conf addPlotAreaWithColor:[UIColor whiteColor]].attributes setAllCornerRadius:5];
+	[conf bindGestureRecognizersPan:self.panRec
+							  pinch:self.pinchRec];
 	
-	// create dimensions, space and updaters
+	// 2 : create dimensions, space and updaters
 	const NSInteger dateDim = 1, stepDim = 2, weightDim = 3, pressureDim = 4;
 	
-	// 1. date dim updater (scrollable)
 	const NSTimeInterval daySec = 24 * 60 * 60;
+	_dateDim = [conf createDimWithId:dateDim filters:@[[FMSourceFilter expandWithMin:-6*daySec max:daySec],
+													   [FMPaddingFilter paddingWithLow:daySec high:daySec]]];
 	
-	_dateUpdater = [[FMProjectionUpdater alloc] init];
-	[self.dateUpdater addFilterToLast:[[FMSourceFilter alloc] initWithMinValue:-5*daySec
-																	  maxValue:0
-																	 expandMin:YES
-																	 expandMax:YES]];
-	[self.dateUpdater addFilterToLast:[[FMPaddingFilter alloc] initWithPaddingLow:daySec
-																			 high:daySec
-																		shrinkMin:NO
-																		shrinkMax:NO
-																   applyToCurrent:YES]];
 	// 7 days visible on 4 inch devices (320 - padding).
 	const CGFloat dateScale = 7*daySec / (320-80);
 	FMScaledWindowLength *winLen = [[FMScaledWindowLength alloc] initWithMinScale:dateScale
@@ -94,79 +86,25 @@
 																		defaultPosition:1];
 	
 	_windowPos = winPos;
-	[self.configurator addWindowFilterToUpdater:_dateUpdater
-										 length:winLen
-									   position:winPos
-									orientation:FMDimOrientationHorizontal];
+	[conf addWindowToDim:self.dateDim length:winLen position:winPos horizontal:YES];
 	
-	// 2. step dim updater
-	_stepUpdater = [[FMProjectionUpdater alloc] init];
-	[self.stepUpdater addFilterToLast:[[FMSourceFilter alloc] initWithMinValue:0
-																	  maxValue:2000
-																	 expandMin:YES
-																	 expandMax:YES]];
-	[self.stepUpdater addFilterToLast:[[FMPaddingFilter alloc] initWithPaddingLow:0
-																			 high:1000
-																		shrinkMin:NO
-																		shrinkMax:NO
-																   applyToCurrent:YES]];
-	[self.stepUpdater addFilterToLast:[[FMIntervalFilter alloc] initWithAnchor:0
-																	  interval:1000
-																	 shrinkMin:NO
-																	 shrinkMax:NO]];
+	_stepDim = [conf createDimWithId:stepDim filters:@[[FMSourceFilter expandWithMin:0 max:3000],
+													   [FMPaddingFilter paddingWithLow:0 high:1000],
+													   [FMIntervalFilter filterWithAnchor:0 interval:1000]]];
 	
-	// 3. weight dim updater
-	_weightUpdater = [[FMProjectionUpdater alloc] init];
-	[self.weightUpdater addFilterToLast:[[FMSourceFilter alloc] initWithMinValue:50
-																		maxValue:60
-																	   expandMin:YES
-																	   expandMax:YES]];
-	[self.weightUpdater addFilterToLast:[[FMPaddingFilter alloc] initWithPaddingLow:1
-																			   high:1
-																		  shrinkMin:NO
-																		  shrinkMax:NO
-																	 applyToCurrent:NO]];
-	[self.weightUpdater addFilterToLast:[[FMIntervalFilter alloc] initWithAnchor:0
-																		interval:5.0001
-																	   shrinkMin:NO
-																	   shrinkMax:NO]];
+	_weightDim = [conf createDimWithId:weightDim filters:@[[FMSourceFilter expandWithMin:50 max:60],
+														   [FMPaddingFilter paddingWithLow:1 high:1],
+														   [FMIntervalFilter filterWithAnchor:0 interval:5.0001]]];
 	
-	// 4. pressure dim updater
-	_pressureUpdater = [[FMProjectionUpdater alloc] init];
-	[self.pressureUpdater addFilterToLast:[[FMSourceFilter alloc] initWithMinValue:60
-																		  maxValue:120
-																		 expandMin:NO
-																		 expandMax:NO]];
-	[self.pressureUpdater addFilterToLast:[[FMPaddingFilter alloc] initWithPaddingLow:5
-																				 high:5
-																			shrinkMin:NO
-																			shrinkMax:NO
-																	   applyToCurrent:NO]];
-	[self.pressureUpdater addFilterToLast:[[FMIntervalFilter alloc] initWithAnchor:0
-																		  interval:5
-																		 shrinkMin:NO
-																		 shrinkMax:NO]];
+	_pressureDim = [conf createDimWithId:pressureDim filters:@[[FMSourceFilter expandWithMin:60 max:120],
+															   [FMPaddingFilter paddingWithLow:5 high:5],
+															   [FMIntervalFilter filterWithAnchor:0 interval:5]]];
 	
-	FMProjectionCartesian2D *weightSpace = [self.configurator spaceWithDimensionIds:@[@(dateDim), @(weightDim)]
-																	 configureBlock:^FMProjectionUpdater * _Nullable(NSInteger dimensionID)
-	{
-		if(dimensionID == dateDim) return self.dateUpdater;
-		return self.weightUpdater;
-	}];
+	FMProjectionCartesian2D *weightSpace = [conf spaceWithDims:@[self.dateDim, self.weightDim]];
+	FMProjectionCartesian2D *stepSpace = [conf spaceWithDims:@[self.dateDim, self.stepDim]];
+	FMProjectionCartesian2D *pressureSpace = [conf spaceWithDims:@[self.dateDim, self.pressureDim]];
 	
-	FMProjectionCartesian2D *stepSpace = [self.configurator spaceWithDimensionIds:@[@(dateDim), @(stepDim)]
-																   configureBlock:^FMProjectionUpdater * _Nullable(NSInteger dimensionID)
-	{
-		return self.stepUpdater;
-	}];
-	
-	FMProjectionCartesian2D *pressureSpace = [self.configurator spaceWithDimensionIds:@[@(dateDim), @(pressureDim)]
-																	   configureBlock:^FMProjectionUpdater * _Nullable(NSInteger dimensionID)
-	{
-		return self.pressureUpdater;
-	}];
-	
-	// create data containers and renderers
+	// 3 : create data containers and renderers
 	_weightSeries = [self.configurator createAttributedSeries:4];
 	_stepSeries = [self.configurator createAttributedSeries:4];
 	_systolicSeries = [self.configurator createSeries:4];
@@ -196,7 +134,7 @@
 	FMOrderedPointPrimitive *diastolicPoint = [self.configurator addPointToSpace:pressureSpace
 																		  series:self.diastolicSeries];
 	
-	// manage visual attributes
+	// 4 : manage visual attributes
 	vector_float4 weightColor = [[UIColor colorWithRed: 0.4 green: 0.7 blue: 0.9 alpha: 1.0] vector];
 	vector_float4 systolicColor = [[UIColor colorWithRed: 0.9 green: 0.3 blue: 0.3 alpha: 1.0] vector];
 	vector_float4 diastolicColor = [[UIColor colorWithRed: 0.9 green: 0.4 blue: 0.2 alpha: 1.0] vector];
@@ -234,7 +172,7 @@
 	[diastolicLine.attributes setColorVec:diastolicColor];
 	[self.class configurePointAttributes:diastolicPoint.attributes innerRadius:6 outerColor:diastolicColor];
 	
-	// add axis and labels
+	// 5 : add axis and labels, manage attributes
 	FMBlockAxisConfigurator *weightConf = [FMBlockAxisConfigurator configuratorWithRelativePosition:0
 																						 tickAnchor:0
 																					 minorTicksFreq:0
@@ -243,17 +181,17 @@
 	const CGSize weightSize = CGSizeMake(45, 25);
 	NSDictionary *weightAttributes= @{NSForegroundColorAttributeName : [UIColor colorWithVector:weightColor]};
 	NSDictionary *stepAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithVector:stepColor]};
-	FMDimensionalProjection *stepProjection = [self.configurator dimensionWithId:stepDim];
-	FMDimensionalProjection *weightProjection = [self.configurator dimensionWithId:weightDim];
-	FMExclusiveAxis *weightAxis = [self.configurator addAxisToDimensionWithId:weightDim
-																  belowSeries:NO
+	FMDimensionalProjection *stepProjection = self.stepDim.dim;
+	FMDimensionalProjection *weightProjection = self.weightDim.dim;
+	FMExclusiveAxis *weightAxis = [self.configurator addAxisToDimWithId:weightDim
+															belowSeries:NO
 																 configurator:weightConf
-															   labelFrameSize:weightSize
-															 labelBufferCount:8
-																		label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat val,
-																															   NSInteger index,
-																															   NSInteger lastIndex,
-																															   FMDimensionalProjection * _Nonnull dimension)
+														 labelFrameSize:weightSize
+													   labelBufferCount:8
+																  label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat val,
+																														 NSInteger index,
+																														 NSInteger lastIndex,
+																														 FMDimensionalProjection * _Nonnull dimension)
 	{
 		NSString *strWeight = [NSString stringWithFormat:@"%.0fkg", (float)val];
 		NSString *strStep = [NSString stringWithFormat:@"%.0f歩", (float)([weightProjection convertValue:val to:stepProjection])];
@@ -279,15 +217,15 @@
 	const CGSize pressureSize = CGSizeMake(30, 25);
 	NSDictionary* pressureAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithVector:systolicColor]};
 	NSMutableAttributedString *str2 = [[NSMutableAttributedString alloc] initWithString:@"mg/dL" attributes: pressureAttributes];
-	FMExclusiveAxis *pressureAxis = [self.configurator addAxisToDimensionWithId:pressureDim
-																	belowSeries:NO
-																   configurator:pressureConf
-																 labelFrameSize:pressureSize
-															   labelBufferCount:8
-																		  label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat value,
-																																 NSInteger index,
-																																 NSInteger lastIndex,
-																																 FMDimensionalProjection * _Nonnull dimension)
+	FMExclusiveAxis *pressureAxis = [self.configurator addAxisToDimWithId:pressureDim
+															  belowSeries:NO
+															 configurator:pressureConf
+														   labelFrameSize:pressureSize
+														 labelBufferCount:8
+																	label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat value,
+																														   NSInteger index,
+																														   NSInteger lastIndex,
+																														   FMDimensionalProjection * _Nonnull dimension)
 	{
 		NSString *str1 = [NSString stringWithFormat:@"%.0f", (float)(value)];
 		return @[[[NSMutableAttributedString alloc] initWithString:str1 attributes:pressureAttributes], str2];
@@ -313,15 +251,15 @@
 	NSDictionary *monthAttrs = @{NSForegroundColorAttributeName : [UIColor redColor]};
 	NSCalendar *cal = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
 	__weak typeof(self) weakSelf = self;
-	FMExclusiveAxis *dateAxis = [self.configurator addAxisToDimensionWithId:dateDim
-																belowSeries:NO
-															   configurator:dateConf
-															 labelFrameSize:dateSize
-														   labelBufferCount:24
-																	  label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat value,
-																															 NSInteger index,
-																															 NSInteger lastIndex,
-																															 FMDimensionalProjection * _Nonnull dimension)
+	FMExclusiveAxis *dateAxis = [self.configurator addAxisToDimWithId:dateDim
+														  belowSeries:NO
+														 configurator:dateConf
+													   labelFrameSize:dateSize
+													 labelBufferCount:24
+																label:^NSArray<NSMutableAttributedString *> * _Nonnull(CGFloat value,
+																													   NSInteger index,
+																													   NSInteger lastIndex,
+																													   FMDimensionalProjection * _Nonnull dimension)
 	{
 		NSDate* date = [NSDate dateWithTimeInterval:value sinceDate:weakSelf.refDate];
 		const NSInteger day = [cal component:NSCalendarUnitDay fromDate:date];
@@ -378,10 +316,10 @@
 	[self.systolicSeries.info clear];
 	[self.diastolicSeries.info clear];
 	
-	[self.dateUpdater clearSourceValues:NO];
-	[self.stepUpdater clearSourceValues:NO];
-	[self.weightUpdater clearSourceValues:NO];
-	[self.pressureUpdater clearSourceValues:NO];
+	[self.dateDim clearValues];
+	[self.stepDim clearValues];
+	[self.weightDim clearValues];
+	[self.pressureDim clearValues];
 	
 	NSDate *refDate = [self.class startOfDate:[NSDate date]];
 	_refDate = refDate;
@@ -411,14 +349,14 @@
 					const CGFloat xValue = [statistic.startDate timeIntervalSinceDate:refDate];
 					const NSUInteger attr = (yValue < 5000) ? (0) : ((yValue < 10000) ? 1 : 2);
 					[self.stepSeries addPoint:CGPointMake(xValue, yValue) attrIndex:attr];
-					[self.stepUpdater addSourceValue:yValue update:NO];
-					[self.dateUpdater addSourceValue:xValue update:NO];
+					[self.stepDim addValue:yValue];
+					[self.dateDim addValue:xValue];
 				}
 			}
-			[self.stepUpdater updateTarget];
+			[self.stepDim updateRange];
 			[self.weightLabel clearCache];
 			[self.windowPos reset];
-			[self.dateUpdater updateTarget];
+			[self.dateDim updateRange];
 			[self.metalView setNeedsDisplay];
 		}
 	};
@@ -450,13 +388,13 @@
 				const CGFloat val = [sample.quantity doubleValueForUnit:kg];
 				const BOOL dashed = (nd >= 0 && abs((int)(cd-nd)) > 1);
 				[self.weightSeries addPoint:CGPointMake(x, val) attrIndex:(dashed ? 1 : 0)];
-				[self.weightUpdater addSourceValue:val update:NO];
-				[self.dateUpdater addSourceValue:x update:NO];
+				[self.weightDim addValue:val];
+				[self.dateDim addValue:x];
 			}
-			[self.weightUpdater updateTarget];
+			[self.weightDim updateRange];
 			[self.weightLabel clearCache];
 			[self.windowPos reset];
-			[self.dateUpdater updateTarget];
+			[self.dateDim updateRange];
 			[self.metalView setNeedsDisplay];
 		}
 	}];
@@ -475,12 +413,12 @@
 				const CGFloat x = [sample.startDate timeIntervalSinceDate:refDate];
 				const CGFloat val = [sample.quantity doubleValueForUnit:mmHg];
 				[self.systolicSeries addPoint:CGPointMake(x, val)];
-				[self.pressureUpdater addSourceValue:val update:NO];
-				[self.dateUpdater addSourceValue:x update:NO];
+				[self.pressureDim addValue:val];
+				[self.dateDim addValue:x];
 			}
-			[self.pressureUpdater updateTarget];
+			[self.pressureDim updateRange];
 			[self.windowPos reset];
-			[self.dateUpdater updateTarget];
+			[self.dateDim updateRange];
 			[self.metalView setNeedsDisplay];
 		}
 	}];
@@ -498,12 +436,12 @@
 				const CGFloat x = [sample.startDate timeIntervalSinceDate:refDate];
 				const CGFloat val = [sample.quantity doubleValueForUnit:mmHg];
 				[self.diastolicSeries addPoint:CGPointMake(x, val)];
-				[self.pressureUpdater addSourceValue:val update:NO];
-				[self.dateUpdater addSourceValue:x update:NO];
+				[self.pressureDim addValue:val];
+				[self.dateDim addValue:x];
 			}
-			[self.pressureUpdater updateTarget];
+			[self.pressureDim updateRange];
 			[self.windowPos reset];
-			[self.dateUpdater updateTarget];
+			[self.dateDim updateRange];
 			[self.metalView setNeedsDisplay];
 		}
 	}];
@@ -520,7 +458,7 @@
 	[super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 	[coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context)
 	{
-		[self.dateUpdater updateTarget];
+		[self.dateDim updateRange];
 		[self.metalView setNeedsDisplay];
 	} completion:nil];
 }
