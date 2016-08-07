@@ -64,13 +64,13 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
-// 範囲長を固定する. Anchorの値は-1でmin, +1でmaxを指し、その点を固定した状態で拡大縮小する.
-// つまりanchor=-1の場合、minを変更せずmaxのみを動かし、anchor=0ならば中央値を固定してmin,maxを動かす.
-// offsetはlengthによらない移動を提供する.
 /**
  * A filter that fixes a length (in data space) using anchor and offset.
  * Anchor with value -1 is at min value, and +1 at max.
  * This filter satisfies 'newAnchoredValue = oldAnchoredValue + offset' and 'newMax - newMin = length'.
+ *
+ * If you want 'scrollable' filter, then FMWindowFilter is probably what you want.
+ * The concept of window filter is much more complex than length filter, but what it does IS complex.
  */
 @interface FMLengthFilter : NSObject<FMRangeFilter>
 
@@ -107,15 +107,18 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * creates a filter with parameters (min, max, YES, YES).
+ */
 + (instancetype _Nonnull)expandWithMin:(CGFloat)min max:(CGFloat)max;
+
+/**
+ * creates a filter with parameters (min, max, NO, NO).
+ */
 + (instancetype _Nonnull)ifNullWithMin:(CGFloat)min max:(CGFloat)max;
 
 @end
 
-// sourceまたは現在のmin/maxにpaddingを加える.
-// allowShrinkはsourceから計算した新しい値が範囲を狭める場合にその値を使うか否か,
-// applyToCurrentMinMaxはpaddingを現在値に加えるかどうか. 例えばAlternativeSourceの次に使う場合は
-// 現在のmin/maxが補正されてsourceMin/Maxのように働くため.
 
 /**
  * A filter that adds margin to source(data min/max) and cuurent(given min/max) if specified,
@@ -143,6 +146,10 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * Creates a filter with parameters (low, high, NO, NO, NO).
+ * It adds paddings to source min/max values, compare them with current (output of previous filter) values and takes values that provide wider range.
+ */
 + (instancetype)paddingWithLow:(CGFloat)low high:(CGFloat)high;
 
 @end
@@ -169,6 +176,10 @@ NS_DESIGNATED_INITIALIZER;
 
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
+/**
+ * Creates a filter with parameters (anchor, interval, NO, NO).
+ * It widens the range by moving min/max values to the nearest values that fulfill 'v = anchor + n * interval'.
+ */
 + (instancetype)filterWithAnchor:(CGFloat)anchor interval:(CGFloat)interval;
 
 @end
@@ -201,7 +212,7 @@ NS_DESIGNATED_INITIALIZER;
 /**
  * FMWindowFiler class provide the notion of a "viewport" to the given range (the range will be treated as accessble range).
  * A viewport can be moved(pan) and scaled if delegate objects handle events, and of course default implementations do handle them.
- * (Look for FMScaledWindowLength and FMAnchoredWindowPosition)
+ * (See FMScaledWindowLength and FMAnchoredWindowPosition in FMInteractive.h)
  *
  * This class (and its delegate) takes the physical size of view and padding into account (not a pixel size).
  */

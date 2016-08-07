@@ -74,17 +74,15 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-// Chartに対しての設定を簡潔にするためのオブジェクト.
-// ただし、効率性や柔軟性を重視するなら、このクラスを使わずに手で設定することをお勧めする.
-// (初期設定時の負荷など描画に比べれば微々たるものなので、効率が問題になることはまずないとは思う)
-// また大体のことはこのクラスを使ってできるようにするつもりだが、凝った事をやろうとしているなら、
-// 迷わずより低いレベルのクラスを直接使う事をお勧めする(綺麗により細かいコントロールができる魔法のクラスなんて存在しないし、
-// 文字数より細かい制御など原理的にできる訳がない)
-
-// またこのクラスの性質上、オブジェクトを作成・設定した後戻り値として返す場合でも、内部的にretainしているものが多い.
-// わざわざretainする為だけにプロパティ追加を強制するのは非合理的だからである.
-// 特にProjectionUpdaterやGestureInterpreter、デリゲートのデフォルト実装が該当する事が多いが、これはそもそもコアコンポーネントで
-// サポートされる仕組みではない事が大きく影響している. またデリゲートをブロックベースで実装できるようにしているものなどは不可避である.
+/**
+ * FMChartConfigurator helps you configure a chart by providing various wrapper methods.
+ * A configurator allocates, reatains and manage components and relations.
+ * It shortens your application codes in most cases, but does not provide any extra functionality.
+ * (Using it can spoil flexibility of underlying components in some cases)
+ *
+ * Using, reading the implementation and writing your own configurator depending on your needs
+ * will help you understand concepts, designs and usage of FMChart components.
+ */
 
 @interface FMChartConfigurator : NSObject
 

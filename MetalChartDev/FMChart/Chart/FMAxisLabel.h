@@ -203,12 +203,12 @@ NS_DESIGNATED_INITIALIZER;
 
 /**
  * set color bits that is used for clearing CGBitmapContext before drawing text.
- * (drawing light text on context cleared using 0x00000000 results in text with gray-colored edge due to inappropriate color blending of CoreText)
+ * (drawing light text on context cleared using 0x00000000 results in characters with gray-colored edge due to inappropriate color blending of CoreText)
  */
 - (void)setClearColor:(int32_t)color;
 
 /**
- * set a hook object. see FMLineDrawHook for details, or read ViewController.swift of MetalChartDev for sample codes.
+ * set a hook object. see FMLineDrawHook for details, or read HealthKitViewController.m of MetalChartDev for sample codes.
  */
 - (void)setLineDrawHook:(id<FMLineDrawHook> _Nullable)hook;
 

@@ -10,11 +10,11 @@
 #import "FMMetalChart.h"
 
 /**
- * FMAnimation protocol defines methods to behave as a animation.
+ * FMAnimation protocol defines methods in order for an object to behave as a animation.
  * Animation objects added to pending queue will be notified when
- * 1. added to pending queue (to allow them to resolve confliction with aminations running currently)
- * 2. drawing loop starts animation handling if pending (to determin whether they should start animating)
- * 3. should perform animation (to allow determine wether they are done)
+ * 1. added to pending queue (to allow them to resolve conflicts with aminations currently running)
+ * 2. drawing loop starts animation handling if pending (to determin whether they should start animating or keep awaiting)
+ * 3. should perform animation
  * 
  * The method 'requestCancel' is defined to be used for resolving confliction (case 1).
  * Default implementations of this protocol return YES when they accept requests, but it is just a convetion.
@@ -28,13 +28,13 @@
 
 /**
  * If animation object return YES, it will be removed from a pending queue, added to a running queue, then its animate:animate:timestamp: will get called
- * in every drawing loop.
+ * in drawing loop.
  */
 - (BOOL)animator:(FMAnimator* _Nonnull)animator shouldStartAnimating:(CFAbsoluteTime)timestamp;
 
 /**
  * An animation object should perform animation (MTLCommandBuffer is available, if required to do so).
- * If the returns YES, it will be removed from running queue.
+ * If an object returns YES, it will be removed from running queue.
  */
 
 - (BOOL)animator:(FMAnimator* _Nonnull)animator animate:(id<MTLCommandBuffer> _Nonnull)buffer timestamp:(CFAbsoluteTime)timestamp;

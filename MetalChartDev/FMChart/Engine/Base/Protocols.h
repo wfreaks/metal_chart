@@ -12,7 +12,7 @@
 @protocol MTLRenderCommandEncoder;
 
 /**
- * Well this protocol is COMPLETE USELESS so please ignore.
+ * This protocol is COMPLETE USELESS so please ignore.
  * But giving the concept of 'primitive' may help you understand the framework.
  *
  * Primitve is a combination of a custom shader, a set of configurable attributes and a wrapper class to integrate them for visualizing given data.

@@ -370,7 +370,7 @@
 			baseDateComp.year = 1970;
 			baseDateComp.month = 1;
 			baseDateComp.day = 1;
-			NSDate *d = [cal dateFromComponents:baseDateComp]; // [NSDate date]とは違いTimeZoneを考慮.
+			NSDate *d = [cal dateFromComponents:baseDateComp];
 			const NSInteger count = samples.count;
 			for (NSInteger i = 0; i < count; ++i) {
 				HKQuantitySample *sample = samples[i];
