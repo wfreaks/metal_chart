@@ -88,12 +88,12 @@ NS_DESIGNATED_INITIALIZER;
 @property (readonly, nonatomic) uniform_line_conf * _Nonnull conf;
 
 /**
- * default NO.
+ * default NO. (see class description)
  */
 @property (assign, nonatomic) BOOL enableDash;
 
 /**
- * default NO.
+ * default NO. (see class description)
  */
 @property (assign, nonatomic) BOOL enableOverlay;
 
