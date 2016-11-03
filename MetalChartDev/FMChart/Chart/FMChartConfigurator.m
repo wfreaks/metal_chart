@@ -380,25 +380,25 @@
 	return nil;
 }
 
-- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMSpace2D *)space
-										series:(FMOrderedSeries *)series
+- (FMLineSeries<FMOrderedPolyLinePrimitive *> *)addLineToSpace:(FMSpace2D *)space
+														series:(FMOrderedSeries *)series
 {
 	FMOrderedPolyLinePrimitive *line = [[FMOrderedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributes:nil];
-	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
+	FMLineSeries<FMOrderedPolyLinePrimitive*> *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
 	[_chart addRenderable:ls];
 	[_chart addProjection:space.space];
-	return line;
+	return ls;
 }
 
-- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMSpace2D *)space
-															series:(FMOrderedAttributedSeries *)series
-												attributesCapacity:(NSUInteger)capacity
+- (FMLineSeries<FMOrderedAttributedPolyLinePrimitive *>*)addAttributedLineToSpace:(FMSpace2D *)space
+																		   series:(FMOrderedAttributedSeries *)series
+															   attributesCapacity:(NSUInteger)capacity
 {
 	FMOrderedAttributedPolyLinePrimitive *line = [[FMOrderedAttributedPolyLinePrimitive alloc] initWithEngine:self.engine orderedSeries:series attributesCapacity:capacity];
-	FMLineSeries *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
+	FMLineSeries<FMOrderedAttributedPolyLinePrimitive*> *ls = [[FMLineSeries alloc] initWithLine:line projection:space.space];
 	[_chart addRenderable:ls];
 	[_chart addProjection:space.space];
-	return line;
+	return ls;
 }
 
 - (FMUniformPointAttributes*)setPointToLine:(FMOrderedPolyLinePrimitive *)line
@@ -408,20 +408,20 @@
 	return attrs;
 }
 
-- (FMOrderedBarPrimitive *)addBarToSpace:(FMSpace2D *)space
+- (FMBarSeries<FMOrderedBarPrimitive *>*)addBarToSpace:(FMSpace2D *)space
 								  series:(FMOrderedSeries *)series
 {
 	FMOrderedBarPrimitive *bar = [[FMOrderedBarPrimitive alloc] initWithEngine:self.engine
 																 series:series
 														  configuration:nil
 															 attributes:nil];
-	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
+	FMBarSeries<FMOrderedBarPrimitive*> *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
 	[_chart addRenderable:bs];
 	[_chart addProjection:space.space];
-	return bar;
+	return bs;
 }
 
-- (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMSpace2D *)space
+- (FMBarSeries<FMOrderedAttributedBarPrimitive *>*)addAttributedBarToSpace:(FMSpace2D *)space
 													  series:(FMOrderedAttributedSeries *)series
 										  attributesCapacity:(NSUInteger)capacity
 {
@@ -430,30 +430,30 @@
 																					 configuration:nil
 																				   attributesArray:nil
 																		attributesCapacityOnCreate:capacity];
-	FMBarSeries *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
+	FMBarSeries<FMOrderedAttributedBarPrimitive*> *bs = [[FMBarSeries alloc] initWithBar:bar projection:space.space];
 	[_chart addRenderable:bs];
 	[_chart addProjection:space.space];
-	return bar;
+	return bs;
 }
 
-- (FMOrderedPointPrimitive *)addPointToSpace:(FMSpace2D *)space series:(FMOrderedSeries *)series
+- (FMPointSeries<FMOrderedPointPrimitive *>*)addPointToSpace:(FMSpace2D *)space series:(FMOrderedSeries *)series
 {
 	FMOrderedPointPrimitive *point = [[FMOrderedPointPrimitive alloc] initWithEngine:self.engine series:series attributes:nil];
-	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
+	FMPointSeries<FMOrderedPointPrimitive*> *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
 	[_chart addRenderable:ps];
 	[_chart addProjection:space.space];
-	return point;
+	return ps;
 }
 
-- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMSpace2D *)space
+- (FMPointSeries<FMOrderedAttributedPointPrimitive *>*)addAttributedPointToSpace:(FMSpace2D *)space
 														  series:(FMOrderedAttributedSeries *)series
 											  attributesCapacity:(NSUInteger)capacity
 {
 	FMOrderedAttributedPointPrimitive *point = [[FMOrderedAttributedPointPrimitive alloc] initWithEngine:self.engine series:series attributesCapacity:capacity];
-	FMPointSeries *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
+	FMPointSeries<FMOrderedAttributedPointPrimitive*> *ps = [[FMPointSeries alloc] initWithPoint:point projection:space.space];
 	[_chart addRenderable:ps];
 	[_chart addProjection:space.space];
-	return point;
+	return ps;
 }
 
 - (void)removeRenderable:(id<FMRenderable>)renderable

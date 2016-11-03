@@ -12,6 +12,9 @@
 #import "FMRenderables.h"
 #import "FMRenderablesAux.h"
 #import "Prototypes.h"
+#import "Lines.h"
+#import "Rects.h"
+#import "Points.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -161,32 +164,32 @@ NS_DESIGNATED_INITIALIZER;
 // これはLineSeriesなどはほとんど抽象化されラッパーとして機能しており、これを返すと細かいコントロールができないため.
 // 各々適切に処理されてるので気にする必要はない.
 
-- (FMOrderedPolyLinePrimitive *)addLineToSpace:(FMSpace2D *)space
-                                        series:(FMOrderedSeries *)series
+- (FMLineSeries<FMOrderedPolyLinePrimitive*> *)addLineToSpace:(FMSpace2D *)space
+													   series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedPolyLinePrimitive *)addAttributedLineToSpace:(FMSpace2D *)space
-															series:(FMOrderedAttributedSeries *)series
-												attributesCapacity:(NSUInteger)capacity
+- (FMLineSeries<FMOrderedAttributedPolyLinePrimitive*> *)addAttributedLineToSpace:(FMSpace2D *)space
+																		   series:(FMOrderedAttributedSeries *)series
+															   attributesCapacity:(NSUInteger)capacity
 ;
 
 - (FMUniformPointAttributes*)setPointToLine:(FMOrderedPolyLinePrimitive*)line
 ;
 
-- (FMOrderedBarPrimitive *)addBarToSpace:(FMSpace2D *)space
+- (FMBarSeries<FMOrderedBarPrimitive *>*)addBarToSpace:(FMSpace2D *)space
 								  series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedBarPrimitive *)addAttributedBarToSpace:(FMSpace2D *)space
+- (FMBarSeries<FMOrderedAttributedBarPrimitive *>*)addAttributedBarToSpace:(FMSpace2D *)space
 													  series:(FMOrderedAttributedSeries *)series
 										  attributesCapacity:(NSUInteger)capacity
 ;
 
-- (FMOrderedPointPrimitive *)addPointToSpace:(FMSpace2D *)space
+- (FMPointSeries<FMOrderedPointPrimitive *>*)addPointToSpace:(FMSpace2D *)space
 									  series:(FMOrderedSeries *)series
 ;
 
-- (FMOrderedAttributedPointPrimitive *)addAttributedPointToSpace:(FMSpace2D *)space
+- (FMPointSeries<FMOrderedAttributedPointPrimitive *>*)addAttributedPointToSpace:(FMSpace2D *)space
 														  series:(FMOrderedAttributedSeries *)series
 											  attributesCapacity:(NSUInteger)capacity
 ;

@@ -53,14 +53,14 @@ NS_DESIGNATED_INITIALIZER;
  *
  * See Engine/Line/LineBuffers.h and Engine/Line/Lines.h for the list of properties.
  */
-@interface FMLineSeries : NSObject<FMRenderable, FMPlotAreaClient>
+@interface FMLineSeries <T:FMLinePrimitive*> : NSObject<FMRenderable, FMPlotAreaClient>
 
-@property (readonly, nonatomic) FMLinePrimitive * _Nonnull line;
+@property (readonly, nonatomic) T _Nonnull line;
 @property (readonly, nonatomic) FMUniformLineConf * _Nonnull conf;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithLine:(FMLinePrimitive * _Nonnull)line
+- (instancetype _Nonnull)initWithLine:(T _Nonnull)line
 						   projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
@@ -84,14 +84,14 @@ NS_DESIGNATED_INITIALIZER;
  * See Engine/Rect/RectBuffers.h and Engine/Rect/Rects.h for the list of properties.
  */
  
-@interface FMBarSeries : NSObject<FMRenderable, FMPlotAreaClient>
+@interface FMBarSeries <T:FMBarPrimitive*> : NSObject<FMRenderable, FMPlotAreaClient>
 
-@property (readonly, nonatomic) FMBarPrimitive * _Nonnull bar;
+@property (readonly, nonatomic) T _Nonnull bar;
 @property (readonly, nonatomic) FMUniformBarConfiguration * _Nonnull conf;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithBar:(FMBarPrimitive * _Nonnull)bar
+- (instancetype _Nonnull)initWithBar:(T _Nonnull)bar
 						  projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
@@ -107,13 +107,13 @@ NS_DESIGNATED_INITIALIZER;
  * See Engine/Point/PointBuffers.h and Engine/Point/Points.h for the list of properties.
  */
 
-@interface FMPointSeries : NSObject<FMRenderable>
+@interface FMPointSeries <T:FMPointPrimitive*> : NSObject<FMRenderable>
 
-@property (readonly, nonatomic) FMPointPrimitive * _Nonnull point;
+@property (readonly, nonatomic) T _Nonnull point;
 @property (readonly, nonatomic) id<FMSeries> _Nullable series;
 @property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
 
-- (instancetype _Nonnull)initWithPoint:(FMPointPrimitive * _Nonnull)point
+- (instancetype _Nonnull)initWithPoint:(T _Nonnull)point
 							projection:(FMProjectionCartesian2D * _Nullable)projection
 NS_DESIGNATED_INITIALIZER;
 
