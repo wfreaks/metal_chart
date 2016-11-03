@@ -27,7 +27,7 @@ You need to allocate them, configure their properties and
 
 ## Sample Codes
 
-See [HealthKit sample](MetalChartDev/ViewControllers/HealthKitViewController.m).
+See [HealthKit sample](MetalChartDev/MetalChartDev/ViewControllers/HealthKitViewController.m).
 The view controller queries all systolic/diastolic
 blood pressures, weights and daily step counts from HealthKit, 
 and then show them simultaneously.
@@ -45,13 +45,13 @@ and then show them simultaneously.
 1. Add renderers/attachments to chart (if not using configurator)
 1. (Re)Load data if necessary
 
-Note that a [FMChartConfigurator](FMChart/Chart/FMChartConfigurator.h) instance can perform almost all object allocations and initial settings.
+Note that a [FMChartConfigurator](MetalChartDev/FMChart/Chart/FMChartConfigurator.h) instance can perform almost all object allocations and initial settings.
 
 #### Chart & Configurator
 
 See 
-+ [FMMetalChart](FMChart/Chart/FMMetalChart.h)
-+ [FMChartConfigurator](FMChart/Chart/FMChartConfigurator.h)
++ [FMMetalChart](MetalChartDev/FMChart/Chart/FMMetalChart.h)
++ [FMChartConfigurator](MetalChartDev/FMChart/Chart/FMChartConfigurator.h)
 
 If you are not using FMChartConfigurator, you should follow : 
 + Create FMSurfaceConfiguration instance FMEngine instance
@@ -63,25 +63,25 @@ If you are not using FMChartConfigurator, you should follow :
 #### Creating Dimensions & Spaces
 
 See  
-+ [FMProjection](FMChart/Chart/FMMetalChart.h)
-+ [FMDimensionalProjection](FMChart/Chart/FMProjections)
-+ [FMProjectionCartesian2D](FMChart/Chart/FMProjections)
-+ [FMProjectionUpdater](FMChart/Chart/FMProjectionUpdater.h)
-+ [Range Filters](FMChart/Chart/FMRangeFilters.h)
++ [FMProjection](MetalChartDev/FMChart/Chart/FMMetalChart.h)
++ [FMDimensionalProjection](MetalChartDev/FMChart/Chart/FMProjections)
++ [FMProjectionCartesian2D](MetalChartDev/FMChart/Chart/FMProjections)
++ [FMProjectionUpdater](MetalChartDev/FMChart/Chart/FMProjectionUpdater.h)
++ [Range Filters](MetalChartDev/FMChart/Chart/FMRangeFilters.h)
 
 #### Adding Axes
 
 See
-+ [FMAxis](FMChart/Chart/FMAxis.h)
-+ [FMAxisPrimitive](FMChart/Engine/Line/Lines.h)
-+ [FMUniformAxisAttributes](FMChart/Engine/Line/LineBuffers.h)
++ [FMAxis](MetalChartDev/FMChart/Chart/FMAxis.h)
++ [FMAxisPrimitive](MetalChartDev/FMChart/Engine/Line/Lines.h)
++ [FMUniformAxisAttributes](MetalChartDev/FMChart/Engine/Line/LineBuffers.h)
 
 Prefer using FMExclusiveAxis to FMSharedAxis when possible. You can share a range through dimension and updater even if you have multiple charts, space, axes and axis labels instances.
 
 #### Adding Labels to Axes
 
 See
-+ [FMAxisLabel](FMChart/Chart/FMAxisLabel.h)
++ [FMAxisLabel](MetalChartDev/FMChart/Chart/FMAxisLabel.h)
 
 FMAxisLabel requires Core Text and Core Graphics.  
 You can perform additional action to context before each text line rendering, and modify ranges of valid render cache (e.g. invalidate 3 labels from left side)
@@ -89,12 +89,12 @@ You can perform additional action to context before each text line rendering, an
 #### Adding Grid Lines
 
 See
-+ [FMGridLine](FMChart/Chart/FMRenderables.h)
-+ [FMUniformGridAttributes](FMChart/Engine/Line/LineBuffers.h)
++ [FMGridLine](MetalChartDev/FMChart/Chart/FMRenderables.h)
++ [FMUniformGridAttributes](MetalChartDev/FMChart/Engine/Line/LineBuffers.h)
 
 A grid line instance can be used without an axis (in this case you should manage configurations manually).
 
 
 ## License 
 
-This software is released under the [MIT License](LICENSE.txt).
+This software is released under the [MIT License](MetalChartDev/LICENSE.txt).
