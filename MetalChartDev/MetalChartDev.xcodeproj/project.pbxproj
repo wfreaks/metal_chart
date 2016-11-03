@@ -210,7 +210,7 @@
 		AA32A9E51BE3BA5500ABDC1E /* Info-Support.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-Support.plist"; sourceTree = "<group>"; };
 		AA32AAD01BE7BE1100ABDC1E /* UIColor+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utility.h"; sourceTree = "<group>"; };
 		AA32AAD11BE7BE1100ABDC1E /* UIColor+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utility.m"; sourceTree = "<group>"; };
-		AA4858B21D35ECA800BDD9F8 /* REAME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = REAME.md; sourceTree = "<group>"; };
+		AA4858B21D35ECA800BDD9F8 /* REAME.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = REAME.md; path = ../REAME.md; sourceTree = "<group>"; };
 		AA5D4EDA1C21BA6E00F5F16D /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		AA5D4EDC1C21BA6E00F5F16D /* MetalChartDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MetalChartDev.entitlements; sourceTree = "<group>"; };
 		AA858A3A1BFA4E8200C419F2 /* FMProjections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMProjections.h; sourceTree = "<group>"; };
