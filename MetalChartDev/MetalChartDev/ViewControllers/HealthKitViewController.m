@@ -108,27 +108,27 @@
 	
 	FMOrderedAttributedPolyLinePrimitive *weightLine = [conf addAttributedLineToSpace:weightSpace
 																			   series:self.weightSeries
-																   attributesCapacity:2];
+																   attributesCapacity:2].line;
 	
 	FMOrderedAttributedPointPrimitive *weightPoint = [conf addAttributedPointToSpace:weightSpace
 																			  series:self.weightSeries
-																  attributesCapacity:2];
+																  attributesCapacity:2].point;
 	
 	FMOrderedAttributedBarPrimitive *stepBar = [conf addAttributedBarToSpace:stepSpace
 																	  series:self.stepSeries
-														  attributesCapacity:3];
+														  attributesCapacity:3].bar;
 	
 	FMOrderedPolyLinePrimitive *systolicLine = [conf addLineToSpace:pressureSpace
-															 series:self.systolicSeries];
+															 series:self.systolicSeries].line;
 	
 	FMOrderedPolyLinePrimitive *diastolicLine = [conf addLineToSpace:pressureSpace
-															  series:self.diastolicSeries];
+															  series:self.diastolicSeries].line;
 	
 	FMOrderedPointPrimitive *systolicPoint = [conf addPointToSpace:pressureSpace
-															series:self.systolicSeries];
+															series:self.systolicSeries].point;
 	
 	FMOrderedPointPrimitive *diastolicPoint = [conf addPointToSpace:pressureSpace
-															 series:self.diastolicSeries];
+															 series:self.diastolicSeries].point;
 	
 	// 4 : manage visual attributes
 	vector_float4 weightColor = [[UIColor colorWithRed: 0.4 green: 0.7 blue: 0.9 alpha: 1.0] vector];
