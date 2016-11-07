@@ -24,6 +24,7 @@
 @property (nonatomic, readwrite) id<MTLTexture>	  multisampleColorTexture;
 
 @property (nonatomic, assign) BOOL needsRedraw;
+@property (nonatomic) BOOL active;
 
 @end
 
@@ -62,11 +63,32 @@
 
 - (void)_postInit
 {
+	_active = YES;
 	_needsRedraw = YES;
 	_screenScale = [[UIScreen mainScreen] scale];
 	_runloop = [NSRunLoop mainRunLoop];
 	_sampleCount = 1;
 	_autoResizeDrawable = YES;
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willBecomeActive) name:UIApplicationWillEnterForegroundNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeInactive) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)willBecomeActive
+{
+	_active = YES;
+	[self updateStatus];
+}
+
+- (void)didBecomeInactive
+{
+	_active = NO;
+	[self updateStatus];
 }
 
 - (void)setPreferredFramesPerSecond:(NSInteger)fps
@@ -101,17 +123,22 @@
 		_display.paused = self.paused & (spf <= 0);
 		
 		if(spf > 0) {
-			const NSInteger n = ceil(spf / (duration > 0 ? duration : 0.1666));
+			const NSInteger n = ceil(spf / (duration > 0 ? duration : (1/60.0)));
 			_display.frameInterval = n;
 		}
 	}
 }
 
-- (void)willMoveToWindow:(UIWindow *)newWindow
+- (void)didMoveToWindow
 {
-	[super willMoveToWindow:newWindow];
-	_screenScale = [newWindow.screen scale];
-	if(newWindow) {
+	[super didMoveToWindow];
+	_screenScale = [self.window.screen scale];
+	[self updateStatus];
+}
+
+- (void)updateStatus
+{
+	if(self.window && self.active) {
 		_display = [CADisplayLink displayLinkWithTarget:self selector:@selector(_refreshView)];
 		[_display addToRunLoop:_runloop forMode:NSRunLoopCommonModes];
 		[self _updateDisplayLink];
@@ -159,6 +186,7 @@
 
 - (void)_refreshView
 {
+	NSLog(@"refreshing");
 	[self draw];
 }
 
