@@ -136,9 +136,15 @@
 	[self updateStatus];
 }
 
+- (void)setHidden:(BOOL)hidden
+{
+	[super setHidden:hidden];
+	[self updateStatus];
+}
+
 - (void)updateStatus
 {
-	if(self.window && self.active) {
+	if(self.window && self.active && !self.hidden) {
 		_display = [CADisplayLink displayLinkWithTarget:self selector:@selector(_refreshView)];
 		[_display addToRunLoop:_runloop forMode:NSRunLoopCommonModes];
 		[self _updateDisplayLink];
