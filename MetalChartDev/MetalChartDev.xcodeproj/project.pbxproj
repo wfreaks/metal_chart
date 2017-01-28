@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		315AC3287629A037D7131FE6 /* libPods-MetalChartDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F3682372A235B10C17D351C /* libPods-MetalChartDev.a */; };
 		AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACD43101B708EB300A83B69 /* Metal.framework */; };
 		AA1D05C11BA9959A0041DCF0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C01BA9959A0041DCF0 /* CoreText.framework */; };
 		AA1D05C31BA995C70041DCF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */; };
 		AA1D94E91D54B33B00A24362 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D94E81D54B33B00A24362 /* AppDelegate.m */; };
 		AA1D94EB1D54B66200A24362 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1D94EA1D54B66200A24362 /* main.m */; };
 		AA1D94ED1D54B72700A24362 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1D94EC1D54B72700A24362 /* Main.storyboard */; };
+		AA1EF18B1E3C5FE900386012 /* TokyoTemperatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1EF18A1E3C5FE900386012 /* TokyoTemperatureViewController.m */; };
+		AA1EF18E1E3C8EF100386012 /* tokyo-temperature.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = AA1EF18D1E3C8EF100386012 /* tokyo-temperature.sqlite */; };
 		AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
@@ -194,12 +197,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0F3682372A235B10C17D351C /* libPods-MetalChartDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MetalChartDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		80C8959B6DFCB44A66E02BAF /* Pods-MetalChartDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MetalChartDev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MetalChartDev/Pods-MetalChartDev.debug.xcconfig"; sourceTree = "<group>"; };
 		AA1D05C01BA9959A0041DCF0 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		AA1D05C21BA995C70041DCF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		AA1D94E71D54B33B00A24362 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA1D94E81D54B33B00A24362 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AA1D94EA1D54B66200A24362 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AA1D94EC1D54B72700A24362 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		AA1EF1891E3C5FE900386012 /* TokyoTemperatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokyoTemperatureViewController.h; sourceTree = "<group>"; };
+		AA1EF18A1E3C5FE900386012 /* TokyoTemperatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokyoTemperatureViewController.m; sourceTree = "<group>"; };
+		AA1EF18D1E3C8EF100386012 /* tokyo-temperature.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tokyo-temperature.sqlite"; sourceTree = "<group>"; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AA32A97E1BE3439600ABDC1E /* FMMetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalView.h; sourceTree = "<group>"; };
 		AA32A97F1BE3439600ABDC1E /* FMMetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalView.m; sourceTree = "<group>"; };
@@ -295,6 +303,7 @@
 		AAF6265D1D51F6E9004AE567 /* HealthKitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HealthKitViewController.h; sourceTree = "<group>"; };
 		AAF6265E1D51F6E9004AE567 /* HealthKitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HealthKitViewController.m; sourceTree = "<group>"; };
 		AAFB9A791BF1DE0900F966E7 /* CircleEngineShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = CircleEngineShader.metal; sourceTree = "<group>"; };
+		C0A3CA464157ACE3D6DE9D67 /* Pods-MetalChartDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MetalChartDev.release.xcconfig"; path = "Pods/Target Support Files/Pods-MetalChartDev/Pods-MetalChartDev.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +323,7 @@
 				AA0216601B70C66900E809F0 /* Metal.framework in Frameworks */,
 				AA5D4EDB1C21BA6E00F5F16D /* HealthKit.framework in Frameworks */,
 				AAA7DA0D1CE5A280004647E7 /* FMChartSupport.framework in Frameworks */,
+				315AC3287629A037D7131FE6 /* libPods-MetalChartDev.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +337,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA1EF18C1E3C8EE200386012 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AA1EF18D1E3C8EF100386012 /* tokyo-temperature.sqlite */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		AA32A9871BE3B53E00ABDC1E /* Headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +379,7 @@
 				AAC4A81E1BAFE2960032A0CF /* FMChart */,
 				AAB584DD1B6F0D8C00480AAE /* MetalChartDev */,
 				AADC1AC41B8F20D8002F455D /* Frameworks */,
+				C26767DABB71D109E79F3A70 /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -384,6 +403,7 @@
 				AA1D94E71D54B33B00A24362 /* AppDelegate.h */,
 				AA1D94E81D54B33B00A24362 /* AppDelegate.m */,
 				AAF6265A1D51F6CD004AE567 /* ViewControllers */,
+				AA1EF18C1E3C8EE200386012 /* Resources */,
 				AA2A2C301B8DFB1E003182AA /* TODO.txt */,
 				AAB584E71B6F0D8C00480AAE /* LaunchScreen.storyboard */,
 				AA1D94EC1D54B72700A24362 /* Main.storyboard */,
@@ -546,6 +566,7 @@
 				AA1D05C01BA9959A0041DCF0 /* CoreText.framework */,
 				AADC1AC21B8F2002002F455D /* MetalKit.framework */,
 				AACD43101B708EB300A83B69 /* Metal.framework */,
+				0F3682372A235B10C17D351C /* libPods-MetalChartDev.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -555,6 +576,8 @@
 			children = (
 				AAF6265D1D51F6E9004AE567 /* HealthKitViewController.h */,
 				AAF6265E1D51F6E9004AE567 /* HealthKitViewController.m */,
+				AA1EF1891E3C5FE900386012 /* TokyoTemperatureViewController.h */,
+				AA1EF18A1E3C5FE900386012 /* TokyoTemperatureViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -570,6 +593,15 @@
 				AA85C76D1BFC57090037253B /* Circles.m */,
 			);
 			path = Circle;
+			sourceTree = "<group>";
+		};
+		C26767DABB71D109E79F3A70 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				80C8959B6DFCB44A66E02BAF /* Pods-MetalChartDev.debug.xcconfig */,
+				C0A3CA464157ACE3D6DE9D67 /* Pods-MetalChartDev.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -694,10 +726,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAB585031B6F0D8C00480AAE /* Build configuration list for PBXNativeTarget "MetalChartDev" */;
 			buildPhases = (
+				2C86192337FE4609B316B59D /* [CP] Check Pods Manifest.lock */,
 				AAB584D71B6F0D8C00480AAE /* Sources */,
 				AAB584D81B6F0D8C00480AAE /* Frameworks */,
 				AAB584D91B6F0D8C00480AAE /* Resources */,
 				AAA7DA111CE5A280004647E7 /* Embed Frameworks */,
+				440774BB269D1D16D2820746 /* [CP] Embed Pods Frameworks */,
+				9CCE5C0B5AC742F387BD52C2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -790,6 +825,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB584E91B6F0D8C00480AAE /* LaunchScreen.storyboard in Resources */,
+				AA1EF18E1E3C8EF100386012 /* tokyo-temperature.sqlite in Resources */,
 				AAB584E61B6F0D8C00480AAE /* Assets.xcassets in Resources */,
 				AA1D94ED1D54B72700A24362 /* Main.storyboard in Resources */,
 			);
@@ -803,6 +839,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C86192337FE4609B316B59D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		440774BB269D1D16D2820746 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MetalChartDev/Pods-MetalChartDev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9CCE5C0B5AC742F387BD52C2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MetalChartDev/Pods-MetalChartDev-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AA32A9931BE3B5FA00ABDC1E /* Sources */ = {
@@ -850,6 +934,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1EF18B1E3C5FE900386012 /* TokyoTemperatureViewController.m in Sources */,
 				AAF6265F1D51F6E9004AE567 /* HealthKitViewController.m in Sources */,
 				AA1D94E91D54B33B00A24362 /* AppDelegate.m in Sources */,
 				AA1D94EB1D54B66200A24362 /* main.m in Sources */,
@@ -1064,6 +1149,7 @@
 		};
 		AAB585041B6F0D8C00480AAE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80C8959B6DFCB44A66E02BAF /* Pods-MetalChartDev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1073,7 +1159,6 @@
 				INFOPLIST_FILE = MetalChartDev/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.MetalChartDevApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1086,6 +1171,7 @@
 		};
 		AAB585051B6F0D8C00480AAE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0A3CA464157ACE3D6DE9D67 /* Pods-MetalChartDev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

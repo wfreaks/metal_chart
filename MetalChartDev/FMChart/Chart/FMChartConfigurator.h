@@ -125,8 +125,8 @@ NS_DESIGNATED_INITIALIZER;
 - (FMSpace2D *)spaceWithDimX:(FMDimension*)x Y:(FMDimension*)y;
 - (FMSpace2D *_Nullable)findSpaceWithIdX:(NSInteger)x Y:(NSInteger)y;
 
-- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan
-							pinch:(UIPinchGestureRecognizer *)pinch
+- (void)bindGestureRecognizersPan:(FMPanGestureRecognizer * _Nullable)pan
+							pinch:(UIPinchGestureRecognizer * _Nullable)pinch
 ;
 
 - (FMWindowFilter* _Nullable)addWindowToDim:(FMDimension *)dim
@@ -151,6 +151,13 @@ NS_DESIGNATED_INITIALIZER;
 
 // 上記２つのメソッドにはAxisLabelへアクセスする手段がない・・・ので、検索して返す必要がある.
 - (NSArray<FMAxisLabel *> * _Nullable)axisLabelsToAxis:(id<FMAxis>)axis;
+
+// LineDrawHookは強力なツールだが、使いかたが非常にわかりにくい（自分でも忘れる）ので、よくある一つをシナリオとして加える.
+- (id<FMLineDrawHook>)setRoundRectHookToLabel:(FMAxisLabel*)label
+										color:(UIColor*)color
+									   radius:(CGFloat)radius
+									   insets:(CGSize)insets
+;
 
 - (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color;
 

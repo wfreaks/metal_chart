@@ -192,7 +192,6 @@
 
 - (void)_refreshView
 {
-	NSLog(@"refreshing");
 	[self draw];
 }
 
@@ -204,6 +203,7 @@
 		_needsRedraw = NO;
 		id<FMMetalViewDelegate> delegate = _delegate;
 		if(delegate && self.device) {
+//			NSLog(@"refreshing");
 			[delegate drawInMTKView:(FMMetalView*)self];
 			_currentDrawable = nil;
 			_currentRenderPassDescriptor = nil;

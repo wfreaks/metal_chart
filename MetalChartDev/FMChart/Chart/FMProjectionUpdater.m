@@ -113,8 +113,8 @@
 	FMDimensionalProjection *projection = _target;
 	NSArray<id<FMRangeFilter>> *restrictions = _filters;
 	if(projection && restrictions.count > 0) {
-		CGFloat min = +CGFLOAT_MAX;
-		CGFloat max = -CGFLOAT_MAX;
+		CGFloat min = _srcMinValue;
+		CGFloat max = _srcMaxValue;
 		for(id<FMRangeFilter> restriction in restrictions.objectEnumerator) {
 			[restriction updater:self minValue:&min maxValue:&max];
 		}

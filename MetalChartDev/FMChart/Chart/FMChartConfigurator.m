@@ -229,8 +229,12 @@
 
 - (void)bindGestureRecognizersPan:(FMPanGestureRecognizer *)pan pinch:(UIPinchGestureRecognizer *)pinch
 {
-	[self.view addGestureRecognizer:pan];
-	[self.view addGestureRecognizer:pinch];
+	if(pan) {
+		[self.view addGestureRecognizer:pan];
+	}
+	if(pinch) {
+		[self.view addGestureRecognizer:pinch];
+	}
 	FMGestureDispatcher *dispatcher = _dispatcher;
 	dispatcher.panRecognizer = pan;
 	dispatcher.pinchRecognizer = pinch;
@@ -341,6 +345,22 @@
 		}
 	}
 	return ar.copy;
+}
+
+- (id<FMLineDrawHook>)setRoundRectHookToLabel:(FMAxisLabel *)label color:(UIColor *)color radius:(CGFloat)radius insets:(CGSize)insets
+{
+	id<FMLineDrawHook> hook = [FMBlockLineDrawHook hookWithBlock:^(NSAttributedString * _Nonnull string,
+																   CGContextRef  _Nonnull context,
+																   const CGRect * _Nonnull drawRect)
+							   {
+								   CGContextSetFillColorWithColor(context, color.CGColor);
+								   const CGRect rect = CGRectInset(*drawRect, -insets.width, -insets.height);
+								   CGContextAddPath(context, [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:radius].CGPath);
+								   CGContextFillPath(context);
+							   }];
+	[self addRetainedObject:hook];
+	[label setLineDrawHook:hook];
+	return hook;
 }
 
 - (FMPlotArea *)addPlotAreaWithColor:(UIColor *)color
