@@ -16,6 +16,8 @@
 		AA1D94ED1D54B72700A24362 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1D94EC1D54B72700A24362 /* Main.storyboard */; };
 		AA1EF18B1E3C5FE900386012 /* TokyoTemperatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1EF18A1E3C5FE900386012 /* TokyoTemperatureViewController.m */; };
 		AA1EF18E1E3C8EF100386012 /* tokyo-temperature.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = AA1EF18D1E3C8EF100386012 /* tokyo-temperature.sqlite */; };
+		AA1EF1901E3DEE8A00386012 /* LineAreaShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA1EF18F1E3DEE8A00386012 /* LineAreaShader.metal */; };
+		AA1EF1911E3DEE8A00386012 /* LineAreaShader.metal in Sources */ = {isa = PBXBuildFile; fileRef = AA1EF18F1E3DEE8A00386012 /* LineAreaShader.metal */; };
 		AA32A9801BE3439600ABDC1E /* FMMetalView.h in Headers */ = {isa = PBXBuildFile; fileRef = AA32A97E1BE3439600ABDC1E /* FMMetalView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA32A9811BE3439600ABDC1E /* FMMetalView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA32A97F1BE3439600ABDC1E /* FMMetalView.m */; };
 		AA32A9941BE3B5FA00ABDC1E /* FMInteractive.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC4A8321BAFE3020032A0CF /* FMInteractive.m */; };
@@ -208,6 +210,7 @@
 		AA1EF1891E3C5FE900386012 /* TokyoTemperatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokyoTemperatureViewController.h; sourceTree = "<group>"; };
 		AA1EF18A1E3C5FE900386012 /* TokyoTemperatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokyoTemperatureViewController.m; sourceTree = "<group>"; };
 		AA1EF18D1E3C8EF100386012 /* tokyo-temperature.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tokyo-temperature.sqlite"; sourceTree = "<group>"; };
+		AA1EF18F1E3DEE8A00386012 /* LineAreaShader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = LineAreaShader.metal; sourceTree = "<group>"; };
 		AA2A2C301B8DFB1E003182AA /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		AA32A97E1BE3439600ABDC1E /* FMMetalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMMetalView.h; sourceTree = "<group>"; };
 		AA32A97F1BE3439600ABDC1E /* FMMetalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMMetalView.m; sourceTree = "<group>"; };
@@ -496,6 +499,7 @@
 				AAC4A84C1BAFE3020032A0CF /* LineEngineShader.h */,
 				AAC4A84D1BAFE3020032A0CF /* LineEngineShader.metal */,
 				AAC4A84E1BAFE3020032A0CF /* LineEngineShaderAux.metal */,
+				AA1EF18F1E3DEE8A00386012 /* LineAreaShader.metal */,
 				AAC4A84A1BAFE3020032A0CF /* LineBuffers.h */,
 				AAC4A84B1BAFE3020032A0CF /* LineBuffers.mm */,
 				AAC4A84F1BAFE3020032A0CF /* Lines.h */,
@@ -896,6 +900,7 @@
 				AA32A9951BE3B5FA00ABDC1E /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7B1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AA32A99C1BE3B5FA00ABDC1E /* LineEngineShader.metal in Sources */,
+				AA1EF1911E3DEE8A00386012 /* LineAreaShader.metal in Sources */,
 				AA32A99F1BE3B5FA00ABDC1E /* PointEngineShader.metal in Sources */,
 				AA32A9AC1BE3B5FA00ABDC1E /* TextureQuadShader.metal in Sources */,
 				AA32A9B01BE3B5FA00ABDC1E /* RectEngineShader.metal in Sources */,
@@ -948,6 +953,7 @@
 				AAC4A88C1BAFE3020032A0CF /* LineEngineShaderAux.metal in Sources */,
 				AAFB9A7A1BF1DE0900F966E7 /* CircleEngineShader.metal in Sources */,
 				AAC4A88B1BAFE3020032A0CF /* LineEngineShader.metal in Sources */,
+				AA1EF1901E3DEE8A00386012 /* LineAreaShader.metal in Sources */,
 				AAC4A8921BAFE3020032A0CF /* PointEngineShader.metal in Sources */,
 				AAC4A8A01BAFE3020032A0CF /* TextureQuadShader.metal in Sources */,
 				AAC4A8981BAFE3020032A0CF /* RectEngineShader.metal in Sources */,
