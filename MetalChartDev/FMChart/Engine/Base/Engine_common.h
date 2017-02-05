@@ -55,6 +55,20 @@ FM_INLINE FMRectCornerRadius __FMRectCornerRadiusMake(CGFloat lt, CGFloat rt, CG
 }
 #define FMRectCornerRadiusMake __FMRectCornerRadiusMake
 
+FM_INLINE vector_float2 __VectFromPoint(CGPoint p) {
+	return vector2((float)p.x, (float)p.y);
+}
+#define VectFromPoint __VectFromPoint
+
+FM_INLINE vector_float2 __VectFromSize(CGSize s) {
+	return vector2((float)s.width, (float)s.height);
+}
+#define __VectFromSize VectFromSize
+
+FM_INLINE vector_float4 __VectColor(float r, float g, float b, float a) {
+	return vector4(r, g, b, a);
+}
+#define VectColor __VectColor
 
 #ifdef __cplusplus
 

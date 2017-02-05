@@ -58,7 +58,7 @@
 
 - (id<FMSeries>)series { return [_line series]; }
 
-- (FMUniformLineConf *)conf { return _line.conf; }
+- (FMUniformLineConf *)conf { return _line.configuration; }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
 			 chart:(FMMetalChart * _Nonnull)chart
@@ -99,6 +99,54 @@
 }
 
 @end
+
+
+
+@interface FMLineAreaSeries ()
+
+@property (nonatomic) CGFloat minDepth;
+
+@end
+@implementation FMLineAreaSeries
+
+- (instancetype)initWithLineArea:(FMOrderedPolyLineAreaPrimitive *)lineArea projection:(FMProjectionCartesian2D *)projection
+{
+	self = [super init];
+	if(self) {
+		_lineArea = lineArea;
+		_projection = projection;
+	}
+	return self;
+}
+
+- (id<FMSeries>)series { return [_lineArea series]; }
+
+- (FMUniformLineAreaConfiguration *)conf { return _lineArea.configuration; }
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder
+			 chart:(FMMetalChart * _Nonnull)chart
+{
+	FMUniformProjectionCartesian2D *projection = _projection.projection;
+	if(projection) {
+		if(self.line) {
+			[self.conf setDepthValue:self.line.conf.depthValue];
+		} else {
+			[self.conf setDepthValue:self.minDepth];
+		}
+		[_lineArea encodeWith:encoder projection:projection];
+	}
+}
+
+- (CGFloat)requestDepthRangeFrom:(CGFloat)min objects:(NSArray *)objects
+{
+	_minDepth = min;
+	return 0.01;
+}
+
+@end
+
+
+
 
 @implementation FMBarSeries
 

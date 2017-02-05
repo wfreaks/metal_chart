@@ -88,4 +88,25 @@ typedef struct uniform_grid_configuration {
 	uint8_t dimIndex;
 } uniform_grid_configuration;
 
+
+
+typedef struct {
+	vector_float4 color_start;
+	vector_float4 color_end;
+	vector_float2 pos_start;
+	vector_float2 pos_end;
+	vector_float2 cond_start;
+	vector_float2 cond_end;
+} uniform_line_area_attr;
+
+typedef struct {
+	vector_float2 direction;
+	vector_float2 anchor;
+	float opacity;
+	float depth;
+	bool anchor_data;
+	bool grad_pos_data;
+	bool cond_pos_data;
+} uniform_line_area_conf;
+
 #endif /* Lines_common_h */

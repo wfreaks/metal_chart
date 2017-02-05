@@ -90,18 +90,18 @@ NS_DESIGNATED_INITIALIZER;
 /**
  * default NO. (see class description)
  */
-@property (assign, nonatomic) BOOL enableDash;
+@property (nonatomic) BOOL enableDash;
+
+@property (nonatomic) float depthValue;
 
 /**
  * default NO. (see class description)
  */
-@property (assign, nonatomic) BOOL enableOverlay;
+@property (nonatomic) BOOL enableOverlay;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
 - (void)setAlpha:(float)alpha;
-
-- (void)setDepthValue:(float)depth;
 
 @end
 
@@ -252,5 +252,52 @@ NS_DESIGNATED_INITIALIZER;
 - (void)setDepthValue:(float)depth;
 
 @end
+
+
+
+
+@interface FMUniformLineAreaAttributes : FMAttributesBuffer
+
+@property (readonly, nonatomic) uniform_line_area_attr * _Nonnull attributes;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+									 size:(NSUInteger)size
+UNAVAILABLE_ATTRIBUTE;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
+
+- (void)setGradientStartColor:(vector_float4)colorStart
+				startPosition:(CGPoint)posStart
+					 endColor:(vector_float4)colorEnd
+				  endPosition:(CGPoint)posEnd
+;
+
+- (void)setSolidColor:(vector_float4)color;
+
+- (void)setConditionStart:(CGPoint)start end:(CGPoint)end;
+
+@end
+
+
+@interface FMUniformLineAreaConfiguration : NSObject
+
+@property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
+@property (readonly, nonatomic) uniform_line_area_conf * _Nonnull conf;
+
+- (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+- (void)setColorPositionInDateSpace:(BOOL)inDataSpace;
+- (void)setConditionPositionInDateSpace:(bool)inDataSpace;
+- (void)setAnchorPoint:(CGPoint)anchor inDataSpace:(BOOL)inDataSpace;
+- (void)setDirection:(CGPoint)direction;
+- (void)setDepthValue:(float)depth;
+- (void)setOpacity:(float)opacity;
+
+@end
+
+
 
 

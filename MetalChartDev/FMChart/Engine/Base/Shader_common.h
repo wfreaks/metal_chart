@@ -34,6 +34,26 @@ struct out_fragment_depthAny {
 	float  depth [[ depth(any) ]];
 };
 
+struct out_fragment_h {
+	half4 color [[ color(0) ]];
+};
+
+struct out_fragment_h_depthGreater {
+	half4  color [[ color(0) ]];
+	float  depth [[ depth(greater) ]];
+};
+
+struct out_fragment_h_depthLess {
+	half4  color [[ color(0) ]];
+	float  depth [[ depth(less) ]];
+};
+
+struct out_fragment_h_depthAny {
+	half4  color [[ color(0) ]];
+	float  depth [[ depth(any) ]];
+};
+
+
 inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d& proj)
 {
 	const float2 ps = proj.physical_size;
@@ -43,7 +63,12 @@ inline float2 data_to_ndc(const float2 value, constant uniform_projection_cart2d
 	return ((value + proj.value_offset) / fixed_vs) + fixed_or;
 }
 
-// これはパディングとかを無視した[-1, 1] -> [vmin, vmax]変換用. 上のdata_to_ndcのそれとは違う.
+// これらはパディングとかを無視した[-1, 1] -> [vmin, vmax]変換用. 上のdata_to_ndcのそれとは違う.
+inline float2 data_to_semi_ndc(const float2 value, constant uniform_projection_cart2d& proj)
+{
+	return (value + proj.value_offset) / proj.value_scale;
+}
+
 inline float2 semi_ndc_to_data(const float2 ndc, constant uniform_projection_cart2d& proj)
 {
 	return (ndc * proj.value_scale) - proj.value_offset;

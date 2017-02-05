@@ -77,6 +77,27 @@ NS_DESIGNATED_INITIALIZER;
 @end
 
 
+
+@interface FMLineAreaSeries <T:FMOrderedPolyLineAreaPrimitive*> : NSObject<FMRenderable, FMDepthClient>
+
+@property (readonly, nonatomic) T _Nonnull lineArea;
+@property (readonly, nonatomic) FMUniformLineAreaConfiguration * _Nonnull conf;
+@property (readonly, nonatomic) id<FMSeries> _Nullable series;
+@property (nonatomic)			FMProjectionCartesian2D * _Nullable projection;
+
+@property (nonatomic)           FMLineSeries * _Nullable line;
+
+- (instancetype _Nonnull)initWithLineArea:(T _Nonnull)lineArea
+							   projection:(FMProjectionCartesian2D * _Nullable)projection
+NS_DESIGNATED_INITIALIZER;
+
+- (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
+
+@end
+
+
+
+
 /**
  * FMBarSeries represents renderable data series using horizontal/vertical bars (orientation is configured using conf property).
  * You can set an FMAttributedBarPrimitive instance to bar property (on creation).
@@ -183,3 +204,4 @@ NS_DESIGNATED_INITIALIZER;
 ;
 
 @end
+

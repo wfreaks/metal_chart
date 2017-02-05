@@ -155,16 +155,16 @@
 	[weightLine.attributesArray[1] setDashRepeatAnchor:1];
 	[weightLine.attributesArray[1] setDashLineAnchor:0];
 	
-	[weightLine.conf setAlpha:0.6];
-	weightLine.conf.enableOverlay = YES;
+	[weightLine.configuration setAlpha:0.6];
+	weightLine.configuration.enableOverlay = YES;
 	
 	[self.class configurePointAttributes:weightPoint.attributesArray[0] innerRadius:8 outerColor:weightColor];
 	[self.class configurePointAttributes:weightPoint.attributesArray[1] innerRadius:8 outerColor:weightColor];
 	
-	systolicLine.conf.enableOverlay = YES;
+	systolicLine.configuration.enableOverlay = YES;
 	[systolicLine.attributes setColorVec:systolicColor];
 	[self.class configurePointAttributes:systolicPoint.attributes innerRadius:6 outerColor:systolicColor];
-	diastolicLine.conf.enableOverlay = YES;
+	diastolicLine.configuration.enableOverlay = YES;
 	[diastolicLine.attributes setColorVec:diastolicColor];
 	[self.class configurePointAttributes:diastolicPoint.attributes innerRadius:6 outerColor:diastolicColor];
 	

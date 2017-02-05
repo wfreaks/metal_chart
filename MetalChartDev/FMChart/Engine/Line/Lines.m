@@ -39,7 +39,7 @@
 	self = [super init];
 	if(self) {
 		_engine = engine;
-		_conf = [[FMUniformLineConf alloc] initWithResource:engine.resource];
+		_configuration = [[FMUniformLineConf alloc] initWithResource:engine.resource];
 	}
 	return self;
 }
@@ -78,7 +78,7 @@
 		
 		id<MTLBuffer> vertexBuffer = [series vertexBuffer];
 		id<MTLBuffer> attributes = [self attributesBuffer];
-		id<MTLBuffer> confBuffer = _conf.buffer;
+		id<MTLBuffer> confBuffer = _configuration.buffer;
 		FMUniformSeriesInfo *info = series.info;
 
 		[encoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
@@ -149,7 +149,7 @@
 - (NSString *)fragmentFunctionName
 {
 	static NSString* names[] = {@"LineEngineFragment_Overlay", @"LineEngineFragment_NoOverlay", @"DashedLineFragment_Overlay", @"DashedLineFragment_NoOverlay"};
-	NSInteger index = (self.conf.enableDash ? 2 : 0) + (self.conf.enableOverlay ? 0 : 1);
+	NSInteger index = (self.configuration.enableDash ? 2 : 0) + (self.configuration.enableOverlay ? 0 : 1);
 	return names[index];
 }
 
@@ -201,7 +201,7 @@
 
 - (NSString *)fragmentFunctionName
 {
-	return (self.conf.enableOverlay) ? @"AttributedLineFragment_Overlay" : @"AttributedLineFragment_NoOverlay";
+	return (self.configuration.enableOverlay) ? @"AttributedLineFragment_Overlay" : @"AttributedLineFragment_NoOverlay";
 }
 
 - (id<MTLBuffer>)attributesBuffer { return _attributesArray.buffer; }
@@ -330,6 +330,76 @@
 	[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:vertCount];
 	
 	[encoder popDebugGroup];
+}
+
+@end
+
+
+@interface FMOrderedPolyLineAreaPrimitive()
+
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+
+@end
+
+@implementation FMOrderedPolyLineAreaPrimitive
+
+- (instancetype)initWithEngine:(FMEngine *)engine
+				 orderedSeries:(FMOrderedSeries *)series
+					attributes:(FMUniformLineAreaAttributes *)attributes
+{
+	self = [super init];
+	if(self) {
+		_engine = engine;
+		_configuration = [[FMUniformLineAreaConfiguration alloc] initWithResource:engine.resource];
+		_attributes = (attributes) ? attributes : [[FMUniformLineAreaAttributes alloc] initWithResource:engine.resource];
+		_series = series;
+		_pipeline = [engine pipelineStateWithVertFunc:[engine functionWithName:@"LineAreaVertex" library:nil]
+											 fragFunc:[engine functionWithName:@"LineAreaFragment" library:nil]
+										   writeDepth:NO];
+	}
+	return self;
+}
+
+- (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(FMUniformProjectionCartesian2D *)projection
+{
+	FMOrderedSeries *series = self.series;
+	if(series) {
+		id<MTLRenderPipelineState> renderState = _pipeline;
+		id<MTLDepthStencilState> depthState = _engine.depthState_depthGreater;
+		if(renderState == nil){
+			NSLog(@"render state is nil, returning...");
+			return;
+		}
+		[encoder pushDebugGroup:@"DrawPolyLineArea"];
+		[encoder setRenderPipelineState:renderState];
+		[encoder setDepthStencilState:depthState];
+		
+		id<MTLBuffer> attributesBuffer = self.attributes.buffer;
+		id<MTLBuffer> configurationBuffer = self.configuration.buffer;
+		
+		[encoder setVertexBuffer:series.vertexBuffer offset:0 atIndex:0];
+		[encoder setVertexBuffer:configurationBuffer offset:0 atIndex:1];
+		[encoder setVertexBuffer:attributesBuffer offset:0 atIndex:2];
+		[encoder setVertexBuffer:projection.buffer offset:0 atIndex:3];
+		[encoder setVertexBuffer:series.info.buffer offset:0 atIndex:4];
+		
+		[encoder setFragmentBuffer:configurationBuffer offset:0 atIndex:0];
+		[encoder setFragmentBuffer:attributesBuffer offset:0 atIndex:1];
+		[encoder setFragmentBuffer:projection.buffer offset:0 atIndex:2];
+		
+		NSUInteger count = [self vertexCountWithCount:series.info.count];
+		if(count > 0) {
+			const NSUInteger offset = 6 * (series.info.offset);
+			[encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:offset vertexCount:count];
+		}
+		
+		[encoder popDebugGroup];
+	}
+}
+
+- (NSUInteger)vertexCountWithCount:(NSUInteger)count
+{
+	return 6 * MAX(0, ((NSInteger)(count-1)));
 }
 
 @end

@@ -39,6 +39,7 @@
 @class FMOrderedBarPrimitive;
 @class FMOrderedPointPrimitive;
 @class FMOrderedPolyLinePrimitive;
+@class FMOrderedPolyLineAreaPrimitive;
 @class FMOrderedSeries;
 @class FMPanGestureRecognizer;
 @class FMPieDoughnutSeries;
@@ -61,6 +62,8 @@
 @class FMUniformLineAttributes;
 @class FMUniformLineAttributesArray;
 @class FMUniformLineConf;
+@class FMUniformLineAreaAttributes;
+@class FMUniformLineAreaConfiguration;
 @class FMUniformPlotRectAttributes;
 @class FMUniformPointAttributes;
 @class FMUniformPointAttributesArray;

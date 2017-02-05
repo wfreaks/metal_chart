@@ -123,6 +123,7 @@
 
 - (void)setDepthValue:(float)depth
 {
+	_depthValue = depth;
 	[self conf]->depth = depth;
 }
 
@@ -388,3 +389,102 @@ static const float _ndc_anchor_invalid = 8;
 
 
 @end
+
+
+
+@implementation FMUniformLineAreaAttributes
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super initWithResource:resource size:sizeof(uniform_line_area_attr)];
+	return self;
+}
+
+- (uniform_line_area_attr *)attributes
+{
+	return ((uniform_line_area_attr *)([self.buffer contents]) + self.index);
+}
+
+- (void)setGradientStartColor:(vector_float4)colorStart
+				startPosition:(CGPoint)posStart
+					 endColor:(vector_float4)colorEnd
+				  endPosition:(CGPoint)posEnd
+{
+	self.attributes->color_start = colorStart;
+	self.attributes->color_end = colorEnd;
+	self.attributes->pos_start = VectFromPoint(posStart);
+	self.attributes->pos_end = VectFromPoint(posEnd);
+}
+
+- (void)setSolidColor:(vector_float4)color
+{
+	self.attributes->color_start = color;
+	self.attributes->color_end = color;
+	self.attributes->pos_start = vector2(.0f, .0f);
+	self.attributes->pos_end = vector2(.0f, .1f);
+}
+
+- (void)setConditionStart:(CGPoint)start end:(CGPoint)end
+{
+	self.attributes->cond_start = VectFromPoint(start);
+	self.attributes->cond_end = VectFromPoint(end);
+}
+
+@end
+
+
+
+
+@implementation FMUniformLineAreaConfiguration
+
+- (instancetype)initWithResource:(FMDeviceResource *)resource
+{
+	self = [super init];
+	if(self) {
+		_buffer = [resource.device newBufferWithLength:sizeof(uniform_line_area_conf) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		[self setOpacity:1];
+		[self setAnchorPoint:CGPointMake(0, -1) inDataSpace:NO];
+		[self setDirection:CGPointMake(1, 0)];
+		[self setColorPositionInDateSpace:NO];
+		[self setConditionPositionInDateSpace:YES];
+	}
+	return self;
+}
+
+- (uniform_line_area_conf *)conf { return (uniform_line_area_conf *)[_buffer contents]; }
+
+- (void)setAnchorPoint:(CGPoint)anchor inDataSpace:(BOOL)inDataSpace
+{
+	self.conf->anchor = VectFromPoint(anchor);
+	self.conf->anchor_data = inDataSpace;
+}
+
+- (void)setDirection:(CGPoint)direction
+{
+	self.conf->direction = vector2((float)direction.x, (float)direction.y);
+}
+
+- (void)setColorPositionInDateSpace:(BOOL)inDataSpace
+{
+	self.conf->grad_pos_data = inDataSpace;
+}
+
+- (void)setConditionPositionInDateSpace:(bool)inDataSpace
+{
+	self.conf->cond_pos_data = inDataSpace;
+}
+
+- (void)setDepthValue:(float)depth
+{
+	self.conf->depth = depth;
+}
+
+- (void)setOpacity:(float)opacity
+{
+	self.conf->opacity = opacity;
+}
+
+@end
+
+
+

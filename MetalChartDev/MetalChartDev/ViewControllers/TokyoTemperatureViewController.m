@@ -93,21 +93,21 @@
 	const NSUInteger capacity = 1024 * 8;
 	FMSpace2D *space = [self.conf spaceWithDimX:dateDim Y:valDim];
 	FMOrderedSeries *avgSeries = [self.conf createSeries:capacity];
-	FMOrderedSeries *minSeries = [self.conf createSeries:capacity];
-	FMOrderedSeries *maxSeries = [self.conf createSeries:capacity];
+//	FMOrderedSeries *minSeries = [self.conf createSeries:capacity];
+//	FMOrderedSeries *maxSeries = [self.conf createSeries:capacity];
 	
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *avgLine = [self.conf addLineToSpace:space series:avgSeries];
-	[avgLine.line.attributes setColorRed:.2f green:.9f blue:.2f alpha:.5f];
+	[avgLine.line.attributes setColorRed:.2f green:.9f blue:.2f alpha:1];
 	[avgLine.line.attributes setWidth:2];
-	[avgLine.line.conf setEnableOverlay:YES];
-	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
-	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:.5f];
-	[minLine.line.attributes setWidth:2];
-	[minLine.line.conf setEnableOverlay:YES];
-	FMLineSeries<FMOrderedPolyLinePrimitive*> *maxLine = [self.conf addLineToSpace:space series:maxSeries];
-	[maxLine.line.attributes setColorRed:.9f green:.2f blue:.2f alpha:.5f];
-	[maxLine.line.attributes setWidth:2];
-	[maxLine.line.conf setEnableOverlay:YES];
+	[avgLine.line.configuration setEnableOverlay:NO];
+//	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
+//	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:.5f];
+//	[minLine.line.attributes setWidth:2];
+//	[minLine.line.configuration setEnableOverlay:YES];
+//	FMLineSeries<FMOrderedPolyLinePrimitive*> *maxLine = [self.conf addLineToSpace:space series:maxSeries];
+//	[maxLine.line.attributes setColorRed:.9f green:.2f blue:.2f alpha:.5f];
+//	[maxLine.line.attributes setWidth:2];
+//	[maxLine.line.configuration setEnableOverlay:YES];
 	
 	NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
 	fmt.dateFormat = @"yyyy/MM";
@@ -162,9 +162,24 @@
 	[valLine.attributes setDashSpaceLength:4];
 	valLine.axis = valAxis;
 	
+	// add line area.
+	
+	FMOrderedPolyLineAreaPrimitive *areaPrimitive = [[FMOrderedPolyLineAreaPrimitive alloc] initWithEngine:self.conf.engine orderedSeries:avgSeries attributes:nil];
+	FMLineAreaSeries<FMOrderedPolyLineAreaPrimitive*> *areaSeries = [[FMLineAreaSeries alloc] initWithLineArea:areaPrimitive projection:space.space];
+	areaSeries.line = avgLine;
+	[self.chart addRenderable:areaSeries];
+	
+	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, 10) inDataSpace:YES];
+	[areaPrimitive.configuration setColorPositionInDateSpace:YES];
+	[areaPrimitive.attributes setGradientStartColor:VectColor(0, 1, 0, .6f)
+									  startPosition:CGPointMake(0, 20)
+										   endColor:VectColor(0, 1, 0, .2f)
+										endPosition:CGPointMake(0, 10)];
+	[areaPrimitive.attributes setConditionStart:CGPointMake(0, 100) end:CGPointMake(0, -20)];
+	
 	self.avgSeries = avgSeries;
-	self.minSeries = minSeries;
-	self.maxSeries = maxSeries;
+//	self.minSeries = minSeries;
+//	self.maxSeries = maxSeries;
 	self.space = space;
 }
 
@@ -181,28 +196,28 @@
 		}
 		[result close];
 	}
-	{
-		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_min order by date;"];
-		while([result next]) {
-			const long unixtime = [result longForColumnIndex:0];
-			const CGFloat vx = (CGFloat)unixtime;
-			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
-			[self.minSeries addPoint:CGPointMake(vx, vy)];
-			[self.space addValueX:vx Y:vy];
-		}
-		[result close];
-	}
-	{
-		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_max order by date;"];
-		while([result next]) {
-			const long unixtime = [result longForColumnIndex:0];
-			const CGFloat vx = (CGFloat)unixtime;
-			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
-			[self.maxSeries addPoint:CGPointMake(vx, vy)];
-			[self.space addValueX:vx Y:vy];
-		}
-		[result close];
-	}
+//	{
+//		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_min order by date;"];
+//		while([result next]) {
+//			const long unixtime = [result longForColumnIndex:0];
+//			const CGFloat vx = (CGFloat)unixtime;
+//			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
+//			[self.minSeries addPoint:CGPointMake(vx, vy)];
+//			[self.space addValueX:vx Y:vy];
+//		}
+//		[result close];
+//	}
+//	{
+//		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_max order by date;"];
+//		while([result next]) {
+//			const long unixtime = [result longForColumnIndex:0];
+//			const CGFloat vx = (CGFloat)unixtime;
+//			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
+//			[self.maxSeries addPoint:CGPointMake(vx, vy)];
+//			[self.space addValueX:vx Y:vy];
+//		}
+//		[result close];
+//	}
 	
 	[self.space updateRanges];
 }

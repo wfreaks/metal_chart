@@ -19,7 +19,7 @@
 
 @interface FMLinePrimitive : NSObject<FMPrimitive>
 
-@property (nonatomic, readonly) FMUniformLineConf * _Nonnull conf;
+@property (nonatomic, readonly) FMUniformLineConf * _Nonnull configuration;
 @property (readonly, nonatomic) FMEngine * _Nonnull engine;
 
 - (id<FMSeries> _Nullable)series;
@@ -127,5 +127,21 @@ NS_DESIGNATED_INITIALIZER;
 
 @end
 
+
+
+
+@interface FMOrderedPolyLineAreaPrimitive : NSObject <FMPrimitive>
+
+@property (readonly, nonatomic) FMEngine * _Nonnull engine;
+@property (nonatomic) FMUniformLineAreaAttributes * _Nonnull attributes;
+@property (nonatomic) FMUniformLineAreaConfiguration * _Nonnull configuration;
+@property (nonatomic) FMOrderedSeries * _Nullable series;
+
+- (instancetype _Nonnull)initWithEngine:(FMEngine * _Nonnull)engine
+						  orderedSeries:(FMOrderedSeries * _Nullable)series
+							 attributes:(FMUniformLineAreaAttributes * _Nullable)attributes
+;
+
+@end
 
 
