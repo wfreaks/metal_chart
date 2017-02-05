@@ -82,11 +82,24 @@ inline float RoundRectFragment_core(const float2 pos, const float4 rect, const f
 	return ratio;
 }
 
+fragment out_fragment_depthLess PlotRect_Fragment_NoRound(
+														  const out_vertex_plot in [[ stage_in ]],
+														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+														  )
+{
+	out_fragment_depthLess out;
+	out.color = rect.color;
+	out.depth = rect.depth_value;
+	
+	return out;
+}
+
 fragment out_fragment_depthLess PlotRect_Fragment(
-										const out_vertex_plot in [[ stage_in ]],
-										constant uniform_plot_rect& rect  [[ buffer(0) ]],
-										constant uniform_projection_cart2d& proj [[ buffer(1) ]]
-										)
+												  const out_vertex_plot in [[ stage_in ]],
+												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+												  )
 {
 	const float2 size = proj.physical_size / 2;
 	const float4 padding = proj.rect_padding;

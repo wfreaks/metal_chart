@@ -16,6 +16,7 @@
 @interface FMPlotRectPrimitive()
 
 @property (nonatomic, readonly) id<MTLRenderPipelineState> pipeline;
+@property (nonatomic, readonly) id<MTLRenderPipelineState> pipelineNoRound;
 
 @end
 @implementation FMPlotRectPrimitive
@@ -28,15 +29,17 @@
 		FMDeviceResource *res = engine.resource;
 		_attributes = [[FMUniformPlotRectAttributes alloc] initWithResource:res];
 		id<MTLFunction> vertFunc = [engine functionWithName:@"PlotRect_Vertex" library:nil];
-		id<MTLFunction> fragFunc = [engine functionWithName:@"PlotRect_Fragment" library:nil];
-		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFunc writeDepth:YES];
+		id<MTLFunction> fragFuncRound = [engine functionWithName:@"PlotRect_Fragment" library:nil];
+		id<MTLFunction> fragFuncNoRound = [engine functionWithName:@"PlotRect_Fragment_NoRound" library:nil];
+		_pipeline = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFuncRound writeDepth:YES];
+		_pipelineNoRound = [engine pipelineStateWithVertFunc:vertFunc fragFunc:fragFuncNoRound writeDepth:YES];
 	}
 	return self;
 }
 
 - (void)encodeWith:(id<MTLRenderCommandEncoder>)encoder projection:(FMUniformProjectionCartesian2D *)projection
 {
-	id<MTLRenderPipelineState> renderState = _pipeline;
+	id<MTLRenderPipelineState> renderState = (_attributes.roundEnabled) ? _pipeline : _pipelineNoRound;
 	id<MTLDepthStencilState> depthState = _engine.depthState_depthLess;
 	[encoder pushDebugGroup:NSStringFromClass(self.class)];
 	[encoder setRenderPipelineState:renderState];

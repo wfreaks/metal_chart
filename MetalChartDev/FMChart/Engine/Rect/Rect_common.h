@@ -21,6 +21,7 @@ struct uniform_plot_rect {
 	vector_float4 color;
 	vector_float4 corner_radius;
 	float depth_value;
+	bool  round_corner;
 };
 
 struct uniform_bar_conf {

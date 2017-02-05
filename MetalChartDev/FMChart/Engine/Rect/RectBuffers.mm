@@ -38,6 +38,7 @@
 	self = [super init];
 	if(self) {
 		_buffer = [resource.device newBufferWithLength:sizeof(uniform_plot_rect) options:MTLResourceOptionCPUCacheModeWriteCombined];
+		[self setAllCornerRadius:0];
 	}
 	return self;
 }
@@ -70,16 +71,19 @@
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
 {
 	self.rect->corner_radius = vector4(lt, rt, lb, rb);
+	_roundEnabled = ((lt > 0) | (rt > 0) | (lb > 0) | (rb > 0));
 }
 
-- (void)setCornerRadius:(FMRectCornerRadius)radius
+- (void)setCornerRadius:(FMRectCornerRadius)r
 {
-	self.rect->corner_radius = vector4(radius.lt, radius.rt, radius.lb, radius.rb);
+	self.rect->corner_radius = vector4(r.lt, r.rt, r.lb, r.rb);
+	_roundEnabled = ((r.lt > 0) | (r.rt > 0) | (r.lb > 0) | (r.rb > 0));
 }
 
 - (void)setAllCornerRadius:(float)radius
 {
 	self.rect->corner_radius = vector4(radius, radius, radius, radius);
+	_roundEnabled = (radius > 0);
 }
 
 - (void)setDepthValue:(float)value

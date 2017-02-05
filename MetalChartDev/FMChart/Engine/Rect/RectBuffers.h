@@ -31,6 +31,7 @@
 
 @property (readonly, nonatomic) id<MTLBuffer> _Nonnull buffer;
 @property (readonly, nonatomic) uniform_plot_rect * _Nonnull rect;
+@property (readonly)			BOOL roundEnabled;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
