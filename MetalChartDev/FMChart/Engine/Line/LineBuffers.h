@@ -270,11 +270,12 @@ UNAVAILABLE_ATTRIBUTE;
 				startPosition:(CGPoint)posStart
 					 endColor:(vector_float4)colorEnd
 				  endPosition:(CGPoint)posEnd
+				   toPositive:(BOOL)positive;
 ;
 
 - (void)setSolidColor:(vector_float4)color;
 
-- (void)setConditionStart:(CGPoint)start end:(CGPoint)end;
+- (void)setConditionStart:(CGPoint)start end:(CGPoint)end toPositive:(BOOL)positive;
 
 @end
 

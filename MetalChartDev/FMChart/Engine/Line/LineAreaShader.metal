@@ -13,6 +13,7 @@ struct out_vertex_LineArea {
 	float4 position_ndc [[ position ]];
 	float2 pos_ndc;
 	float2 pos_data;
+	float  coef;
 };
 
 
@@ -35,13 +36,15 @@ vertex out_vertex_LineArea LineAreaVertex(
 	const float2 a_data = (conf.anchor_data) ? conf.anchor : semi_ndc_to_data(conf.anchor, proj);
 	const float2 dir = normalize(conf.direction);
 	float2 p_data = coords[index].position;
-	p_data = (edge) ? (a_data + (dot(dir, (p_data - a_data)) * dir)) : p_data;
+	const float2 diff_data = (p_data - a_data);
+	p_data = (edge) ? (a_data + (dot(dir, diff_data) * dir)) : p_data;
 	const float2 p_ndc = data_to_ndc(p_data, proj);
 	
 	out_vertex_LineArea out;
 	out.position_ndc = float4(p_ndc, 0, 1);
 	out.pos_data = p_data;
 	out.pos_ndc = data_to_semi_ndc(p_data, proj);
+	out.coef = (dir.y * diff_data.x) - (diff_data.y * dir.x);
 	
 	return out;
 }
@@ -53,26 +56,28 @@ fragment out_fragment_depthGreater LineAreaFragment(
 												   constant uniform_line_area_attr&               attr [[ buffer(1) ]]
 												   )
 {
-	float coef = 1;
+	const ushort index = (input.coef > 0);
+	constant gradient_conf& g = attr.grads[index];
+	float coef;
 	{
 		const float2 pos_cond = (conf.cond_pos_data) ? input.pos_data : input.pos_ndc;
-		const float2 p1 = attr.cond_end - attr.cond_start;
+		const float2 p1 = g.cond_end - g.cond_start;
 		const float l = dot(p1, p1);
-		const float d = dot(p1, (pos_cond - attr.cond_start));
+		const float d = dot(p1, (pos_cond - g.cond_start));
 		coef = step(0, d) * step(d, l);
 	}
 	
 	float a;
 	{
 		const float2 pos_grad = (conf.grad_pos_data) ? input.pos_data : input.pos_ndc;
-		const float2 grad_p = attr.pos_end - attr.pos_start;
+		const float2 grad_p = g.pos_end - g.pos_start;
 		const float grad_l = dot(grad_p, grad_p);
-		const float grad_d = dot(grad_p, (pos_grad - attr.pos_start));
+		const float grad_d = dot(grad_p, (pos_grad - g.pos_start));
 		a = saturate(grad_d / grad_l);
 	}
 	
 	out_fragment_depthGreater out;
-	out.color = mix(attr.color_start, attr.color_end, a);
+	out.color = mix(g.color_start, g.color_end, a);
 	out.color.a *= coef * conf.opacity;
 	out.depth = conf.depth;
 	

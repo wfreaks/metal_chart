@@ -409,25 +409,29 @@ static const float _ndc_anchor_invalid = 8;
 				startPosition:(CGPoint)posStart
 					 endColor:(vector_float4)colorEnd
 				  endPosition:(CGPoint)posEnd
+				   toPositive:(BOOL)positive
 {
-	self.attributes->color_start = colorStart;
-	self.attributes->color_end = colorEnd;
-	self.attributes->pos_start = VectFromPoint(posStart);
-	self.attributes->pos_end = VectFromPoint(posEnd);
+	gradient_conf* g = self.attributes->grads + (positive ? 0 : 1);
+	g->color_start = colorStart;
+	g->color_end = colorEnd;
+	g->pos_start = VectFromPoint(posStart);
+	g->pos_end = VectFromPoint(posEnd);
 }
 
 - (void)setSolidColor:(vector_float4)color
 {
-	self.attributes->color_start = color;
-	self.attributes->color_end = color;
-	self.attributes->pos_start = vector2(.0f, .0f);
-	self.attributes->pos_end = vector2(.0f, .1f);
+	gradient_conf* g = self.attributes->grads;
+	g->color_start = color;
+	g->color_end = color;
+	g->pos_start = vector2(.0f, .0f);
+	g->pos_end = vector2(.0f, .1f);
 }
 
-- (void)setConditionStart:(CGPoint)start end:(CGPoint)end
+- (void)setConditionStart:(CGPoint)start end:(CGPoint)end toPositive:(BOOL)positive
 {
-	self.attributes->cond_start = VectFromPoint(start);
-	self.attributes->cond_end = VectFromPoint(end);
+	gradient_conf* g = self.attributes->grads + (positive ? 0 : 1);
+	g->cond_start = VectFromPoint(start);
+	g->cond_end = VectFromPoint(end);
 }
 
 @end

@@ -89,7 +89,6 @@ typedef struct uniform_grid_configuration {
 } uniform_grid_configuration;
 
 
-
 typedef struct {
 	vector_float4 color_start;
 	vector_float4 color_end;
@@ -97,6 +96,11 @@ typedef struct {
 	vector_float2 pos_end;
 	vector_float2 cond_start;
 	vector_float2 cond_end;
+} gradient_conf;
+
+
+typedef struct {
+	gradient_conf grads[2];
 } uniform_line_area_attr;
 
 typedef struct {

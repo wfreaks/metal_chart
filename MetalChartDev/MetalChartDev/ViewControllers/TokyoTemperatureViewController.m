@@ -171,11 +171,18 @@
 	
 	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, 10) inDataSpace:YES];
 	[areaPrimitive.configuration setColorPositionInDateSpace:YES];
-	[areaPrimitive.attributes setGradientStartColor:VectColor(0, 1, 0, .6f)
+	[areaPrimitive.attributes setGradientStartColor:VectColor(1, 0, 0, .4f)
 									  startPosition:CGPointMake(0, 20)
-										   endColor:VectColor(0, 1, 0, .2f)
-										endPosition:CGPointMake(0, 10)];
-	[areaPrimitive.attributes setConditionStart:CGPointMake(0, 100) end:CGPointMake(0, -20)];
+										   endColor:VectColor(1, 0, 0, .2f)
+										endPosition:CGPointMake(0, 10)
+										 toPositive:YES];
+	[areaPrimitive.attributes setConditionStart:CGPointMake(0, 100) end:CGPointMake(0, -20) toPositive:YES];
+	[areaPrimitive.attributes setGradientStartColor:VectColor(0, 0, 1, .4f)
+									  startPosition:CGPointMake(0, -0)
+										   endColor:VectColor(0, 0, 1, .2f)
+										endPosition:CGPointMake(0, 10)
+										 toPositive:NO];
+	[areaPrimitive.attributes setConditionStart:CGPointMake(0, 100) end:CGPointMake(0, -20) toPositive:NO];
 	
 	self.avgSeries = avgSeries;
 //	self.minSeries = minSeries;
