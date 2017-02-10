@@ -427,13 +427,6 @@ static const float _ndc_anchor_invalid = 8;
 	g->pos_end = vector2(.0f, .1f);
 }
 
-- (void)setConditionStart:(CGPoint)start end:(CGPoint)end toPositive:(BOOL)positive
-{
-	gradient_conf* g = self.attributes->grads + (positive ? 0 : 1);
-	g->cond_start = VectFromPoint(start);
-	g->cond_end = VectFromPoint(end);
-}
-
 @end
 
 
@@ -450,7 +443,6 @@ static const float _ndc_anchor_invalid = 8;
 		[self setAnchorPoint:CGPointMake(0, -1) inDataSpace:NO];
 		[self setDirection:CGPointMake(1, 0)];
 		[self setColorPositionInDateSpace:NO];
-		[self setConditionPositionInDateSpace:YES];
 	}
 	return self;
 }
@@ -471,11 +463,6 @@ static const float _ndc_anchor_invalid = 8;
 - (void)setColorPositionInDateSpace:(BOOL)inDataSpace
 {
 	self.conf->grad_pos_data = inDataSpace;
-}
-
-- (void)setConditionPositionInDateSpace:(bool)inDataSpace
-{
-	self.conf->cond_pos_data = inDataSpace;
 }
 
 - (void)setDepthValue:(float)depth

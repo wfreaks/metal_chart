@@ -11,11 +11,18 @@
 
 struct out_vertex_LineArea {
 	float4 position_ndc [[ position ]];
-	float2 pos_ndc;
-	float2 pos_data;
-	float  coef;
+	half  a_pos;
+	half  a_neg;
+	half  coef;
 };
 
+
+inline float a_grad(constant gradient_conf& g, float2 pos) {
+	const float2 grad_p = g.pos_end - g.pos_start;
+	const float grad_l = dot(grad_p, grad_p);
+	const float grad_d = dot(grad_p, (pos - g.pos_start));
+	return grad_d / grad_l;
+}
 
 vertex out_vertex_LineArea LineAreaVertex(
 										  device   vertex_float2*             coords [[ buffer(0) ]],
@@ -39,46 +46,31 @@ vertex out_vertex_LineArea LineAreaVertex(
 	const float2 diff_data = (p_data - a_data);
 	p_data = (edge) ? (a_data + (dot(dir, diff_data) * dir)) : p_data;
 	const float2 p_ndc = data_to_ndc(p_data, proj);
+	const float2 p_ndc_semi = data_to_semi_ndc(p_data, proj);
+	const float2 pos = (conf.grad_pos_data) ? p_data : p_ndc_semi;
 	
 	out_vertex_LineArea out;
 	out.position_ndc = float4(p_ndc, 0, 1);
-	out.pos_data = p_data;
-	out.pos_ndc = data_to_semi_ndc(p_data, proj);
-	out.coef = (dir.y * diff_data.x) - (diff_data.y * dir.x);
+	out.a_pos = half(a_grad(attr.grads[0], pos));
+	out.a_neg = half(a_grad(attr.grads[1], pos));
+	out.coef = half((diff_data.y * dir.x) - (dir.y * diff_data.x));
 	
 	return out;
 }
 
 
-fragment out_fragment_depthGreater LineAreaFragment(
+fragment out_fragment_h_depthGreater LineAreaFragment(
 												   const    out_vertex_LineArea                  input [[ stage_in  ]],
 												   constant uniform_line_area_conf&               conf [[ buffer(0) ]],
 												   constant uniform_line_area_attr&               attr [[ buffer(1) ]]
 												   )
 {
-	const ushort index = (input.coef > 0);
-	constant gradient_conf& g = attr.grads[index];
-	float coef;
-	{
-		const float2 pos_cond = (conf.cond_pos_data) ? input.pos_data : input.pos_ndc;
-		const float2 p1 = g.cond_end - g.cond_start;
-		const float l = dot(p1, p1);
-		const float d = dot(p1, (pos_cond - g.cond_start));
-		coef = step(0, d) * step(d, l);
-	}
+	const bool positive = (input.coef > 0);
+	constant gradient_conf& g = attr.grads[!positive];
+	const half a = saturate(positive ? input.a_pos : input.a_neg);
 	
-	float a;
-	{
-		const float2 pos_grad = (conf.grad_pos_data) ? input.pos_data : input.pos_ndc;
-		const float2 grad_p = g.pos_end - g.pos_start;
-		const float grad_l = dot(grad_p, grad_p);
-		const float grad_d = dot(grad_p, (pos_grad - g.pos_start));
-		a = saturate(grad_d / grad_l);
-	}
-	
-	out_fragment_depthGreater out;
-	out.color = mix(g.color_start, g.color_end, a);
-	out.color.a *= coef * conf.opacity;
+	out_fragment_h_depthGreater out;
+	out.color = mix(half4(g.color_start), half4(g.color_end), a) * half4(1, 1, 1, conf.opacity);
 	out.depth = conf.depth;
 	
 	return out;

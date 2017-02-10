@@ -275,8 +275,6 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (void)setSolidColor:(vector_float4)color;
 
-- (void)setConditionStart:(CGPoint)start end:(CGPoint)end toPositive:(BOOL)positive;
-
 @end
 
 
@@ -291,7 +289,6 @@ NS_DESIGNATED_INITIALIZER;
 - (instancetype _Nonnull)init UNAVAILABLE_ATTRIBUTE;
 
 - (void)setColorPositionInDateSpace:(BOOL)inDataSpace;
-- (void)setConditionPositionInDateSpace:(bool)inDataSpace;
 - (void)setAnchorPoint:(CGPoint)anchor inDataSpace:(BOOL)inDataSpace;
 - (void)setDirection:(CGPoint)direction;
 - (void)setDepthValue:(float)depth;

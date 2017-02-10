@@ -94,8 +94,6 @@ typedef struct {
 	vector_float4 color_end;
 	vector_float2 pos_start;
 	vector_float2 pos_end;
-	vector_float2 cond_start;
-	vector_float2 cond_end;
 } gradient_conf;
 
 
@@ -110,7 +108,6 @@ typedef struct {
 	float depth;
 	bool anchor_data;
 	bool grad_pos_data;
-	bool cond_pos_data;
 } uniform_line_area_conf;
 
 #endif /* Lines_common_h */
