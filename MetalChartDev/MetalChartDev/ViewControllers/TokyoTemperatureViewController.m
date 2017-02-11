@@ -68,9 +68,12 @@
 {
 	self.metalView.clearColor = MTLClearColorMake(.96, .96, .96, 1);
 	self.chart = [[FMMetalChart alloc] init];
+	self.chart.padding = FMRectPaddingMake(20, 20, 20, 20);
 	self.conf = [[FMChartConfigurator alloc] initWithChart:self.chart engine:nil view:self.metalView preferredFps:0];
 	
 	[self.conf bindGestureRecognizersPan:self.panRec pinch:nil];
+	FMPlotArea *area = [self.conf addPlotAreaWithColor:[UIColor colorWithRed:.9 green:.8 blue:.8 alpha:1]];
+	[area.attributes setAllCornerRadius:30];
 	
 	// create date dim (x) with id 1, which represents unix time domain.
 	const CGFloat daySec = 60 * 60 * 24;
@@ -99,7 +102,7 @@
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *avgLine = [self.conf addLineToSpace:space series:avgSeries];
 	[avgLine.line.attributes setColorRed:.2f green:.9f blue:.2f alpha:1];
 	[avgLine.line.attributes setWidth:2];
-	[avgLine.line.configuration setEnableOverlay:NO];
+	[avgLine.line.configuration setEnableOverlay:YES];
 //	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
 //	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:.5f];
 //	[minLine.line.attributes setWidth:2];
@@ -172,13 +175,13 @@
 	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, 10) inDataSpace:YES];
 	[areaPrimitive.configuration setColorPositionInDateSpace:YES];
 	[areaPrimitive.attributes setGradientStartColor:VectColor(1, 0, 0, .4f)
-									  startPosition:CGPointMake(0, 20)
-										   endColor:VectColor(1, 0, 0, .2f)
+									  startPosition:CGPointMake(0, 30)
+										   endColor:VectColor(1, 0, 0, .1f)
 										endPosition:CGPointMake(0, 10)
 										 toPositive:YES];
 	[areaPrimitive.attributes setGradientStartColor:VectColor(0, 0, 1, .4f)
-									  startPosition:CGPointMake(0, -0)
-										   endColor:VectColor(0, 0, 1, .2f)
+									  startPosition:CGPointMake(0, -10)
+										   endColor:VectColor(0, 0, 1, .1f)
 										endPosition:CGPointMake(0, 10)
 										 toPositive:NO];
 	

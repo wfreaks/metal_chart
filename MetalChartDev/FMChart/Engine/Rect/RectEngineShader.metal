@@ -11,8 +11,10 @@
 
 struct out_vertex_plot {
 	float4 position [[ position ]];
-	float2 pos;
-	float2 coef;
+	float2 pos_px;
+	float2 coef		 ;
+	float2 size      [[ flat ]];
+	float  r         [[ flat ]];
 };
 
 struct out_vertex_bar {
@@ -47,12 +49,51 @@ vertex out_vertex_plot PlotRect_Vertex(
 	const uint spec = v_id % 4;
 	const bool is_right = ((spec % 2) == 1);
 	const bool is_top = ((spec / 2) == 0);
-	const float2 value = float2( (2*(is_right))-1, (2*(is_top))-1 ); // (±1, ±1)へマッピング.
+	const float2 value = float2( (2*(is_right))-1, (2*(is_top))-1 ); // (±1, ±1)へマッピング
 	const float2 pos = data_to_ndc(value, proj);
+	
+	const uchar idx_corner = (is_right) + (2 * (is_top));
+	const float r = rect.corner_radius[0] * proj.screen_scale;
+	
 	out_vertex_plot out;
 	out.position = float4(pos.x, pos.y, 0, 1.0);
-	out.pos = pos * (proj.physical_size / 2);
+	const float4 pd = proj.rect_padding;
+	const float2 size_px_2 = ((proj.physical_size - (pd.xy+pd.zw)) * proj.screen_scale / 2);
+	out.pos_px = value * size_px_2;
+	out.size = size_px_2 - float2(r,r);
 	out.coef = value;
+	out.r = r;
+	return out;
+}
+
+fragment out_fragment_depthLess PlotRect_Fragment_NoRound(
+														  const out_vertex_plot in [[ stage_in ]],
+														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+														  )
+{
+	out_fragment_depthLess out;
+	out.color = rect.color;
+	out.depth = rect.depth_value;
+	
+	return out;
+}
+
+fragment out_fragment_depthLess PlotRect_Fragment(
+												  const out_vertex_plot in [[ stage_in ]],
+												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+												  )
+{
+	const float2 p = abs(in.pos_px) - in.size;
+	const float dist = length(p) * (!any(signbit(p)));
+	const float ratio = saturate(in.r-dist+0.5);
+	
+	out_fragment_depthLess out;
+	out.color = rect.color;
+	out.color.a *= ratio;
+	out.depth = ((ratio > 0) * rect.depth_value) + ((ratio <= 0) * 10);
+	
 	return out;
 }
 
@@ -82,41 +123,7 @@ inline float RoundRectFragment_core(const float2 pos, const float4 rect, const f
 	return ratio;
 }
 
-fragment out_fragment_depthLess PlotRect_Fragment_NoRound(
-														  const out_vertex_plot in [[ stage_in ]],
-														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
-														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
-														  )
-{
-	out_fragment_depthLess out;
-	out.color = rect.color;
-	out.depth = rect.depth_value;
-	
-	return out;
-}
 
-fragment out_fragment_depthLess PlotRect_Fragment(
-												  const out_vertex_plot in [[ stage_in ]],
-												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
-												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
-												  )
-{
-	const float2 size = proj.physical_size / 2;
-	const float4 padding = proj.rect_padding;
-	const float2 signs = sign(in.coef);
-	const uchar idx_corner = (signs.x > 0) + (2 * (signs.y <= 0));
-	const float r = rect.corner_radius[idx_corner];
-	
-	const float4 rectangle = float4(padding.x - size.x, size.x - padding.z, padding.w - size.y, size.y - padding.y);
-	const float ratio = RoundRectFragment_core(in.pos, rectangle, r, proj.screen_scale);
-	
-	out_fragment_depthLess out;
-	out.color = rect.color;
-	out.color.a *= ratio;
-	out.depth = ((ratio > 0) * rect.depth_value) + ((ratio <= 0) * 10);
-	
-	return out;
-}
 
 template <typename OutType>
 inline void BarVertexCore(const uint v_id,
