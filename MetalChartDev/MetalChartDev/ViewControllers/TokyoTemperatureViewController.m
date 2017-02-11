@@ -73,7 +73,8 @@
 	
 	[self.conf bindGestureRecognizersPan:self.panRec pinch:nil];
 	FMPlotArea *area = [self.conf addPlotAreaWithColor:[UIColor colorWithRed:.9 green:.8 blue:.8 alpha:1]];
-	[area.attributes setAllCornerRadius:30];
+//	[area.attributes setCornerRadius:30];
+	[area.attributes setStartColor:VectFromColor(1, .92, .92, 1) position:CGPointMake(0, 1) endColor:VectFromColor(1, .86, .86, 1) position:CGPointMake(0, -1)];
 	
 	// create date dim (x) with id 1, which represents unix time domain.
 	const CGFloat daySec = 60 * 60 * 24;
@@ -174,14 +175,14 @@
 	
 	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, 10) inDataSpace:YES];
 	[areaPrimitive.configuration setColorPositionInDateSpace:YES];
-	[areaPrimitive.attributes setGradientStartColor:VectColor(1, 0, 0, .4f)
+	[areaPrimitive.attributes setGradientStartColor:VectFromColor(1, 0, 0, .4f)
 									  startPosition:CGPointMake(0, 30)
-										   endColor:VectColor(1, 0, 0, .1f)
+										   endColor:VectFromColor(1, 0, 0, .1f)
 										endPosition:CGPointMake(0, 10)
 										 toPositive:YES];
-	[areaPrimitive.attributes setGradientStartColor:VectColor(0, 0, 1, .4f)
+	[areaPrimitive.attributes setGradientStartColor:VectFromColor(0, 0, 1, .4f)
 									  startPosition:CGPointMake(0, -10)
-										   endColor:VectColor(0, 0, 1, .1f)
+										   endColor:VectFromColor(0, 0, 1, .1f)
 										endPosition:CGPointMake(0, 10)
 										 toPositive:NO];
 	

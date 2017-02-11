@@ -38,7 +38,7 @@
 	self = [super init];
 	if(self) {
 		_buffer = [resource.device newBufferWithLength:sizeof(uniform_plot_rect) options:MTLResourceOptionCPUCacheModeWriteCombined];
-		[self setAllCornerRadius:0];
+		[self setCornerRadius:0];
 	}
 	return self;
 }
@@ -48,41 +48,25 @@
 	return (uniform_plot_rect *)([_buffer contents]);
 }
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-	self.rect->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColor:(UIColor *)color
-{
-	self.rect->color = [color vector];
-}
-
 - (void)setColorVec:(vector_float4)color
 {
-	self.rect->color = color;
+	self.rect->color_start = color;
+	self.rect->color_end = color;
+	self.rect->pos_start = vector2(1.0f, 0.0f);
+	self.rect->pos_start = vector2(1.0f, 0.0f);
 }
 
-- (void)setColorVecRef:(vector_float4 const *)color
+- (void)setStartColor:(vector_float4)startColor position:(CGPoint)startPosition endColor:(vector_float4)endColor position:(CGPoint)endPosition
 {
-	self.rect->color = *color;
+	self.rect->color_start = startColor;
+	self.rect->color_end = endColor;
+	self.rect->pos_start = VectFromPoint(startPosition);
+	self.rect->pos_end = VectFromPoint(endPosition);
 }
 
-- (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb
+- (void)setCornerRadius:(float)radius
 {
-	self.rect->corner_radius = vector4(lt, rt, lb, rb);
-	_roundEnabled = ((lt > 0) | (rt > 0) | (lb > 0) | (rb > 0));
-}
-
-- (void)setCornerRadius:(FMRectCornerRadius)r
-{
-	self.rect->corner_radius = vector4(r.lt, r.rt, r.lb, r.rb);
-	_roundEnabled = ((r.lt > 0) | (r.rt > 0) | (r.lb > 0) | (r.rb > 0));
-}
-
-- (void)setAllCornerRadius:(float)radius
-{
-	self.rect->corner_radius = vector4(radius, radius, radius, radius);
+	self.rect->corner_radius = radius;
 	_roundEnabled = (radius > 0);
 }
 

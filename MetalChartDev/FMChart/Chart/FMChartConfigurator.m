@@ -24,7 +24,7 @@
 #import "Rects.h"
 #import "Points.h"
 #import "Series.h"
-
+#import "UIColor+Utility.h"
 
 
 @implementation FMDimension
@@ -367,15 +367,7 @@
 {
 	FMPlotRectPrimitive *rect = [[FMPlotRectPrimitive alloc] initWithEngine:_engine];
 	FMPlotArea *area = [[FMPlotArea alloc] initWithPlotRect:rect];
-	CGFloat r, g, b, a;
-	if([color getRed:&r green:&g blue:&b alpha:&a]) {
-		[area.attributes setColorRed:r green:g blue:b alpha:a];
-	} else {
-		CGFloat v;
-		if([color getWhite:&v alpha:&a]) {
-			[area.attributes setColorRed:v green:v blue:v alpha:a];
-		}
-	}
+	[area.attributes setColorVec:color.vector];
 	[_chart insertPreRenderable:area atIndex:0];
 	return area;
 }

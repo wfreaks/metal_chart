@@ -18,10 +18,12 @@ using namespace simd;
 #endif
 
 struct uniform_plot_rect {
-	vector_float4 color;
-	vector_float4 corner_radius;
+	vector_float4 color_start;
+	vector_float4 color_end;
+	vector_float2 pos_start;
+	vector_float2 pos_end;
 	float depth_value;
-	bool  round_corner;
+	float corner_radius;
 };
 
 struct uniform_bar_conf {

@@ -12,7 +12,8 @@
 struct out_vertex_plot {
 	float4 position [[ position ]];
 	float2 pos_px;
-	float2 coef		 ;
+	float2 coef;
+	half   a_color;
 	float2 size      [[ flat ]];
 	float  r         [[ flat ]];
 };
@@ -52,8 +53,7 @@ vertex out_vertex_plot PlotRect_Vertex(
 	const float2 value = float2( (2*(is_right))-1, (2*(is_top))-1 ); // (±1, ±1)へマッピング
 	const float2 pos = data_to_ndc(value, proj);
 	
-	const uchar idx_corner = (is_right) + (2 * (is_top));
-	const float r = rect.corner_radius[0] * proj.screen_scale;
+	const float r = rect.corner_radius * proj.screen_scale;
 	
 	out_vertex_plot out;
 	out.position = float4(pos.x, pos.y, 0, 1.0);
@@ -63,23 +63,29 @@ vertex out_vertex_plot PlotRect_Vertex(
 	out.size = size_px_2 - float2(r,r);
 	out.coef = value;
 	out.r = r;
+	
+	const float2 grad_p = rect.pos_end - rect.pos_start;
+	const float grad_l = length_squared(grad_p);
+	const float grad_d = dot(grad_p, (value - rect.pos_start));
+	out.a_color = grad_d / grad_l;
+	
 	return out;
 }
 
-fragment out_fragment_depthLess PlotRect_Fragment_NoRound(
+fragment out_fragment_h_depthLess PlotRect_Fragment_NoRound(
 														  const out_vertex_plot in [[ stage_in ]],
 														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
 														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
 														  )
 {
-	out_fragment_depthLess out;
-	out.color = rect.color;
+	out_fragment_h_depthLess out;
+	out.color = mix(half4(rect.color_start), half4(rect.color_end), saturate(in.a_color));
 	out.depth = rect.depth_value;
 	
 	return out;
 }
 
-fragment out_fragment_depthLess PlotRect_Fragment(
+fragment out_fragment_h_depthLess PlotRect_Fragment(
 												  const out_vertex_plot in [[ stage_in ]],
 												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
 												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
@@ -89,8 +95,8 @@ fragment out_fragment_depthLess PlotRect_Fragment(
 	const float dist = length(p) * (!any(signbit(p)));
 	const float ratio = saturate(in.r-dist+0.5);
 	
-	out_fragment_depthLess out;
-	out.color = rect.color;
+	out_fragment_h_depthLess out;
+	out.color = mix(half4(rect.color_start), half4(rect.color_end), saturate(in.a_color));
 	out.color.a *= ratio;
 	out.depth = ((ratio > 0) * rect.depth_value) + ((ratio <= 0) * 10);
 	

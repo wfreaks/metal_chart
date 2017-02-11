@@ -65,10 +65,10 @@ FM_INLINE vector_float2 __VectFromSize(CGSize s) {
 }
 #define __VectFromSize VectFromSize
 
-FM_INLINE vector_float4 __VectColor(float r, float g, float b, float a) {
+FM_INLINE vector_float4 __VectFromColor(float r, float g, float b, float a) {
 	return vector4(r, g, b, a);
 }
-#define VectColor __VectColor
+#define VectFromColor __VectFromColor
 
 #ifdef __cplusplus
 

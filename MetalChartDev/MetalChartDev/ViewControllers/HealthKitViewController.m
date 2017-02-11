@@ -60,7 +60,7 @@
 	FMChartConfigurator *conf = self.configurator;
 	self.chart.padding = FMRectPaddingMake(45, 30, 35, 30);
 	
-	[[conf addPlotAreaWithColor:[UIColor whiteColor]].attributes setAllCornerRadius:5];
+	[[conf addPlotAreaWithColor:[UIColor whiteColor]].attributes setCornerRadius:5];
 	[conf bindGestureRecognizersPan:self.panRec
 							  pinch:self.pinchRec];
 	
