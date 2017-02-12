@@ -68,13 +68,13 @@
 {
 	self.metalView.clearColor = MTLClearColorMake(.96, .96, .96, 1);
 	self.chart = [[FMMetalChart alloc] init];
-	self.chart.padding = FMRectPaddingMake(20, 20, 20, 20);
+	self.chart.padding = FMRectPaddingMake(10, 10, 10, 10);
 	self.conf = [[FMChartConfigurator alloc] initWithChart:self.chart engine:nil view:self.metalView preferredFps:0];
 	
 	[self.conf bindGestureRecognizersPan:self.panRec pinch:nil];
 	FMPlotArea *area = [self.conf addPlotAreaWithColor:[UIColor colorWithRed:.9 green:.8 blue:.8 alpha:1]];
-//	[area.attributes setCornerRadius:30];
-	[area.attributes setStartColor:VectFromColor(1, .92, .92, 1) position:CGPointMake(0, 1) endColor:VectFromColor(1, .86, .86, 1) position:CGPointMake(0, -1)];
+	[area.attributes setCornerRadius:30];
+	[area.attributes setStartColor:VectFromColor(.92, .92, .92, 1) position:CGPointMake(0, 1) endColor:VectFromColor(.86, .86, .86, 1) position:CGPointMake(0, -1)];
 	
 	// create date dim (x) with id 1, which represents unix time domain.
 	const CGFloat daySec = 60 * 60 * 24;
@@ -97,21 +97,50 @@
 	const NSUInteger capacity = 1024 * 8;
 	FMSpace2D *space = [self.conf spaceWithDimX:dateDim Y:valDim];
 	FMOrderedSeries *avgSeries = [self.conf createSeries:capacity];
-//	FMOrderedSeries *minSeries = [self.conf createSeries:capacity];
-//	FMOrderedSeries *maxSeries = [self.conf createSeries:capacity];
+	FMOrderedSeries *minSeries = [self.conf createSeries:capacity];
+	FMOrderedSeries *maxSeries = [self.conf createSeries:capacity];
 	
+	// add line area.
+	
+	FMOrderedPolyLineAreaPrimitive *dummyAreaPrimitive = [[FMOrderedPolyLineAreaPrimitive alloc] initWithEngine:self.conf.engine orderedSeries:minSeries attributes:nil];
+	FMLineAreaSeries<FMOrderedPolyLineAreaPrimitive*> *dummyAreaSeries = [[FMLineAreaSeries alloc] initWithLineArea:dummyAreaPrimitive projection:space.space];
+	[self.chart addRenderable:dummyAreaSeries];
+	
+	[dummyAreaPrimitive.configuration setAnchorPoint:CGPointMake(0, -1) inDataSpace:NO];
+	[dummyAreaPrimitive.configuration setColorPositionInDateSpace:NO];
+	[dummyAreaPrimitive.attributes setGradientStartColor:VectFromColor(0, 0, 0, 0)
+										   startPosition:CGPointMake(0, 1)
+												endColor:VectFromColor(0, 0, 0, 0)
+											 endPosition:CGPointMake(0, -1)
+											  toPositive:YES];
+	
+	FMOrderedPolyLineAreaPrimitive *areaPrimitive = [[FMOrderedPolyLineAreaPrimitive alloc] initWithEngine:self.conf.engine orderedSeries:maxSeries attributes:nil];
+	FMLineAreaSeries<FMOrderedPolyLineAreaPrimitive*> *areaSeries = [[FMLineAreaSeries alloc] initWithLineArea:areaPrimitive projection:space.space];
+	[self.chart addRenderable:areaSeries];
+	
+	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, -1) inDataSpace:NO];
+	[areaPrimitive.configuration setColorPositionInDateSpace:NO];
+	[areaPrimitive.attributes setGradientStartColor:VectFromColor(0, 0, 0, .2f)
+									  startPosition:CGPointMake(0, 1)
+										   endColor:VectFromColor(0, 0, 0, .1f)
+										endPosition:CGPointMake(0, -1)
+										 toPositive:YES];
+	
+	FMLineSeries<FMOrderedPolyLinePrimitive*> *maxLine = [self.conf addLineToSpace:space series:maxSeries];
+	[maxLine.line.attributes setColorRed:.9f green:.2f blue:.2f alpha:1];
+	[maxLine.line.attributes setWidth:2];
+	[maxLine.line.configuration setEnableOverlay:YES];
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *avgLine = [self.conf addLineToSpace:space series:avgSeries];
 	[avgLine.line.attributes setColorRed:.2f green:.9f blue:.2f alpha:1];
 	[avgLine.line.attributes setWidth:2];
 	[avgLine.line.configuration setEnableOverlay:YES];
-//	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
-//	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:.5f];
-//	[minLine.line.attributes setWidth:2];
-//	[minLine.line.configuration setEnableOverlay:YES];
-//	FMLineSeries<FMOrderedPolyLinePrimitive*> *maxLine = [self.conf addLineToSpace:space series:maxSeries];
-//	[maxLine.line.attributes setColorRed:.9f green:.2f blue:.2f alpha:.5f];
-//	[maxLine.line.attributes setWidth:2];
-//	[maxLine.line.configuration setEnableOverlay:YES];
+	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
+	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:1];
+	[minLine.line.attributes setWidth:2];
+	[minLine.line.configuration setEnableOverlay:YES];
+	
+	areaSeries.line = maxLine;
+	dummyAreaSeries.line = maxLine;
 	
 	NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
 	fmt.dateFormat = @"yyyy/MM";
@@ -166,29 +195,9 @@
 	[valLine.attributes setDashSpaceLength:4];
 	valLine.axis = valAxis;
 	
-	// add line area.
-	
-	FMOrderedPolyLineAreaPrimitive *areaPrimitive = [[FMOrderedPolyLineAreaPrimitive alloc] initWithEngine:self.conf.engine orderedSeries:avgSeries attributes:nil];
-	FMLineAreaSeries<FMOrderedPolyLineAreaPrimitive*> *areaSeries = [[FMLineAreaSeries alloc] initWithLineArea:areaPrimitive projection:space.space];
-	areaSeries.line = avgLine;
-	[self.chart addRenderable:areaSeries];
-	
-	[areaPrimitive.configuration setAnchorPoint:CGPointMake(0, 10) inDataSpace:YES];
-	[areaPrimitive.configuration setColorPositionInDateSpace:YES];
-	[areaPrimitive.attributes setGradientStartColor:VectFromColor(1, 0, 0, .4f)
-									  startPosition:CGPointMake(0, 30)
-										   endColor:VectFromColor(1, 0, 0, .1f)
-										endPosition:CGPointMake(0, 10)
-										 toPositive:YES];
-	[areaPrimitive.attributes setGradientStartColor:VectFromColor(0, 0, 1, .4f)
-									  startPosition:CGPointMake(0, -10)
-										   endColor:VectFromColor(0, 0, 1, .1f)
-										endPosition:CGPointMake(0, 10)
-										 toPositive:NO];
-	
 	self.avgSeries = avgSeries;
-//	self.minSeries = minSeries;
-//	self.maxSeries = maxSeries;
+	self.minSeries = minSeries;
+	self.maxSeries = maxSeries;
 	self.space = space;
 }
 
@@ -205,31 +214,40 @@
 		}
 		[result close];
 	}
-//	{
-//		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_min order by date;"];
-//		while([result next]) {
-//			const long unixtime = [result longForColumnIndex:0];
-//			const CGFloat vx = (CGFloat)unixtime;
-//			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
-//			[self.minSeries addPoint:CGPointMake(vx, vy)];
-//			[self.space addValueX:vx Y:vy];
-//		}
-//		[result close];
-//	}
-//	{
-//		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_max order by date;"];
-//		while([result next]) {
-//			const long unixtime = [result longForColumnIndex:0];
-//			const CGFloat vx = (CGFloat)unixtime;
-//			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
-//			[self.maxSeries addPoint:CGPointMake(vx, vy)];
-//			[self.space addValueX:vx Y:vy];
-//		}
-//		[result close];
-//	}
+	{
+		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_min order by date;"];
+		while([result next]) {
+			const long unixtime = [result longForColumnIndex:0];
+			const CGFloat vx = (CGFloat)unixtime;
+			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
+			[self.minSeries addPoint:CGPointMake(vx, vy)];
+			[self.space addValueX:vx Y:vy];
+		}
+		[result close];
+	}
+	{
+		FMResultSet *result = [self.db executeQuery:@"select date, value from temperature_max order by date;"];
+		while([result next]) {
+			const long unixtime = [result longForColumnIndex:0];
+			const CGFloat vx = (CGFloat)unixtime;
+			const CGFloat vy = (CGFloat)[result doubleForColumnIndex:1];
+			[self.maxSeries addPoint:CGPointMake(vx, vy)];
+			[self.space addValueX:vx Y:vy];
+		}
+		[result close];
+	}
 	
 	[self.space updateRanges];
 }
+
+- (void)viewDidLayoutSubviews
+{
+	[super viewDidLayoutSubviews];
+	FMDimension *dateDim = [self.conf dimWithId:1];
+	[dateDim updateRange];
+	[self.metalView setNeedsDisplay];
+}
+
 
 @end
 
