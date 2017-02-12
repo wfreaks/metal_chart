@@ -1027,6 +1027,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_LANGUAGE_REVISION = Metal12;
 				MTL_TREAT_WARNINGS_AS_ERRORS = NO;
 				OTHER_CFLAGS = "";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
@@ -1056,6 +1057,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_LANGUAGE_REVISION = Metal12;
 				MTL_TREAT_WARNINGS_AS_ERRORS = NO;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChartSupport;
@@ -1213,6 +1215,7 @@
 				INFOPLIST_FILE = FMChart/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_LANGUAGE_REVISION = Metal12;
 				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
@@ -1240,6 +1243,7 @@
 				INFOPLIST_FILE = FMChart/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_LANGUAGE_REVISION = Metal12;
 				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.co.freaks.FMChart;

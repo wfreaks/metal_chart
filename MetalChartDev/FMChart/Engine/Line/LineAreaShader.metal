@@ -50,7 +50,7 @@ vertex out_vertex_LineArea LineAreaVertex(
 	const float2 pos = (conf.grad_pos_data) ? p_data : p_ndc_semi;
 	
 	out_vertex_LineArea out;
-	out.position_ndc = float4(p_ndc, 0, 1);
+	out.position_ndc = float4(p_ndc, conf.depth, 1);
 	out.a_pos = half(a_grad(attr.grads[0], pos));
 	out.a_neg = half(a_grad(attr.grads[1], pos));
 	out.coef = half((diff_data.y * dir.x) - (dir.y * diff_data.x));
@@ -59,7 +59,7 @@ vertex out_vertex_LineArea LineAreaVertex(
 }
 
 
-fragment out_fragment_h_depthGreater LineAreaFragment(
+fragment [[ early_fragment_tests ]] out_fragment_h LineAreaFragment(
 												   const    out_vertex_LineArea                  input [[ stage_in  ]],
 												   constant uniform_line_area_conf&               conf [[ buffer(0) ]],
 												   constant uniform_line_area_attr&               attr [[ buffer(1) ]]
@@ -69,9 +69,8 @@ fragment out_fragment_h_depthGreater LineAreaFragment(
 	constant gradient_conf& g = attr.grads[!positive];
 	const half a = saturate(positive ? input.a_pos : input.a_neg);
 	
-	out_fragment_h_depthGreater out;
+	out_fragment_h out;
 	out.color = mix(half4(g.color_start), half4(g.color_end), a) * half4(1, 1, 1, conf.opacity);
-	out.depth = conf.depth;
 	
 	return out;
 }

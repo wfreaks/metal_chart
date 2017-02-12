@@ -73,14 +73,14 @@
 	
 	[self.conf bindGestureRecognizersPan:self.panRec pinch:nil];
 	FMPlotArea *area = [self.conf addPlotAreaWithColor:[UIColor colorWithRed:.9 green:.8 blue:.8 alpha:1]];
-	[area.attributes setCornerRadius:30];
-	[area.attributes setStartColor:VectFromColor(.92, .92, .92, 1) position:CGPointMake(0, 1) endColor:VectFromColor(.86, .86, .86, 1) position:CGPointMake(0, -1)];
+	[area.attributes setCornerRadius:16];
+	[area.attributes setStartColor:VectFromColor(.92, .94, .92, 1) position:CGPointMake(0, 1) endColor:VectFromColor(.86, .86, .86, 1) position:CGPointMake(0, -1)];
 	
 	// create date dim (x) with id 1, which represents unix time domain.
 	const CGFloat daySec = 60 * 60 * 24;
 	FMDimension *dateDim = [self.conf createDimWithId:1 filters:@[[FMPaddingFilter paddingWithLow:daySec high:daySec]]];
 	
-	const CGFloat dateScale = 120*daySec / 320;
+	const CGFloat dateScale = 160*daySec / 320;
 	FMScaledWindowLength *winLen = [[FMScaledWindowLength alloc] initWithMinScale:dateScale
 																		 maxScale:dateScale
 																	 defaultScale:dateScale];
@@ -92,7 +92,7 @@
 	[self.conf addWindowToDim:dateDim length:winLen position:winPos horizontal:YES];
 	
 	// create value dim (y) with id 2, which represents temperatures in celsius degree.
-	FMDimension *valDim = [self.conf createDimWithId:2 filters:@[[FMPaddingFilter paddingWithLow:10 high:10]]];
+	FMDimension *valDim = [self.conf createDimWithId:2 filters:@[[FMPaddingFilter paddingWithLow:5 high:5]]];
 	
 	const NSUInteger capacity = 1024 * 8;
 	FMSpace2D *space = [self.conf spaceWithDimX:dateDim Y:valDim];
@@ -168,6 +168,8 @@
 	[dateLine.attributes setWidth:1];
 	[dateLine.attributes setColorRed:.5f green:.5f blue:.5f alpha:.5f];
 	dateLine.axis = dateAxis;
+	[dateAxis.axis.axisAttributes setWidth:0];
+	[dateAxis.axis.majorTickAttributes setWidth:0];
 	
 	id<FMAxisConfigurator> valAxisConf = [FMBlockAxisConfigurator configuratorWithRelativePosition:0 tickAnchor:0 fixedInterval:10 minorTicksFreq:0];
 	FMExclusiveAxis *valAxis = [self.conf addAxisToDimWithId:2
@@ -194,6 +196,8 @@
 	[valLine.attributes setDashLineLength:5];
 	[valLine.attributes setDashSpaceLength:4];
 	valLine.axis = valAxis;
+	[valAxis.axis.axisAttributes setWidth:0];
+	[valAxis.axis.majorTickAttributes setWidth:0];
 	
 	self.avgSeries = avgSeries;
 	self.minSeries = minSeries;

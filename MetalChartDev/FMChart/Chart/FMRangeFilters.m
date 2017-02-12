@@ -148,7 +148,7 @@
 		const CGFloat currentMax = *max;
 		CGFloat newMax = currentMax + (apply ? _paddingHigh : 0);
 		if(maxPtr) {
-			const CGFloat v = (*maxPtr - _paddingHigh);
+			const CGFloat v = (*maxPtr + _paddingHigh);
 			newMax = (_shrinkMax || v > newMax) ? v : newMax;
 		}
 		if(currentMax != newMax) {
