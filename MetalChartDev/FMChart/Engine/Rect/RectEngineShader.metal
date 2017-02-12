@@ -56,7 +56,7 @@ vertex out_vertex_plot PlotRect_Vertex(
 	const float r = rect.corner_radius * proj.screen_scale;
 	
 	out_vertex_plot out;
-	out.position = float4(pos.x, pos.y, 0, 1.0);
+	out.position = float4(pos.x, pos.y, rect.depth_value, 1.0);
 	const float4 pd = proj.rect_padding;
 	const float2 size_px_2 = ((proj.physical_size - (pd.xy+pd.zw)) * proj.screen_scale / 2);
 	out.pos_px = value * size_px_2;
@@ -72,15 +72,14 @@ vertex out_vertex_plot PlotRect_Vertex(
 	return out;
 }
 
-fragment out_fragment_h_depthLess PlotRect_Fragment_NoRound(
+fragment out_fragment_h PlotRect_Fragment_NoRound(
 														  const out_vertex_plot in [[ stage_in ]],
 														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
 														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
 														  )
 {
-	out_fragment_h_depthLess out;
+	out_fragment_h out;
 	out.color = mix(half4(rect.color_start), half4(rect.color_end), saturate(in.a_color));
-	out.depth = rect.depth_value;
 	
 	return out;
 }
