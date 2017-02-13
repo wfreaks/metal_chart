@@ -28,24 +28,9 @@
 	[self attributes]->width = (float)width;
 }
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-	[self attributes]->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColor:(UIColor *)color
-{
-	[self attributes]->color = [color vector];
-}
-
 - (void)setColorVec:(vector_float4)color
 {
 	[self attributes]->color = color;
-}
-
-- (void)setColorVecRef:(vector_float4 const *)color
-{
-	[self attributes]->color = *color;
 }
 
 - (void)setDashLineLength:(float)length
@@ -149,24 +134,9 @@
 
 - (void)setLineLength:(float)length { _attributes->line_length = length; }
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-	_attributes->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColor:(UIColor *)color
-{
-	_attributes->color = [color vector];
-}
-
 - (void)setColorVec:(vector_float4)color
 {
 	_attributes->color = color;
-}
-
-- (void)setColorVecRef:(const vector_float4 *)color
-{
-	_attributes->color = *color;
 }
 
 - (void)setLengthModifierStart:(float)start end:(float)end
@@ -302,24 +272,9 @@ static const float _ndc_anchor_invalid = 8;
 	self.attributes->width = width;
 }
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-	self.attributes->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColor:(UIColor *)color
-{
-	self.attributes->color = [color vector];
-}
-
 - (void)setColorVec:(vector_float4)color
 {
 	self.attributes->color = color;
-}
-
-- (void)setColorVecRef:(const vector_float4 *)color
-{
-	self.attributes->color = *color;
 }
 
 - (void)setDashLineLength:(float)length

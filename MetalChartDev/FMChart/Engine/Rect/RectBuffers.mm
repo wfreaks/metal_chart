@@ -122,7 +122,7 @@
 	self = [super initWithResource:resource size:sizeof(uniform_bar_attr)];
 	if(self) {
 		[self setBarWidth:3];
-		[self setColorRed:0.4 green:0.4 blue:0.4 alpha:0.6];
+		[self setColorVec:VectFromColor(0.4, 0.4, 0.4, 0.6)];
 	}
 	return self;
 }
@@ -132,24 +132,9 @@
 	return ((uniform_bar_attr *)([self.buffer contents]) + self.index);
 }
 
-- (void)setColorRed:(float)red green:(float)green blue:(float)blue alpha:(float)alpha
-{
-	self.attr->color = vector4(red, green, blue, alpha);
-}
-
-- (void)setColor:(UIColor *)color
-{
-	self.attr->color = [color vector];
-}
-
 - (void)setColorVec:(vector_float4)color
 {
 	self.attr->color = color;
-}
-
-- (void)setColorVecRef:(vector_float4 const *)color
-{
-	self.attr->color = *color;
 }
 
 - (void)setCornerRadius:(float)lt rt:(float)rt lb:(float)lb rb:(float)rb

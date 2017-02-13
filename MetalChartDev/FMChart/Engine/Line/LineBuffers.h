@@ -45,10 +45,7 @@ UNAVAILABLE_ATTRIBUTE;
  */
 - (void)setWidth:(float)width;
 
-- (void)setColor:(UIColor *_Nonnull)color;
 - (void)setColorVec:(vector_float4)color;
-- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setDashLineLength:(float)length;
 - (void)setDashSpaceLength:(float)length;
@@ -124,10 +121,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setWidth:(float)width;
 
-- (void)setColor:(UIColor *_Nonnull)color;
 - (void)setColorVec:(vector_float4)color;
-- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setLineLength:(float)length;
 
@@ -214,10 +208,7 @@ NS_DESIGNATED_INITIALIZER;
 
 - (void)setWidth:(float)width;
 
-- (void)setColor:(UIColor *_Nonnull)color;
 - (void)setColorVec:(vector_float4)color;
-- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 - (void)setDashLineLength:(float)length;
 

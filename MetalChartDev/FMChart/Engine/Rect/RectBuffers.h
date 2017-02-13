@@ -100,10 +100,7 @@ UNAVAILABLE_ATTRIBUTE;
 
 - (instancetype _Nonnull)initWithResource:(FMDeviceResource * _Nonnull)resource;
 
-- (void)setColor:(UIColor *_Nonnull)color;
 - (void)setColorVec:(vector_float4)color;
-- (void)setColorVecRef:(const vector_float4 *_Nonnull)color;
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a;
 
 /**
  * For interpretations of each corner's position, see class summary.

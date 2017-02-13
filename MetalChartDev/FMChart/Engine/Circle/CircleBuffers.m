@@ -68,14 +68,7 @@
 	self.attr->radius_outer = outer;
 }
 
-- (void)setColor:(UIColor *)color { self.attr->color = [color vector]; }
 - (void)setColorVec:(vector_float4)color { self.attr->color = color; }
-- (void)setColorVecRef:(const vector_float4 *)color { self.attr->color = *color; }
-
-- (void)setColorRed:(float)r green:(float)g blue:(float)b alpha:(float)a
-{
-	self.attr->color = vector4(r, g, b, a);
-}
 
 @end
 

@@ -127,15 +127,15 @@
 										 toPositive:YES];
 	
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *maxLine = [self.conf addLineToSpace:space series:maxSeries];
-	[maxLine.line.attributes setColorRed:.9f green:.2f blue:.2f alpha:1];
+	[maxLine.line.attributes setColorVec:VectFromColor(.9f, .2f, .2f, 1)];
 	[maxLine.line.attributes setWidth:2];
 	[maxLine.line.configuration setEnableOverlay:YES];
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *avgLine = [self.conf addLineToSpace:space series:avgSeries];
-	[avgLine.line.attributes setColorRed:.2f green:.9f blue:.2f alpha:1];
+	[avgLine.line.attributes setColorVec:VectFromColor(.2f, .9f, .2f, 1)];
 	[avgLine.line.attributes setWidth:2];
 	[avgLine.line.configuration setEnableOverlay:YES];
 	FMLineSeries<FMOrderedPolyLinePrimitive*> *minLine = [self.conf addLineToSpace:space series:minSeries];
-	[minLine.line.attributes setColorRed:.2f green:.2f blue:.9f alpha:1];
+	[minLine.line.attributes setColorVec:VectFromColor(.2f, .2f, .9f, 1)];
 	[minLine.line.attributes setWidth:2];
 	[minLine.line.configuration setEnableOverlay:YES];
 	
@@ -166,7 +166,7 @@
 	
 	FMGridLine *dateLine = [self.conf addGridLineToDimensionWithId:1 belowSeries:NO anchor:0 interval:0];
 	[dateLine.attributes setWidth:1];
-	[dateLine.attributes setColorRed:.5f green:.5f blue:.5f alpha:.5f];
+	[dateLine.attributes setColorVec:VectFromColor(.5, .5, .5, .5)];
 	dateLine.axis = dateAxis;
 	[dateAxis.axis.axisAttributes setWidth:0];
 	[dateAxis.axis.majorTickAttributes setWidth:0];
@@ -192,7 +192,7 @@
 	
 	FMGridLine *valLine = [self.conf addGridLineToDimensionWithId:2 belowSeries:NO anchor:0 interval:0];
 	[valLine.attributes setWidth:1];
-	[valLine.attributes setColorRed:.5f green:.5f blue:.5f alpha:.5f];
+	[valLine.attributes setColorVec:VectFromColor(.5, .5, .5, .5)];
 	[valLine.attributes setDashLineLength:5];
 	[valLine.attributes setDashSpaceLength:4];
 	valLine.axis = valAxis;

@@ -139,7 +139,7 @@
 		_attributes = (attributes) ? attributes : [[FMUniformLineAttributes alloc] initWithResource:resource];
 		_series = series;
 		[self.attributes setWidth:5.0];
-		[self.attributes setColorRed:0.3 green:0.6 blue:0.8 alpha:0.5];
+		[self.attributes setColorVec:VectFromColor(0.3, 0.6, 0.8, 0.5)];
 	}
 	return self;
 }
@@ -293,7 +293,7 @@
 		_pipeline = [engine pipelineStateWithVertFunc:[engine functionWithName:@"GridVertex" library:nil]
 											 fragFunc:[engine functionWithName:@"GridFragment" library:nil]
 										   writeDepth:YES];
-		[_attributes setColorRed:0.5 green:0.5 blue:0.5 alpha:0.8];
+		[_attributes setColorVec:VectFromColor(0.5, 0.5, 0.5, 0.8)];
 		[_attributes setWidth:0.5];
 		[_configuration setInterval:1];
 		[_configuration setAnchorValue:0];
