@@ -59,11 +59,11 @@ vertex out_vertex_LineArea LineAreaVertex(
 }
 
 
-fragment [[ early_fragment_tests ]] out_fragment_h LineAreaFragment(
-												   const    out_vertex_LineArea                  input [[ stage_in  ]],
-												   constant uniform_line_area_conf&               conf [[ buffer(0) ]],
-												   constant uniform_line_area_attr&               attr [[ buffer(1) ]]
-												   )
+fragment out_fragment_h LineAreaFragment(
+										 const    out_vertex_LineArea                  input [[ stage_in  ]],
+										 constant uniform_line_area_conf&               conf [[ buffer(0) ]],
+										 constant uniform_line_area_attr&               attr [[ buffer(1) ]]
+										 )
 {
 	const bool positive = (input.coef > 0);
 	constant gradient_conf& g = attr.grads[!positive];

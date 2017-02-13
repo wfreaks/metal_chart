@@ -73,10 +73,10 @@ vertex out_vertex_plot PlotRect_Vertex(
 }
 
 fragment out_fragment_h PlotRect_Fragment_NoRound(
-														  const out_vertex_plot in [[ stage_in ]],
-														  constant uniform_plot_rect& rect  [[ buffer(0) ]],
-														  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
-														  )
+												  const out_vertex_plot in [[ stage_in ]],
+												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+												  )
 {
 	out_fragment_h out;
 	out.color = mix(half4(rect.color_start), half4(rect.color_end), saturate(in.a_color));
@@ -84,20 +84,19 @@ fragment out_fragment_h PlotRect_Fragment_NoRound(
 	return out;
 }
 
-fragment out_fragment_h_depthLess PlotRect_Fragment(
-												  const out_vertex_plot in [[ stage_in ]],
-												  constant uniform_plot_rect& rect  [[ buffer(0) ]],
-												  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
-												  )
+fragment out_fragment_h PlotRect_Fragment(
+										  const out_vertex_plot in [[ stage_in ]],
+										  constant uniform_plot_rect& rect  [[ buffer(0) ]],
+										  constant uniform_projection_cart2d& proj [[ buffer(1) ]]
+										  )
 {
 	const float2 p = abs(in.pos_px) - in.size;
 	const float dist = length(p) * (!any(signbit(p)));
 	const float ratio = saturate(in.r-dist+0.5);
 	
-	out_fragment_h_depthLess out;
+	out_fragment_h out;
 	out.color = mix(half4(rect.color_start), half4(rect.color_end), saturate(in.a_color));
 	out.color.a *= ratio;
-	out.depth = ((ratio > 0) * rect.depth_value) + ((ratio <= 0) * 10);
 	
 	return out;
 }
