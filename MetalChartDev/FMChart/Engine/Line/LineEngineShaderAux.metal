@@ -178,10 +178,14 @@ vertex out_vertex_grid GridVertex(
 	const uchar spec = v_id % 6;
 	
 	const float2 mid_pos_data = grid_mid_pos(vid, conf, proj);
-	const float2 vec_dir_data = grid_vec_dir(conf, proj);
+	const float2 vec_dir_data = grid_vec_dir(conf, proj) * 2;
+	const float4 pd = proj.rect_padding;
+	const float l = (attr.length_repeat + attr.length_space + .5) * attr.width;
+	const float2 l_data = l * float2(4, 4) * (proj.value_scale) / (proj.physical_size - (pd.xy+pd.wz));
+	const float2 diff_data = - normalize(vec_dir_data) * (attr.length_repeat > 0 ? fmod(mid_pos_data, l_data) : float2(0, 0));
 	
-	const float2 start = data_to_ndc(mid_pos_data - vec_dir_data, proj);
-	const float2 end = data_to_ndc(mid_pos_data + vec_dir_data, proj);
+	const float2 start = data_to_ndc(mid_pos_data + diff_data - vec_dir_data, proj);
+	const float2 end = data_to_ndc(mid_pos_data + diff_data + vec_dir_data, proj);
 	out_vertex_grid out = LineDashVertexCore<out_vertex_grid>(start, end, spec, attr.width, proj);
 	out.dropped = is_dropped(mid_pos_data, conf.dimIndex, proj);
 	
