@@ -143,9 +143,9 @@
 	stepBar.attributesArray[1].barWidth = 20;
 	[stepBar.attributesArray[1] setCornerRadius:corner];
 	[stepBar.attributesArray[1] setColorVec:[UIColor colorWithHue: 0.5 saturation: 0.3 brightness: 0.7 alpha: 1].vector];
-	stepBar.attributesArray[0].barWidth = 20;
-	[stepBar.attributesArray[0] setCornerRadius:corner];
-	[stepBar.attributesArray[0] setColorVec:[UIColor colorWithHue: 0.5 saturation: 0.7 brightness: 0.7 alpha: 1].vector];
+	stepBar.attributesArray[2].barWidth = 20;
+	[stepBar.attributesArray[2] setCornerRadius:corner];
+	[stepBar.attributesArray[2] setColorVec:[UIColor colorWithHue: 0.5 saturation: 0.7 brightness: 0.7 alpha: 1].vector];
 	[weightLine.attributesArray[0] setWidth:8];
 	[weightLine.attributesArray[0] setColorVec:weightColor];
 	[weightLine.attributesArray[1] setWidth:6];
